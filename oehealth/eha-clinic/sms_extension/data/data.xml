@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="bulksms_token_api" model="ir.config_parameter">
+            <field name="key">bulksms.api</field>
+            <field name="value">https://api.bulksms.com/v1/messages</field>
+        </record>
+
+        <record id="bulksms_token_id" model="ir.config_parameter">
+            <field name="key">bulksms.token.id</field>
+            <field name="value">BE2C505ACA7D4B8981D4BF8DFAAA3F62-02-7</field>
+        </record>
+
+        <record id="bulksms_token_secret" model="ir.config_parameter">
+            <field name="key">bulksms.token.secret</field>
+            <field name="value">jrdXj#E6lyzKSyFGJSOCLtpuf7dtz</field>
+        </record>
+    </data>
+</odoo>

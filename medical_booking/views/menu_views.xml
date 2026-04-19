@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══  ROOT MENU  ═══════════════════════════════════════════════ -->
+    <menuitem id="menu_medical_booking_root"
+              name="Medical Booking"
+              sequence="50"
+              web_icon="medical_booking,static/description/icon.png"
+              groups="medical_booking.group_booking_doctor,medical_booking.group_booking_manager"/>
+
+    <!-- ══  BOOKINGS  ════════════════════════════════════════════════ -->
+    <menuitem id="menu_medical_booking_bookings"
+              name="Bookings"
+              parent="menu_medical_booking_root"
+              sequence="10"/>
+
+    <menuitem id="menu_booking_record_confirmed"
+              name="My Appointments"
+              parent="menu_medical_booking_bookings"
+              action="action_booking_record"
+              sequence="10"
+              groups="medical_booking.group_booking_doctor"/>
+
+    <menuitem id="menu_booking_record_all"
+              name="All Bookings"
+              parent="menu_medical_booking_bookings"
+              action="action_booking_record_all"
+              sequence="20"
+              groups="medical_booking.group_booking_manager"/>
+
+    <menuitem id="menu_booking_conflicts"
+              name="Conflicting Bookings"
+              parent="menu_medical_booking_bookings"
+              action="action_booking_record_conflicts"
+              sequence="30"
+              groups="medical_booking.group_booking_manager"/>
+
+    <!-- ══  CONFIGURATION  ════════════════════════════════════════════ -->
+    <menuitem id="menu_medical_booking_config"
+              name="Configuration"
+              parent="menu_medical_booking_root"
+              sequence="90"
+              groups="medical_booking.group_booking_manager"/>
+
+    <menuitem id="menu_booking_category"
+              name="Booking Categories"
+              parent="menu_medical_booking_config"
+              action="action_booking_category"
+              sequence="10"/>
+
+    <menuitem id="menu_booking_branch"
+              name="Branches"
+              parent="menu_medical_booking_config"
+              action="action_booking_branch"
+              sequence="20"/>
+
+</odoo>

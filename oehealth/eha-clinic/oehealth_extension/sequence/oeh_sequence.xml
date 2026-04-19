@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_oeha_medical_imaging_test" model="ir.sequence">
+            <field name="name">Imaging Tests</field>
+            <field name="code">oeha.medical.imaging.test</field>
+            <field name="prefix">IM</field>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="seq_oeh_medical_template" model="ir.sequence">
+            <field name="name">Evaluation Template</field>
+            <field name="code">oeha.evaluation.template</field>
+            <field name="prefix">ET</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

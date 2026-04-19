@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="eha_action_label_transfer_template_pdf"
+            model="stock.picking"
+            string="Lot Barcodes (PDF)"
+            name="eha_stock_lot_report_ext.eha_label_transfer_template_view_pdf"
+            file="eha_stock_lot_report_ext.eha_label_transfer_template_view_pdf"
+            report_type="qweb-pdf"
+        />
+    </data>
+</odoo>

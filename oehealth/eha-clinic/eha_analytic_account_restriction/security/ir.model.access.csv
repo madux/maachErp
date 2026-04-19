@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+account.access_account_analytic_accountant,account.analytic.account accountant,analytic.model_account_analytic_account,account.group_account_user,1,0,0,0
+analytic.access_account_analytic_account,access_account_analytic_account,model_account_analytic_account,analytic.group_analytic_accounting,1,0,0,0
+sale.access_account_analytic_account_salesman,account_analytic_account salesman,analytic.model_account_analytic_account,sales_team.group_sale_salesman,1,0,0,0
+access_analytic_account_creation,account.analytic.account analytic_account_creation,analytic.model_account_analytic_account,eha_analytic_account_restriction.group_analytic_account_creation,1,1,1,1

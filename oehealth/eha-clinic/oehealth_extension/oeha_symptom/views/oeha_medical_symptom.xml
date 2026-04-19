@@ -1,0 +1,238 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <!-- Symptoms  -->
+
+        <record id="view_oeha_medical_symptom_filter" model="ir.ui.view">
+            <field name="name">Symptoms</field>
+            <field name="model">oeha.medical.symptom</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Symptoms">
+                    <separator orientation="vertical"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                    <field name="system_id" select="1"/>
+                    <field name="description" select="1"/>
+                    <field name="belongs_to" select="1"/>
+                    <newline/>
+                    <filter name="general_symptom_filter" string="General Symptoms" domain="[('system_id.name','=','General')]"/>
+
+                    <group expand="0" string="Group By..." colspan="11" col="11">
+                        <filter name="group_symptom" string="Symptom" domain="[]" context="{'group_by':'name'}"/>
+                        <filter name="group_symptom_code" string="Symptom Code" domain="[]" context="{'group_by':'code'}"/>
+                        <filter name="group_system" string="System"  domain="[]" context="{'group_by':'system_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_symptom_tree">
+            <field name="name">Symptoms</field>
+            <field name="model">oeha.medical.symptom</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Symptoms'>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="description"/>
+                    <field name="system_id"/>
+                    <field name="belongs_to"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_symptom_form">
+            <field name="name">Symptoms</field>
+            <field name="model">oeha.medical.symptom</field>
+
+            <field name="arch" type="xml">
+                <form string="Symptoms">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="code" required="1"/>
+                                <field name="description"/>
+                                <field name="system_id"/>
+                                <field name="belongs_to"/>
+                            </group>
+                            <group />
+                            <field name="option_ids" widget="one2many_list" nolabel="1"
+                            context="{'default_symptom_id': active_id}" required="1">
+                                <form string="Symptom Options">
+                                    <field name="option_id" />
+                                    <field name="is_abnormal" />
+                                    <field name="is_default" />
+                                    <field name="other_default" string="Notes"/>
+
+                                </form>
+                                <tree string="Symptom Options" editable="bottom">
+                                    <field name="symptom_id" invisible="1"/>
+                                    <field name="option_id" />
+                                    <field name="is_abnormal" />
+                                    <field name="is_default" />
+                                    <field name="other_default" string="Notes"/>
+                                </tree>
+                            </field>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="oeha_medical_symptom_action_tree" model="ir.actions.act_window">
+            <field name="name">Symptoms</field>
+            <field name="res_model">oeha.medical.symptom</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new symptom.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="oeha_medical_symptom_action_tree" id="oeh_medical_symptoms_conf_list" parent="oeh_medical_conf_symptom" sequence="5"
+        groups="oehealth.group_oeh_medical_manager"/>
+
+        <!-- symptom options -->
+        <record id="view_oeha_medical_symptom_option_filter" model="ir.ui.view">
+            <field name="name">Symptom Options</field>
+            <field name="model">oeha.medical.option</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Symptom Options">
+                    <separator orientation="vertical"/>
+                        <field name="name" select="1"/>
+                    <newline/>
+                    <!-- <group expand="0" string="Group By..." colspan="11" col="11">
+                        <filter name="group_name" string="Name" icon="terp-personal" domain="[]" context="{'group_by':'name'}"/>
+                    </group> -->
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_symptom_option_tree">
+            <field name="name">Symptom Options</field>
+            <field name="model">oeha.medical.option</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Symptom Options'>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_symptom_option_form">
+            <field name="name">Symptom Options</field>
+            <field name="model">oeha.medical.option</field>
+
+            <field name="arch" type="xml">
+                <form string="Symptom Option">
+                    <sheet>
+                        <div class="oe_left" style="width: 500px;">
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="name"/>
+                                <h1><field name="name" class="oe_inline"/></h1>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="oeha_medical_symptom_option_action_tree" model="ir.actions.act_window">
+            <field name="name">Symptom Options</field>
+            <field name="res_model">oeha.medical.option</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new symptom option.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="oeha_medical_symptom_option_action_tree" id="oeh_medical_symptoms_options_conf_list" parent="oeh_medical_conf_symptom" sequence="6"
+        />
+
+        <!-- systems -->
+        <record id="view_oeha_medical_system_filter" model="ir.ui.view">
+            <field name="name">Systems</field>
+            <field name="model">oeha.medical.system</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Systems">
+                    <separator orientation="vertical"/>
+                        <field name="name" select="1"/>
+                    <newline/>
+                    <group expand="0" string="Group By..." colspan="11" col="11">
+                        <filter name="group_name" string="Name" icon="terp-personal" domain="[]" context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_system_tree">
+            <field name="name">System</field>
+            <field name="model">oeha.medical.system</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='System'>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_system_form">
+            <field name="name">System</field>
+            <field name="model">oeha.medical.system</field>
+
+            <field name="arch" type="xml">
+                <form string="System">
+                    <sheet>
+                        <div class="oe_left" style="width: 500px;">
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="name"/>
+                                <h1><field name="name" class="oe_inline"/></h1>
+                            </div>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="oeha_medical_system_action_tree" model="ir.actions.act_window">
+            <field name="name">Systems</field>
+            <field name="res_model">oeha.medical.system</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new system.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="oeha_medical_system_action_tree" id="oeh_medical_systems_conf_list" parent="oeh_medical_conf_symptom" sequence="2"
+        />
+
+    </data>
+</odoo>

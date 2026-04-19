@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Booking Confirmation Template -->
+    <record id="mail_template_booking_confirmation" model="mail.template">
+        <field name="name">Booking: Confirmation</field>
+        <field name="model_id" ref="medical_booking.model_booking_record"/>
+        <field name="subject">Booking Confirmation – {{ object.serial_number }}</field>
+        <field name="email_to">{{ object.patient_id.email }}</field>
+        <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+    <h2 style="color: #2E86AB;">Booking Confirmed ✔</h2>
+    <p>Dear <strong>{{ object.patient_id.name }}</strong>,</p>
+    <p>Your booking has been successfully created. Please find the details below:</p>
+    <table style="width:100%; border-collapse: collapse;">
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Reference</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.serial_number }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Category</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.category_id.name }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Branch</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.branch_id.name }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Date</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.booking_date }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Time</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.time_slot_id.name }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Doctor</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.assign_doctor_id.name if object.assign_doctor_id else 'To be assigned' }}</td></tr>
+    </table>
+    <p style="margin-top:20px;">To check the status of your booking, use reference: <strong>{{ object.serial_number }}</strong></p>
+    <p>Thank you for choosing our services.</p>
+</div>
+        ]]></field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!-- Booking Reminder Template -->
+    <record id="mail_template_booking_reminder" model="mail.template">
+        <field name="name">Booking: Appointment Reminder</field>
+        <field name="model_id" ref="medical_booking.model_booking_record"/>
+        <field name="subject">Appointment Reminder – {{ object.serial_number }}</field>
+        <field name="email_to">{{ object.patient_id.email }}</field>
+        <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+    <h2 style="color: #E87722;">⏰ Appointment Reminder</h2>
+    <p>Dear <strong>{{ object.patient_id.name }}</strong>,</p>
+    <p>This is a friendly reminder about your upcoming appointment:</p>
+    <table style="width:100%; border-collapse: collapse;">
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Reference</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.serial_number }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Category</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.category_id.name }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Branch</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.branch_id.name }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Date</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.booking_date }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Time</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.time_slot_id.name }}</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;"><b>Doctor</b></td><td style="padding:8px; border:1px solid #ddd;">{{ object.assign_doctor_id.name if object.assign_doctor_id else 'To be assigned' }}</td></tr>
+    </table>
+    <p style="margin-top:20px; color:#c0392b;"><b>Please arrive 10 minutes early.</b></p>
+</div>
+        ]]></field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+</odoo>

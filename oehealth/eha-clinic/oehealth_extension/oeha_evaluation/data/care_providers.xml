@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record model="oeha.care.providers" id="cp_001">
+            <field name="name">Lab Test Ordering Care Provider</field>
+            <field name="code">CP-001</field>
+            <field name="type_of_operation">labtest_ordering</field>
+            <field name="user_groups" eval="[(6, 0, [ref('oehealth_extension.group_oeh_medical_chp_nurse'), 
+            ref('oehealth_extension.group_oeh_medical_nurse'), ref('oehealth.group_oeh_medical_physician')])]"/> 
+        </record> 
+        <record model="oeha.care.providers" id="cp_002">
+            <field name="name">Lab Test Performing Care Provider</field>
+            <field name="code">CP-002</field>
+            <field name="type_of_operation">labtest_performing</field>
+            <field name="user_groups" eval="[(6, 0, [ref('oehealth_extension.group_oeh_medical_chp_nurse'), 
+            ref('oehealth_extension.group_oeh_medical_nurse'), ref('oehealth.group_oeh_medical_physician'),
+            ref('oehealth_extension.group_oeh_medical_lab_off')])]"/> 
+        </record>
+
+        <record model="oeha.care.providers" id="cp_003">
+            <field name="name">Evaluation Care Provider</field>
+            <field name="code">CP-003</field>
+            <field name="type_of_operation">evaluation</field>
+            <field name="user_groups" eval="[(6, 0, [ref('oehealth.group_oeh_medical_physician')])]"/> 
+        </record> 
+
+        <record model="oeha.care.providers" id="cp_004">
+            <field name="name">Prescription Care Provider</field>
+            <field name="code">CP-004</field>
+            <field name="type_of_operation">prescription</field>
+            <field name="user_groups" eval="[(6, 0, [ref('oehealth.group_oeh_medical_physician'), ref('oehealth_extension.group_oeh_medical_lab_off')])]"/> 
+        </record>
+         
+
+        <!--external lab, Walking patient-->
+        <record model="res.users" id="user_walk_in_patient">
+            <field name="firstname">Patient</field>
+            <field name="lastname">Walk-In</field>
+            <field name="login">walkin_patient</field>
+        </record> 
+        <record model="res.users" id="user_external_lab">
+            <field name="firstname">Lab</field>
+            <field name="lastname">External</field>
+            <field name="login">external_lab</field>
+        </record> 
+    </data>
+</odoo>

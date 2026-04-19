@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="recruitment_request_form_view">
+			<field name="name">recruitment.request.form</field>
+			<field name="model">hr.recruitment.request</field>
+			<field name="arch" type="xml">
+				<form string="Recruitment Request">
+					<header>
+						<button name="action_confirm" states="draft"
+							string="Submit to Manager" type="object" class="oe_highlight"
+							groups="to_hr_recruitment_request.group_user" />
+						<button name="action_accept" states="confirmed"
+							string="Approve" type="object" class="oe_highlight"
+							groups="hr_recruitment.group_hr_recruitment_manager" />
+						<button name="action_refuse" states="confirmed,accepted"
+							string="Refuse" type="object"
+							groups="hr_recruitment.group_hr_recruitment_manager" />
+						<button name="action_draft" states="confirmed,refused"
+							string="Set to Draft" type="object" />
+						<button name="action_start_recruit" states="accepted"
+							string="Start Recruitment" type="object" class="oe_highlight"
+							groups="hr_recruitment.group_hr_recruitment_user" />
+						<button name="action_done" states="recruiting"
+							string="Set to Done" type="object"
+							groups="hr_recruitment.group_hr_recruitment_user,hr_recruitment.group_hr_recruitment_manager" />
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirmed,accepted,recruiting,done"
+							statusbar_colors='{"confirm":"blue","refused":"red"}' />
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" />
+							<h1>
+								<field name="name" />
+							</h1>
+						</div>
+						<field name="company_id" groups="base.group_multi_company"
+							options="{'no_create': True}" />
+						<group>
+							<group>
+								<field name="department_id" />
+								<field name="job_id" />
+								<field name="job_tmp"
+									attrs="{'invisible':[('job_id', '!=', False)], 'required':[('job_id', '=', False)]}" />
+								<field name="employees_count" />
+							</group>
+							<group>
+								<field name="expected_employees" />
+								<field name="date_expected" />
+								<field name="user_id" />
+							</group>
+						</group>
+						<div>
+							<label for="reason" />
+							<field name="reason" />
+						</div>
+
+						<notebook>
+							<page string="Information">
+								<label for="description" />
+								<field name="description" />
+								<label for="requirements" />
+								<field name="requirements" />
+							</page>
+							<page string="Applicants">
+								<field name="applicant_ids" />
+							</page>
+							<page string="Recruited Employees">
+								<field name="employee_ids" />
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" />
+						<field name="activity_ids" widget="mail_activity" />
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="recruitment_request_tree_view" model="ir.ui.view">
+			<field name="name">recruitment.request.tree</field>
+			<field name="model">hr.recruitment.request</field>
+			<field name="arch" type="xml">
+				<tree
+					decoration-info="state=='recruiting'" decoration-bf="message_needaction==True"
+					decoration-muted="state in ('refused','done')" string="Recruitment Requests">
+					<field name="message_needaction" invisible="1"/>
+					<field name="name" />
+					<field name="user_id" />
+					<field name="company_id" groups="base.group_multi_company"
+						options="{'no_create': True}" />
+					<field name="department_id" />
+					<field name="job_id" />
+					<field name="date_expected" />
+					<field name="expected_employees" />
+					<field name="applicants_count" />
+					<field name="employees_count" />
+					<field name="recruited_employees" widget="progressbar"
+						string="Recruited Percentage" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="recruitment_request_search_view" model="ir.ui.view">
+			<field name="name">recruitment.request.search</field>
+			<field name="model">hr.recruitment.request</field>
+			<field name="arch" type="xml">
+				<search string="Search Recruitment Requests">
+					<filter string="Draft" domain="[('state','=', 'draft')]"
+						help="Draft Recruitment requests" name="ftr_draft" />
+					<filter string="To Approve"
+						domain="[('state','=', 'confirmed')]"
+						help="Recruitment requests awaiting approval"
+						name="ftr_to_approve" />
+					<filter string="Refused"
+						domain="[('state', '=', 'refused')]" name="ftr_refused" />
+					<filter string="Approved"
+						domain="[('state', '=', 'accepted')]" name="ftr_accepted" />
+					<filter string="In Recruitment"
+						domain="[('state','=', 'recruiting')]" name="ftr_recruiting"
+						help="Recruitment requests in recruitment" />
+					<filter string="Done" domain="[('state', '=', 'done')]"
+						name="ftr_done" />
+					<separator />
+					<filter string="Recruited More than Expected"
+						domain="[('more_than_expected', '=', True)]"
+						name="ftr_more_than_expected" />
+					<field name="name" />
+					<field name="job_id" />
+					<field name="department_id" />
+					<field name="user_id" />
+					<group expand="0" string="Group By">
+						<filter name="group_user_id" string="Requester"
+							icon="terp-accessories-archiver" domain="[]"
+							context="{'group_by':'user_id'}" />
+						<filter name="grp_approver" string="Approver"
+							domain="[]" context="{'group_by':'approver_id'}" />
+						<filter name="group_department_id" string="Department"
+							icon="terp-personal" domain="[]"
+							context="{'group_by':'department_id'}" />
+						<filter name="group_job_id" string="Job"
+							icon="terp-gtk-jump-to-rtl" domain="[]"
+							context="{'group_by':'job_id'}" />
+						<filter string="Date Expected" name="grp_date_expected"
+							domain="[]" context="{'group_by':'date_expected'}" />
+						<filter string="Status"
+							name="grp_status" domain="[]"
+							context="{'group_by':'state'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="recruitment_request_calendar_view"
+			model="ir.ui.view">
+			<field name="name">recruitment.request.calendar</field>
+			<field name="model">hr.recruitment.request</field>
+			<field name="arch" type="xml">
+				<calendar string="Recruitment Request Calendar"
+					date_start="date_expected" date_stop="date_expected"
+					color="user_id">
+					<field name="name" />
+				</calendar>
+			</field>
+		</record>
+
+		<!-- <record model="ir.ui.view" id="recruitment_request_graph_view">
+			<field name="name">recruitment.request.graph</field>
+			<field name="model">hr.recruitment.request</field>
+			<field name="arch" type="xml">
+				<graph string="Request by Job" type="pivot">
+					<field name="department_id" />
+					<field name="job_id" />
+					<field name="expected_employees" type="measure" />
+					<field name="applicants_count" type="measure" />
+					<field name="employees_count" type="measure" />
+				</graph>
+			</field>
+		</record> -->
+
+
+		<record model="ir.actions.act_window"
+			id="recruitment_request_action">
+			<field name="name">Recruitment Requests</field>
+			<field name="res_model">hr.recruitment.request</field>
+			<field name="view_mode">tree,form,calendar,pivot,graph</field>
+			<field name="domain">[]</field>
+			<field name="context">{}
+			</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first Recruitment Request</p>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window"
+			id="recruitment_request_to_approve_action">
+			<field name="name">To Approve Recruitment Requests</field>
+			<field name="res_model">hr.recruitment.request</field>
+			<field name="view_mode">tree,form,calendar,pivot,graph</field>
+			<field name="domain">[]</field>
+			<field name="context">{'search_default_ftr_to_approve':1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first Recruitment Request</p>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window"
+			id="recruitment_approved_request_action">
+			<field name="name">Recruitment Requests</field>
+			<field name="res_model">hr.recruitment.request</field>
+			<field name="view_mode">tree,form,calendar,pivot,graph</field>
+			<field name="domain">[]</field>
+			<field name="context">{'search_default_ftr_accepted':1,'search_default_ftr_recruiting':1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first Recruitment Request</p>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window"
+			id="recruitment_done_request_action">
+			<field name="name">Done Recruitment Requests</field>
+			<field name="res_model">hr.recruitment.request</field>
+			<field name="view_mode">tree,form,calendar,pivot,graph</field>
+			<field name="domain">[]</field>
+			<field name="context">{'search_default_group_job_id':1,'search_default_ftr_done':1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first Recruitment Request</p>
+			</field>
+		</record>
+
+		<menuitem id="to_recruitment_request_root_menu"
+			name="Recruitment Requests"
+			parent="hr_recruitment.menu_hr_recruitment_root" sequence="90"
+			groups="to_hr_recruitment_request.group_user" />
+
+		<menuitem id="to_recruitment_request_menu"
+			name="Recruitment Requests" parent="to_recruitment_request_root_menu"
+			sequence="1" action="recruitment_request_action"
+			groups="to_hr_recruitment_request.group_user" />
+
+		<menuitem id="to_recruitment_request_to_approve_menu"
+			name="Requests to Approve" parent="to_recruitment_request_root_menu"
+			sequence="2" action="recruitment_request_to_approve_action"
+			groups="to_hr_recruitment_request.group_user" />
+
+		<menuitem id="to_recruitment_approved_requests_menu"
+			name="Approved Requests" parent="to_recruitment_request_root_menu"
+			sequence="3" action="recruitment_approved_request_action"
+			groups="to_hr_recruitment_request.group_user" />
+
+		<menuitem id="to_recruitment_done_requests_menu"
+			name="Done Requests" parent="to_recruitment_request_root_menu"
+			sequence="4" action="recruitment_done_request_action"
+			groups="to_hr_recruitment_request.group_user" />
+	</data>
+</odoo>

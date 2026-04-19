@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_oeha_lab_test_product_mapping_no_import_tree">
+            <field name="name">Labtest Mapping</field>
+            <field name="model">labtest.mapping.config</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Labtest Mapping Tree'>
+                    <field name="name"/>
+                    <field name="test_type_id"/>
+                    <field name="run_by"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_oeha_lab_test_product_mapping_no_import_form">
+            <field name="name">Labtest Mapping</field>
+            <field name="model">labtest.mapping.config</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form name="Labtest mapping Form">
+                    <header>
+                        <button name="action_confirm" class="oe_highlight" type="object" string="Confirm" states="draft"/>
+                        <button name="action_cancel" type="object" class="btn btn-primary" states="confirm" groups="oehealth_extension.group_covid_consumables_manager" string="Cancel" />
+                        <button name="action_set_draft" type="object" class="btn btn-primary" states="cancel" groups="oehealth_extension.group_covid_consumables_manager" string="Set to Draft" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+                    </header>
+                    <sheet name="Labtest mapping">
+                        <group>
+                            <group>
+                                <field name="test_type_id"/>
+                                <field name="run_by"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Products">
+                                <field name="product_ids">
+                                    <tree editable="bottom" context="{'default_mapping_id': active_id}">
+                                        <field name="product_id"/>
+                                        <field name="apply_to"/>
+                                        <field name="qty"/>
+                                        <field name="uom_id"/>
+                                        <field name="mapping_id" invisible="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_oeha_lab_test_product_mapping_no_import_action" model="ir.actions.act_window">
+            <field name="name">Labtest Mapping</field>
+            <field name="res_model">labtest.mapping.config</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new record.
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem action="view_oeha_lab_test_product_mapping_no_import_action" name="Labtest Product Mapping" id="view_oeha_lab_test_product_mapping" parent="oehealth.oeh_medical_conf_menu" sequence="30"/>
+    </data>
+</odoo>

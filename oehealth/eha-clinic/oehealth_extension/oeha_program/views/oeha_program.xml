@@ -1,0 +1,158 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="oeh_medical_program_action_tree" model="ir.actions.act_window">
+            <field name="name">Programs</field>
+            <field name="res_model">oeha.medical.program</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Click to add a new program.
+                </p><p>
+                With oeHealth program screen, you can configure your buildings, wards, beds and programs
+                </p>
+            </field>
+        </record>
+
+        <!-- Filter patients in selected program -->
+        <record id="oeh_medical_patient_program_tree" model="ir.actions.act_window">
+            <field name="name">Program Assignments</field>
+            <field name="res_model">oeh.medical.patient</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('program_ids','in',active_id)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Click to add a new program nurse.
+                </p><p>
+                With oeHealth program screen, you can configure your buildings, wards, beds and programs
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_program">
+            <field name="name">Programs</field>
+            <field name="model">oeha.medical.program</field>
+
+            <field name="arch" type="xml">
+                <form string="Programs">
+                    <sheet>
+                        <div class="oe_button_box" name="buttons">
+                            <button type="action" class="oe_stat_button" name="%(oeh_medical_patient_program_tree)d" context="{'search_default_patient': active_id,'default_patient': active_id}" icon="fa-users">
+                                <field string="Patients" name="program_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_left" style="width: 500px;">
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="name" string="Program"/>
+                                <h1><field name="name" class="oe_inline"/></h1>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_program_tree">
+            <field name="name">Programs</field>
+            <field name="model">oeha.medical.program</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Programs'>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="program_count"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_medical_program_filter" model="ir.ui.view">
+            <field name="name">Program Search</field>
+            <field name="model">oeha.medical.program</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Programs">
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+        <menuitem action="oeh_medical_program_action_tree" id="oeh_medical_program_list" parent="oehealth.oeh_medical_hospital_menu" sequence="10"/>
+
+
+        <record model="ir.ui.view" id="oeha_medical_program_assignment">
+            <field name="name">Program Assignments</field>
+            <field name="model">oeha.medical.program.assignment</field>
+
+            <field name="arch" type="xml">
+                <form string="Programs">
+                    <sheet>
+                        
+                        <div class="oe_left" style="width: 500px;">
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="nurse" string="Nurse"/>
+                                <h1><field name="nurse" class="oe_inline"/></h1>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="program" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_program_assignment_tree">
+            <field name="name">Program Assignment</field>
+            <field name="model">oeha.medical.program.assignment</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Program Assignments'>
+                    <field name="nurse"/>
+                    <field name="program"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_medical_program_assignment_filter" model="ir.ui.view">
+            <field name="name">Program Assignment Search</field>
+            <field name="model">oeha.medical.program.assignment</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Programs">
+                    <field name="nurse"/>
+                    <field name="program"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="oeh_medical_program_assignment_action_tree" model="ir.actions.act_window">
+                <field name="name">Program Assignments</field>
+                <field name="res_model">oeha.medical.program.assignment</field>
+
+                <field name="view_mode">tree,form</field>
+                <field name="domain">[]</field>
+                <field name="context">{}</field>
+                <field name="view_id" eval="False"/>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                    Click to add a new program nurse.
+                    </p><p>
+                    With oeHealth program screen, you can configure your buildings, wards, beds and programs
+                    </p>
+                </field>
+        </record>
+
+        <!--<menuitem action="oeh_medical_patient_program_tree" id="oeh_medical_patient_program_list" parent="" sequence="11"/>-->
+    </data>
+</odoo>

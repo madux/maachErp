@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- This is the banner without health topics. It is an intermediate replacement until health topic pages are ready  -->
+    <template id="eha_website_sale.banner">
+        <section class="s_banner parallax pt-5 pb48" data-scroll-background-ratio="0.6" data-name="Banner" style="background-image: none;">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url(&quot;/eha_website/static/src/img/bg-get-care.jpg&quot;); background-position: 62.2% 44.59%; top: -65.76px; bottom: -65.76px; transform: translateY(-20px);"/>
+            <div class="container">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-6 text-center">
+                        <img src="/eha_website/static/src/img/GetCareLogo-White.png" class="w-50 mb-5"/>
+                    </div>
+                    <div class="col-lg-12 s_title pt30 pb0" data-name="Title">
+                        <h1 class="title-banner text-center">
+                            <span>Get Care</span>
+                            <span class="text-highlight">with EHA Clinics</span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- This is the banner with health topics:  -->
+
+    <template id="eha_website_sale.banner-alternative">
+        <section class="s_banner parallax pt96 pb48" data-scroll-background-ratio="0.6" data-name="Banner" style="background-image: none;">
+            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url(&quot;/eha_website/static/src/img/bg-get-care.jpg&quot;); background-position: 62.2% 44.59%; top: -65.76px; bottom: -65.76px; transform: translateY(-20px);"/>
+            <div class="container healthtopics">
+                <div class="row mb-4">
+                    <div class="col-lg-12 s_title pt30 pb0" data-name="Title">
+                        <h1 class="title-banner text-center">
+                            <span>Get Care</span>
+                            <span class="text-highlight">with EHA Clinics</span>
+                        </h1>
+                        <p class="subtitle-banner text-center">How can we help you?</p>
+                    </div>
+                </div>
+                <div id="myCollapse" role="tablist">
+                    <div role="tab" t-attf-class="toggle-topics text-center #{'collapsed' if collapsed else ''}" data-toggle="collapse" aria-expanded="false" data-parent="#myCollapse" data-target="#topics">
+                        <button class="toggle-btn btn-outline-invert">View Health Topics</button>
+                    </div>
+                    <div t-attf-class="collapse #{'' if collapsed else 'show'}" role="tabpanel" id="topics" style="">
+                        <div class="healthtopics">
+                            <p class="text-bright uppercase text-center">OUR HEALTH TOPICS</p>
+                            <div id="HealthTopicsCarousel" class="s_carousel carousel slide s_carousel_default" data-interval="10000" data-name="Carousel">
+                                <!--                                     <ul class="carousel-indicators">
+                                        <li data-target="#HealthTopicsCarousel" data-slide-to="0" class="active"/>
+                                        <li data-target="#HealthTopicsCarousel" data-slide-to="1"/>
+                                    </ul> -->
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active" style="" data-name="Slide">
+                                        <div class="container">
+                                            <div class="row content pl-5 pr-5 justify-content-center">
+                                                <a href="/shop/topics/healthtests" class="col healthtopic" style="background-image: url(&quot;/eha_website/static/src/img/healthtest.jpg&quot;);">
+                                                    <h4>Health Tests</h4>
+                                                </a>
+                                                <a href="#" class="col healthtopic" style="background-image: url(&quot;/eha_website/static/src/img/healthtest.jpg&quot;);">
+                                                    <h4>placeholder</h4>
+                                                </a>
+                                                <a href="#" class="col healthtopic" style="background-image: url(&quot;/eha_website/static/src/img/healthtest.jpg&quot;);">
+                                                    <h4>placeholder</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--                                     <div class="carousel-control-prev" data-target="#HealthTopicsCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                                        <span class="carousel-control-prev-icon"/>
+                                        <span class="sr-only o_default_snippet_text">Previous</span>
+                                    </div>
+                                    <div class="carousel-control-next" data-target="#HealthTopicsCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                                        <span class="carousel-control-next-icon"/>
+                                        <span class="sr-only o_default_snippet_text">Next</span>
+                                    </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="eha_website_sale.pharmacy-nav">
+        <div class="nav-pharmacy">
+            <div class="container-fluid">
+                <!-- Modal to select branch -->
+                <div id="branchModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content appointment-select-box">
+                            <!-- <span type="button" class="close" data-dismiss="modal">&#215;</span> -->
+                            <h3 class="text-center mb-4 mx-5 mt-2">Where are you ordering from?</h3>
+                            <div class="title text-center"><img class="text-center mb-3" src="/eha_website/static/src/img/illu-mobile-pharmacy.png" width="180px"/><div>Select your Location</div></div>
+                                <form>
+                                    <t t-foreach="ecommerce_branches" t-as="e_branch">
+                                        <div class="appointment-selector branch-div" t-att-name="'%s' %e_branch.alias_display">
+                                            <input class="checkbox branchCheckbox" t-att-name="e_branch.alias_display" t-att-value="e_branch.id" type="radio"/>
+                                            <label class="appointment-selector-label" t-att-for="'%s'% e_branch.alias_display">
+                                                <i class="fa fa-map-marker icon mr-3"/>
+                                                <span><b><t t-esc="e_branch.alias_display"/></b></span>
+                                                <!--    <span class="description">I want to order from the</span> <t t-esc="'%s Pharmacy' % e_branch.alias_display"/>  -->
+                                                <!--</span>-->
+                                            </label>
+                                        </div>
+                                    </t>
+                                     
+                                    <div class="text-center">
+                                        <button id="select-branch-btn" type="button" class="btn-primary mt-4" disabled="true">SELECT LOCATION</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                </div>
+                <!-- Modal ends here -->
+                <div class="row">
+                    <!-- <div t-attf-class="col-md-2 col-3 nav-item #{'' if prescriptions else 'active'}"> -->
+                    <div class="col-md col-sm-3 col-12 order-2 order-md-1 nav-item d-flex justify-content-center active">
+                        <a class="">
+                            <i class="eha-cart mr-1 text-lg"></i>
+                            Pharmacy
+                        </a>
+                    </div>
+                    <div class="col-md-auto col-sm-3 col-4 order-3 order-md-2 d-flex align-items-center py-3 py-sm-1">
+                        <!-- MANDO -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonBranch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Branch ...
+                            </button>
+                            <div class="dropdown-menu branch_element_id" id = "branch_element_id" aria-labelledby="dropdownMenuButtonBranch">
+                                <t t-foreach="ecommerce_branches" t-as="e_branch">
+                                    <span class="switcher_pricelist dropdown-item" t-esc="e_branch.alias_display" role="menuitem"
+                                    />
+                                    <!-- <a role="menuitem" class="dropdown-item" t-att-href="'/shop/change_pricelist/%s' % e_branch.pricelist_id.id">
+                                    </a> -->
+                                </t>
+                            </div>        
+                            <!-- MANDO -->
+                        </div>  
+                    </div>
+
+                    <div class="col-md col-sm-6 col-8 order-4 order-md-3 d-flex align-items-center searchbar border-left-white">
+                        <form method="get" class="o_wsale_products_searchbar_form w-100" action="/shop" _lpchecked="1">
+                            <div role="search" class="input-group">
+                                <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search products and services..." data-limit="5" data-display-description="true" data-display-price="true" data-display-image="true" data-oe-model="ir.ui.view" data-oe-id="2240" data-oe-field="arch" data-oe-xpath="/data/xpath[3]/form/t[1]/div[1]/input[1]" value="" autocomplete="off" />
+                                <div class="input-group-append" data-oe-model="ir.ui.view" data-oe-id="2240" data-oe-field="arch" data-oe-xpath="/data/xpath[3]/form/t[1]/div[1]/div[1]">
+                                    <button type="submit" class="btn btn-primary oe_search_button" aria-label="Search" title="Search">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <div t-attf-class="col-md-5 nav-item text-center #{'active' if prescriptions else ''}"> -->
+                    <div class="col-md-4 col-sm-12 col-12 order-1 order-md-4 nav-item  d-flex justify-content-center align-items-center text-center">
+                        <a class="coming-soon-link">
+                            <i class="eha-prescription mr-2"></i>
+                            Prescriptions &amp; Refills
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="website_sale.products">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Shop</t>
+            <div id="wrap" class="js_sale">
+                <div class="oe_structure" id="oe_structure_website_sale_products_1">
+                    <t t-call="eha_website_sale.banner">
+                        <t t-set="collapsed" t-value="false"></t>
+                    </t>
+                </div>
+                <t t-call="eha_website_sale.pharmacy-nav">
+                </t>
+
+                <div class="container oe_website_sale">
+                    <div class="products_pager form-inline flex-md-nowrap justify-content-between justify-content-md-right">
+                        #
+                        <!-- MANDO Added pricelist removed by # George -->
+                        <!-- <t t-call="website_sale.pricelist_list">
+                            <t t-set="_classes">mt-2 ml-md-2</t>
+                        </t> -->
+                        <!--  -->
+                        <t t-call="website.pager">
+                            <t t-set="_classes">mt-2 ml-md-2</t>
+                        </t>
+                    </div>
+                    <div class="row o_wsale_products_main_row">
+                        <div t-if="enable_left_column" id="products_grid_before" class="col-lg-3"/>
+                        <div id="products_grid" t-attf-class="col #{'o_wsale_layout_list' if layout_mode == 'list' else ''}">
+                            <t t-if="category">
+                                <t t-set="editor_msg">Drag building blocks here to customize the header for "
+                                    <t t-esc="category.name"/>
+" category.
+                                </t>
+                                <div class="mb16" id="category_header" t-att-data-editor-message="editor_msg" t-field="category.website_description"/>
+                            </t>
+                            <div t-if="bins" class="o_wsale_products_grid_table_wrapper">
+                                <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
+                                    <colgroup t-ignore="true">
+                                        <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
+                                        <col t-foreach="ppr" t-as="p"/>
+                                    </colgroup>
+                                    <tbody>
+                                        <tr t-foreach="bins" t-as="tr_product">
+                                            <t t-foreach="tr_product" t-as="td_product">
+                                                <t t-if="td_product">
+                                                    <t t-set="product" t-value="td_product['product']"/>
+                                                    <td t-att-colspan="td_product['x'] != 1 and td_product['x']" t-att-rowspan="td_product['y'] != 1 and td_product['y']" t-attf-class="oe_product #{td_product['class']}">
+                                                        <div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">
+                                                            <t t-call="website_sale.products_item">
+                                                                <t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>
+                                                            </t>
+                                                        </div>
+                                                    </td>
+                                                </t>
+                                                <td t-else=""/>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <t t-else="">
+                                <div class="text-center text-muted">
+                                    <t t-if="not search">
+                                        <h3 class="mt8">No product defined</h3>
+                                        <p t-if="category">No product defined in category "
+                                            <strong t-esc="category.display_name"/>
+".
+                                        </p>
+                                    </t>
+                                    <t t-else="">
+                                        <h3 class="mt8">No results</h3>
+                                        <p>No results for "
+                                            <strong t-esc="search"/>
+"
+                                            <t t-if="category">in category "
+                                                <strong t-esc="category.display_name"/>
+"
+                                            </t>
+                                            .
+                                        </p>
+                                    </t>
+                                    <p t-ignore="true" groups="sales_team.group_sale_manager">Click
+                                        <i>'New'</i>
+                                        in the top-right corner to create your first product.
+                                    </p>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="products_pager form-inline justify-content-center mt-3">
+                        <t t-call="website.pager"/>
+                    </div>
+                </div>
+                <div class="oe_structure mb32" id="oe_structure_website_sale_products_2"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="product_pharmacy" inherit_id="website_sale.product" customize_show="True" name="Product Detail Page">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <t t-if="product.plan_id and product.plan_id.name.lower() in ('standard','premium','international') ">
+                <t t-call="eha_website_sale.sub_product_detail"/>
+            </t>
+            <t t-else="1">
+                <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
+                    <t t-call="eha_website_sale.pharmacy-nav">
+                    </t>
+                    <section t-attf-class="container py-2 oe_website_sale #{'discount' if combination_info['has_discounted_price'] else ''}" id="product_detail">
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a t-att-href="keep(category=0)">Products</a>
+                                    </li>
+                                    <li t-if="category" class="breadcrumb-item">
+                                        <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name"/>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        <span t-field="product.name"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <t t-set="variant_img" t-value="product_variant and product_variant.image_variant_1920"/>
+                                <t t-set="image_ids" t-value="product_variant._get_images() if product_variant else product._get_images()"/>
+                                <div id="o-carousel-product" class="carousel slide" data-ride="carousel" data-interval="0">
+                                    <div class="carousel-outer">
+                                        <div class="carousel-inner">
+                                            <div t-if="variant_img" class="carousel-item active" t-field="product_variant.image" t-options="{'widget': 'image', 'class': 'product_detail_img js_variant_img', 'alt-field': 'name', 'zoom': 'image', 'unique': str(product['__last_update']) + (str(product_variant['__last_update']) or ''), 'itemprop': 'image'}"/>
+                                            <div t-attf-class="carousel-item#{'' if variant_img else ' active'}" t-field="product.image_1920" t-options="{'widget': 'image', 'class': 'product_detail_img', 'alt-field': 'name', 'zoom': 'image', 'unique': product['__last_update'], 'itemprop': 'image'}"/>
+                                            <t t-if="len(image_ids)" t-foreach="image_ids" t-as="pimg">
+                                                <div class="carousel-item" t-field="pimg.image_1920" t-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;product_detail_img&quot;, &quot;alt-field&quot;: &quot;name&quot;, &quot;zoom&quot;: &quot;image&quot;, &quot;itemprop&quot;: &quot;image&quot;}"/>
+                                            </t>
+                                        </div>
+
+                                        <t t-if="len(image_ids) or variant_img">
+                                            <a class="carousel-control-prev" href="#o-carousel-product" role="button" data-slide="prev">
+                                                <span class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"/>
+                                            </a>
+                                            <a class="carousel-control-next" href="#o-carousel-product" role="button" data-slide="next">
+                                                <span class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"/>
+                                            </a>
+                                        </t>
+                                    </div>
+
+                                    <ul class="carousel-indicators" t-if="len(image_ids) or variant_img">
+                                        <li t-if="variant_img" data-target="#o-carousel-product" data-slide-to="0" class="active">
+                                            <img class="img img-fluid js_variant_img_small" t-attf-src="/website/image/product.product/{{product_variant.id}}/image/90x90" t-att-alt="product.name"/>
+                                        </li>
+                                        <li data-target="#o-carousel-product" t-att-data-slide-to="1 if variant_img else '0'" t-att-class="'' if variant_img else 'active'">
+                                            <img class="img img-fluid" t-attf-src="/website/image/product.template/{{product.id}}/image/90x90" t-att-alt="product.name"/>
+                                        </li>
+                                        <t t-if="len(image_ids)" t-foreach="image_ids" t-as="pimg">
+                                            <li data-target="#o-carousel-product" t-att-data-slide-to="pimg_index + (variant_img and 2 or 1)">
+                                                <img class="img img-fluid" t-attf-src="/website/image/product.image/{{pimg.id}}/image/90x90" t-att-alt="pimg.name"/>
+                                            </li>
+                                        </t>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-xl-6 offset-xl-2" id="product_details">
+                                <h1 itemprop="name" t-field="product.name">Product Name</h1>
+                                <span itemprop="url" style="display:none;" t-esc="'%sshop/product/%s' % (request.httprequest.url_root, slug(product))"/>
+                                <form t-if="product._is_add_to_cart_possible()" action="/shop/cart/update" method="POST">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="js_product js_main_product">
+                                        <t t-placeholder="select">
+                                            <input type="hidden" class="product_id" name="product_id" t-att-value="product_variant.id"/>
+                                            <input type="hidden" class="product_template_id" name="product_template_id" t-att-value="product.id"/>
+                                            <t t-if="first_possible_combination" t-call="sale.variants">
+                                                <t t-set="ul_class" t-value="'flex-column'"/>
+                                                <t t-set="parent_combination" t-value="None"/>
+                                            </t>
+                                            <t t-else="">
+                                                <ul class="d-none js_add_cart_variants" t-att-data-attribute_exclusions="{'exclusions: []'}"/>
+                                            </t>
+                                        </t>
+                                        <t t-call="website_sale.product_price"/>
+                                        <p t-if="True" class="css_not_available_msg alert alert-warning">This
+                                            combination does not exist.
+                                        </p>
+                                        <t t-if="product.is_prescription_product">
+                                            <p class="mt-3">
+                                                <img src="/eha_website_sale/static/src/img/icon-prescription-purple.svg" width="22px" class="mr-2"></img>
+                                                <i class="text-purple">Prescription required</i>
+                                            </p>
+                                        </t>
+                                        <t t-if="product.is_prescription_product">
+                                            <p class="text-secondary">
+                                                <i>
+                                                    <t t-esc="product.product_description_prescription"/>
+                                                </i>
+                                            </p>
+                                        </t>
+                                        <a t-if="product.is_prescription_product" role="button" id="add_to_prescription" class="btn btn-primary mt-3" href="#">
+                                            Get Prescription
+                                        </a>
+                                        <a t-else="1" role="button" id="add_to_cart" class="btn btn-primary btn-lg mt-3 js_check_product a-submit" href="#">Add to
+                                            Cart
+                                        </a>
+                                        <div id="product_option_block" class="d-none"/>
+                                    </div>
+                                </form>
+                                <p t-elif="not product.active" class="alert alert-warning">This product is no longer
+                                    available.
+                                </p>
+                                <p t-else="" class="alert alert-warning">This product has no valid combination.</p>
+                                <!-- <hr t-if="product.description_sale"/> -->
+                                <hr/>
+                                <ul t-if="product_features" class="product-features">
+                                    <t t-foreach="product_features" t-as="pf">
+                                        <li><t t-esc="pf"/></li>
+                                    </t>   
+                                </ul>
+                                <div class="" t-raw="product.html_description_sale" />
+                                
+                                <p class="text-muted">
+                                    <t t-esc="configurable_text" />
+                                </p>
+                                <div itemprop="description" t-field="product.website_description" class="oe_structure mt16" id="product_full_description"/>
+                            </div>
+                        </div>
+                    </section>
+                    <div t-if="product.is_prescription_product" class="container footer-prescription">
+                        <div class="row mt-5 mb-5 pt-4 border-top-blue">
+                            <div class="col-md-6">
+                                <div class="box-rounded light-blue">
+                                    <form>
+                                        <h4>I have a prescription</h4>
+                                        <p>Clients with a prescription from EHA Clinics can order online.</p>
+                                        <label class="mb-2">Prescription ID</label>
+                                        <div class="input-group rounded">
+                                            <div class="input-group-append">
+                                                <input type="text" name="prescriptionID" class="form-control" placeholder="P00000..." value="" />
+                                                <button type="button" class="btn btn-primary prescriptionID" aria-label="Submit" title="Submit">VERIFY</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pt-4">
+                                <h3>Why do I need a Prescription?</h3>
+                                <p>All medications that are not over the counter require a direct prescription by our Doctor. Prescription medications are specially tailored for use by a specific person for specific use as they may cause different reactions in some individuals. Prescription medications require a medical diagnosis before they can be purchased at EHACLINICS. Using prescription medications unsupervised can lead to harm if misused, or abused.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Bootstrap Modal for verify Date -->
+                    <div class="modal fade in" tabindex="-1" role="dialog" id="verify_dob_modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Verify Date Of Birth</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary">Confirm</button>
+                                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal.frontend_layout" inherit_id="web.frontend_layout" name="Main Frontend Layout">
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="t-attf-class" add="#{request.env['res.lang']._lang_get(request.env.lang).direction == 'rtl' and 'o_rtl' or ''}" separator=" "/>
+            <attribute name="t-attf-class" add="#{'o_portal' if is_portal else ''}" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']/header/img" position="replace">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <div class="container">
+                    <a href="/" class="navbar-brand logo">
+                        <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top_menu_collapse">
+                        <span class="navbar-toggler-icon"/>
+                    </button>
+                    <div class="collapse navbar-collapse" id="top_menu_collapse">
+                        <!-- FIXME We want menu to open to the right by default (except cases handled in JS) -->
+                        <ul class="nav navbar-nav ml-auto text-right" id="top_menu">
+                            <li class="nav-item divider" t-ignore="true" t-if="not user_id._is_public()"/>
+                            <li class="nav-item dropdown" t-ignore="true" t-if="not user_id._is_public()">
+
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav ml-auto text-right" id="user_menu">
+                            <li class="nav-item dropdown user" t-ignore="true" t-if="not user_id._is_public()">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                    <img src="/eha_website_sale/static/src/img/icon-user.svg" height="14px" class="icon-user"/>
+                                    <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
+                                </a>
+                                <div class="dropdown-menu js_usermenu" role="menu">
+                                    <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']/main/t[@t-raw='0']" position="before">
+            <div t-if="o_portal_fullwidth_alert" class="alert alert-info alert-dismissible rounded-0 fade show d-print-none css_editable_mode_hidden">
+                <div class="container">
+                    <t t-raw="o_portal_fullwidth_alert"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_show_sign_in_replace" inherit_id="portal.portal_show_sign_in" name="Show Sign In">
+        <!-- <xpath expr="//li[@class='nav-item divider']" position="attributes">
+            <attribute name="class">d-none</attribute>
+        </xpath> -->
+        <xpath expr="//a[@t-attf-href='/web/login']" position="replace"/>
+    </template>
+
+    <template id="website_sale.header" inherit_id="website.layout" name="Header Shop My Cart Link">
+        <xpath expr="//header//ul[@id='top_menu']/li" position="before">
+            <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+            <li class="nav-item divider d-none"/>
+            <!-- Make sure the cart and related menus are not folded (see autohideMenu) -->
+            <li t-attf-class="nav-item d-none o_wsale_my_cart #{'' if website_sale_order and website_sale_order.cart_quantity else 'd-none'}">
+                <a href="/shop/cart" class="nav-link">
+                    <i class="fa fa-shopping-cart"></i>
+                    My Cart <sup t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_show_sign_in_inherit" inherit_id="portal.frontend_layout" name="Show Sign In">
+        <xpath expr="//ul[@id='user_menu']" position="inside">
+            <li class="nav-item divider" groups="base.group_public"/>
+            <li groups="base.group_public" class="nav-item">
+                <a t-attf-href="/web/login" class="nav-link">
+                    <b>Sign in</b>
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="pharmacy_header_inherit" inherit_id="website.layout" name="Header Shop My Cart Link">
+        <xpath expr="//header//ul[@id='user_menu']/li" position="before">
+            <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+            <li class="nav-item divider d-none"/>
+            <!-- Make sure the cart and related menus are not folded (see autohideMenu) -->
+            <li t-attf-class="nav-item o_wsale_my_cart #{'' if website_sale_order and website_sale_order.cart_quantity else 'd-none'}">
+                <a href="/shop/cart" class="nav-link">
+                    <img src="/eha_website_sale/static/src/img/icon-cart.svg" height="16px" class="icon-cart"/>
+                    My Cart
+                    <sup t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or ''" t-att-data-order-id="website_sale_order and website_sale_order.id or ''"/>
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+
+    <!--For prescription products hide add to cart button-->
+    <template id="website_sale.products_add_to_cart" inherit_id="website_sale.products_item" active="True" name="Add to Cart">
+        <xpath expr="//div[hasclass('o_wsale_product_btn')]" position="inside">
+            <t t-set="product_variant_id" t-value="product._get_first_possible_variant_id()"/>
+            <input name="product_id" t-att-value="product_variant_id" type="hidden"/>
+            <t t-if="not product.is_prescription_product">
+                <t t-if="product_variant_id">
+                    <a href="#" role="button" class="btn btn-primary btn-icon a-submit" aria-label="Shopping cart" title="Shopping cart">
+                        <img src="/eha_website_sale/static/src/img/icon-cart-white.svg" height="16px" class="icon-cart"/>
+                    </a>
+                </t>
+            </t>
+            <t t-if="product.is_prescription_product">
+                <span>
+                    <img src="/eha_website_sale/static/src/img/icon-prescription-purple.svg" width="18px"></img>
+                    <i class="small text-purple">Prescription required</i>
+                </span>
+            </t>
+        </xpath>
+    
+    </template>
+
+    <!-- MANDOO : Template to overide prodct item update_product_price_basedon branch template-->
+    <template id="update_product_price_basedon" inherit_id="website_sale.products_item" active="True" customize_show="True" name="Product Price list inherit">
+
+        <xpath expr="//div[hasclass('product_price')]" position="replace">
+            <div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+                <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+            </div>
+        </xpath>
+    </template>
+
+    <template id="website_sale.products_description" inherit_id="website_sale.products_item" active="True" customize_show="True" name="Product Description">
+        <xpath expr="//*[hasclass('product_price')]" position="after">
+            <div class="oe_subdescription" contenteditable="false">
+                <span itemprop="layout_mode" class="d-none" id="layout_mode_text" t-esc="layout_mode" />
+                <t t-if="layout_mode == 'list'">
+                    <ul t-if="product.product_feature_ids" class="product-features">
+                        <t t-foreach="product.product_feature_ids" t-as="pf">
+                            <li><t t-esc="pf.name"/></li>
+                        </t>   
+                    </ul>
+                </t>
+                <div itemprop="description" t-raw="product.html_description_sale"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="website_sale.cart_line_description_following_lines">
+
+        <div t-if="line.get_description_following_lines()" t-attf-class="line_description text-secondary {{div_class}} small">
+            <t t-foreach="line.get_description_following_lines()" t-as="name_line">
+                <div><t t-raw="name_line"/></div>
+            </t>
+        </div>
+    </template>
+
+    <!-- Telehealth page view custom -->
+    <record id="telehealth_view_custom" model="ir.ui.view">
+        <field name="name">Telehealth Page View</field>
+        <field name="type">qweb</field>
+        <field name="key">eha_website_sale.telehealth_page_view</field>
+        <field name="arch" type="xml">
+            <t name="Test Page View" priority="29" t-name="eha_website_sale.telehealth_page_view">
+                <t t-call="website.layout">
+                    <div id="oe_structure_telehealth_website_page" class="oe_structure oe_empty"/>
+                    <script src="https://simplybook.pro/v2/widget/widget.js"/>
+                    <script>
+                            var widget = new SimplybookWidget({ "widget_type": "iframe", "url": "https:\/\/ehaclinics.simplybook.pro", "theme": "hugo", "theme_settings": { "timeline_show_end_time": "0", "timeline_modern_display": "as_slots", "nav_bg_color": "#ffffff", "sb_base_color": "#25a9e0", "display_item_mode": "block", "body_bg_color": "#ffffff", "dark_font_color": "#405352", "light_font_color": "#719593", "sb_company_label_color": "#ffffff", "hide_img_mode": "1", "show_sidebar": "0", "sb_busy": "#dad2ce", "sb_available": "#d2effb" }, "timeline": "modern", "datepicker": "top_calendar", "is_rtl": false, "app_config": { "predefined": { "service": "44", "category": "6" } } });
+                    </script>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="telehealth_page" model="website.page">
+        <field name="is_published">True</field>
+        <field name="url">/telehealth_page</field>
+        <field name="view_id" ref="telehealth_view_custom"/>
+        <field name="website_indexed" eval="False"/>
+    </record>
+
+    <!-- Appointment page view custom -->
+    <record id="appointment_view_custom" model="ir.ui.view">
+        <field name="name">Appointment Page View</field>
+        <field name="type">qweb</field>
+        <field name="key">eha_website_sale.appointment_page_view</field>
+        <field name="arch" type="xml">
+            <t name="Test Page View" priority="29" t-name="eha_website_sale.appointment_page_view">
+
+                <t t-call="website.layout">
+                    <div id="oe_structure_appointment_website_page" class="oe_structure oe_empty"/>
+                    <script src="https://simplybook.pro/v2/widget/widget.js"/>
+                    <script>
+                            var widget = new SimplybookWidget({"widget_type":"iframe","url":"https:\/\/ehaclinics.simplybook.pro","theme":"hugo","theme_settings":{"timeline_show_end_time":"0","timeline_modern_display":"as_slots","nav_bg_color":"#ffffff","sb_base_color":"#25a9e0","display_item_mode":"block","body_bg_color":"#ffffff","dark_font_color":"#405352","light_font_color":"#719593","sb_company_label_color":"#ffffff","hide_img_mode":"1","show_sidebar":"0","sb_busy":"#dad2ce","sb_available":"#d2effb"},"timeline":"modern","datepicker":"top_calendar","is_rtl":false,"app_config":{"predefined":{"location":"2","category":"6"}}});
+                    </script>
+                </t>
+
+            </t>
+        </field>
+    </record>
+
+    <record id="appointment_page" model="website.page">
+        <field name="is_published">True</field>
+        <field name="url">/appointment_page</field>
+        <field name="view_id" ref="appointment_view_custom"/>
+        <field name="website_indexed" eval="False"/>
+    </record>
+
+    <template id="website_sale.confirmation">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Shop - Confirmed</t>
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                    <h1><span>Order</span> <em t-field="order.name"/> <t t-if="order.state == 'sale'"><span>Confirmed</span></t></h1>
+
+                    <div class="row">
+                        <div class="col-12 col-xl">
+                            <div class="oe_cart">
+                                <t t-set="payment_tx_id" t-value="order.get_portal_last_transaction()"/>
+                                <t t-if="payment_tx_id.state == 'done'">
+                                    <div class="thanks_msg">
+                                        <h2>Thank you for your order.
+                                            <a role="button" class="btn btn-primary d-none d-md-inline-block" href="/shop/print" target="_blank" aria-label="Print" title="Print"><i class="fa fa-print"/> Print</a>
+                                        </h2>
+                                    </div>
+                                </t>
+                                <t t-if="request.env['res.users']._get_signup_invitation_scope() == 'b2c' and request.website.is_public_user()">
+                                    <p class="alert alert-info mt-3" role="status">
+                                        <a role="button" t-att-href="order.partner_id.signup_prepare() and order.partner_id.with_context(relative_url=True).signup_url" class="btn btn-primary">Sign Up</a>
+                                         to follow your order.
+                                    </p>
+                                </t>
+                                <div class="oe_structure clearfix mt-3" id="oe_structure_website_sale_confirmation_1"/>
+                                <h3 class="text-left mt-3">
+                                    <strong>Payment Information:</strong>
+                                </h3>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <t t-esc="order.get_portal_last_transaction().acquirer_id.name"/>
+                                            </td>
+                                            <td class="text-right" width="100">
+                                                <strong>Total:</strong>
+                                            </td>
+                                            <td class="text-right" width="100">
+                                                <strong t-field="order.amount_total" t-options="{'widget': 'monetary', 'display_currency': order.pricelist_id.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <t t-call="website_sale.payment_confirmation_status"/>
+                                <div class="card mt-3">
+                                  <div class="card-body">
+                                    <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)"/>
+                                    <div><b>Billing <t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span t-esc="order.partner_id" t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')" class="address-inline"/></div>
+                                    <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address"><b>Shipping: </b><span t-esc="order.partner_shipping_id" t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')" class="address-inline"/></div>
+                                  </div>
+                                </div>
+
+                        
+                            <div class="box-rounded my-4 background-purple">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4>Have you purchased a Lab test and need an appointment to collect your sample?</h4>
+                                        <p> Then please book your appointment here and use the Sales Order Number <em t-field="order.name"/> as a reference:</p>
+                                    </div>
+                                    <div class="col-md-6 col-divider-white pt-3 pt-md-0">
+                                        <p>For a <b>regular appointment</b> please come to one of our clinics.</p>
+                                        
+                                        <t t-call="eha_website_sale.labtest-booking"></t>
+
+                                        <p class="mt-4">If you have <b>ordered a home sample collection</b> then please book here for your home appointment.</p>
+                                        
+                                        <t t-call="eha_website_sale.home-labtest-booking"></t>
+                                    </div>
+                                </div>
+                                                
+                            </div>
+
+                                <div class="oe_structure mt-3" id="oe_structure_website_sale_confirmation_2"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-auto">
+                            <t t-set="website_sale_order" t-value="order"/>
+                            <t t-call="website_sale.cart_summary">
+                                <t t-set="hide_coupon">1</t>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure" id="oe_structure_website_sale_confirmation_3"/>
+            </div>
+        </t>
+    </template>
+</odoo>

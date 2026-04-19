@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_hr_payslip_by_bonus" model="ir.ui.view">
+            <field name="name">hr.payslip.bonus.form</field>
+            <field name="model">hr.payslip.bonus</field>
+
+            <field name="arch" type="xml">
+                <form string="13th Month Salary" version="7.0">
+                    <group>
+                        <separator
+                                string="This wizard will generate 13th Month payslips for all selected employee(s) in draft state"
+                                colspan="4"/>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="merge"/>
+                            <field name="base"/>
+                            <field name="percent" attrs="{'invisible':[('base','in', ('BASIC','GROSS', 'NET'))]}"
+                                   colspan="4"/>
+                        </group>
+                        <newline/>
+                        <separator string="Employees" colspan="4"/>
+                        <newline/>
+                        <field name="employee_ids" nolabel="1" colspan="4"/>
+                    </group>
+                    <footer>
+                        <button name="compute_sheet" string="Generate" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hr_payslip_by_employees_bonus" model="ir.actions.act_window">
+            <field name="name">Generate 13th Month Payslips</field>
+            <field name="res_model">hr.payslip.bonus</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_payslip_by_bonus"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                name="Generate 13th Month Salary"
+                parent="menu_open_pp"
+                action="action_hr_payslip_by_employees_bonus"
+                sequence="0"
+                id="menu_yearly_bonus"
+        />
+
+
+    </data>
+</odoo>

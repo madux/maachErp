@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="EMR Evaluation Form" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+           <script type="text/javascript" src="/oehealth_extension/static/src/js/evaluation_form.js"/>
+            <link rel="stylesheet" type="text/scss" href="/oehealth_extension/static/src/css/evaluation_form.scss"/>
+        </xpath>
+    </template>
+</odoo>

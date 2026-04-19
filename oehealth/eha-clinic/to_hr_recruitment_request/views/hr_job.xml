@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.actions.act_window" id="action_view_recruitment_request_from_job">
+			<field name="name">Recruitment Requests</field>
+			<field name="res_model">hr.recruitment.request</field>
+			<field name="view_mode">tree,form,calendar,pivot,graph</field>
+			<field name="context">{'search_default_job_id': [active_id],
+				'default_job_id': active_id}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first Recruitment Request</p>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="hr_job_survey">
+			<field name="name">hr.job.form2</field>
+			<field name="model">hr.job</field>
+			<field name="inherit_id" ref="hr_recruitment.hr_job_survey" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[@name='button_box']" position="inside">
+					<button class="oe_stat_button" icon="fa-file-o"
+						name="%(action_view_recruitment_request_from_job)d" context="{'default_job_id': active_id}"
+						type="action">
+						<field name="recuitment_requests_count" widget="statinfo"
+							string="Recruit. Request" />
+					</button>
+				</xpath>
+				<xpath expr="//field[@name='description']" position="after">
+					<label for="requirements" />
+					<field name="requirements" />
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

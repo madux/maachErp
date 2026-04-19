@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+
+    <record id="view_hr_job_form_eha_website_recruitment" model="ir.ui.view">
+      <field name="name">hr.job.view.form.inherit</field>
+      <field name="model">hr.job</field>
+      <field name="inherit_id" ref="hr.view_hr_job_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='contract_type_id']" position="inside">
+          <group>
+            <field name="datetime_publish" readonly="True" />
+          </group>
+        </xpath>
+      </field>
+    </record>
+    
+  </data>
+</odoo>

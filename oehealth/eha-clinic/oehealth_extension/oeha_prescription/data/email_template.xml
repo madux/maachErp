@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data >
+        <record id="email_templ_prescription_refill_reminder_patient" model="mail.template">
+            <field name="name">Refill Reminder Patient</field>
+            <field name="email_from">info@eha.ng</field>
+            <field name="subject">Prescription Refill Reminder</field>
+            <field name="email_to">${(object.patient_email or '')|safe}</field>
+            <field name="model_id" ref="oehealth_extension.model_oeh_medical_prescription_line"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <p>Hello ${object.patient.firstname},</p>
+                <br/>
+                <p>This is to remind you that one of your prescribed medicines need to be refilled in the next two days, the medicine name is <b>${object.name.name}</b>
+                </p>
+                <p>Thank You</p>
+            </field>
+        </record>
+
+        <record id="email_templ_prescription_refill_reminder_pharmacist" model="mail.template">
+            <field name="name">Refill Reminder Pharmacist</field>
+            <field name="email_from">info@eha.ng</field>
+            <field name="subject">Prescription Refill Reminder</field>
+            <field name="email_to">${(object.pharmacist_email or '')|safe}</field>
+            <field name="model_id" ref="oehealth_extension.model_oeh_medical_prescription_line"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <p>Hello EHA Clinics Pharmacist,</p>
+                <br/>
+                <p>This is to remind you that one of the medicines you prescribed need to be refilled in the next two days, the medicine name is <b>${object.name.name}</b> and the patient the medicine is prescribed to is ${object.patient.firstname} ${object.patient.lastname} ${object.patient.lastname2}</p>
+                <br/>
+                <br/>
+                <p>Thank You</p>
+            </field>
+        </record>
+
+        <record id="email_template_prescription" model="mail.template">
+            <field name="name">Prescription</field>
+            <field name="email_from">info@eha.ng</field>
+            <field name="model_id" ref="oehealth_extension.model_oeh_medical_prescription"/>
+            <field name="subject">${object.partner_id.name} Prescription</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.partner_id.name}
+                        % if object.partner_id.parent_id:
+                            (${object.partner_id.parent_id.name})
+                        % endif
+                        <br/>
+                        <br/>
+                        Please find attached your prescription with ID <strong>${object.name}</strong>
+                        Do not hesitate to contact the clinic if you have any questions.
+                        <br/>
+                        <br/>
+                        Best regards,
+                    </p>
+                </div>
+            </field>
+            <field name="report_template" ref="oehealth.action_oeh_medical_report_patient_prescriptions"/>
+            <field name="report_name">PRES_${(object.name or '').replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <!-- <field name="user_signature" eval="False"/> -->
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+*.pyc
+.idea
+.terraform
+terraform.tfstate*
+.DS_Store
+inventory_extension/.vscode/
+.vscode/
+Deploy.yml
+.github/workflows/
+.secrets/

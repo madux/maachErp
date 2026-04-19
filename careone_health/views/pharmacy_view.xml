@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="feeder_config_form_view" model="ir.ui.view">
+        <field name="name">feeder.config</field>
+        <field name="model">feeder.config</field>
+    
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button name="update_district_from_api" string="Update District (From GIS Api)" icon="fa-redo" type="object" confirm="Are you sure you want to make this update?"/>
+                    <button name="update_substation_from_api" string="Update SubStation (From GIS Api)" icon="fa-redo" type="object" confirm="Are you sure you want to make this update?"/>
+                    <button name="update_feeder_from_api" string="Update Feeder (From GIS Api)" icon="fa-redo" type="object" confirm="Are you sure you want to make this update?"/>
+                    <field name="status" widget="statusbar" readonly="1" options="{'clickable': '0'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="item_id"/>
+                        <h1 style="color:Tomato;">
+                            <field name="item_id" required="1" force_save="1" placeholder="e.g. Item"/>
+                        </h1>
+                    </div>
+                    <div class='alert alert-danger' role="alert">
+                        <strong>Ensure to enter all details properly</strong>
+                         
+                    </div>
+                    <group>
+                        <group>
+                            <field name="feeder_id" required="1"/> 
+                            <field name="district_id" required="1" readonly="0"/> 
+                            <field name="injection_id" required="1" readonly="0"/> 
+                            <field name="previous_maintenance_date" required="0"/> 
+                            <field name="reoccurance_type" required="1"/> 
+                            <field name="reoccurance_period" required="1"/> 
+                            <field name="next_maintenance_date" required="1"/> 
+                        </group>
+                        <group>
+                            <field name="due_for_maintenance" required="0"/> 
+                            <field name="responsible_users" required="1" widget="many2many_tags" invisible="0"/> 
+                            <field name="follower_ids" required="0" widget="many2many_tags" invisible="0"/> 
+                            <field name="status" required="0"/>
+                            
+                            <field name="active" required="0"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        
+                        <page name="feeder_checklist_lines" string="Checklist History">
+                            <field name="feeder_checklist_lines">
+                                <tree string="Checklist lines" editable="bottom" no_open="0">
+                                    <field name="name" string="config" invisible="0"/> 
+                                    <field name="feeder_config_id" invisible="0"/> 
+                                    <field name="item_id" invisible="0"/> 
+                                    <field name="maintained_by" invisible="0"/> 
+                                    <field name="maintain_date" invisible="0"/> 
+                                    <field name="state" invisible="0"/> 
+                                </tree>
+                            </field>
+                        </page>  
+                    </notebook>
+                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="feeder_config_tree_view" model="ir.ui.view">
+        <field name="name">feeder.config.view.tree</field>
+        <field name="model">feeder.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="feeder_id"/>
+                <field name="item_id"/>
+                <field name="district_id"/>
+                <field name="injection_id"/>
+                <field name="reoccurance_period"/>
+                <field name="reoccurance_type"/>
+                <field name="due_for_maintenance"/>
+                <field name="next_maintenance_date"/>
+                <field name="status"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="feeder_config_action_idX">
+        <field name="name">Feeder config</field>
+        <field name="res_model">feeder.config</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        
+    </record> 
+    <record model="ir.actions.act_window" id="feeder_config_action_all_id">
+        <field name="name">Config</field>
+        <field name="res_model">feeder.config</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record> 
+
+    <record model="ir.actions.act_window" id="feeder_district_action_id">
+        <field name="name">All District</field>
+        <field name="res_model">feeder.district</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record> 
+
+    <record model="ir.actions.act_window" id="injection_station_action_id">
+        <field name="name">Injection station</field>
+        <field name="res_model">injection.model</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record>
+    <record model="ir.actions.act_window" id="feeder_feeder_action_id">
+        <field name="name">Feeder</field>
+        <field name="res_model">feeder.model</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record>
+    <!-- <field name="domain">[
+        '|','|','|', ('follower_ids.id','in', user.id),
+        ('approver_ids.id','in', user.id),
+        ('create_uid','=', user.id),
+        ('write_uid','=', user.id),
+        ]</field> -->
+    <menuitem id="feeder_config_configuration_menu" name="Configuration" sequence = "10" parent="eedc_transformer_checklist.feeder_checklist_menu_id"
+    groups="base.group_system"/>
+    <menuitem id="feeder_config_menu_2" name="Feeder Config" sequence = "10" parent="eedc_transformer_checklist.feeder_config_configuration_menu"
+     action="eedc_transformer_checklist.feeder_config_action_idX"/>
+     <menuitem id="feeder_district_menu" name="District" sequence = "20" parent="eedc_transformer_checklist.feeder_config_configuration_menu"
+     action="eedc_transformer_checklist.feeder_district_action_id"/>
+    <menuitem id="feeder_injection_station_menu_id" name="Injection station" sequence = "40" parent="eedc_transformer_checklist.feeder_config_configuration_menu"
+     action="eedc_transformer_checklist.injection_station_action_id"/>
+     <menuitem id="feeder_feeder_menu" name="Feeder" sequence = "60" parent="eedc_transformer_checklist.feeder_config_configuration_menu"
+     action="eedc_transformer_checklist.feeder_feeder_action_id"/>
+
+     
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- <template id="test-results-check-commonpass" inherit_id="eha_website.test-results-check">
+            <xpath expr="//div[hasclass('commonpass-download-menus')]" position="replace">
+                <div class="dropdown-menu dropdown-menu-right commonpass-download-menus" role="menu">
+                    <a role="menuitem" href="/services/check-test-results/get-commonpass?format=pdf" rel="noindex,nofollow" class="dropdown-item">
+                                                          Printable PDF</a>
+                    <a role="menuitem" href="/services/check-test-results/get-commonpass?format=qrcode" rel="noindex,nofollow" class="dropdown-item">
+                                                          QR Code only
+                    </a>
+                </div>
+            </xpath>
+        </template> -->
+
+    </data>
+</odoo>

@@ -1,0 +1,190 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <template id="faq_answer" name="FAQ: Answer">
+            <t t-name="faq.faq_answer">
+                <head>
+                    <meta charset="utf-8"/>
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <![CDATA[<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css?family=Yrsa:400,600&display=swap" rel="stylesheet">
+                    <link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+                    <style>
+                        body, html {
+                            font-family: "Yrsa", serif;
+                            font-size: 17px;
+                            line-height: 1.4em !important;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            color: #405352;
+                            margin: 0;
+                        }
+
+                        .header {
+                            background: #5C76C4;
+                            padding: 2rem 1.5rem .5rem;
+                            height: 20vh;
+                            display: flex;
+                            align-items: flex-end;
+                        }
+
+                        .header h1 {
+                            color: #ffffff;
+                            font-family: "OpenSans", sans-serif;
+                            font-size: 1.3rem;
+                            line-height: 1.4em;
+                            font-weight: 600;
+                        }
+
+                        .faq-answer {
+                            padding: 20px 25px;
+                        }
+
+                        img {
+                            width: 100vw;
+                            margin: -20px -25px 0;
+                            object-fit: contain;
+                            max-height: 400px;
+                        }
+
+                        img.padding-large {
+                            padding: 25px;
+                        }
+
+                        h1:empty, h2:empty, h3:empty, h4:empty, h5:empty, h6:empty, p:empty, li:empty {
+                            display: none;
+                        }
+
+                        p, ul {
+                            margin: 0 0 1rem !important;
+                            line-height: 1.4em !important;
+                        }
+
+                        b {
+                            font-weight: 600;
+                        }
+
+                        h1 {
+                            font-size: 1.8rem;
+                            font-weight: 600;
+                            margin: 1.5rem 0 1rem;
+                        }
+
+                        h2 {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            font-family: "OpenSans", sans-serif;
+                            margin: 1.5rem 0 1rem;
+                        }
+
+                        h3 {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-bottom: .5rem;
+                        }
+
+                        h4 {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            margin-bottom: .5rem;
+                        }
+
+                        ul {
+                            padding-left: 1rem;
+                            list-style: none;
+                        }
+
+                        li p:last-child {
+                            margin: 0 !important;
+                        }
+
+                        ul li {
+                            padding: .1rem .4rem;
+                            list-style: none !important;
+                            position: relative;
+                        }
+
+                        ul li:before {
+                            content: "";
+                            display: inline-block;
+                            position: absolute;
+                            top: .6em;
+                            left: -8px;
+                            height: 2px;
+                            width: 8px;
+                            background: #5C76C4;
+                        }
+
+                        a {
+                            color: #0093FF;
+                            text-decoration: none;
+                        }
+                        .btn {
+                            font-family: "OpenSans", sans-serif;
+                            background: #0093FF;
+                            color: white;
+                            border-radius: 10px;
+                            padding: 1rem 2rem;
+                          }
+
+                          .btn-video {
+                            font-weight: 600;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            text-align: center;
+                          }
+
+                          .btn-video i {
+                            padding: 0.5rem;
+                          }
+                    </style>]]>
+                </head>
+                <body role="document">
+                    <div class="header">
+                        <h1 t-esc="faq.name"/>
+                    </div>
+                    <div class="faq-answer">
+                        <span t-raw="faq.solution"/>
+                    </div>
+                </body>
+          </t>
+        </template>
+
+        <!--COVID 19 FAQ-->
+        <template id="about_covid19" name="FAQ: COVID-19">
+            <t t-name="foss_faq.about_covid19">
+                <t t-call="website.layout">
+                    <section class="s_cover parallax page" data-scroll-background-ratio="0" style="background-image: none;">
+                        <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url(&quot;/eha_website_hr_recruitment/static/src/img/bg-corona.jpg&quot;); background-position: 48.83% 30.35%;"/>
+                        <div class="container">
+                            <div class="row s_nb_column_fixed">
+                                <div class="col-lg-12 s_title pt48 pb0" data-name="Title">
+                                    <h1 class="title-banner text-center">
+                                        <span>Correct information is critical.<br /> 
+                                            Stay up to date with </span>
+                                        <span class="text-highlight">EHA Clinics.</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="container mt-6">
+                        <div class="row mt-3" t-foreach="faqs" t-as="faq">
+                            <a href='' class="faq-question">
+                                <h3><span t-esc="faq.name" /></h3><i class="fas fa-lg fa-chevron-down mr-2"/>
+                            </a>
+                            <div class="faq-answer">
+                               <span t-raw="faq.solution" />
+                            </div>
+                        </div>
+                    </div>
+                    <t t-call="eha_website_hr_recruitment.feedback_forms"></t>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

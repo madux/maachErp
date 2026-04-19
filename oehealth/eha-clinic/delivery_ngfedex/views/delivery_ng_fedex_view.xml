@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_delivery_carrier_form_with_provider_ng_fedex" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.provider.ng.fedex</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='destination']" position='before'>
+                <page string="Ng Fedex Configuration" attrs="{'invisible': [('delivery_type', '!=', 'ng_fedex')]}">
+                    <group>
+                        <group>
+                            <button type="object" name="auth_get_token" string="Authenticate" class="btn btn-primary"/>
+                            <field name="fedex_token" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}"/>
+                            <field name="fedex_username" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}"/>
+                            <field name="fedex_password" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}"/>
+                            <field name="fedex_account_number" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}"/>
+                            <field name="fedex_delivery_type"/>
+                            <field name="fedex_payment_type"/>
+                        </group>
+                        <group>
+                            <field name="fedex_default_packaging_id" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}" domain="[('package_carrier_type', '=', 'ng_fedex')]"/>
+                            <field name="fedex_package_weight_unit" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}"/>
+                            <field name="fedex_package_dimension_unit" attrs="{'required': [('delivery_type', '=', 'ng_fedex')]}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position='inside'>
+                <button name="fetch_tracking" attrs="{'invisible': [('state', '!=', 'done')]}" 
+                string="Get Tracking" type="object" groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

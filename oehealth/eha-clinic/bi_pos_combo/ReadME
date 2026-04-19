@@ -1,0 +1,60 @@
+Date :- 12/02/2020
+version :- 13.0.0.1
+issue solve:-
+	- when I add the product combo to order line it's ok..  but if I add twice, it replace the details in the same line.. it doesn't add the new line with another combination..
+
+Date :- 14/02/2020
+version :- 13.0.0.2
+issue solve:-
+	- when remove any orderline , its automatically remove two orderline, solve issue.
+
+version 13.0.0.3(25th feb 2020)
+	-  when I edit the combo, and change the optional product, it creates a new line.. it should change the optional product in the same line only.	
+
+version 13.0.0.4(26th feb 2020)
+	- When increase/decrease qty of main product required product and optional product qty should increase and decrease accordingly.
+	- when combo product not enable and search product , generate error.
+
+version 13.0.0.5(27th feb 2020)
+	- when combo product functionality not enable in pos , and search products should not be search. either it should not add product or it should show message product not available and not added into pos record.
+
+=> 13.0.0.6 :  Improved an index related, demanded apps link version.
+
+version 13.0.0.7 (10-08-2020)
+		- made compatible with pos_restaurant and kitchen order print.
+
+version 13.0.0.8 (11-05-2021)
+		- Load optional and required products image in the popup.
+
+version 13.0.1.9 (13-08-2021):
+		-- Added Selection field for the selection of combo price
+			- total of all the combo product
+			- total of main product.
+
+version :- 13.0.2.0 (Date: 17/08/2021)
+issue solve:-
+		-- While changing customer f combo product is in the cart then show warning popup.
+		-- while changing quantity of combo product main product price taken solved it.
+		-- if changed quantity of combo product then update quantity of sub-produts.
+		-- if set discount/qty/price for the combo product then show it in the receipt.
+
+
+Date:-6th jan 2022
+"version" : "13.0.0.3"
+"Improvment Points:-"
+            - update OrderLine for add in optional product for old product is
+                auto selected in every time edit in combo product
+
+Date:-7th Feb 2022
+"version" : "13.0.0.4"
+"Improvment Points:-"
+            - update OrderLine for add in optional product for old product is
+              auto selected in another product of same product so solved the issue. if we select the same product of
+              multiple combo it is not an auto selected.
+
+Date:-3rd March 2022
+"version" : "13.0.0.5"
+"Improvment Points:-"
+                - "Select the Multiple combo and old combo product(Optional Product) auto selected in another combo so solve it
+
+

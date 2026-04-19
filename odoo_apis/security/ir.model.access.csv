@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odoo_apis_token_user,odoo_apis.api_token.user,model_user_api_token,,1,1,1,1
+access_odoosalesman_product_template_public,product.template.public.odoo_apis,product.model_product_template,,1,0,0,0
+access_odoosalesman_res_users_public,res_users.public.odoo_apis,base.model_res_users,,1,0,0,0

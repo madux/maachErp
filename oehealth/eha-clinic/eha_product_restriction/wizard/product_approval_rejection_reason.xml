@@ -1,0 +1,30 @@
+<odoo>
+
+    <record id="view_product_approval_rejection_reason_form" model="ir.ui.view">
+        <field name="name">view.product.approval.rejection.reason.form</field>
+        <field name="model">product.approval.rejection.reason</field>
+        <field name="arch" type="xml">
+            <form string="Rejection Reason">
+
+                <group colspan="4" col="4">
+                    <field name="rejection_reason" required="1"/>
+                </group>
+
+                <footer>
+                    <button string="Reject" class="btn-primary" type="object" name="reject"/>
+                    <button string="Cancel" class="btn-danger" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_approval_rejection_reason_form_action" model="ir.actions.act_window">
+        <field name="name">Rejection Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.approval.rejection.reason</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_product_approval_rejection_reason_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

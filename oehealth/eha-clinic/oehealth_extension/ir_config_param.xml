@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--SIMPLYBOOK -->
+        <record id="simplybookme_companyname" model="ir.config_parameter">
+            <field name="key">simplybookme_companyname</field>
+            <field name="value">EHA Clinics Limited</field>
+        </record>
+         
+        <record id="simplybookme_companylogin" model="ir.config_parameter">
+            <field name="key">simplybookme_companylogin</field>
+            <field name="value">ehadev</field>
+        </record>
+        <!-- <record id="simplybookme_companylogin" model="ir.config_parameter">
+            <field name="key">simplybookme_companylogin</field>
+            <field name="value">ehaclinics</field>
+        </record> -->
+        <record id="simplybookme_admin_login" model="ir.config_parameter">
+            <field name="key">simplybookme_admin_login</field>
+            <field name="value">admin</field>
+        </record>
+       <!-- <record id="simplybookme_admin_login" model="ir.config_parameter">
+            <field name="key">simplybookme_admin_login</field>
+            <field name="value">ogochukwu.maduabum@eha.ng</field>
+        </record> -->
+        <record id="simplybookme_admin_password" model="ir.config_parameter">
+            <field name="key">simplybookme_admin_password</field>
+            <field name="value">eha.clinics</field>
+        </record>
+        <!-- <record id="simplybookme_admin_password" model="ir.config_parameter">
+            <field name="key">simplybookme_admin_password</field>
+            <field name="value">Obinna@624688</field>
+        </record> -->
+        <record id="simplybookme_apikey" model="ir.config_parameter">
+            <field name="key">simplybookme_apikey</field>
+            <field name="value">aab018489082dcbfde36a0d5f85ece4a5ea9a4cef1985ee424ae5e7a140d714b</field>
+        </record>
+        <!-- <record id="simplybookme_apikey" model="ir.config_parameter">
+            <field name="key">simplybookme_apikey</field>
+            <field name="value">5599031e0c40aa06991b6deb80c718d6f1955e7df2d574c583d3f43bfdbd4da9</field>
+        </record>   -->
+
+        <record id="simplybookme_url" model="ir.config_parameter">
+            <field name="key">simplybookme_url</field>
+            <field name="value">https://user-api.simplybook.pro</field>
+        </record>
+
+        <record id="simplybookme_rest_url" model="ir.config_parameter">
+            <field name="key">simplybookme_rest_url</field>
+            <field name="value">https://user-api-v2.simplybook.me</field>
+        </record>
+        <!-- <record id="simplybookme_kano_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_kano_location_id</field>
+            <field name="value">3</field>
+        </record> -->
+
+        <record id="simplybookme_kano_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_kano_location_id</field>
+            <field name="value">1</field>
+        </record>
+
+        <!-- <record id="simplybookme_kano_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_kano_service_id</field>
+            <field name="value">47</field>
+        </record> -->
+        <record id="simplybookme_kano_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_kano_service_id</field>
+            <field name="value">38</field>
+        </record>
+
+        <!-- <record id="simplybookme_kano_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_kano_performers_id</field>
+            <field name="value">35</field>
+        </record>  -->
+
+        <record id="simplybookme_kano_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_kano_performers_id</field>
+            <field name="value">10</field>
+        </record>
+
+        <!-- <record id="simplybookme_abuja_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_location_id</field>
+            <field name="value">1</field>
+        </record>  -->
+        <record id="simplybookme_abuja_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_location_id</field>
+            <field name="value">3</field>
+        </record> 
+        <!-- <record id="simplybookme_abuja_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_service_id</field>
+            <field name="value">48</field>
+        </record> -->
+        <record id="simplybookme_abuja_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_service_id</field>
+            <field name="value">39</field>
+        </record>
+
+        <!-- <record id="simplybookme_abuja_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_performers_id</field>
+            <field name="value">34</field>
+        </record>  -->
+        <record id="simplybookme_abuja_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_performers_id</field>
+            <field name="value">11</field>
+        </record> 
+
+        <!--asokoro-->
+        <record id="simplybookme_abuja_asokoro_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_asokoro_location_id</field>
+            <field name="value">7</field>
+        </record> 
+
+        <record id="simplybookme_abuja_asokoro_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_asokoro_service_id</field>
+            <field name="value">41</field>
+        </record>
+
+        <record id="simplybookme_abuja_asokoro_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_asokoro_performers_id</field>
+            <field name="value">13</field>
+        </record> 
+
+        <record id="simplybookme_abuja_asokoro_status" model="ir.config_parameter">
+            <field name="key">simplybookme_abuja_asokoro_status</field>
+            <field name="value">False</field>
+        </record>
+
+        <record id="simplybookme_telehealth_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_telehealth_location_id</field>
+            <field name="value">7</field>
+        </record> 
+
+        <record id="simplybookme_telehealth_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_telehealth_service_id</field>
+            <field name="value">41</field>
+        </record>
+
+        <record id="simplybookme_telehealth_performer_id" model="ir.config_parameter">
+            <field name="key">simplybookme_telehealth_performer_id</field>
+            <field name="value">13</field>
+        </record> 
+
+        <record id="simplybookme_service_params" model="ir.config_parameter">
+            <field name="key">simplybookme_service_params</field>
+            <field name="value">
+{"data": [{"location_id":7, "location_name": "Asokoro Sample Collection Center - Abuja", "service_id":41 , "performer_id":13, "branch_code": "ABUJA-002", "is_pcr": true, "is_hsc":false},{"location_id":3, "location_name": "Asba &amp; Dantata Street - Abuja", "service_id":39 , "performer_id":11,  "branch_code": "JABI0011",  "is_pcr": true, "is_hsc":false}, {"location_id":1, "location_name": "Independence Road - Kano", "service_id":38 , "performer_id":10, "branch_code": "KANO0007", "is_pcr": true, "is_hsc":false}, {"location_id":9, "location_name": "Lagos - Ikeja Test Center", "service_id":45 , "performer_id":17, "branch_code": "LAG-001", "is_pcr": true, "is_hsc":false}, {"location_id":3, "location_name": "Asba &amp; Dantata Street - Abuja", "service_id":42 , "performer_id":14, "branch_code": "JABI0011", "is_pcr": false, "is_hsc":false}, {"location_id":3, "location_name":"Asba &amp; Dantata Street - Abuja", "service_id":46, "performer_id":18, "branch_code":"JABI0011", "is_pcr":false, "is_hsc":true}, {"location_id":1, "location_name":"Independence Road - Kano", "service_id":47, "performer_id":19, "branch_code":"KANO0007", "is_pcr":false, "is_hsc":true}]} 
+            </field>
+        </record>
+
+         <!--Antigen-->
+         <record id="simplybookme_antigen_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_antigen_service_id</field>
+            <field name="value">42</field>
+        </record>
+
+        <record id="simplybookme_antigen_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_antigen_performers_id</field>
+            <field name="value">14</field>
+        </record>
+
+        <!--other locations-->
+        <!-- <record id="simplybookme_others_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_others_service_id</field>
+            <field name="value">57</field>
+        </record> -->
+        <record id="simplybookme_others_service_id" model="ir.config_parameter">
+            <field name="key">simplybookme_others_service_id</field>
+            <field name="value">40</field>
+        </record>
+
+        <!-- <record id="simplybookme_others_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_others_performers_id</field>
+            <field name="value">53</field>
+        </record>  -->
+        <record id="simplybookme_others_performers_id" model="ir.config_parameter">
+            <field name="key">simplybookme_others_performers_id</field>
+            <field name="value">12</field>
+        </record> 
+
+        <!-- <record id="simplybookme_others_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_others_location_id</field>
+            <field name="value">5</field>
+        </record>  -->
+        <record id="simplybookme_others_location_id" model="ir.config_parameter">
+            <field name="key">simplybookme_others_location_id</field>
+            <field name="value">6</field>
+        </record> 
+
+        <!-- INBOUND CONFIG TO ENABLE WHA DISPLAYS ON THE CIF TEST FORM  -->
+          <record id="inbound_cif_params_config" model="ir.config_parameter">
+            <field name="key">Inbound Covid Testing Config</field>
+            <field name="value">True</field>
+         </record>   
+
+          <record id="covid19_appointment_slots" model="ir.config_parameter">
+            <field name="key">covid19.appointment.slots</field>
+            <field name="value">10:00:00, 11:00:00, 12:00:00, 13:00:00, 14:00:00, 15:00:00</field>
+         </record>   
+
+         <!--Batch Mail limit -->
+ 
+        <record id="mail_limit" model="ir.config_parameter">
+            <field name="key">mail_limit</field>
+            <field name="value">50</field>
+        </record>
+
+        <record id="homesample_collection_support_email" model="ir.config_parameter">
+            <field name="key">oehealth_extension.homesample_collection_support_email</field>
+            <field name="value">covid19-support@eha.ng</field>
+        </record>
+
+        <record id="enable_day2_testing" model="ir.config_parameter">
+            <field name="key">oehealth_extension.enable_day2_testing</field>
+            <field name="value">False</field>
+       </record> 
+
+    </data>
+</odoo>
+ 

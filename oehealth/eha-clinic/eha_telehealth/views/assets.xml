@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- <template id="assets_frontend" name="telehealth assets" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/eha_telehealth/static/src/js/book_service.js"></script>
+            <script type="text/javascript" src="/eha_telehealth/static/src/js/telehealth_booking.js"></script>
+            <script type="text/javascript" src="/eha_telehealth/static/src/js/prescription_booking.js"></script>
+            <link rel="stylesheet" type="text/css" href="/eha_telehealth/static/src/css/main.css"></link>
+        </xpath>
+    </template> -->
+
+</odoo>

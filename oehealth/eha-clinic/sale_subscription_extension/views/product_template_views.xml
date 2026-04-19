@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_view_form_recurring_ext" model="ir.ui.view">
+        <field name="name">sale.subscription.product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="sale_subscription.product_template_view_form_recurring"/>
+        <field name="arch" type="xml">
+            <page name="sales" position="attributes">
+                <attribute name="attrs">{'invisible': [('sale_ok', '=', False), ('recurring_invoice', '=', False)]}</attribute>
+                <attribute name="class">page_sales</attribute>
+            </page>
+            <xpath expr="//page[@name='purchase']" position="after">
+                <group name="subscription" string="Subscriptions" attrs="{'invisible': [('type', '!=', 'service')]}">
+                    <field name="recurring_invoice" />
+                    <field name="subscription_template_id" class="field_sub_template_id" attrs="{'invisible': [('recurring_invoice', '=', False)]}"/>
+                    <field name="subscription_type" attrs="{'invisible': [('recurring_invoice', '=', False)]}"/>
+                    <field name="subscription_discount_type" attrs="{'invisible': [('recurring_invoice', '=', False)]}" widget="radio"/>
+                    <field name="subscription_discount" attrs="{'invisible': [('recurring_invoice', '=', False)]}"/>
+                    <field name="no_adults" attrs="{'invisible': ['|', ('subscription_type', '!=', 'family'), ('recurring_invoice', '=', False)]}" />
+                    <field name="no_youths" attrs="{'invisible': ['|', ('subscription_type', '!=', 'family'), ('recurring_invoice', '=', False)]}" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

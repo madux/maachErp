@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eha_service_category_user,eha_service.eha_category_user,model_eha_service_category,eha_service.group_user,1,1,1,0
+access_eha_service_service_user,eha_service.eha_service_user,model_eha_service_service,eha_service.group_user,1,1,1,0
+access_eha_service_category_manager,eha_service.eha_category_manager,model_eha_service_category,eha_service.group_manager,1,1,1,1
+access_eha_service_service_manager,eha_service.eha_service_manager,model_eha_service_service,eha_service.group_manager,1,1,1,1

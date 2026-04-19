@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_subscription_custom_package_form_inherit">
+        <field name="name">sale.order.custom.package.form.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_subscription_extension.view_subscription_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='membership_roles']" position="before">
+                <group string="Custom Package" name="custom_package">
+                    <field name="custom_package_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="qty"/>
+                            <field name="product_id"/>
+                            <field name="categ_id"/>
+                            <field name="price"/>
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

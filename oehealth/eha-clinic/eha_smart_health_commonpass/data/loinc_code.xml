@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="loinc_code_94503-0" model="loinc.code">
+            <field name="name">94503-0</field>
+            <field name="description">SARS-CoV-2 (COVID-19) Ab panel - Serum, Plasma or Blood by Rapid immunoassay</field>
+        </record>
+
+        <record id="loinc_code_94559-2" model="loinc.code">
+            <field name="name">94559-2</field>
+            <field name="description">SARS-CoV-2 (COVID-19) ORF1ab region [Presence] in Respiratory specimen by NAA with probe detection</field>
+        </record>
+
+        <record id="loinc_code_94558-4" model="loinc.code">
+            <field name="name">94558-4</field>
+            <field name="description">SARS-CoV-2 (COVID-19) Ag [Presence] in Respiratory specimen by Rapid immunoassay</field>
+        </record>
+
+    </data>
+</odoo>

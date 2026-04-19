@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+    <odoo>
+        <record id="oeh_medical_healthcenters_pharmacy_view_ext" model="ir.ui.view">
+            <field name="name">Single Invoice Extensions to Pharmacy Prescription Form</field>
+            <field name="model">oeh.medical.health.center.pharmacy</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_healthcenters_pharmacy_view"/>
+            <field name="arch" type="xml">
+                <button name="action_prescription_invoice_create" position="replace">
+                    <button name="action_prescription_invoice_create" 
+                    states="Draft" string="Access Sale Order" type="object" class="oe_highlight"/>
+                </button>
+            </field>
+        </record>
+
+        <record id="oeh_medical_prescription_view_ext" model="ir.ui.view">
+            <field name="name">Single Invoice Extensions to Prescription Form</field>
+            <field name="model">oeh.medical.prescription</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_prescription_view"/>
+            <field name="arch" type="xml">
+                <button name="action_prescription_invoice_create" position="attributes">
+                    <attribute name="invisible">1</attribute>                   
+                </button>
+            </field>
+        </record>
+        	
+    </odoo>
+
+            

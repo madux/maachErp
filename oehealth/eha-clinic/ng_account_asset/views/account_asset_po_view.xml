@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+
+		<record model="ir.ui.view" id="view_account_line_po_asset_form">
+			<field name="name">po.line.form</field>
+			<field name="model">purchase.order.line</field>
+			<field name="inherit_id" ref="purchase.purchase_order_line_form2" />
+			<field name="arch" type="xml">
+				<field name="price_unit" position="after">
+					<field name="asset_category_id" />
+				</field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="purchase_order_form_asset_cat">
+			<field name="name">account.move.supplier.form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_qty']" position="after">
+					<field name="asset_category_id" />
+				</xpath>
+			</field>
+		</record>
+
+	</data>
+</odoo>

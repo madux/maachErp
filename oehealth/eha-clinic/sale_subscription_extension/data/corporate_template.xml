@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default Subscription Templates -->
+    <data noupdate="1">
+        <record id="yearly_corporate_subscription" model="sale.order">
+            <field name="name">Corporate Subscription</field>
+            <field name="code">CORP - Membership Yearly</field>
+            <field name="recurring_interval">1</field>
+            <field name="recurring_rule_type">yearly</field>
+            <field name="payment_mode">success_payment</field>
+            <field name="user_closable">True</field>
+            <field name="partner_id" eval="1"/> 
+        </record>
+    </data>
+</odoo>

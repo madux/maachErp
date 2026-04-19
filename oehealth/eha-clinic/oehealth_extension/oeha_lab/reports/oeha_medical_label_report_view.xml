@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report id="oeha_action_sample_label" string="Print Sample Label" model="oeh.medical.lab.test"
+        report_type="qweb-pdf" name="oehealth_extension.report_sample_label"/>
+
+    <template id="report_sample_label">
+        <!--<t t-call="web.html_container">-->
+            <t t-call="web.basic_layout">
+                <div class="page" >
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="text-right" >
+                            <span t-esc="datetime.datetime.strftime(doc.date_requested, '%d %b %Y')" style="margin-top:15px;display:inline-block;" />
+                            <!-- <span t-field="doc.formatted_time" style="margin-top:15px;display:inline-block;" /> -->
+                            <div class="text-right" style="margin-right:-30px">
+                                <!--<span t-field="doc.qr_image" t-options="{'widget': 'image'}" class="media-object"/>-->
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.identification_code, 150, 40)"/>
+                            </div>
+                            <span t-field="doc.identification_code" /><br/>
+                            <span t-field="doc.patient.firstname" /> <span t-field="doc.patient.lastname" /> <span t-field="doc.patient.lastname2" /><br/>
+                            <span t-esc="datetime.datetime.strftime(doc.patient.dob, '%d %b %Y')" />
+                        </div>
+                    </t>                    
+                </div>
+            </t>
+        <!--</t>-->
+    </template>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="ir.ui.view" id="wizard_confirm_nitp_appt_form_inherit">
+            <field name="name">wizard.confirm.nitp.appointment.calendar</field>
+            <field name="model">wizard.confirm.nitp.appointment</field>
+            <field name="inherit_id" ref="oehealth_extension.wizard_confirm_nitp_appt_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Book Appointment">
+                        <group>
+                            <group>
+                                <field name = "eha_service_location_id" string = "Location" />
+                                <field name = "service_id" required="1" attrs="{'invisible': [('eha_service_location_id', '=', False)]}"/>
+                                <newline />
+                            </group>
+                            <group>
+                                            
+                                <field name="cif_ids" invisible="1"/>
+                            </group>
+                        </group>
+                
+                        <newline/>
+                        <footer>
+                            <button name="action_confirm_appointment" type="object" class="oe_highlight" string="Confirm" />
+                            <button special="cancel" class="" string="Close" />
+                        </footer>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

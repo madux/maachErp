@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="family_standard" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/family-standard-membership</field>
+            <field name="view_id" ref="sale_subscription_extension.template_family_standard_pricing"/>
+        </record>
+
+        <record id="family_premium" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/family-premium-membership</field>
+            <field name="view_id" ref="sale_subscription_extension.template_family_premium_pricing"/>
+        </record>
+
+        <record id="family_premium_international" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/family-premium-international-membership</field>
+            <field name="view_id" ref="sale_subscription_extension.template_family_prem_international_pricing"/>
+        </record>
+
+        <record id="second_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/membership-step1</field>
+            <field name="view_id" ref="sale_subscription_extension.t_secondpage"/>
+        </record>
+
+        <record id="third_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/membership-step2</field>
+            <field name="view_id" ref="sale_subscription_extension.t_thirddpage"/>
+        </record>
+
+        <record id="fourth_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/membership-step3</field>
+            <field name="view_id" ref="sale_subscription_extension.t_fourthpage"/>
+        </record>
+
+        <record id="final_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/buymembership-final</field>
+            <field name="view_id" ref="sale_subscription_extension.t_finalpage"/>
+        </record>
+
+    </data>
+</odoo>

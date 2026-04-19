@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_update_all_from_api" model="ir.cron">
+    <field name="name">Update All (Substation, District, Feeder)</field>
+    <field name="model_id" ref="model_feeder_config"/>
+    <field name="state">code</field>
+    <field name="code">
+model.update_substation_from_api()
+model.update_district_from_api()
+model.update_feeder_from_api()
+    </field>
+    <field name="interval_number">2</field>
+    <field name="interval_type">days</field>
+    <field name="numbercall">-1</field>
+    <field name="doall" eval="False"/>
+    <field name="priority">1</field>
+    <field name="nextcall">2024-02-12 06:00:00</field>
+</record> 
+
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--inherit and modify web standard report template-->
+<odoo>
+    <template id="external_layout_standard_extension" inherit_id="web.external_layout_standard">
+        <!-- <xpath expr="//div[@t-attf-class='footer o_standard_footer o_company_#{company.id}_layout']/div[@class='text-center']/ul/li[@t-if='company.email']" position="replace"> -->
+         <xpath expr="//div[@t-attf-class='footer o_standard_footer o_company_#{company.id}_layout']/div[hasclass='text-center']/ul" position="replace">
+             <li class="list-inline-item">Email: hr_ehaclinics@eha.ng</li>
+        </xpath>
+    </template>
+
+    <template id="external_layout_extension">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <t t-if="company.external_report_layout_id" t-call="{{company.external_report_layout_id.key}}"><t t-raw="0"/></t>
+        <t t-else="else" t-call="external_layout_standard_extension"><t t-raw="0"/></t>
+
+    </template>
+
+</odoo>

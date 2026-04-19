@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="ir.ui.view" id="booking_services_location_form_view">
+            <field name="name">eha.branch</field>
+            <field name="model">eha.branch</field>
+            <field name="inherit_id" ref="eha_multi_branch.view_eha_branch_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_testcenter']" position="after">
+                    <field name = "is_pcr" string="Is PCR center" attrs="{'invisible': [('is_testcenter', '=', False)]}"/>
+                    <field name = "is_antigen" string="Is Antigen Center" attrs="{'invisible': [('is_testcenter', '=', False)]}"/>
+                    <field name = "is_antibody" string="Is Antibody Center" attrs="{'invisible': [('is_testcenter', '=', False)]}"/>
+                    <field name = "is_hsc" string="Is HSC center" attrs="{'invisible': [('is_testcenter', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//group" position="after">
+                    <notebook>
+                        <page string="Services">
+                            <field name = "service_ids" attrs="{'invisible': [('is_testcenter', '=', False)]}">
+                                <tree string="Services" editable ="bottom">
+                                    <field name = "is_covid_service" required ="1" widget="handle"/>
+                                    <field name = "name" required ="1"/>
+                                    <field name = "service_providers" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="eCommerce">
+                            <form string=" ">
+                                <sheet>
+                                    <group cols="4">
+                                        <group>
+                                            <field name="is_online_store" required="0"/>
+                                            <field name="alias_display" required="0"/>
+                                        </group>
+                                        <group>
+                                            <field name="pricelist_id"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                        </page>
+                    </notebook>
+                </xpath>
+                
+            </field>
+        </record>
+        
+    </data>
+</odoo>

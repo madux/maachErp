@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_batch_payslip_emailing" model="ir.ui.view">
+        <field name="name">Email Payslip In Batch</field>
+        <field name="model">batch.payslip.emailing</field>
+        <field name="arch" type="xml">
+            <form string="Batch Payslip Emailing">
+                <group>
+                    <separator
+                        string="Are you sure to email payslip to the selected employees ?"
+                        colspan="4"/>
+                </group>
+                <footer>                        
+                    <button name="batch_payslip_emailing" string="Send Payslip(s)"
+                        type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link"
+                        special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- <act_window id="batch_payslip_emailing_action"
+            name="Batch Payslip Emailing"
+            res_model="batch.payslip.emailing"
+            binding_model="hr.payslip"
+            view_mode="form"
+            target="new"/> -->
+
+    <record id="batch_payslip_emailing_action" model="ir.actions.act_window">
+            <field name="name">Batch Payslip Emailing</field>
+            <field name="res_model">batch.payslip.emailing</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+            <field name="target">new</field>
+        </record>
+    
+</odoo>
+

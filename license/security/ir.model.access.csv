@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_admin_subscription_users,subscription_users.admin,model_subscription_users,base.group_system,1,1,1,1
+access_admin_subscription_model,subscription_model.admin,model_subscription_model,base.group_system,1,1,1,1
+access_user_subscription_model,subscription_model.user,model_subscription_model,base.group_user,1,0,0,0
+access_hope_subscription_request_admin,hope.subscription.request admin,model_hope_subscription_request,base.group_system,1,1,1,1
+access_hope_subscription_request_user,hope.subscription.request user,model_hope_subscription_request,base.group_user,1,0,0,0

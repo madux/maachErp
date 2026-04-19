@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="eha_warehouse_product_view_product_form" model="ir.ui.view">
+            <field name="name">eha.warehouse.product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_lots_and_weight']" position="after">
+                    <!-- <group string="Warehouse Operations" name="warehouse_operations" attrs="{'invisible': [('default_code', '=', 'Warehouse')]}"> -->
+                    <group string="Warehouse Operations" name="warehouse_operations">
+                        <field name="associated_warehouse_product_id" domain="[('default_code','=','Warehouse')]" attrs="{'invisible': [('type', 'in', ['service', 'digital'])]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

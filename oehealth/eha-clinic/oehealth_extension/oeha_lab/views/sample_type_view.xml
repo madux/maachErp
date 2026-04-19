@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+    <odoo>
+        <data>
+        <record model="ir.ui.view" id="view_oeha_oeha_sample_type_tree">
+            <field name="name">SAMPLE LIST</field>
+            <field name="model">oeha.sample.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Sample Type'>
+                    <field name="name"/>
+                    <field name="related_test_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_oeha_oeha_sample_type_form">
+            <field name="name">oeha.sample.type.form</field>
+            <field name="model">oeha.sample.type</field>
+            <!--  -->
+            <field name="arch" type="xml">
+                <form string="Sample Type">
+                    <sheet>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Sample Name" />
+                            <h1><field name="name" class="oe_inline" required="1" readonly="0"/></h1>
+                        </div>
+                        <group name="outer">
+                            <group name="left">
+                                <field name="related_test_type" widget="many2many_tags" invisible="0" required="1" readonly="0" options="{'no_create': True, 'no_open': True}"/>
+                            </group> 
+
+                            <group name="right">
+                                
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_oeha_sample_type_action" model="ir.actions.act_window">
+            <field name="name">Sample type</field>
+            <field name="res_model">oeha.sample.type</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new record.
+                </p>
+            </field>
+        </record>
+
+        
+        <menuitem action="view_oeha_sample_type_action" name="Sample Type"
+            id="view_oeha_sample_type_menu" parent="oehealth.oeh_medical_conf_laboratory"
+            sequence="20"
+        />
+        </data>
+    </odoo>

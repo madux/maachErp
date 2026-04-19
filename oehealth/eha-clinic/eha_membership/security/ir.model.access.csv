@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eha_membership_user,eha.membership user,model_eha_membership,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_line_user,eha.membership.line user,model_eha_membership_line,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_plan_user,eha.membership.plan user,model_eha_membership_plan,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_plan_line_user,eha.membership.plan.line user,model_eha_membership_plan_line,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_plan_benefits_user,eha.membership.plan.benefits user,model_eha_membership_plan_benefits,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_category_user,eha.membership.category user,model_eha_membership_category,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_beneficiaries_user,eha.membership.beneficiaries user,model_eha_membership_beneficiaries,eha_membership.group_eha_membership_user,1,1,1,1
+access_eha_membership_dependents_user,eha.membership.dependents_user,model_eha_membership_dependents,eha_membership.group_eha_membership_user,1,1,1,1

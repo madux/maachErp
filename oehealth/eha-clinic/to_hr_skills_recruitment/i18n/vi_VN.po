@@ -1,0 +1,186 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* to_hr_skills_recruitment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-12 08:37+0000\n"
+"PO-Revision-Date: 2020-02-12 08:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model,name:to_hr_skills_recruitment.model_hr_applicant
+msgid "Applicant"
+msgstr "Ứng viên"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields.selection,name:to_hr_skills_recruitment.selection__hr_applicant_resume_line__display_type__classic
+msgid "Classic"
+msgstr "Cổ điển"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__create_uid
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__create_uid
+msgid "Created by"
+msgstr "Được tạo bởi"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__create_date
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__date_end
+msgid "Date End"
+msgstr "Đến ngày"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__date_start
+msgid "Date Start"
+msgstr "Từ ngày"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__description
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.applicant_resume_line_view_form
+msgid "Description"
+msgstr "Mô tả"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__display_name
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__display_type
+msgid "Display Type"
+msgstr "Kiểu hiển thị"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__hr_applicant_id
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__hr_applicant_id
+msgid "Hr Applicant"
+msgstr "Ứng viên"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__id
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__id
+msgid "ID"
+msgstr "ID"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line____last_update
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill____last_update
+msgid "Last Modified on"
+msgstr "Sửa đổi lần cuối vào"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__write_uid
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__write_uid
+msgid "Last Updated by"
+msgstr "Cập nhật lần cuối bởi"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__write_date
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lần cuối vào"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__level_progress
+msgid "Progress"
+msgstr "Phát triển"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,help:to_hr_skills_recruitment.field_hr_applicant_skill__level_progress
+msgid "Progress from zero knowledge (0%) to fully mastered (100%)."
+msgstr "Phát triển hiểu biết (0%) cho đến làm chủ hoàn toàn (100%)."
+
+#. module: to_hr_skills_recruitment
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.applicant_resume_line_view_form
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.hr_applicant_view_form
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.hr_applicant_view_search_bis
+msgid "Resumé"
+msgstr "Sơ yếu lý lịch"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model,name:to_hr_skills_recruitment.model_hr_applicant_resume_line
+msgid "Resumé line of an applicant"
+msgstr "Sơ yếu lý lịch của ứng viên"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant__resume_line_ids
+msgid "Resumé lines"
+msgstr "Sơ yếu lý lịch"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__skill_id
+msgid "Skill"
+msgstr "Kỹ năng"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__skill_level_id
+msgid "Skill Level"
+msgstr "Cấp độ kỹ năng"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_skill__skill_type_id
+msgid "Skill Type"
+msgstr "Kiểu kỹ năng"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model,name:to_hr_skills_recruitment.model_hr_applicant_skill
+msgid "Skill level for an applicant"
+msgstr "Cấp độ kỹ năng cho ứng viên"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant__applicant_skill_ids
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.applicant_skill_view_form
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.hr_applicant_view_form
+msgid "Skills"
+msgstr "Kỹ năng"
+
+#. module: to_hr_skills_recruitment
+#: code:addons/to_hr_skills_recruitment/models/hr_applicant_skill.py:0
+#, python-format
+msgid "The skill %s and skill type %s doesn't match"
+msgstr "Kỹ năng %s và loại kỹ năng %s không khớp"
+
+#. module: to_hr_skills_recruitment
+#: code:addons/to_hr_skills_recruitment/models/hr_applicant_skill.py:0
+#, python-format
+msgid "The skill level %s is not valid for skill type: %s "
+msgstr "Cấp độ kỹ năng %s không hợp lệ đối với loai kỹ năng: %s"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.constraint,message:to_hr_skills_recruitment.constraint_hr_applicant_resume_line_date_check
+msgid "The start date must be anterior to the end date."
+msgstr "Ngày bắt đầu phải trước ngày kết thúc."
+
+#. module: to_hr_skills_recruitment
+#: model_terms:ir.ui.view,arch_db:to_hr_skills_recruitment.applicant_resume_line_view_form
+msgid "Title"
+msgstr "Tiêu đề"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.constraint,message:to_hr_skills_recruitment.constraint_hr_applicant_skill__unique_skill
+msgid "Two levels for the same skill is not allowed"
+msgstr "Hai cấp độ cho cùng một kỹ năng không được phép"
+
+#. module: to_hr_skills_recruitment
+#: model:ir.model.fields,field_description:to_hr_skills_recruitment.field_hr_applicant_resume_line__line_type_id
+msgid "Type"
+msgstr "Kiểu"

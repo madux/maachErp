@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+    <odoo>
+        <record id="oeh_medical_vaccine_view_ext" model="ir.ui.view">
+            <field name="name">Vaccine Form Extension</field>
+            <field name="model">oeh.medical.vaccines</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_vaccine_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='dose']" position="before">
+                    <field name="site" string="Site" required="0"/>
+                    <field name="route" string="Route" required="0"/>
+
+                </xpath>
+                <xpath expr="//field[@name='doctor']" position="replace">
+                    <field name="care_provider" string="Care Provider" required="1" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="oeh_medical_vaccine_tree_ext" model="ir.ui.view">
+            <field name="name">Vaccine Tree Extension</field>
+            <field name="model">oeh.medical.vaccines</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_vaccine_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='doctor']" position="replace">
+                    <field name="care_provider" string="Care Provider"/>
+                    <field name="site" string="Site" required="0"/>
+                    <field name="route" string="Route" required="0"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_medical_vaccine_filter_ext" model="ir.ui.view">
+            <field name="name">Vaccine Search Extension</field>
+            <field name="model">oeh.medical.vaccines</field>
+            <field name="inherit_id" ref="oehealth.view_medical_vaccine_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='doctor']" position="replace">
+                    <field name="care_provider" string="Care Provider"/>
+                </xpath>
+                <filter name="group_doctor" position="replace">
+                    <filter string="Care Provider" name="group_care_provider" domain="[]"	context="{'group_by':'care_provider'}" />
+                </filter>
+            </field>
+        </record>
+
+    </odoo>

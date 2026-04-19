@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+    <odoo>
+
+        <record id="merge_patient_migration_form_wizard" model="ir.ui.view">
+            <field name="name">oeha.merge.patient</field>
+            <field name="model">oeha.merge.patient</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+                    <group>
+                        <field name="patientid_to_keep"/>
+                    </group>
+                    <group>
+                        <field name="patientid_to_archive"/>
+                    </group>
+                    <footer>
+                        <button name="merge_records" string="Merge" confirm="Are you sure?" type="object"  class="oe_highlight" />
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_oeha_merge_patient_action" model="ir.actions.act_window">
+            <field name="name">Merge Patient Record</field>
+            <field name="res_model">oeha.merge.patient</field>
+            <field name="view_mode">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a new record.
+                </p>
+            </field>
+        </record>
+        
+        <!-- <act_window id="merge_patient_record_action"
+            name="Merge Patient Record"
+            res_model="oeha.merge.patient"
+            binding_model="oeh.medical.patient"
+            view_mode="form"
+            target="new"/> -->
+
+        <record id="merge_patient_record_action" model="ir.actions.act_window">
+            <field name="name">Merge Patient Record</field>
+            <field name="res_model">oeh.medical.patient</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_cif_mail_type': '', 'default_appointment_booking': False, 'is_individual_mail': False}</field>
+            <field name="binding_model_id" ref="oehealth.model_oeh_medical_lab_test"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="view_oeha_merge_patient_action" name="Merge Patient Records"
+            id="view_oeha_merge_patient_menu" parent="oehealth.oeh_medical_patients_menu" sequence="7"
+        />
+
+    </odoo>

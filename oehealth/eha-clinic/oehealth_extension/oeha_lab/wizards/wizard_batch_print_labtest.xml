@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="wizard_batch_print_labtest" model="ir.ui.view">
+            <field name="name">wizard.batch.print.labtest.form</field>
+            <field name="model">wizard.batch.print.labtest</field>
+            <field name="arch" type="xml">
+                <form string="Batch Print Labtest">
+                    <header>
+                            Batch Print Labtests
+                    </header>
+                    <group>
+                       <group>
+                            <!-- branch was added via multi branch <field name="branch_id"  options="{'no_create': True, 'no_open': True}"/> -->
+                            <field name="branch_id" required="1" options="{'no_create': True, 'no_open': True}" />
+                            <field name="date_from" required="1" />
+                            <field name="date_to" required="1"/>
+                            <field name="target" required="1" />
+                       </group>
+                       <group/>
+                    </group>
+
+                    <footer>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                        <button name="action_filter_labtest" string="Proceed" type="object"  class="oe_highlight" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_batch_print_labtest" model="ir.actions.act_window">
+            <field name="name">Batch Print Labtest</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.batch.print.labtest</field>
+
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_wizard_batch_print_labtest" name="Batch Print COVID-19 Sample Label" sequence="17" parent="oehealth.oeh_medical_laboratory_menu" action="action_wizard_batch_print_labtest"/>
+
+    </data>
+</odoo>

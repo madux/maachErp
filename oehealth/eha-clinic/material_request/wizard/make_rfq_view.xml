@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="create_rfq_wizard_form">
+            <field name="name">create.rfq.wizard.form</field>
+            <field name="model">create.requisition</field>
+            <field name="arch" type="xml">
+                <form string="Create RFQ">
+                    <group col="2">
+                         <field name="partner_id" context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':0}" domain="[]"/>
+                     </group>
+                    <footer>
+                        <button string="Create" confirm="Are you sure ? Do not forget to assign approved qty" name="create_draft_rfq" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_create_rfq_wizard" model="ir.actions.act_window">
+            <field name="name">Create RFQ</field>
+            <field name="res_model">create.requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="create_rfq_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.ui.view" id="create_purchase_wizard_form">
+            <field name="name">create.purchase.wizard.form</field>
+            <field name="model">create.requisition</field>
+            <field name="arch" type="xml">
+                <form string="Create RFQ">
+                    <group>
+                         <field name="partner_id" context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':0}" domain="[]"/>
+                     </group>
+                    <footer>
+                        <button string="Create" confirm="Are you sure ?.Do not forget to assign approved qty" name="create_purchase_order" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_create_purchase_wizard" model="ir.actions.act_window">
+            <field name="name">Create Purchase Order</field>
+            <field name="res_model">create.requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="create_purchase_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

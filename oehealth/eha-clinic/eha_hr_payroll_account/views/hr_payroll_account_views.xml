@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <!-- <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+            <field name="name">eha.hr.contract.view.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll_account.hr_contract_view_form" />
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="after">
+                    <field name="analytic_tag_ids" widget="many2many_tags" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]" groups="analytic.group_analytic_accounting"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="hr_salary_rule_view_form_inherit" model="ir.ui.view">
+            <field name="name">eha.hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll_account.hr_salary_rule_view_form"/>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="after">
+                    <field name="analytic_tag_ids" widget="many2many_tags" groups="analytic.group_analytic_accounting"/>
+                </field>
+            </field>
+        </record> -->
+
+    </data>
+</odoo>

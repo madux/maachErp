@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template inherit_id='product_batch_report.product_batch_report_template' id="eha_product_batch_report_template" >
+        <xpath expr='//thead/t[3]' position='after'>
+            <th>Quantity</th>
+        </xpath>
+        <xpath expr="//tbody/t[1]/tr[@t-foreach='heading']/tr[@t-foreach='values']//td[4]" position='after'>
+            <td align="left">
+                <span t-esc="doc2['product_qty']"></span>
+            </td>
+        </xpath>
+        <xpath expr="//tbody/t[2]/tr[@t-foreach='values']//td[3]" position='after'>
+            <td align="left">
+                <span t-esc="doc2['product_qty']"></span>
+            </td>
+        </xpath>
+        <xpath expr='//thead/t[1]' position='replace'>
+            <t>
+                <th>Product</th>
+            </t>
+        </xpath>
+        <xpath expr="//tbody/t[2]/tr[@t-foreach='values']//td[1]" position='before'>
+            <td align="left">
+                <span t-esc="doc2['product']"></span>
+            </td>
+        </xpath>
+    </template>
+</odoo>

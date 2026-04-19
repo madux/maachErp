@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-extend="eha_website_sale.get_prescription">
+        <t t-jquery="#telehealth_book" t-operation="after">
+            <button href="#telehealthModal" class="btn btn-primary">BOOK TELEHEALTH CONSULTATION</button>
+        </t>
+    </t>
+</templates>

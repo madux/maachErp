@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <data noupdate="1">
+        <record model="sale.subscription.plan" id="data_subscription_plan_standard">
+            <field name="name">Standard</field>
+            <field name="description">Growth and Development;Illness Prevention;Sick Visits;</field>
+        </record>
+
+        <record model="sale.subscription.plan" id="data_subscription_plan_premium">
+            <field name="name">Premium</field>
+            <field name="description">Illness Prevention;Growth and Development;Illness Prevention;</field>
+        </record>
+
+        <record model="sale.subscription.plan" id="data_subscription_plan_international">
+            <field name="name">International</field>
+            <field name="description">Growth;Illness Prevention;Sick Visits;</field>
+        </record>
+    </data>
+
+</odoo>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         1c.  REGISTRATION PAGE
+         ══════════════════════════════════════════════════════════════════════ -->
+    
+    <template id="maacherp_login_page" name="MaachERP–Login">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div id="hc-register-root">
+
+                <div class="hc-particles" aria-hidden="true">
+                    <span/><span/><span/><span/><span/>
+                    <span/><span/><span/><span/><span/>
+                </div>
+
+                <div class="hc-register-card">
+                    <!-- Header -->
+                    <div class="hc-register-header">
+                        <div class="hc-icon-wrap hc-icon-register">
+                            <i class="fa fa-user-plus"/>
+                        </div>
+                        <h1 class="hc-title">Login</h1>
+                        <p class="hc-subtitle">Login to get started</p>
+                    </div>
+
+                    <!-- Global error -->
+                    <t t-if="errors and errors.get('general')">
+                        <div class="hc-alert hc-alert-danger">
+                            <i class="fa fa-exclamation-triangle me-2"/>
+                            <t t-esc="errors['general']"/>
+                        </div>
+                    </t>
+
+                    <form action="/maacherp/autologin" method="POST"
+                          id="hc-login-form" novalidate="novalidate">
+
+                        <input type="hidden" name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+
+                        <!-- ── Row 1:  Database ────────────────── -->
+                        <div class="hc-form-row">
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="company_name">
+                                    <i class="fa fa-building me-1"/> Company Name
+                                </label>
+                                <input type="text" id="company_name" name="company_name"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('company_name','') if form_data else company_name if company_name else ''"
+                                       placeholder="Hope Children Foundation"
+                                       readonly="true"/>
+                                <t t-if="errors and errors.get('company_name')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['company_name']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="database_name">
+                                    <i class="fa fa-database me-1"/> Database Name
+                                </label>
+                                <input type="text" id="database_name" name="database_name"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('database_name','') if form_data else db_name if db_name else ''"
+                                       placeholder="hope_children"
+                                       required="required"
+                                       readonly="true"/>
+                                <t t-if="errors and errors.get('database_name')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['database_name']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Row 2: Username | Email ───────────────────── -->
+                        <div class="hc-form-row">
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="username">
+                                    <i class="fa fa-user me-1"/> Username
+                                </label>
+                                <input type="text" id="username" name="username"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('username','') if form_data else ''"
+                                       placeholder="admin"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('username')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['username']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group hc-password-wrap">
+                                <label class="hc-label" for="password">
+                                    <i class="fa fa-lock me-1"/> Password
+                                </label>
+                                <div class="hc-input-icon-right">
+                                    <input type="password" id="password" name="password"
+                                           class="hc-input"
+                                           placeholder="Min. 8 characters"
+                                           required="required"/>
+                                    <i class="fa fa-eye hc-toggle-pwd" data-target="#password"/>
+                                </div>
+                                <t t-if="errors and errors.get('password')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['password']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Submit ────────────────────────────────────── -->
+                        <button type="submit" class="hc-btn hc-btn-primary hc-btn-full"
+                                id="hc-login-submit">
+                            <i class="fa fa-paper-plane me-2"/>
+                            Login
+                        </button>
+
+                        <p class="hc-footer-note mt-3">
+                            Already have a key?
+                            <a href="/maacherp/register">Register here</a>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template> 
+
+</odoo>

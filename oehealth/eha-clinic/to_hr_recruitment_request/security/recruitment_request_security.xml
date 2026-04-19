@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="to_hr_recruitment_request.group_user" model="res.groups">
+			<field name="name">Recruitment Request Users</field>
+			<field name="category_id" ref="base.module_category_human_resources_recruitment" />
+			<field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+			<field name="comment">the user will be able to create recruitment
+				requests and submit them to the approvers
+			</field>
+		</record>
+		<record id="hr_recruitment.group_hr_recruitment_user" model="res.groups">
+			<field name="implied_ids" eval="[(4, ref('to_hr_recruitment_request.group_user'))]" />
+		</record>
+	</data>
+
+	<!-- Records Rules -->
+	<data>
+		<record id="property_rule_hr_applicant_recruitment_request_user"
+			model="ir.rule">
+			<field name="name">Personal HR Applicants Recruitment Request Rule
+			</field>
+			<field name="model_id" ref="hr_recruitment.model_hr_applicant" />
+			<field name="domain_force">['|','|',('request_id.user_id','=',user.id),('department_id.manager_id.user_id','=',user.id),('job_id.department_id.manager_id.user_id','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('to_hr_recruitment_request.group_user'))]" />
+		</record>
+
+		<record id="property_rule_recruitment_request_hr_usr_hr_manager"
+			model="ir.rule">
+			<field name="name">Recruitment Request HR Officer Rule</field>
+			<field name="model_id" ref="model_hr_recruitment_request" />
+			<field name="domain_force">[('state','in',['accepted','done','recruiting'])]
+			</field>
+			<field name="groups"
+				eval="[(4,ref('hr_recruitment.group_hr_recruitment_user'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		
+		<record id="property_rule_hr_applicant_group_hr_recruitment_user"
+			model="ir.rule">
+			<field name="name">HR Applicant Officer</field>
+			<field name="model_id" ref="model_hr_applicant" />
+			<field name="domain_force">[(1,'=',1)]
+			</field>
+			<field name="groups"
+				eval="[(4,ref('hr_recruitment.group_hr_recruitment_user'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="1" />
+		</record>
+		
+		<record id="property_rule_recruitment_request_user" model="ir.rule">
+			<field name="name">Personal Recruitment Request Rule</field>
+			<field name="model_id" ref="model_hr_recruitment_request" />
+			<field name="domain_force">[('user_id','=',user.id)]</field>
+			<field name="groups" eval="[(4,ref('to_hr_recruitment_request.group_user'))]" />
+		</record>
+		<record id="property_rule_recruitment_request_approver" model="ir.rule">
+			<field name="name">Recruitment Request Approver Rule</field>
+			<field name="model_id" ref="model_hr_recruitment_request" />
+			<field name="domain_force">[('state','!=','draft')]</field>
+			<field name="groups"
+				eval="[(4,ref('hr_recruitment.group_hr_recruitment_manager'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="1" />
+			<field name="perm_create" eval="1" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+		<record id="hr_recruitment_request_comp_rule" model="ir.rule">
+			<field name="name">Recruitment Request multi company rule</field>
+			<field name="model_id" ref="model_hr_recruitment_request" />
+			<field name="global" eval="True" />
+			<field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]
+			</field>
+		</record>
+		<record id="hr_recruitment_request_follower_rule" model="ir.rule">
+			<field name="name">Recruitment Request followers rule</field>
+			<field name="model_id" ref="model_hr_recruitment_request" />
+			<field name="global" eval="True" />
+			<field name="domain_force">['|',('message_partner_ids','in',[user.partner_id.id]),('message_channel_ids', 'in', user.partner_id.channel_ids.ids)]</field>
+			<field name="groups" eval="[(4,ref('to_hr_recruitment_request.group_user'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+		</record>
+	</data>
+
+	<data>
+		<record id="hr_recruitment.menu_hr_recruitment_root" model="ir.ui.menu">
+			<field name="groups_id" eval="[(4,ref('to_hr_recruitment_request.group_user'))]" />
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <meta charset="UTF-8">
+  <style>
+    html {
+      font-size: 100%;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    a:focus {
+      outline: thin dotted #333;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -2px;
+    }
+    a:hover,
+    a:active {
+      outline: 0;
+    }
+    input {
+      margin: 0;
+      font-size: 100%;
+      vertical-align: middle;
+      *overflow: visible;
+      line-height: normal;
+    }
+    input::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 20px;
+      color: #333;
+      background-color: #fff;
+    }
+    a {
+      color: #08c;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #005580;
+      text-decoration: underline;
+    }
+    .row {
+      margin-left: -20px;
+      *zoom: 1;
+    }
+    .row:before,
+    .row:after {
+      display: table;
+      content: "";
+      line-height: 0;
+    }
+    .row:after {
+      clear: both;
+    }
+    .span3 {
+      float: left;
+      min-height: 1px;
+      margin-left: 20px;
+      width: 220px;
+    }
+    .container {
+      width: 940px;
+      margin-right: auto;
+      margin-left: auto;
+      *zoom: 1;
+    }
+    .container:before,
+    .container:after {
+      display: table;
+      content: "";
+      line-height: 0;
+    }
+    .container:after {
+      clear: both;
+    }
+    small {
+      font-size: 85%;
+    }
+    h1 {
+      margin: 10px 0;
+      font-family: inherit;
+      font-weight: bold;
+      line-height: 20px;
+      color: inherit;
+      text-rendering: optimizelegibility;
+      line-height: 40px;
+      font-size: 38.5px;
+    }
+    h1 small {
+      font-weight: normal;
+      line-height: 1;
+      color: #999;
+      font-size: 24.5px;
+    }
+
+    body {
+      margin-top: 90px;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      margin-left: -480px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      padding-top: 10px;
+      z-index: 10;
+    }
+    .footer {
+      color: #ddd;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .footer a {
+      color: #ccc;
+      text-decoration: underline;
+    }
+    .the-icons {
+      font-size: 14px;
+      line-height: 24px;
+    }
+    .switch {
+      position: absolute;
+      right: 0;
+      bottom: 10px;
+      color: #666;
+    }
+    .switch input {
+      margin-right: 0.3em;
+    }
+    .codesOn .i-name {
+      display: none;
+    }
+    .codesOn .i-code {
+      display: inline;
+    }
+    .i-code {
+      display: none;
+    }
+    @font-face {
+      font-family: 'ehaclinics';
+      src: url('./font/ehaclinics.eot?38792330');
+      src: url('./font/ehaclinics.eot?38792330#iefix') format('embedded-opentype'),
+           url('./font/ehaclinics.woff?38792330') format('woff'),
+           url('./font/ehaclinics.ttf?38792330') format('truetype'),
+           url('./font/ehaclinics.svg?38792330#ehaclinics') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
+    .demo-icon {
+      font-family: "ehaclinics";
+      font-style: normal;
+      font-weight: normal;
+      speak: never;
+     
+      display: inline-block;
+      text-decoration: inherit;
+      width: 1em;
+      margin-right: .2em;
+      text-align: center;
+      /* opacity: .8; */
+     
+      /* For safety - reset parent styles, that can break glyph codes*/
+      font-variant: normal;
+      text-transform: none;
+     
+      /* fix buttons height, for twitter bootstrap */
+      line-height: 1em;
+     
+      /* Animation center compensation - margins should be symmetric */
+      /* remove if not needed */
+      margin-left: .2em;
+     
+      /* You can be more comfortable with increased icons size */
+      /* font-size: 120%; */
+     
+      /* Font smoothing. That was taken from TWBS */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+     
+      /* Uncomment for 3D effect */
+      /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+    }
+    </style>
+    <link rel="stylesheet" href="css/animation.css"><!--[if IE 7]><link rel="stylesheet" href="css/" + font.fontname + "-ie7.css"><![endif]-->
+    <script>
+      function toggleCodes(on) {
+        var obj = document.getElementById('icons');
+      
+        if (on) {
+          obj.className += ' codesOn';
+        } else {
+          obj.className = obj.className.replace(' codesOn', '');
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container header">
+      <h1>ehaclinics <small>font demo</small></h1>
+      <label class="switch">
+        <input type="checkbox" onclick="toggleCodes(this.checked)">show codes
+      </label>
+    </div>
+    <div class="container" id="icons">
+      <div class="row">
+        <div class="span3" title="Code: 0xe800">
+          <i class="demo-icon eha-search">&#xe800;</i> <span class="i-name">eha-search</span><span class="i-code">0xe800</span>
+        </div>
+        <div class="span3" title="Code: 0xe801">
+          <i class="demo-icon eha-doctor">&#xe801;</i> <span class="i-name">eha-doctor</span><span class="i-code">0xe801</span>
+        </div>
+        <div class="span3" title="Code: 0xe802">
+          <i class="demo-icon eha-virus">&#xe802;</i> <span class="i-name">eha-virus</span><span class="i-code">0xe802</span>
+        </div>
+        <div class="span3" title="Code: 0xe803">
+          <i class="demo-icon eha-cart">&#xe803;</i> <span class="i-name">eha-cart</span><span class="i-code">0xe803</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe804">
+          <i class="demo-icon eha-plus">&#xe804;</i> <span class="i-name">eha-plus</span><span class="i-code">0xe804</span>
+        </div>
+        <div class="span3" title="Code: 0xe805">
+          <i class="demo-icon eha-user">&#xe805;</i> <span class="i-name">eha-user</span><span class="i-code">0xe805</span>
+        </div>
+        <div class="span3" title="Code: 0xe806">
+          <i class="demo-icon eha-patientfile">&#xe806;</i> <span class="i-name">eha-patientfile</span><span class="i-code">0xe806</span>
+        </div>
+        <div class="span3" title="Code: 0xe807">
+          <i class="demo-icon eha-close">&#xe807;</i> <span class="i-name">eha-close</span><span class="i-code">0xe807</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe808">
+          <i class="demo-icon eha-pregnant">&#xe808;</i> <span class="i-name">eha-pregnant</span><span class="i-code">0xe808</span>
+        </div>
+        <div class="span3" title="Code: 0xe809">
+          <i class="demo-icon eha-medication">&#xe809;</i> <span class="i-name">eha-medication</span><span class="i-code">0xe809</span>
+        </div>
+        <div class="span3" title="Code: 0xe80a">
+          <i class="demo-icon eha-heart">&#xe80a;</i> <span class="i-name">eha-heart</span><span class="i-code">0xe80a</span>
+        </div>
+        <div class="span3" title="Code: 0xe80b">
+          <i class="demo-icon eha-prescription">&#xe80b;</i> <span class="i-name">eha-prescription</span><span class="i-code">0xe80b</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe80c">
+          <i class="demo-icon eha-dental">&#xe80c;</i> <span class="i-name">eha-dental</span><span class="i-code">0xe80c</span>
+        </div>
+        <div class="span3" title="Code: 0xe80d">
+          <i class="demo-icon eha-home">&#xe80d;</i> <span class="i-name">eha-home</span><span class="i-code">0xe80d</span>
+        </div>
+        <div class="span3" title="Code: 0xe80e">
+          <i class="demo-icon eha-patient">&#xe80e;</i> <span class="i-name">eha-patient</span><span class="i-code">0xe80e</span>
+        </div>
+        <div class="span3" title="Code: 0xe80f">
+          <i class="demo-icon eha-ophtalmology">&#xe80f;</i> <span class="i-name">eha-ophtalmology</span><span class="i-code">0xe80f</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe810">
+          <i class="demo-icon eha-telemedicine">&#xe810;</i> <span class="i-name">eha-telemedicine</span><span class="i-code">0xe810</span>
+        </div>
+        <div class="span3" title="Code: 0xe811">
+          <i class="demo-icon eha-pharmacy">&#xe811;</i> <span class="i-name">eha-pharmacy</span><span class="i-code">0xe811</span>
+        </div>
+        <div class="span3" title="Code: 0xe812">
+          <i class="demo-icon eha-heartrate">&#xe812;</i> <span class="i-name">eha-heartrate</span><span class="i-code">0xe812</span>
+        </div>
+        <div class="span3" title="Code: 0xe813">
+          <i class="demo-icon eha-maximize">&#xe813;</i> <span class="i-name">eha-maximize</span><span class="i-code">0xe813</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe814">
+          <i class="demo-icon eha-minimize">&#xe814;</i> <span class="i-name">eha-minimize</span><span class="i-code">0xe814</span>
+        </div>
+        <div class="span3" title="Code: 0xe815">
+          <i class="demo-icon eha-dots">&#xe815;</i> <span class="i-name">eha-dots</span><span class="i-code">0xe815</span>
+        </div>
+        <div class="span3" title="Code: 0xe816">
+          <i class="demo-icon eha-immunization">&#xe816;</i> <span class="i-name">eha-immunization</span><span class="i-code">0xe816</span>
+        </div>
+        <div class="span3" title="Code: 0xe817">
+          <i class="demo-icon eha-down">&#xe817;</i> <span class="i-name">eha-down</span><span class="i-code">0xe817</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe818">
+          <i class="demo-icon eha-left">&#xe818;</i> <span class="i-name">eha-left</span><span class="i-code">0xe818</span>
+        </div>
+        <div class="span3" title="Code: 0xe819">
+          <i class="demo-icon eha-right">&#xe819;</i> <span class="i-name">eha-right</span><span class="i-code">0xe819</span>
+        </div>
+        <div class="span3" title="Code: 0xe81a">
+          <i class="demo-icon eha-up">&#xe81a;</i> <span class="i-name">eha-up</span><span class="i-code">0xe81a</span>
+        </div>
+        <div class="span3" title="Code: 0xe81b">
+          <i class="demo-icon eha-hamburger">&#xe81b;</i> <span class="i-name">eha-hamburger</span><span class="i-code">0xe81b</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe81c">
+          <i class="demo-icon eha-encounter">&#xe81c;</i> <span class="i-name">eha-encounter</span><span class="i-code">0xe81c</span>
+        </div>
+        <div class="span3" title="Code: 0xe81d">
+          <i class="demo-icon eha-height">&#xe81d;</i> <span class="i-name">eha-height</span><span class="i-code">0xe81d</span>
+        </div>
+        <div class="span3" title="Code: 0xe81e">
+          <i class="demo-icon eha-weight">&#xe81e;</i> <span class="i-name">eha-weight</span><span class="i-code">0xe81e</span>
+        </div>
+        <div class="span3" title="Code: 0xe81f">
+          <i class="demo-icon eha-temperature">&#xe81f;</i> <span class="i-name">eha-temperature</span><span class="i-code">0xe81f</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe820">
+          <i class="demo-icon eha-level1">&#xe820;</i> <span class="i-name">eha-level1</span><span class="i-code">0xe820</span>
+        </div>
+        <div class="span3" title="Code: 0xe821">
+          <i class="demo-icon eha-level2">&#xe821;</i> <span class="i-name">eha-level2</span><span class="i-code">0xe821</span>
+        </div>
+        <div class="span3" title="Code: 0xe822">
+          <i class="demo-icon eha-level3">&#xe822;</i> <span class="i-name">eha-level3</span><span class="i-code">0xe822</span>
+        </div>
+        <div class="span3" title="Code: 0xe823">
+          <i class="demo-icon eha-level4">&#xe823;</i> <span class="i-name">eha-level4</span><span class="i-code">0xe823</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe824">
+          <i class="demo-icon eha-checkin">&#xe824;</i> <span class="i-name">eha-checkin</span><span class="i-code">0xe824</span>
+        </div>
+        <div class="span3" title="Code: 0xe825">
+          <i class="demo-icon eha-male">&#xe825;</i> <span class="i-name">eha-male</span><span class="i-code">0xe825</span>
+        </div>
+        <div class="span3" title="Code: 0xe826">
+          <i class="demo-icon eha-neuter">&#xe826;</i> <span class="i-name">eha-neuter</span><span class="i-code">0xe826</span>
+        </div>
+        <div class="span3" title="Code: 0xe827">
+          <i class="demo-icon eha-female">&#xe827;</i> <span class="i-name">eha-female</span><span class="i-code">0xe827</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe828">
+          <i class="demo-icon eha-telehealth">&#xe828;</i> <span class="i-name">eha-telehealth</span><span class="i-code">0xe828</span>
+        </div>
+        <div class="span3" title="Code: 0xe829">
+          <i class="demo-icon eha-drop">&#xe829;</i> <span class="i-name">eha-drop</span><span class="i-code">0xe829</span>
+        </div>
+        <div class="span3" title="Code: 0xe82a">
+          <i class="demo-icon eha-appointment">&#xe82a;</i> <span class="i-name">eha-appointment</span><span class="i-code">0xe82a</span>
+        </div>
+        <div class="span3" title="Code: 0xe82b">
+          <i class="demo-icon eha-lungs">&#xe82b;</i> <span class="i-name">eha-lungs</span><span class="i-code">0xe82b</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe82d">
+          <i class="demo-icon eha-lab">&#xe82d;</i> <span class="i-name">eha-lab</span><span class="i-code">0xe82d</span>
+        </div>
+        <div class="span3" title="Code: 0xe830">
+          <i class="demo-icon eha-arm">&#xe830;</i> <span class="i-name">eha-arm</span><span class="i-code">0xe830</span>
+        </div>
+        <div class="span3" title="Code: 0xe831">
+          <i class="demo-icon eha-abdomen">&#xe831;</i> <span class="i-name">eha-abdomen</span><span class="i-code">0xe831</span>
+        </div>
+        <div class="span3" title="Code: 0xe832">
+          <i class="demo-icon eha-head">&#xe832;</i> <span class="i-name">eha-head</span><span class="i-code">0xe832</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe833">
+          <i class="demo-icon eha-phone">&#xe833;</i> <span class="i-name">eha-phone</span><span class="i-code">0xe833</span>
+        </div>
+        <div class="span3" title="Code: 0xe834">
+          <i class="demo-icon eha-email">&#xe834;</i> <span class="i-name">eha-email</span><span class="i-code">0xe834</span>
+        </div>
+        <div class="span3" title="Code: 0xe835">
+          <i class="demo-icon eha-settings">&#xe835;</i> <span class="i-name">eha-settings</span><span class="i-code">0xe835</span>
+        </div>
+        <div class="span3" title="Code: 0xe836">
+          <i class="demo-icon eha-check-circle">&#xe836;</i> <span class="i-name">eha-check-circle</span><span class="i-code">0xe836</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3" title="Code: 0xe837">
+          <i class="demo-icon eha-circle">&#xe837;</i> <span class="i-name">eha-circle</span><span class="i-code">0xe837</span>
+        </div>
+        <div class="span3" title="Code: 0xe838">
+          <i class="demo-icon eha-fullscreen-enter">&#xe838;</i> <span class="i-name">eha-fullscreen-enter</span><span class="i-code">0xe838</span>
+        </div>
+        <div class="span3" title="Code: 0xe839">
+          <i class="demo-icon eha-fullscreen-exit">&#xe839;</i> <span class="i-name">eha-fullscreen-exit</span><span class="i-code">0xe839</span>
+        </div>
+        <div class="span3" title="Code: 0xe83a">
+          <i class="demo-icon eha-clock">&#xe83a;</i> <span class="i-name">eha-clock</span><span class="i-code">0xe83a</span>
+        </div>
+      </div>
+    </div>
+    <div class="container footer">Generated by <a href="https://fontello.com">fontello.com</a></div>
+  </body>
+</html>

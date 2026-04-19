@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="seq_eha_membership" model="ir.sequence">
+            <field name="name">Membership</field>
+            <field name="code">eha.membership</field>
+            <field name="prefix">/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+    </data>
+</odoo>

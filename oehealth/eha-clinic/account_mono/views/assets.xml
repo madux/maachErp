@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <template id="assets_backend" name="mono assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+             <script type="application/javascript" src="https://connect.withmono.com/connect.js"/>
+            <script type="text/javascript" src="account_mono/static/src/js/mono_widget.js"/>
+        </xpath>
+    </template> -->
+</odoo>
+
+

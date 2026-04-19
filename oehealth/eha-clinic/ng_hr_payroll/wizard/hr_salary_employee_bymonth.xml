@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2016 Tecnativa - Atonio Espinosa
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="action_salary_employee_month" model="ir.actions.act_window">
+        <field name="name">Yearly Salary by Category</field>
+        <field name="res_model">hr.salary.employee.month</field>
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_salary_employee_month" model="ir.ui.view">
+        <field name="name">hr.salary.employee.month</field>
+        <field name="model">hr.salary.employee.month</field>
+        <field name="arch" type="xml">
+            <form string="SEM">
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="category_id"/>
+            </form>
+        </field>
+    </record>
+     
+    <menuitem
+        action="action_salary_employee_month"
+        id="menu_salary_employee_month"
+        name="Yearly Salary by Category"
+        parent="hr.menu_hr_reporting_timesheet"
+        sequence="200"
+    />
+</odoo>

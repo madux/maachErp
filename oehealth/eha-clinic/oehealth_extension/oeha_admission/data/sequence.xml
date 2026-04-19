@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_oeh_medical_admission" model="ir.sequence">
+            <field name="name">Inpatient Admission</field>
+            <field name="code">admission.no</field>
+            <field name="prefix">AD</field>
+            <field name="padding">6</field>
+        </record>
+
+    </data>
+</odoo>

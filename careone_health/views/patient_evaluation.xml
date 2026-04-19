@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_patient_medical_evaluation_tree" model="ir.ui.view">
+        <field name="name">patient.medical.evaluation.tree</field>
+        <field name="model">patient.medical.evaluation</field>
+        <field name="arch" type="xml">
+            <tree string="Patient evaluation">
+                <field name="patient_id"/>
+                <field name="evaluation_no"/>
+                <field name="severity"/>
+                <field name="evaluation_type"/>
+                <field name="chief_complaint"/> 
+                <field name="state"/> 
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_patient_medical_evaluationsearch" model="ir.ui.view">
+        <field name="name">patient.medical.evaluation.search</field>
+        <field name="model">patient.medical.evaluation</field>
+        <field name="arch" type="xml">
+            <search string="Patient search">
+                <field name="patient_id"/>
+                <field name="name"/>
+                <field name="severity"/>
+                <field name="evaluation_type"/>
+                <field name="description"/> 
+            </search>
+        </field>
+    </record>
+
+    <record id="action_patient_medical_evaluation_action" model="ir.actions.act_window">
+        <field name="name">Patient medical evaluation</field>
+        <field name="res_model">patient.medical.evaluation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_patient_evaluation"
+              name="Evaluations"
+              parent="careone_health.menu_clinic_management_patient"
+              action="action_patient_medical_evaluation_action"
+              sequence="10"/>
+              
+</odoo>

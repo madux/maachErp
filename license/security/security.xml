@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- <record id="group_careone_user_account"  model="res.groups">
+        <field name="name">Account Officer</field>
+        <field name="category_id" ref="careone_health.module_category_careoneRole" />
+        <field name="implied_ids" eval="[(4, ref('base.group_system'))]" />
+    </record>  -->
+
+</odoo>

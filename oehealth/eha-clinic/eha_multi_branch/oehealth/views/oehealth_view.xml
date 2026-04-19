@@ -1,0 +1,270 @@
+<odoo>
+    <data>
+
+        <!-- <record id="wizard_confirm_nitp_appt_form" model="ir.ui.view">
+            <field name="name">wizard.confirm.nitp.appointment.form</field>
+            <field name="model">wizard.confirm.nitp.appointment</field>
+            <field name="inherit_id" ref="oehealth_extension.wizard_confirm_nitp_appt_form" />
+            <field name="arch" type="xml">
+                <field name="location" position="after">
+                    <field name="branch_id" attrs="{'invisible': [('location','=', 'others')], 'required': [('location','=', 'abuja-kano')]}" options="{'no_create': True, 'no_open': True}" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="wizard_batch_print_labtest" model="ir.ui.view">
+            <field name="name">wizard.batch.print.labtest.form</field>
+            <field name="model">wizard.batch.print.labtest</field>
+            <field name="inherit_id" ref="oehealth_extension.wizard_batch_print_labtest" />
+            <field name="arch" type="xml">
+                <field name="date_from" position="before">
+                    <field name="branch_id" required="1" options="{'no_create': True, 'no_open': True}" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="oeh_medical_appointment_view" model="ir.ui.view">
+            <field name="name">oeh.medical.appointment.form.extended</field>
+            <field name="model">oeh.medical.appointment</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_appointment_view" />
+            <field name="arch" type="xml">
+                <field name="urgency_level" position="after">
+                    <field string="Branch" name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="oeh_medical_prescription_view" model="ir.ui.view">
+            <field name="name">oeh.medical.prescription.form.extended</field>
+            <field name="model">oeh.medical.prescription</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_prescription_view" />
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field string="Branch" name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="oeh_medical_prescription_tree">
+            <field name="name">Prescription List</field>
+            <field name="model">oeh.medical.prescription</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_prescription_tree" />
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field string="Branch" name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="oeh_medical_lab_test_form" model="ir.ui.view">
+            <field name="name">oeh.medical.lab.test.form.extended</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_form" />
+            <field name="arch" type="xml">
+                <field name="patient" position="before">
+                    <field string="Branch" name="branch_id" options="{'no_create': True, 'no_open': True}" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="oeh_medical_lab_test_tree">
+            <field name="name">Lab Tests</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_tree" />
+            <field name="arch" type="xml">
+                <field name="patient" position="before">
+                    <field string="Branch" name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="oeh_medical_evaluation_view" model="ir.ui.view">
+            <field name="name">oeh.medical.evaluation.form.extended</field>
+            <field name="model">oeh.medical.evaluation</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_evaluation_view" />
+            <field name="arch" type="xml">
+                <field name="patient" position="before">
+                    <field string="Branch" name="branch_id" options="{'no_create': True, 'no_open': True}" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="oeh_medical_evaluation_tree">
+            <field name="name">Evaluations</field>
+            <field name="model">oeh.medical.evaluation</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_evaluation_tree" />
+            <field name="arch" type="xml">
+                <field name="patient" position="before">
+                    <field string="Branch" name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="oeha_medical_imaging_test_form" model="ir.ui.view">
+            <field name="name">oeha.medical.imaging.test.form.extended</field>
+            <field name="model">oeha.medical.imaging.test</field>
+            <field name="inherit_id" ref="oehealth_extension.oeha_medical_imaging_test_form" />
+            <field name="arch" type="xml">
+                <field name="date_analysis" position="after">
+                    <field string="Branch" name="branch_id" options="{'no_create': True, 'no_open': True}" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="oeha_medical_imaging_test_tree">
+            <field name="name">Imaging Tests</field>
+            <field name="model">oeha.medical.imaging.test</field>
+            <field name="inherit_id" ref="oehealth_extension.oeha_medical_imaging_test_tree" />
+            <field name="arch" type="xml">
+                <field name="requestor" position="after">
+                    <field string="Branch" name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="oeh_medical_patient_view" model="ir.ui.view">
+            <field name="name">oeh.medical.patient.form.extended</field>
+            <field name="model">oeh.medical.patient</field>
+            <field name="inherit_id" ref="oehealth_extension.oeha_medical_patient_view" />
+            <field name="arch" type="xml">
+                <field name="rh" position="after">
+                    <field string="Registered At" name="branch_id" options="{'no_create': True, 'no_open': True}" />
+                </field>
+            </field>
+        </record> -->
+
+
+        <!-- <record id="oeh_medical_vaccine_view" model="ir.ui.view">
+            <field name="name">oeh.medical.vaccines.form.extended</field>
+            <field name="model">oeh.medical.vaccines</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_vaccine_view" />
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record model="ir.ui.view" id="oeh_medical_vaccine_tree">
+            <field name="name">Vaccine List</field>
+            <field name="model">oeh.medical.vaccines</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_vaccine_tree" />
+            <field name="arch" type="xml">
+                <field name="institution" position="after">
+                    <field name="branch_id" />
+                </field>
+            </field>
+        </record> -->
+
+        <!-- <record id="view_medical_vaccine_filter" model="ir.ui.view">
+            <field name="name">oeh.medical.vaccines.select</field>
+            <field name="model">oeh.medical.vaccines</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth.view_medical_vaccine_filter" />
+            <field name="arch" type="xml">
+                <field name="institution" operator="child_of" position="after">
+                    <field name="branch_id" />
+                </field>
+                <filter name="group_institution" position="after">
+                    <filter string="Branch" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record> -->
+
+        <!-- <record id="view_oeh_medical_appointment_filter" model="ir.ui.view">
+            <field name="name">oeh.medical.appointment.select</field>
+            <field name="model">oeh.medical.appointment</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth.view_oeh_medical_appointment_filter" />
+            <field name="arch" type="xml">
+                <field name="doctor" operator="child_of" position="after">
+                    <field name="branch_id" />
+                </field>
+                <filter name="group_doctor" position="after">
+                    <filter string="Branch" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record> -->
+
+
+        <!-- <record id="view_medical_prescription_filter" model="ir.ui.view">
+            <field name="name">oeh.medical.prescription.select</field>
+            <field name="model">oeh.medical.prescription</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth.view_medical_prescription_filter" />
+            <field name="arch" type="xml">
+                <field name="pharmacy" operator="child_of" position="after">
+                    <field name="branch_id" />
+                </field>
+                <filter name="group_state" position="after">
+                    <filter string="Branch" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record>
+
+
+        <record id="view_oeh_medical_lab_test_filter" model="ir.ui.view">
+            <field name="name">oeh.medical.lab.test.select</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth.view_oeh_medical_lab_test_filter" />
+            <field name="arch" type="xml">
+                <field name="diagnosis" operator="child_of" position="after">
+                    <field name="branch_id" />
+                </field>
+                <filter name="group_state" position="after">
+                    <filter string="Branch" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record> -->
+
+
+        <!-- <record id="view_oeh_medical_evaluation_filter" model="ir.ui.view">
+            <field name="name">oeh.medical.evaluation.select</field>
+            <field name="model">oeh.medical.evaluation</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth.view_oeh_medical_evaluation_filter" />
+            <field name="arch" type="xml">
+                <field name="chief_complaint" operator="child_of" position="after">
+                    <field name="branch_id" />
+                </field>
+                <filter name="patient" position="after">
+                    <filter string="Branch" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record> -->
+
+
+        <!-- <record id="view_oeha_medical_imaging_test_filter" model="ir.ui.view">
+            <field name="name">oeha.medical.imaging.test.select</field>
+            <field name="model">oeha.medical.imaging.test</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth_extension.view_oeh_medical_imaging_filter" />
+            <field name="arch" type="xml">
+                <field name="name" operator="child_of" position="after">
+                    <field name="branch_id" />
+                </field>
+                <filter name="group_patient" position="after">
+                    <filter string="Branch" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record> -->
+
+
+        <!-- <record id="view_oeh_medical_patient_filter" model="ir.ui.view">
+            <field name="name">oeh.medical.patient.select</field>
+            <field name="model">oeh.medical.patient</field>
+            <field name="priority" eval="8" />
+            <field name="inherit_id" ref="oehealth.view_oeh_medical_patient_filter" />
+            <field name="arch" type="xml">
+                <field name="oeh_patient_user_id" operator="child_of" position="after">
+                    <field name="branch_id" string='Registered At' />
+                </field>
+                <filter name="group_doctor" position="after">
+                    <filter string="Register At" name="branch_id" domain="[]" context="{'group_by':'branch_id'}" />
+                </filter>
+            </field>
+        </record> -->
+
+    </data>
+</odoo>

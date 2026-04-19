@@ -1,0 +1,2520 @@
+<odoo>
+    <data>
+
+        <!--compare plans-->
+        <template id="compare_plans">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty"/>
+                <div class="comparison-container">
+
+                    <h2 class="section-title pt-4">
+                        Compare Our
+                        <span class="text-primary">Membership Plans</span>
+                    </h2>
+
+                    <table class="comparison">
+                        <tr>
+                            <th colspan="2"></th>
+                            <th class="plan-standard">Standard</th>
+                            <th class="plan-premium">Premium</th>
+                            <th class="plan-international">Premium International</th>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header" rowspan="3">
+                                <div class="service-img">
+                                    <img class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/ambulance.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Transportation between hospitals</b>
+                                within metropolitan Kano and Abuja
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Domestic medical emergency and evacuation services</b>
+                                (within Nigeria)
+                            </td>
+                            <td class="plan-standard">
+                                <b>–</b>
+                            </td>
+                            <td class="plan-premium">
+                                <b>–</b>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>International medical emergency and evacuation services</b>
+                            </td>
+                            <td class="plan-standard">
+                                <b>–</b>
+                            </td>
+                            <td class="plan-premium">
+                                <b>–</b>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header" rowspan="3">
+                                <div class="service-img">
+                                    <img class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/dental.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Annual dental checks and cleaning</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>
+                                    <b>1</b>
+                                    discounted session/year
+                                </small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                                <small>
+                                    <b>1</b>
+                                    session/year
+                                </small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                                <small>
+                                    <b>1</b>
+                                    session/year
+                                </small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Dental Consultation</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Primary Dental Care:</b>
+                                <br/>relief of pain, fillings, nonsurgical procedures, extractations, preventive care,
+                                scaling and polishing
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>
+                                    <b>20%</b>
+                                    discounted
+                                </small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>
+                                    <b>20%</b>
+                                    discounted
+                                </small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>
+                                    <b>20%</b>
+                                    discounted
+                                </small>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header">
+                                <div class="service-img">
+                                    <img class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/home care.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Home Care Services</b>
+                            </td>
+                            <td class="plan-standard">
+                                <small>
+                                    <b>cost per visit</b>
+                                </small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                                <small>
+                                    <b>12</b>
+                                    visits/year
+                                </small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                                <small>
+                                    <b>12</b>
+                                    visits/year
+                                </small>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header" rowspan="3">
+                                <div class="service-img">
+                                    <img class="service-img-inner" src="/eha_website/static/src/img/service/lab.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>ECG</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Ultrasound</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Lab Testing</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header" rowspan="4">
+                                <div class="service-img">
+                                    <img class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/ophtalmology.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Annual Eye examination</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Ophthalmologist Consultation</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Eye testing, contact lens and glasses prescriptions</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Treatment of acute and chronic eye diseases</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header" rowspan="2">
+                                <div class="service-img">
+                                    <img class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/pharmaceutical.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Pharmaceutical Consultation</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Supply of prescribed medication</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header" rowspan="8">
+                                <div class="service-img">
+                                    <img class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/preventive care.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Cancer Screening</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Routine Immunizations for 0 -5 years:</b>
+                                <br/>BCG, DPT, Measles, Oral Polio, Pentavalent vaccines and Vitamin A supplement
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Additional Immunizations:</b>
+                                <br/>Chicken Pox, Hepatitis B, HPV, Influenza, Meningitis, MMR, Rotavirus Yellow Fever
+                                vaccines
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">Family Planning:
+                                <br/>
+                                <b>Contraceptives</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">Family Planning:
+                                <br/>
+                                <b>Preconception counseling management</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">Family Planning:
+                                <br/>
+                                <b>Prenatal services (including ultrasounds)</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">Family Planning:
+                                <br/>
+                                <b>STD testing and counseling</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-percentage"></i>
+                                <small>discounted</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="service">
+                                <b>Unlimited Physician Consultations and Followup visits</b>
+                            </td>
+                            <td class="plan-standard">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-premium">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td class="plan-international">
+                                <i class="fas fa-check"></i>
+                            </td>
+                        </tr>
+                        <tr class="service-row">
+                            <td class="service-header">
+                                <div class="service-img">
+                                    <img name="test" class="service-img-inner"
+                                         src="/eha_website/static/src/img/service/telemedicine.png"/>
+                                </div>
+                            </td>
+                            <td class="service">
+                                <b>Telemedicine</b>
+                            </td>
+                            <td class="plan-standard">
+                                <small>
+                                    <b>available at a cost</b>
+                                </small>
+                            </td>
+                            <td class="plan-premium">
+                                <small>
+                                    <b>available at a cost</b>
+                                </small>
+                            </td>
+                            <td class="plan-international">
+                                <small>
+                                    <b>available at a cost</b>
+                                </small>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div class="text-center mt-5 mb-4">
+                        <a href="/shop/membership" class="btn-primary btn-lg">Buy a plan</a>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!--membership page-->
+        <template id="membership2" name="EHA Website Membership Page">
+            <t t-name="eha_website_sale.membership" name="EHA Website Membership Page">
+                <t t-call="website.layout">
+                    <t t-set="title">Membership Subscription</t>
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_cover parallax page" data-scroll-background-ratio="0"
+                                 style="background-image: none;">
+                            <span class="s_parallax_bg oe_img_bg oe_custom_bg"
+                                  style="background-image: url(&quot;/eha_website/static/src/img/bg-plans.jpg&quot;); background-position: 48.83% 30.35%;"/>
+                            <div class="container">
+                                <div class="row s_nb_column_fixed">
+                                    <div class="col-lg-12 s_title pt48 pb0" data-name="Title">
+                                        <h1 class="title-banner text-center">
+                                            <span>Our</span>
+                                            <span class="text-highlight">
+                                                Membership Plans
+                                            </span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="tab-content">
+                            <div class="tabs">
+                                <button class="tablink col-sm plan-standard" onclick="openPage('sp', this)"
+                                        id="defaultOpen">Standard Plans
+                                </button>
+                                <button class="tablink col-sm plan-premium" onclick="openPage('pp', this)">Premium
+                                    Plans
+                                </button>
+                                <button class="tablink col-sm plan-international" onclick="openPage('pip', this)">
+                                    Premium International Plans
+                                </button>
+                            </div>
+                            <t t-foreach="plans" t-as="plan">
+
+                                <t t-if="plan.get('name').lower()=='standard'">
+                                    <t t-set="catClass" t-value="'plan-standard'"/>
+                                    <t t-set="catId" t-value="'sp'"/>
+                                    <t t-set="feat_categories" t-value="plans_features.get('standard_features')"/>
+                                </t>
+
+                                <t t-if="plan.get('name').lower()=='premium'">
+                                    <t t-set="catClass" t-value="'plan-premium'"/>
+                                    <t t-set="catId" t-value="'pp'"/>
+                                    <t t-set="feat_categories" t-value="plans_features.get('premium_features')"/>
+                                </t>
+
+                                <t t-if="plan.get('name').lower()=='international'">
+                                    <t t-set="catClass" t-value="'plan-international'"/>
+                                    <t t-set="catId" t-value="'pip'"/>
+                                    <t t-set="feat_categories" t-value="plans_features.get('international_features')"/>
+                                </t>
+
+                                <div t-attf-id="{{catId}}" t-attf-class="tabcontent {{catClass}} mt-5 active">
+                                    <div class="container benefits">
+                                        <t t-foreach="feat_categories" t-as="feat_category">
+                                            <div class="benefit-section">
+
+                                                <div class="benefit-icon">
+                                                    <div class="service-img">
+                                                        <t t-if="feat_category.get('category') == 'ambulance' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/ambulance.png"/>
+                                                        </t>
+                                                        <t t-if="feat_category.get('category','') == 'dental' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/dental.png"/>
+                                                        </t>
+
+                                                        <t t-if="feat_category.get('category','') == 'ultrasound' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/lab.png"/>
+                                                        </t>
+
+                                                        <t t-if="feat_category.get('category','') == 'pharmaceutical' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/pharmaceutical.png"/>
+                                                        </t>
+
+                                                        <t t-if="feat_category.get('category','') == 'prenatal' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/preventive_care.png"/>
+                                                        </t>
+
+                                                        <t t-if="feat_category.get('category','') == 'eye' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/ophtalmology.png"/>
+                                                        </t>
+                                                        <t t-if="feat_category.get('category','') == 'others' ">
+                                                            <img class="service-img-inner"
+                                                                 src="/eha_website/static/src/img/service/preventive_care.png"/>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                                <ul class="benefit-list">
+                                                    <t t-foreach="feat_category.get('features')" t-as="feature">
+                                                        <li class="check">
+                                                            <i class="fa fa-check"></i>
+                                                            <span t-esc="feature"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="container plans mt-5">
+                                        <t t-foreach="plan.get('products')" t-as="product">
+                                            <t t-if=" 'youth' in product.name.lower()">
+                                                <t t-set="pclass" t-value="'plan-youth'"/>
+                                                <t t-set="icon" t-value="'icon-youth.png'"/>
+                                            </t>
+
+                                            <t t-if=" 'adult' in product.name.lower()">
+                                                <t t-set="pclass" t-value="'plan-adult'"/>
+                                                <t t-set="icon" t-value="'icon-adult.png'"/>
+                                            </t>
+
+                                            <t t-if=" 'senior' in product.name.lower()">
+                                                <t t-set="pclass" t-value="'plan-senior'"/>
+                                                <t t-set="icon" t-value="'icon-senior.png'"/>
+                                            </t>
+
+                                            <t t-if=" 'family' in product.name.lower()">
+                                                <t t-set="pclass" t-value="'plan-family'"/>
+                                                <t t-set="icon" t-value="'icon-family.png'"/>
+                                            </t>
+
+                                            <div t-attf-class="plan-teaser {{pclass}} ">
+                                                <img class="plan-image"
+                                                     t-attf-src="/eha_website/static/src/img/{{icon}}"/>
+                                                <h3 class="plan-title">
+                                                    <span t-esc="product.name"/>
+                                                </h3>
+                                                <h4 class="plan-subtitle">
+                                                    <span t-esc="product.description"/>
+                                                </h4>
+
+
+                                                <t t-if="product.display_price_on_website == false"> <!-- hide product price on website -->
+                                                    <div class="plan-details">
+                                                        Contact Us for Quotes
+                                                    </div>
+                                                    <a href="/contact-us/" class="btn-outline-invert">Contact Us</a>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="plan-details"
+                                                         t-if="product and 'family' not in product.name.lower()">
+                                                        ₦<span t-esc="product.list_price"/>/ Year
+                                                    </div>
+                                                    <div class="plan-details"
+                                                         t-if="product and 'family' in product.name.lower()">
+                                                        <span t-if="product.subscription_discount_type == 'perc'">Up to
+                                                            <span t-esc="product.subscription_discount"/>
+                                                            % discount
+                                                        </span>
+                                                        <span t-else="1">Up to
+                                                            <span t-esc="product.subscription_discount"
+                                                                  t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                                            discount
+                                                        </span>
+                                                    </div>
+                                                    <a t-attf-href="/shop/product/{{slug(product)}}"
+                                                       class="btn-outline-invert"
+                                                       t-if="product and 'family' in product.name.lower()">Customise
+                                                        Plan
+                                                    </a>
+                                                    <a t-attf-href="/shop/product/{{slug(product)}}"
+                                                       class="btn-outline-invert" t-else="1">Select Plan
+                                                    </a>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div> <!--end tabcontent-->
+                            </t>
+                        </div>
+                        <!--compare plan button -->
+                        <div class="container">
+                            <div class="pt-4 pb-5">
+                                <h2 class="section-title text-center pb-4">Not sure which plan covers your needs?</h2>
+                                <p class="text-lg text-center">You want to compare all benefits of our different
+                                    membership plans?<br/>We have listed all available benefits side by side.
+                                </p>
+                            </div>
+                            <div class="text-center pb-5">
+                                <a href="/shop/plans/compare" class="btn-primary btn-lg text-center mt-3 mb-6">Compare
+                                    plans
+                                </a>
+                            </div>
+                        </div> <!--//compare plan button-->
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <!--sUBCRIPTION Product template-->
+        <template id="sub_product_detail">
+            <t t-if="product.plan_id and product.plan_id.name.lower() == 'standard' ">
+                <t t-set="planClass" t-value="'plan-standard'"/>
+            </t>
+
+            <t t-if="product.plan_id and product.plan_id.name.lower() == 'premium' ">
+                <t t-set="planClass" t-value="'plan-premium'"/>
+            </t>
+
+            <t t-if="product.plan_id and product.plan_id.name.lower() == 'international' ">
+                <t t-set="planClass" t-value="'plan-international'"/>
+            </t>
+            <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
+                <section
+                        t-attf-class="container py-2 oe_website_sale #{'discount' if combination_info['has_discounted_price'] else ''}"
+                        id="product_detail" t-att-data-view-track="view_track and '1' or '0'">
+                    <div id="wrap" class="oe_structure oe_empty"/>
+                    <div t-attf-class="container {{planClass}}">
+                        <div class="row mt-5">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a t-att-href="keep(category=0)">Products</a>
+                                </li>
+                                <li t-if="category" class="breadcrumb-item">
+                                    <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)"
+                                       t-field="category.name"/>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <span t-field="product.name"/>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <div class="product-img">
+                                    <t t-if=" 'youth' in product.name.lower() ">
+                                        <img src="/eha_website/static/src/img/icon-youth.png"/>
+                                    </t>
+                                    <t t-if=" 'adult' in product.name.lower() ">
+                                        <img src="/eha_website/static/src/img/icon-adult.png"/>
+                                    </t>
+                                    <t t-if=" 'senior' in product.name.lower() ">
+                                        <img src="/eha_website/static/src/img/icon-senior.png"/>
+                                    </t>
+                                    <t t-if=" 'family' in product.name.lower() ">
+                                        <img src="/eha_website/static/src/img/icon-family.png"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col-md-8" id="product_details">
+                                <h3 class="plan-title" itemprop="name" t-field="product.name"/>
+                                <t t-if="is_membership">
+                                    <t t-if=" 'family' in product.name.lower() ">
+                                        <h4 class="plan-subtitle">
+                                            Customize your plan to fit your family
+                                        </h4>
+                                    </t>
+                                    <t t-else="">
+                                        <h4 class="plan-subtitle">
+                                            <span t-esc="product.description"/>
+                                        </h4>
+                                    </t>
+                                </t>
+
+                                <span itemprop="url" style="display:none;"
+                                      t-esc="'%sshop/product/%s' % (request.httprequest.url_root, slug(product))"/>
+                                <form t-if="product._is_add_to_cart_possible()" action="/shop/cart/update"
+                                      method="POST">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="js_product js_main_product">
+                                        <t t-placeholder="select">
+                                            <input type="hidden" class="product_id" name="product_id"
+                                                   t-att-value="product_variant.id"/>
+                                            <input type="hidden" class="product_template_id" name="product_template_id"
+                                                   t-att-value="product.id"/>
+                                            <t t-if="first_possible_combination" t-call="sale.variants">
+                                                <t t-set="ul_class" t-value="'flex-column'"/>
+                                                <t t-set="parent_combination" t-value="None"/>
+                                            </t>
+                                            <t t-else="">
+                                                <ul class="d-none js_add_cart_variants"
+                                                    t-att-data-attribute_exclusions="{'exclusions: []'}"/>
+                                            </t>
+                                        </t>
+                                        <!--product price-->
+                                        <div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer"
+                                             class="product_price mt16">
+                                            <h4 class="oe_price_h4 css_editable_mode_hidden">
+                                                <span t-attf-class="text-danger oe_default_price {{'' if combination_info['has_discounted_price'] else 'd-none'}}"
+                                                      style="text-decoration: line-through; white-space: nowrap;"
+                                                      t-esc="combination_info['list_price']"
+                                                      t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                                                />
+                                                <b class="oe_price" style="white-space: nowrap;"
+                                                   t-esc="combination_info['price']"
+                                                   t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                                <span itemprop="price" style="display:none;"
+                                                      t-esc="combination_info['price']"/>
+                                                <span itemprop="priceCurrency" style="display:none;"
+                                                      t-esc="website.currency_id.name"/>
+                                                / Year
+                                            </h4>
+                                            <h4 class="css_non_editable_mode_hidden decimal_precision"
+                                                t-att-data-precision="str(website.currency_id.decimal_places)">
+                                                <span t-field="product.list_price"
+                                                      t-options='{
+                                            "widget": "monetary",
+                                            "display_currency": product.currency_id,
+                                        }'/>
+                                            </h4>
+                                            <h4 class="d-none oe_not_available bg-warning">Option not available</h4>
+                                        </div>
+                                        <!--//product price-->
+                                        <p t-if="True" class="css_not_available_msg alert alert-warning">This
+                                            combination does not exist.
+                                        </p>
+
+                                        <t t-if=" 'family' in product.name.lower()">
+                                            <input type="hidden" name="is_sub_membership" value="True"/>
+                                            <div class="table-responsive price-calculator">
+                                                <table class="">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width:30%; padding:0px 20px 10px 0px;">
+                                                                <select name="youth-qty"
+                                                                        class="form-control select-product-qty"
+                                                                        data-sub-product="youth"
+                                                                        t-attf-data-product-id="#{product.id}">
+                                                                    <!-- <option value="0">0</option> -->
+                                                                    <option value="1">1</option>
+                                                                    <option selected="selected" value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                Youth (0-19 years old)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:30%; padding:0px 20px 10px 0px;">
+                                                                <select name="adult-qty"
+                                                                        class="form-control select-product-qty"
+                                                                        data-sub-product="adult"
+                                                                        t-attf-data-product-id="#{product.id}">
+                                                                    <!-- <option value="0">0</option> -->
+                                                                    <option value="1">1</option>
+                                                                    <option selected="selected" value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                Adult (20-65 years old)
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="border-bottom: 1px solid #0093FF;">
+                                                            <td style="width:30%; padding:0px 20px 10px 0px;">
+                                                                <select name="senior-qty"
+                                                                        class="form-control select-product-qty"
+                                                                        data-sub-product="senior"
+                                                                        t-attf-data-product-id="#{product.id}">
+                                                                    <!-- <option value="0">0</option> -->
+                                                                    <option selected="selected" value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                Senior (above 65 years old)
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </t> <!--end family membership-->
+
+                                        <button role="button" id="add_to_cart"
+                                                class="btn btn-primary btn-lg btn-round mt8 js_check_product a-submit"
+                                                href="#">
+                                            Subscribe
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <p t-elif="not product.active" class="alert alert-warning">This product is no longer
+                                    available.
+                                </p>
+                                <p t-else="" class="alert alert-warning">This product has no valid combination.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-attf-class="container benefits {{planClass}} mt-5">
+                        <h4 t-if="is_membership">Includes:</h4>
+                        <t t-foreach="features" t-as="feature">
+                            <div class="benefit-section">
+                                <div class="benefit-icon">
+                                    <div class="service-img">
+                                        <t t-if="feature.get('category') == 'ambulance' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/ambulance.png"/>
+                                        </t>
+                                        <t t-if="feature.get('category','') == 'dental' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/dental.png"/>
+                                        </t>
+
+                                        <t t-if="feature.get('category','') == 'ultrasound' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/lab.png"/>
+                                        </t>
+
+                                        <t t-if="feature.get('category','') == 'pharmaceutical' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/pharmaceutical.png"/>
+                                        </t>
+
+                                        <t t-if="feature.get('category','') == 'prenatal' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/preventive_care.png"/>
+                                        </t>
+
+                                        <t t-if="feature.get('category','') == 'eye' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/ophtalmology.png"/>
+                                        </t>
+                                        <t t-if="feature.get('category','') == 'others' ">
+                                            <img class="service-img-inner"
+                                                 src="/eha_website/static/src/img/service/preventive_care.png"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <ul class="benefit-list">
+                                    <t t-foreach="feature.get('features')" t-as="feat">
+                                        <li class="check">
+                                            <i class="fa fa-check"></i>
+                                            <span t-esc="feat"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </t>
+                    </div>
+                </section>
+            </div>
+
+        </template>
+        
+        <!--address-->
+        <template id="address_ext" name="Address Management" inherit_id="website_sale.address">
+            <xpath expr="//div[@id='wrap']" position="replace">
+                <script type="text/javascript" src="/eha_website/static/src/js/utils.js"></script>
+                <t t-if="sub_product.plan_id and sub_product.plan_id.name.lower() in ('standard','premium','international') ">
+                    <t t-set="is_membership" t-value="True"/>
+                    <div id="wrap" class="address-section">
+                        <div class="container oe_website_sale py-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <t t-call="website_sale.wizard_checkout">
+                                        <t t-set="step" t-value="20"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="row subscription-form">
+                                <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                                    <t t-call="website_sale.cart_summary"/>
+                                </div>
+                                <div class="col-12 col-xl order-xl-1 oe_cart">
+                                    <div>
+                                        <t t-if="mode == ('new', 'billing')">
+                                            <h2 class="o_page_header mt8">
+                                                Billing Information
+                                                <small style="font-size:12px !important">Entered this data before?
+                                                </small>
+                                                <a role="button" href="/web/login?redirect=/shop/checkout"
+                                                   class="btn btn-primary" style="margin-top: -11px">Log In
+                                                </a>
+                                            </h2>
+                                        </t>
+                                        <t t-if="mode == ('edit', 'billing')">
+                                            <h2 class="o_page_header mt8">Billing Information</h2>
+                                        </t>
+                                        <t t-if="mode[1] == 'shipping'">
+                                            <h2 class="o_page_header mt8">Billing Information</h2>
+                                        </t>
+                                        <t t-if="partner_id == website_sale_order.partner_shipping_id.id == website_sale_order.partner_invoice_id.id">
+                                            <div class="alert alert-warning" role="alert">
+                                                <h4 class="alert-heading">Be aware!</h4>
+                                                <p>
+                                                    You are editing your <b>billing and shipping</b> addresses at the
+                                                    same time!
+                                                    If you want to modify your shipping address, create a
+                                                    <a href="/shop/address">new address.</a>
+                                                </p>
+                                            </div>
+                                        </t>
+
+                                        <input type="hidden" name="error" t-att-value="error"/>
+                                        <div class="alert alert-warning" role="alert" t-if="error">
+                                            <p class="text-danger">
+                                                <t t-foreach="error.get('error_message',[])" t-as="err">
+                                                    <t t-esc="err"/>
+                                                </t>
+                                            </p>
+                                        </div>
+
+                                        <form action="/shop/address" method="post" class="checkout_autoformat"
+                                              id="billing-address">
+                                            <div class="form-row ">
+                                                <input type="hidden" name="csrf_token"
+                                                       t-att-value="request.csrf_token()"/>
+                                                <input type="hidden" name="submitted" value="1"/>
+                                                <input type="hidden" name="partner_id" t-att-value="partner_id or '0'"/>
+                                                <input type="hidden" name="callback" t-att-value="callback"/>
+
+                                                <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-md-12 div_name">
+                                                    <label class="col-form-label" for="name">
+                                                        Name
+                                                        <span class="asteriskField">*</span>
+                                                    </label>
+                                                    <input type="text" placeholder="eg. George Ohia" name="name"
+                                                           maxlength="75"
+                                                           t-attf-class="form-control form-control-sm beneficiary_name #{error.get('name') and 'is-invalid' or ''}"
+                                                           t-att-value="'name' in checkout and checkout['name']"/>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-md-6"
+                                                     id="div_email">
+                                                    <label class="col-form-label" for="email">
+                                                        Email
+                                                        <span class="asteriskField">*</span>
+                                                    </label>
+                                                    <input type="email" name="email"
+                                                           t-attf-class="form-control form-control-sm #{error.get('email') and 'is-invalid' or ''}"
+                                                           t-att-value="'email' in checkout and checkout['email']"/>
+                                                </div>
+                                                <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-md-6">
+                                                    <label class="col-form-label" for="phone">
+                                                        Phone
+                                                        <span class="asteriskField">*</span>
+                                                    </label>
+                                                    <input id="billing_phone" type="tel" name="phone"
+                                                           placeholder="eg. +234803527900"
+                                                           t-attf-class="form-control form-control-sm #{error.get('phone') and 'is-invalid' or ''}"
+                                                           t-att-value="'phone' in checkout and checkout['phone']"/>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-md-12">
+                                                    <label class="col-form-label" for="street">
+                                                        Street
+                                                        <span class="asteriskField">*</span>
+                                                    </label>
+                                                    <input type="text" name="street" t-attf-class="form-control"
+                                                           t-att-value="'street' in checkout and checkout['street']"/>
+                                                </div>
+                                                <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-6 div_city">
+                                                    <label class="col-form-label" for="city">
+                                                        City
+                                                    </label>
+                                                    <input type="text" name="city" t-attf-class="form-control"
+                                                           t-att-value="'city' in checkout and checkout['city']"/>
+                                                </div>
+                                                <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
+                                                    <label class="col-form-label label-optional" for="zip">Zip
+                                                        Code
+                                                        <span class="asteriskField">*</span>
+                                                    </label>
+                                                    <input type="text" name="zip"
+                                                            t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}"
+                                                            t-att-value="'zip' in checkout and checkout['zip']"/>
+                                                    <span><a t-attf-href="#{zip_code_link}" target="_blank">Search for possible zip codes</a></span>
+                                                </div>
+                                                <input type="hidden" name="country_id" t-att-value="'163'"/>
+                                                <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-md-6"
+                                                     t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                    <label class="col-form-label" for="state_id">
+                                                        State
+                                                        <span class="asteriskField">*</span>
+                                                    </label>
+                                                    <select name="state_id"
+                                                            t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}"
+                                                            data-init="1">
+                                                        <option value="">
+                                                            State
+                                                            <span class="asteriskField">*</span>
+                                                        </option>
+                                                        <t t-foreach="country and country.state_ids or []" t-as="s">
+                                                            <option t-att-value="s.id"
+                                                                    t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">
+                                                                <t t-esc="s.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <p/>
+                                                <t t-if="is_membership">
+                                                    <input type="hidden" name="field_required"
+                                                           t-att-value="'name,phone'"/> <!--required fields-->
+                                                    <div class="col-12">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" id="beneficiary_use_same"
+                                                                       class="mr8" name="beneficiary_use_same"
+                                                                       t-att-checked="'beneficiary_use_same' in checkout and checkout['beneficiary_use_same']"/>
+                                                                I am a beneficiary.
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--load beneficiaries form-->
+                                                    <!-- <t t-call="eha_website_sale.address_extra" /> -->
+                                                    <t t-call="eha_website_sale.adult_subscription_form"/>
+                                                </t>
+
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                <a role="button"
+                                                   t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'"
+                                                   class="btn btn-secondary mb32">
+                                                    <i class="fa fa-chevron-left"/>
+                                                    <span>Back</span>
+                                                </a>
+                                                <a role="button" href="#"
+                                                   class="btn btn-secondary mb32 a-submit a-submit-disable a-submit-loading">
+                                                    <span>Next</span>
+                                                    <i class="fa fa-chevron-right"/>
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </t>
+                <t t-else="">
+                    <t t-set="is_membership" t-value="False"/>
+                    <div id="wrap">
+                        <div class="container oe_website_sale py-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <t t-call="website_sale.wizard_checkout">
+                                        <t t-set="step" t-value="20"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                                    <t t-call="website_sale.cart_summary">
+                                        <t t-set="hide_coupon">True</t>
+                                        <t t-set="redirect" t-valuef="/shop/address"/>
+                                    </t>
+                                </div>
+                                <div class="col-12 col-xl order-xl-1 oe_cart">
+                                    <div>
+                                        <t t-if="mode == ('new', 'billing')">
+                                            <h2 class="o_page_header mt8">
+                                                <a role="button" href='/web/signup?redirect=/shop/address'
+                                                   class='btn btn-primary' style="margin-top: -11px">Sign Up
+                                                </a>
+                                                <small>or</small>
+                                                <a role="button" href='/web/login?redirect=/shop/checkout?from_login=1'
+                                                   class='btn btn-primary' style="margin-top: -11px">Log In
+                                                </a>
+                                            </h2>
+                                        </t>
+                                        <t t-if="mode == ('edit', 'billing')">
+                                            <h2 class="o_page_header mt8">Your Address</h2>
+                                        </t>
+                                        <t t-if="mode[1] == 'shipping'">
+                                            <h2 class="o_page_header mt8">Shipping Address</h2>
+                                        </t>
+                                        <t t-if="partner_id == website_sale_order.partner_shipping_id.id == website_sale_order.partner_invoice_id.id">
+                                            <div class="alert alert-warning" role="alert">
+                                                <h4 class="alert-heading">Be aware!</h4>
+                                                <p>
+                                                    You are editing your <b>billing and shipping</b> addresses at the
+                                                    same time!
+                                                    <br/>
+                                                    If you want to modify your shipping address, create a <a
+                                                        href='/shop/address'>new address</a>.
+                                                </p>
+                                            </div>
+                                        </t>
+                                        <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                                            <h4 class="text-danger" t-esc="err"/>
+                                        </t>
+                                        <t t-if="mode != ('new', 'billing')">
+                                            <form action="/shop/address" method="post" class="checkout_autoformat">
+                                            <div class="form-row">
+                                                <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-12 div_name">
+                                                    <label class="col-form-label" for="name">Name</label>
+                                                    <input type="text" name="name"
+                                                           t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}"
+                                                           t-att-value="'name' in checkout and checkout['name']"/>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <t t-if="mode[1] == 'billing'">
+                                                    <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-lg-6"
+                                                         id="div_email">
+                                                        <label class="col-form-label" for="email">Email</label>
+                                                        <input type="email" name="email"
+                                                               t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}"
+                                                               t-att-value="'email' in checkout and checkout['email']"/>
+                                                    </div>
+                                                </t>
+                                                <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6"
+                                                     id="div_phone">
+                                                    <label class="col-form-label" for="phone">Phone</label>
+                                                    <input type="tel" name="phone"
+                                                           t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}"
+                                                           t-att-value="'phone' in checkout and checkout['phone']"/>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
+                                                    <label class="col-form-label" for="street">Street
+                                                        <span class="d-none d-md-inline">and Number</span>
+                                                    </label>
+                                                    <input type="text" name="street"
+                                                           t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}"
+                                                           t-att-value="'street' in checkout and checkout['street']"/>
+                                                </div>
+                                                <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
+                                                    <label class="col-form-label label-optional" for="street2">Street
+                                                        2
+                                                    </label>
+                                                    <input type="text" name="street2"
+                                                           t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}"
+                                                           t-att-value="'street2' in checkout and checkout['street2']"/>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <t t-set='zip_city'
+                                                   t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
+                                                <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
+                                                    <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
+                                                        <label class="col-form-label label-optional" for="zip">Zip
+                                                            Code
+                                                        </label>
+                                                        <input type="text" name="zip"
+                                                               t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}"
+                                                               t-att-value="'zip' in checkout and checkout['zip']"/>
+                                                    </div>
+                                                </t>
+                                                <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
+                                                    <label class="col-form-label" for="city">City</label>
+                                                    <input type="text" name="city"
+                                                           t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}"
+                                                           t-att-value="'city' in checkout and checkout['city']"/>
+                                                </div>
+                                                <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
+                                                    <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
+                                                        <label class="col-form-label label-optional" for="zip">Zip
+                                                            Code
+                                                        </label>
+                                                        <input type="text" name="zip"
+                                                               t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}"
+                                                               t-att-value="'zip' in checkout and checkout['zip']"/>
+                                                        <span><a t-attf-href="#{zip_code_link}" target="_blank">Search for possible zip codes</a></span>
+                                                    </div>
+                                                </t>
+                                                <div class="w-100"/>
+                                                <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
+                                                    <label class="col-form-label" for="country_id">Country</label>
+                                                    <select id="country_id" name="country_id"
+                                                            t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                                                        <option value="">Country...</option>
+                                                        <t t-foreach="countries" t-as="c">
+                                                            <option t-att-value="c.id"
+                                                                    t-att-selected="c.id == (country and country.id or -1)">
+                                                                <t t-esc="c.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                                <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state"
+                                                     t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                    <label class="col-form-label" for="state_id">State / Province
+                                                    </label>
+                                                    <select name="state_id"
+                                                            t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}"
+                                                            data-init="1">
+                                                        <option value="">State / Province...</option>
+                                                        <t t-foreach="country and country.state_ids or []" t-as="s">
+                                                            <option t-att-value="s.id"
+                                                                    t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">
+                                                                <t t-esc="s.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                                <div class="w-100"/>
+                                                <t t-if="mode == ('new', 'billing') and not only_services">
+                                                    <div class="col-lg-12">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" id='shipping_use_same'
+                                                                       class="mr8" name='use_same' value="1"
+                                                                       checked='checked'/>Ship to the same address
+                                                                <span class='ship_to_other text-muted'
+                                                                      style="display: none">&amp;nbsp;(
+                                                                    <i>Your shipping address will be requested later)
+                                                                    </i>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </div>
+
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <input type="hidden" name="submitted" value="1"/>
+                                            <input type="hidden" name="partner_id" t-att-value="partner_id or '0'"/>
+                                            <input type="hidden" name="callback" t-att-value="callback"/>
+                                            <!-- Example -->
+                                            <input type="hidden" name="field_required" t-att-value="'phone,name'"/>
+
+                                            <div class="d-flex justify-content-between">
+                                                <a role="button"
+                                                   t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'"
+                                                   class="btn btn-secondary mb32">
+                                                    <i class="fa fa-chevron-left"/>
+                                                    <span>Back</span>
+                                                </a>
+                                                <a role="button" href="#"
+                                                   class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
+                                                    <span>Next</span>
+                                                    <i class="fa fa-chevron-right"/>
+                                                </a>
+                                            </div>
+                                        </form>
+                                        </t>
+                                        <t t-else="1">
+                                            <div class="row">
+                                                <h3>Please Login or Signup Before you continue</h3>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+            </xpath>
+        </template>
+
+        <!--covid19 patient list form-->
+        <template id="address_extra">
+            <div class="w-100 form-row d-none" name="extras">
+                <div t-attf-class="form-group #{error.get('gender') and 'o_has_error' or ''} col-md-6">
+                    <label class="col-form-label" for="gender">
+                        Gender
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <select id="billing_gender" name="gender" required="required"
+                            t-attf-class="form-control #{error.get('gender') and 'is-invalid' or ''}" data-init="1">
+                        <option value="">Gender</option>
+                        <option t-att-value="male" t-att-selected="'male' in checkout and checkout['gender']">
+                            Male
+                        </option>
+                        <option t-att-value="female" t-att-selected="'female' in checkout and checkout['gender']">
+                            Female
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="col-form-label" for="dob">
+                        Date of Birth
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <div class="o_website_form_date input-group date" id="datepicker3" data-target-input="nearest">
+                        <input id="billing_dob" name="dob" required="required" type="text"
+                               class="form-control datetimepicker-input o_website_form_input"
+                               data-toggle="datetimepicker" data-target="#datepicker3"/>
+                        <div class="input-group-append" data-target="#datepicker3" data-toggle="datetimepicker">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar" data-original-title="Date of Birth" title="Date of Birth"
+                                   aria-describedby="tooltip118921"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+
+        <!--patient form-->
+        <template id="patient_form">
+            <div t-attf-class="form-group">
+                <label class="col-form-label" for="name">
+                    Name
+                    <span class="asteriskField">*</span>
+                </label>
+                <input type="text" maxlength="75" required="required" t-attf-name="name"
+                       t-attf-class="form-control form-control-sm" placeholder="George Ohia"/>
+            </div>
+            <div class="form-row">
+                <div t-attf-class="form-group col-md-6">
+                    <label class="col-form-label" for="gender">
+                        Gender
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <select name="gender" required="required" t-attf-class="form-control form-control-sm" data-init="1">
+                        <option value="">Gender</option>
+                        <option t-att-value="male">
+                            Male
+                        </option>
+                        <option t-att-value="female">
+                            Female
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="col-form-label" for="dob">
+                        Date of Birth
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <div class="o_website_form_date input-group date" id="customer_dob" data-target-input="nearest">
+                        <input name="dob" required="required" type="text"
+                               class="form-control datetimepicker-input o_website_form_input"
+                               data-toggle="datetimepicker" data-target="#customer_dob"/>
+                        <div class="input-group-append" data-target="#customer_dob" data-toggle="datetimepicker">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar" data-original-title="Date of Birth" title="Date of Birth"
+                                   aria-describedby="tooltip118921"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div t-attf-class="form-group col-md-6" id="div_email">
+                    <label class="col-form-label" for="email">Email
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <input type="email" required="required" t-attf-name="email" t-attf-class="form-control"/>
+                </div>
+                <div t-attf-class="form-group col-md-6">
+                    <label class="col-form-label" for="phone">
+                        Phone
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <input type="tel" required="required" t-attf-name="phone" t-attf-class="form-control"
+                           placeholder="eg. +234803527900"/>
+                </div>
+            </div>
+            <div t-attf-class="form-group">
+                <label class="col-form-label" for="street">
+                    Street
+                    <span class="asteriskField">*</span>
+                </label>
+                <input type="text" required="required" maxlength="100" t-attf-name="street"
+                       t-attf-class="form-control"/>
+            </div>
+            <div class="form-row">
+                <div t-attf-class="form-group col-md-6">
+                    <label class="col-form-label" for="city">
+                        City
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <input type="text" name="city" required="required" t-attf-class="form-control"/>
+                </div>
+                <input type="hidden" name="country_id" t-att-value="'163'"/>
+
+                <div t-attf-class="form-group col-md-6"
+                     t-att-style="(not country or not country.state_ids) and 'display: none'">
+                    <label class="col-form-label" for="state">
+                        State
+                        <span class="asteriskField">*</span>
+                    </label>
+                    <select name="state" required="required" t-attf-class="form-control" data-init="1">
+                        <option value="">State</option>
+                        <t t-foreach="country and country.state_ids or []" t-as="s">
+                            <option t-att-data-stname="s.name" t-att-value="s.id">
+                                <t t-esc="s.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <input name="state_name" type="hidden"/>
+                </div>
+            </div>
+
+        </template>
+
+        <!--adult subscription form-->
+        <template id="adult_subscription_form">
+            <input type="hidden" name="partner_is_beneficiary" value="0"/>
+            <!--use this field to check if partner is beneficiary -->
+            <div t-attf-class="form-group #{error.get('beneficiary_name_adult1') and 'o_has_error' or ''} col-lg-8 div_name">
+                <label class="col-form-label" for="beneficiary_name_adult1">
+                    Name
+                    <span class="asteriskField">*</span>
+                </label>
+                <input type="text" maxlength="75" t-attf-name="beneficiary_name_adult1"
+                       t-attf-class="form-control beneficiary_name #{error.get('beneficiary_name_adult1') and 'is-invalid' or ''}"
+                       t-att-value="'beneficiary_name_adult1' in checkout and checkout['beneficiary_name_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_name_adult1')"/>
+            </div>
+
+            <div t-attf-class="form-group #{error.get('beneficiary_gender_adult1') and 'o_has_error' or ''} col-lg-4">
+                <label class="col-form-label" for="beneficiary_gender_adult1">
+                    Gender
+                    <span class="asteriskField">*</span>
+                </label>
+                <select id="billing_gender" name="beneficiary_gender_adult1"
+                        t-attf-class="form-control #{error.get('beneficiary_gender_adult1') and 'is-invalid' or ''}"
+                        data-init="1">
+                    <option value="">Gender...</option>
+                    <option t-att-value="male"
+                            t-att-selected="'male' in checkout and checkout['beneficiary_gender_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_gender_adult1')">
+                        Male
+                    </option>
+                    <option t-att-value="female"
+                            t-att-selected="'female' in checkout and checkout['beneficiary_gender_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_gender_adult1')">
+                        Female
+                    </option>
+                </select>
+            </div>
+
+            <div class="w-100"/>
+            <div t-attf-class="form-group #{error.get('beneficiary_email_adult1') and 'o_has_error' or ''} col-lg-6"
+                 id="div_email">
+                <label class="col-form-label" for="beneficiary_email_adult1">Email</label>
+                <input type="email" t-attf-name="beneficiary_email_adult1"
+                       t-attf-class="form-control #{error.get('beneficiary_email_adult1') and 'is-invalid' or ''}"
+                       t-att-value="'beneficiary_email_adult1' in checkout and checkout['beneficiary_email_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_email_adult1')"/>
+            </div>
+            <div t-attf-class="form-group #{error.get('beneficiary_phone_adult1') and 'o_has_error' or ''} col-lg-6"
+                 id="div_phone">
+                <label class="col-form-label" for="beneficiary_phone_adult1">
+                    Phone
+                    <span class="asteriskField">*</span>
+                    <small>MUST be in international format eg. +234803527900</small>
+                </label>
+                <input type="tel" t-attf-name="beneficiary_phone_adult1"
+                       t-attf-class="form-control beneficiary_phone #{error.get('beneficiary_phone_adult1') and 'is-invalid' or ''}"
+                       t-att-value="'beneficiary_phone_adult1' in checkout and checkout['beneficiary_phone_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_phone_adult1')"/>
+            </div>
+            <div class="w-100"/>
+            <div t-attf-class="form-group #{error.get('beneficiary_street_adult1') and 'o_has_error' or ''} col-lg-6 div_street">
+                <label class="col-form-label" for="beneficiary_street_adult1">
+                    Street
+                    <span class="asteriskField">*</span>
+                </label>
+                <input type="text" maxlength="100" t-attf-name="beneficiary_street_adult1"
+                       t-attf-class="form-control beneficiary_street #{error.get('beneficiary_street_adult1') and 'is-invalid' or ''}"
+                       t-att-value="'beneficiary_street_adult1' in checkout and checkout['beneficiary_street_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_street_adult1')"/>
+            </div>
+            <div t-attf-class="form-group #{error.get('beneficiary_city_adult1') and 'o_has_error' or ''} col-lg-6 div_city">
+                <label class="col-form-label" for="beneficiary_city_adult1">
+                    City
+                    <span class="asteriskField">*</span>
+                </label>
+                <input type="text" id="beneficiary_city_adult1" name="beneficiary_city_adult1"
+                       t-attf-class="form-control #{error.get('beneficiary_city_adult1') and 'is-invalid' or ''}"
+                       t-att-value="'beneficiary_city_adult1' in checkout and checkout['beneficiary_city_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_city_adult1')"/>
+            </div>
+            <div class="w-100"/>
+            <div t-attf-class="form-group #{error.get('beneficiary_state_adult1') and 'o_has_error' or ''} col-lg-6 div_state"
+                 t-att-style="(not country or not country.state_ids) and 'display: none'">
+                <label class="col-form-label" for="beneficiary_state_adult1">
+                    State
+                    <span class="asteriskField">*</span>
+                </label>
+                <select name="beneficiary_state_adult1"
+                        t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                    <option value="">State</option>
+                    <t t-foreach="country and country.state_ids or []" t-as="s">
+                        <option t-att-value="s.id"
+                                t-att-selected="s.id == ('beneficiary_state_adult1' in checkout and country and checkout['beneficiary_state_adult1'] != '' and int(checkout['beneficiary_state_adult1']))">
+                            <t t-esc="s.name"/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+            <div t-attf-class="form-group #{error.get('beneficiary_dob_adult1') and 'o_has_error' or ''} col-lg-6"
+                 id="div_dob">
+                <label class="col-form-label" for="beneficiary_dob_adult1">
+                    Date of Birth
+                    <span class="asteriskField">*</span>
+                </label>
+                <input id="dob_adult" type="text" name="beneficiary_dob_adult1"
+                       t-attf-class="form-control o_website_form_date #{error.get('beneficiary_dob_adult1') and 'is-invalid' or ''}"
+                       t-att-value="'beneficiary_dob_adult1' in checkout and checkout['beneficiary_dob_adult1'] or 'beneficiaries' in request.session and request.session.beneficiaries.get('beneficiary_dob_adult1')"/>
+            </div>
+            <div class="w-100"/>
+        </template>
+
+        <!--beneficiaries-->
+        <template id="beneficiaries">
+            <t t-call="website.layout">
+                <div id="wrap" class="membership-beneficiaries">
+                    <t t-if="website_sale_order.website_order_line and len(website_sale_order.website_order_line)">
+                        <t t-set="line1" t-value="website_sale_order.website_order_line[0]"/>
+                    </t>
+                    <div class="container oe_website_sale py-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <t t-call="website_sale.wizard_checkout">
+                                    <t t-set="step" t-value="30"/>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                                <t t-call="website_sale.cart_summary"/>
+                            </div>
+                            <div class="col-12 col-xl order-xl-1 oe_cart">
+                                <div>
+                                    <div class="alert alert-warning" role="alert" t-if="error">
+                                        <p class="text-danger">
+                                            <t t-foreach="error.get('error_message',[])" t-as="err">
+                                                <t t-esc="err"/>
+                                            </t>
+                                        </p>
+                                    </div>
+
+                                    <div class="form-row patient-list">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="hidden" name="submitted" value="1"/>
+                                        <input type="hidden" name="partner_id" t-att-value="partner_id or '0'"/>
+                                        <input type="hidden" name="callback" t-att-value="callback"/>
+                                        <input type="hidden" name="products_json" t-att-value="products_json"/>
+                                        <p class="title">Your family plan has
+                                            <span t-esc="website_sale_order.cart_quantity"/>
+                                            beneficiaries. Please provide their personal details
+                                        </p>
+                                        <div class="table-responsive">
+                                            <table class="table table-customers">
+                                                <tbody>
+                                                    <!--generate dynamically via JS-->
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td style="text-align:left">
+                                                        </td>
+                                                        <td style="text-align:right">
+                                                            <button role="button" id="btn-beneficiary-continue"
+                                                                    class="btn btn-primary btn-lg btn-round mb32 a-submit a-submit-disable a-submit-loading">
+                                                                <span>Continue</span>
+                                                                <i class="fa fa-chevron-right"/>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div id="patientModal2" class="modal fade">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <form action="#" method="post" id="form-add-patient2">
+                                                            <div class="modal-body">
+                                                                <h6 class="modal-title text-muted"></h6>
+                                                                <input type="hidden" name="itemId"/>
+                                                                <input type="hidden" name="prod_short_name"/>
+                                                                <t t-call="eha_website_sale.patient_form"/>
+                                                            </div>
+                                                            <div class="modal-footer clearfix">
+                                                                <button type="button"
+                                                                        class="btn btn-outline-primary pull-left"
+                                                                        data-dismiss="modal">Cancel
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary pull-right"
+                                                                        id="btn-add-patient2">Save
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="wizard_checkout_ext" inherit_id="website_sale.wizard_checkout">
+            <xpath expr="//div[@class='wizard']" position="replace">
+                <div class="wizard">
+                    <div class="progress-wizard">
+                        <a class="no-decoration" t-att-href="step&gt;=10 and '/shop/cart' or '#'"
+                           t-if="not request.session.get('is_sub_membership')">
+                            <div id="wizard-step10"
+                                 t-att-class="'progress-wizard-step %s' % (step == 10 and 'active' or step&gt;10 and 'complete' or 'disabled')">
+                                <div class="progress-wizard-bar d-none d-md-block"/>
+                                <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                <div class="text-center progress-wizard-steplabel">Review Order</div>
+                            </div>
+                        </a>
+                        <a class="no-decoration" t-att-href="step&gt;=20 and '/shop/checkout' or '#'">
+                            <div id="wizard-step20"
+                                 t-att-class="'progress-wizard-step %s' % (step == 20 and 'active' or step&gt;20 and 'complete' or 'disabled')">
+                                <div class="progress-wizard-bar d-none d-md-block"/>
+                                <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                <div class="text-center progress-wizard-steplabel">Address</div>
+                            </div>
+                        </a>
+                        <a class="no-decoration" t-att-href="step&gt;=30 and '/shop/beneficiaries' or '#'"
+                           t-if="request.session.get('is_sub_membership')">
+                            <div id="wizard-step30"
+                                 t-att-class="'progress-wizard-step %s' % (step == 30 and 'active' or step&gt;30 and 'complete' or 'disabled')">
+                                <div class="progress-wizard-bar d-none d-md-block"/>
+                                <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                <div class="text-center progress-wizard-steplabel">Beneficiaries</div>
+                            </div>
+                        </a>
+                        <a class="no-decoration" t-att-href="step&gt;=40 and '/shop/payment' or '#'">
+                            <div id="wizard-step40"
+                                 t-att-class="'progress-wizard-step %s' % (step == 40 and 'active' or step&gt;40 and 'complete' or 'disabled')">
+                                <div class="progress-wizard-bar d-none d-md-block"/>
+                                <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                                <div class="text-center progress-wizard-steplabel">Confirm Order</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <!-- I agree to the terms-->
+        <template id="payment_sale_note_ext" inherit_id="website_sale.payment" name="Accept Terms &amp; Conditions">
+            <xpath expr="//div[@id='payment_method'][hasclass('js_payment')]" position="before">
+                <div class="custom-control custom-checkbox float-right mt-8 oe_accept_cgv_button">
+                    <t t-if="website_sale_order.website_order_line and len(website_sale_order.website_order_line)">
+                        <t t-set="line1" t-value="website_sale_order.website_order_line[0]"/>
+                        <t t-if="line1.product_id.plan_id and line1.product_id.plan_id.name.lower() in ('standard','premium','international')">
+                            <input type="checkbox" id="checkbox_cgv" class="custom-control-input"/>
+                            <label for="checkbox_cgv" class="custom-control-label">
+                                I agree to the
+                                <a target="_BLANK" href="/shop/terms">terms &amp; conditions</a>
+                            </label>
+                            <t t-call="eha_website_sale.sla_popup"/>
+                        </t>
+                    </t>
+                </div>
+                <div class="clearfix"/>
+            </xpath>
+        </template>
+        <!-- sla2 template used by the terms url-->
+        <template id="terms">
+            <t t-call="website.layout">
+                <t t-call="eha_website_sale.sla2"/>
+            </t>
+        </template>
+
+        <!--sla templated used by Membership sla popup  -->
+        <template id="sla_popup" name="EHA Website Membership sla Popup">
+            <div class="section_sla " data-list-id="1">
+                <div id="slaModal" class="modal fade">
+                    <div class="modal-dialog ">
+                        <div class="modal-content">
+                            <form action="#" method="POST">
+                                <div class="modal-body">
+                                    <t t-call="eha_website_sale.sla2"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- sla content-->
+        <template id="sla2">
+            <t t-name="EHA Website Membership SLA">
+                <div class="container">
+                    <div class="section mt-5">
+                        <h1 class="mb-3">
+                            EHA Clinics Healthcare Membership
+                        </h1>
+                        <p>EHA Clinics provides quality, comprehensive and fully integrated healthcare services from a
+                            medical team that cares. We are not your ordinary clinic and we’ve created a
+                            membership-based healthcare practice truly designed around your needs.
+                        </p>
+                        <p>We can work with your insurance just like a regular clinic or hospital, but we offer a much
+                            better experience and much higher quality services. An EHA Clinics membership gives you easy
+                            access to your dedicated medical team any time you need it at any of our offices and even at
+                            your home.
+                        </p>
+                        <h4>What is a Healthcare Membership?</h4>
+                        <p>An EHA Clinics Healthcare Membership is a new way to get high quality, comprehensive
+                            healthcare from a medical team who cares, all for a low, flat annual fee. A Healthcare
+                            Membership is a model that puts clients, or members, at the center of care. With affordable
+                            annual fees, all members receive personal, 24/7 access to their medical team.
+                        </p>
+                        <h4>What services do you get with a membership?</h4>
+                        <h5>Comprehensive care</h5>
+                        <p>We offer high-quality care to kids, adults, and senior patients. This includes chronic
+                            disease management (diabetes, high blood pressure, etc), mental health, urgent care, acute
+                            disease management, wellness and annual physicals.
+                        </p>
+                        <h5>Connect to care 24/7</h5>
+                        <p>Connect to on-demand care over phone, email, text anytime. Message our care team, renew
+                            prescriptions and book appointments.
+                            Need a visit? We can usually get you a next-day appointment, for no extra charge.
+                        </p>
+                        <h5>Extended time with the doctor</h5>
+                        <p>Appointments are typically 30 minutes, but can go as long as 60. Whatever it takes to get you
+                            taken care of. Good healthcare takes time.
+                        </p>
+                        <h5>Medical emergency evacuation</h5>
+                        <p>Our Premium International package provides you the ground and air ambulance evacuation
+                            services in case of a health emergency.
+                        </p>
+                        <h5>Coordination with specialists</h5>
+                        <p>If you require a consultant for specialty medical care, we will help you find specialist that
+                            meets our standards work closely with them. We can even connect to international specialist
+                            through our <b>telemedicine</b> system.
+                        </p>
+                        <h5>Integrated care</h5>
+                        <p>We have pharmacy, lab, dental, optometry and many other services at each location. You will
+                            not have to travel around to get the service you need. Minor procedures are done in-house so
+                            no need to visit a hospital to have wounds dressed, suturing, and even observation and
+                            monitoring in one of our patient beds.
+                        </p>
+                        <h5>Home care</h5>
+                        <p>Almost everything we provide in our facilities we can deliver directly to your home by a
+                            skilled home care nurse. We can run basic lab tests, provide medications, and dress wounds.
+                            We can also provide IV drugs and vital monitoring so that you can be with your family while
+                            receiving world-class care.
+                        </p>
+                        <h5>Ambulance Service</h5>
+                        <p>With our Premium packages, you can benefit from the use of our highly-equipped ambulance
+                            service within the city’s metropolis for free, and inter-state at a discounted cost.
+                        </p>
+
+                    </div>
+                    <div class="section mt-5">
+                        <h1 class="mb-3">
+                            EHA CLINICS HEALTHCARE MEMBERSHIP AGREEMENT
+                        </h1>
+
+                        <p>
+                            This EHA Clinics Ltd (“EHAC”) Direct Healthcare Membership Agreement (the “Agreement”)
+                            specifies the terms and conditions under which you (the “Member”) and your spouse or
+                            dependents included in the Agreement will participate in the benefits available under the
+                            Agreement.
+                        </p>
+
+                        <h4>1. MEMBERSHIP</h4>
+                        <p>The member is eligible to receive certain medical services described in <b>Covered Services
+                        </b> and are subject to certain conditions and limitations. Membership in EHAC’s Direct
+                            Healthcare Membership includes only the Covered Services specifically described and EHAC may
+                            add or discontinue Covered Services at any time. At least sixty (60) days’ advance written
+                            notice upon any change to the Covered Services.
+                        </p>
+                        <p>The term of this Agreement is for one year beginning on the date of your first membership
+                            payment. The Agreement shall automatically renew for successive yearly periods unless either
+                            party cancels the Agreement.
+                        </p>
+
+                        <h4>2. MEMBERSHIP FEES</h4>
+                        <p>A client will pay an annual membership fee (“Membership Fee”) in line with the membership
+                            category selected. Services required that are not included in the Membership Fee will be
+                            paid at the time of service. In the event that the Client is unable to pay the annual
+                            Membership Fee in full and on time, EHAC may, in its sole discretion, terminate this
+                            Membership Agreement. EHAC may amend the Membership Fee Schedule at any time, as it may
+                            determine in its sole discretion, upon providing its Member at least sixty (60) days’
+                            advance written notice.
+                        </p>
+                        <h4>3. OTHER FEES</h4>
+                        <p>The Client will be responsible for any charges incurred for health care services performed by
+                            non-EHAC medical providers including, but not limited to antenatal care during pregnancy and
+                            child delivery, wellness program, physiotherapy, emergency room visits, hospital and
+                            specialist care, and imaging and lab tests performed by third parties. The Member shall also
+                            be responsible for any charges incurred for health care services provided by the EHAC but
+                            not specifically included in its membership package.
+                        </p>
+                        <h4>4. INSURANCE</h4>
+                        <p>This Agreement is <b>NOT A HEALTH INSURANCE POLICY</b>, and does not cover services or care
+                            given at any other facility than the participating clinics. This Agreement does not include
+                            any major catastrophic medical care provided by emergency rooms, hospitals, urgent care
+                            centers, services rendered by specialists or specialty clinics, or other entities not
+                            outlined specifically as a participating clinic. The Member further understands certain
+                            healthcare providers working at the participating clinics to provide specialty services may
+                            not be included as part of the Covered Services even if delivered within the participating
+                            clinic.
+                        </p>
+
+                        <p>
+                            EHAC strongly encourages the Member to maintain health insurance during the term of this
+                            Membership Agreement to cover services that are not provided under this Membership
+                            Agreement. Patient should purchase health insurance to cover, at a minimum unpredictable and
+                            catastrophic expenses.
+                        </p>
+                        <h5>INSURANCE CLAIMS</h5>
+                        <p>
+                            Member acknowledges that the EHAC participates only with selected in private health care
+                            plans. Patient acknowledges that EHAC may not bill insurance providers on the Members behalf
+                            for services provided. Where EHAC does bill insurance providers on the Members behalf, the
+                            Member acknowledges they will be responsible to cover any remaining balance of fees not paid
+                            by the insurance provider.
+                        </p>
+                        <h4>5. TERMINATION OF AGREEMENT</h4>
+                        <p>
+                            The Member may terminate this Agreement at any time and for any reason, upon providing
+                            advance written notice to EHAC. Such termination shall be effective on the last day of the
+                            Agreement coverage period. EHAC may terminate this Agreement upon providing the client
+                            advance written notice. Termination will be effective starting one month after the
+                            notification.
+                        </p>
+                        <h4>6. GENERAL COVERED SERVICES</h4>
+
+                        <p>The available covered services vary by membership type and any specific additional service
+                            agreements between the Member (or their employer) and EHAC.
+                        </p>
+                    </div>
+                    <div class="section mt-5">
+                        <h3>Covered Services with our membership plans</h3>
+
+                        <div class="row mt-5">
+                            <div class="col box-rounded plan-standard">
+                                <h4>Standard</h4>
+                                <ul class="check">
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Comprehensive care
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Access to your doctor during clinic operating hours
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Extended time with the doctor
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Coordination with a specialist at a discount
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Discount medications, labs and more
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col box-rounded plan-premium">
+                                <h4>Premium</h4>
+                                <ul class="check">
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Comprehensive care
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Access to your doctor during clinic operating hours
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Extended time with the doctor
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Coordination with a specialist at a discount
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Discount medications, labs and more
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Ambulance service
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Upto 12 free home care visits in a year
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col box-rounded plan-international">
+                                <h4>Premium international</h4>
+                                <ul class="check">
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Comprehensive care
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Access to your doctor during clinic operating hours
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Extended time with the doctor
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Coordination with a specialist at a discount
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Discount medications, labs and more
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Ambulance service
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Upto 12 free home care visits in a year
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check"></i>
+                                        Local and international emergency medical evacuation
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <table class="pricelist mt-5 mb-5">
+                            <tbody>
+                                <tr>
+                                    <th colspan="3" rowspan="1">
+                                        <h4>
+                                            Comprehensive Care
+                                        </h4>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" rowspan="1">
+                                        <h5>
+                                            Service
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Non-Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Physician consultations and follow-up visits
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            5,890
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>0</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Child wellness Check-up
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            3,450
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Comprehensive Physical Exams
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            13,050
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Foreign body Removal
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            5,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Home care visit -- base fee
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            9,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                        <p>
+                                            (Premium/Premium Int')
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            IUCD/Implanon insertion
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            7,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            6,000
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Cervical cancer HPV PCR
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            15,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            9,300
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="2">
+                                        <p>
+                                            Telemedicine
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            (India) 14,903
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            (India) 9,240
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            (USA) 50,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            (USA) 40,000
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" rowspan="1">
+                                        <h4>
+                                            Urgent Care
+                                        </h4>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" rowspan="1">
+                                        <h5>
+                                            Service
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Non-Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="2">
+                                        <p>
+                                            Ambulance
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            10,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            9000
+                                        </p>
+                                        <p>
+                                            (Standard)
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            10,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                        <p>
+                                            (Premium/Premium Int'l)
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Medical Emergency Evacuation
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            NA
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                        <p>
+                                            (premium International)
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" rowspan="1">
+                                        <h4>
+                                            Labs and Diagnostics
+                                        </h4>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" rowspan="1">
+                                        <h5>
+                                            Service
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Non-Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            ECG
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            5,507
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Ultrasound Screening
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            5,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            0
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Sickle cell screen/Hb Genotype
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            2,480
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            4,000
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Hepatitis B surface Ag RDT
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            1,500
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            930
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Automated Full blood count 3-part
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            2,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            1,240
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            HIV RDT
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            2,200
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            1,364
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            X-rays
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            6,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            5,400
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            MRI
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            96,000
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            86,400
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" rowspan="1">
+                                        <p>
+                                            *More labs are available, this is only an example of pricing
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" rowspan="1">
+                                        <h4>
+                                            Pharmaceutical Services
+                                        </h4>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="1" rowspan="1">
+                                        <h5>
+                                            Service
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Non-Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                    <th colspan="1" rowspan="1">
+                                        <h5 class="text-right">
+                                            Member Cost (NGN)
+                                        </h5>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" rowspan="1">
+                                        <p>
+                                            Medication
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            Standard price
+                                        </p>
+                                    </td>
+                                    <td colspan="1" rowspan="1" class="text-right">
+                                        <p>
+                                            10% discount on all drugs.
+                                            <br/>Some medications included for free based on availability and supplier
+                                            pricing.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

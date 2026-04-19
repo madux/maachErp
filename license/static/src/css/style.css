@@ -1,0 +1,451 @@
+/* ============================================================
+   QMS Lab Test Request — Backend UI Styles
+   File: static/src/css/qms_form.css
+   ============================================================ */
+
+/* ── Root palette ── */
+.o_qms_form {
+    --qms-primary:       #F5A623;
+    --qms-primary-dark:  #D4891A;
+    --qms-primary-light: #FEF3E0;
+    --qms-success:       #28A745;
+    --qms-danger:        #DC3545;
+    --qms-info:          #17A2B8;
+    --qms-muted:         #6C757D;
+    --qms-border:        #E8ECEF;
+    --qms-bg:            #F7F9FC;
+    --qms-card-bg:       #FFFFFF;
+    --qms-radius:        12px;
+    --qms-radius-sm:     8px;
+    --qms-shadow:        0 2px 12px rgba(0, 0, 0, 0.07);
+    --qms-shadow-hover:  0 6px 24px rgba(0, 0, 0, 0.12);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--qms-bg);
+}
+
+/* ══════════════════════════════════════════
+   HERO HEADER BANNER
+══════════════════════════════════════════ */
+.qms-header-hero {
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+    border-radius: var(--qms-radius);
+    padding: 28px 32px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-sm {
+    line-height: 1.5;
+    width: 5;
+  }
+
+.qms-header-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    background: var(--qms-primary);
+    opacity: 0.08;
+    border-radius: 50%;
+}
+
+.qms-header-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 60px;
+    width: 100px;
+    height: 100px;
+    background: var(--qms-info);
+    opacity: 0.06;
+    border-radius: 50%;
+}
+
+.qms-hero-ref {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.qms-hero-sub {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 400;
+}
+
+/* ══════════════════════════════════════════
+   SECTION CARDS
+══════════════════════════════════════════ */
+.qms-card {
+    background: var(--qms-card-bg);
+    border: 1px solid var(--qms-border);
+    border-radius: var(--qms-radius);
+    box-shadow: var(--qms-shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.qms-card:hover {
+    box-shadow: var(--qms-shadow-hover);
+}
+
+.qms-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid var(--qms-border);
+    background: linear-gradient(90deg, var(--qms-primary-light) 0%, #FFFFFF 80%);
+}
+
+.qms-card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--qms-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.qms-card-icon svg {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    width: 16px;
+    height: 16px;
+}
+
+.qms-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1A1A2E;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.qms-card-body {
+    padding: 18px 20px;
+}
+
+/* ══════════════════════════════════════════
+   KPI STRIP
+══════════════════════════════════════════ */
+.qms-kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.qms-kpi-box {
+    background: var(--qms-card-bg);
+    border: 1px solid var(--qms-border);
+    border-radius: var(--qms-radius-sm);
+    padding: 14px 16px;
+    text-align: center;
+    box-shadow: var(--qms-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.qms-kpi-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--qms-primary);
+    border-radius: 0 0 var(--qms-radius-sm) var(--qms-radius-sm);
+}
+
+.qms-kpi-box.kpi-success::after { background: var(--qms-success); }
+.qms-kpi-box.kpi-danger::after  { background: var(--qms-danger); }
+.qms-kpi-box.kpi-info::after    { background: var(--qms-info); }
+
+.qms-kpi-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--qms-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+}
+
+.qms-sticky-filter {
+    position: sticky;
+    top: 0; /* sticks under control panel */
+    z-index: 1000;
+
+    background: #ffffff;
+    padding: 10px 12px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.qms-kpi-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1A1A2E;
+    line-height: 1;
+}
+
+.qms-dashboard-value {
+    font-size: 40px;
+    font-weight: 800;
+    color: #1A1A2E;
+    line-height: 1;
+}
+
+
+/* ══════════════════════════════════════════
+   STATUS BADGES
+══════════════════════════════════════════ */
+.qms-badge-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.qms-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.qms-badge-warning  { background: #FFF3CD; color: #856404; border: 1px solid #FFECB5; }
+.qms-badge-success  { background: #D1E7DD; color: #0A3622; border: 1px solid #A3CFBB; }
+.qms-badge-danger   { background: #F8D7DA; color: #58151C; border: 1px solid #F1AEB5; }
+.qms-badge-info     { background: #CFF4FC; color: #055160; border: 1px solid #9EEAF9; }
+.qms-badge-primary  { background: var(--qms-primary-light); color: #7A4F00; border: 1px solid #FFD97D; }
+
+/* ══════════════════════════════════════════
+   FIELD LABEL OVERRIDES
+══════════════════════════════════════════ */
+.o_qms_form .o_wrap_field > label,
+.o_qms_form .o_field_widget .o_form_label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: var(--qms-muted) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ══════════════════════════════════════════
+   NOTEBOOK / TAB STRIP
+══════════════════════════════════════════ */
+.o_qms_form .o_notebook .nav-tabs {
+    border-bottom: 2px solid var(--qms-border);
+    background: transparent;
+    padding: 0 4px;
+}
+
+.o_qms_form .o_notebook .nav-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--qms-muted);
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0;
+    padding: 10px 18px;
+    margin-bottom: -2px;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.o_qms_form .o_notebook .nav-link.active {
+    color: var(--qms-primary-dark) !important;
+    border-bottom-color: var(--qms-primary) !important;
+    background: transparent !important;
+}
+
+/* ══════════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════════ */
+.qms-divider {
+    height: 1px;
+    background: var(--qms-border);
+    margin: 12px 0;
+}
+
+/* ══════════════════════════════════════════
+   LIST VIEW  — o_qms_list
+══════════════════════════════════════════ */
+.o_qms_list .o_data_row:hover td {
+    background-color: var(--qms-primary-light) !important;
+    transition: background-color 0.15s ease;
+}
+
+.o_qms_list thead th {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--qms-muted);
+    border-bottom: 2px solid var(--qms-primary) !important;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — collapse KPI to 2 cols on small screens
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .qms-kpi-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .qms-header-hero {
+        padding: 18px 16px 14px;
+    }
+    .qms-hero-ref {
+        font-size: 16px;
+    }
+}
+
+
+.o_sop_kanban {
+    .o_kanban_renderer {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        align-items: start;
+        padding: 16px;
+    }
+
+    .o_kanban_record {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+}
+
+.sop-kanban-card {
+    display: flex;
+    flex-direction: column;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.sop-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #f7fbff;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.sop-card-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 7px;
+    background: #D4891A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sop-card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.35;
+}
+
+.sop-card-body {
+    padding: 10px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sop-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.sop-card-label {
+    color: #6c757d;
+}
+
+.sop-kpi-value {
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.sop-card-footer {
+    padding: 10px 14px;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.sop-btn-review {
+    width: 100%;
+    background: #2abfa3;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 0;
+
+    &:hover {
+        background: #23a88e;
+        color: #fff;
+    }
+}
+
+
+.o_section_info_header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background-color: #fdf8f0;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px 8px 0 0;
+}
+
+.o_section_icon_box {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: #2abfa3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i.fa {
+        color: #fff;
+        font-size: 16px;
+    }
+}
+
+.o_section_info_title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.o_section_info_body {
+    padding: 8px 20px 16px;
+    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}

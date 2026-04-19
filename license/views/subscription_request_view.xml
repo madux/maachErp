@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ══════════════════════════════════════════════════
+         TREE / LIST VIEW
+    ══════════════════════════════════════════════════ -->
+    <record id="view_hope_subscription_request_tree" model="ir.ui.view">
+        <field name="name">hope.subscription.request.tree</field>
+        <field name="model">hope.subscription.request</field>
+        <field name="arch" type="xml">
+            <tree
+                string="Lab Test Requests"
+                decoration-warning="state == 'pending'" 
+                    decoration-success="state == 'approved'"
+                    decoration-danger="state == 'rejected'"
+                multi_edit="1"
+                class="o_qms_list">
+
+                 <field name="database_name" readonly="0"/>
+                <field name="email" readonly="0"/>
+                <field name="phone" readonly="0"/>
+                <field name="admin_user" readonly="0"/>
+                <field name="months" readonly="0"/>
+                <field name="create_date" readonly="1"/>
+                <field name="modules" readonly="1"/>
+                <field name="state" readonly="1"/>
+                <field name="state" widget="badge"
+                    decoration-warning="state == 'pending'" 
+                    decoration-success="state == 'approved'"
+                    decoration-danger="state == 'rejected'" 
+                    />
+            </tree>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         SEARCH VIEW
+    ══════════════════════════════════════════════════ -->
+    <record id="view_hope_subscription_request_search" model="ir.ui.view">
+        <field name="name">hope.subscription.request.search</field>
+        <field name="model">hope.subscription.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Lab Requests">
+                <field name="database_name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="admin_user"/>
+                <field name="months"/>
+                <field name="create_date" readonly="1"/>
+                <field name="modules" readonly="1"/>
+                <separator/>
+                <group>
+                    <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         FORM VIEW  — Modern Card-based UI
+    ══════════════════════════════════════════════════ -->
+    <record id="view_hope_subscription_request_form" model="ir.ui.view">
+        <field name="name">hope.subscription.request.form</field>
+        <field name="model">hope.subscription.request</field>
+        <field name="arch" type="xml">
+            <form string="Subscription" class="o_qms_form">
+                <!-- ══ STATUS BAR ══ -->
+                <header>
+                    <button name="action_approve" string="✓ Confirm &amp; Approve"
+                            type="object" class="btn btn-success"
+                            confirm="Are you sure you want to approve and create database?"
+                            invisible="state not in ('pending')"/>
+
+                    <button name="action_reject" string="Reject"
+                            type="object" class="btn btn-success"
+                            confirm="Are you sure you want to reject"
+                            invisible="state in ('approved')"/>
+					<field name="state" widget="statusbar" force_save="1" readonly="1"/>
+                </header>
+                <sheet>
+                    <!-- ══ HERO HEADER BANNER ══ -->
+                    <div class="qms-header-hero">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="qms-hero-ref">
+                                    <field name="name" readonly="0" class="d-inline"/>
+                                </div>
+                                <div class="qms-hero-sub">Subcription Status</div>
+                                <div class="qms-badge-row">
+                                    <field name="state" widget="badge"
+                                            decoration-warning="state == 'pending'" 
+                                            decoration-success="state == 'approved'"
+                                            decoration-danger="state == 'rejected'" 
+                                            />
+                                </div>
+                            </div>
+                            <div class="text-end" style="color:rgba(255,255,255,.7); font-size:12px;">
+                                <div>
+                                     
+                                </div>
+                                <div style="margin-top:4px;">
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ 
+
+                    <!-- ══ CARD: IDENTIFICATION ══ -->
+                    <div class="qms-card">
+                        <div class="qms-card-header">
+                            <div class="qms-card-icon">
+                                <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </div>
+                            <span class="qms-card-title">Subscription</span>
+                        </div>
+                        <div class="qms-card-body">
+                            <group col="4">
+                                <field name="database_name" readonly="0"/>
+                                <field name="email" readonly="0"/>
+                                <field name="phone" readonly="0"/>
+                                <field name="address" readonly="0"/>
+                                <field name="number_of_users" readonly="0"/>
+                                <field name="admin_user" readonly="0"/>
+                                <field name="admin_password"/>
+                                <field name="admin_password_confirm" readonly="0"/>
+
+                            </group>
+                            <div class="qms-divider"/>
+                            <group col="4">
+                                <field name="months" readonly="0"/>
+                                <field name="create_date" readonly="1"/>
+                                <field name="modules" readonly="1"/>
+                                <field name="subscription_id" readonly="1"/>
+                            </group>
+                        </div>
+                    </div> 
+                </sheet> 
+                <!-- <chatter/> --> 
+            </form>
+        </field>
+    </record> 
+    <!-- ══════════════════════════════════════════════════
+         ACTION
+    ══════════════════════════════════════════════════ -->
+    <record id="action_hope_subscription_request" model="ir.actions.act_window">
+        <field name="name">Subscription</field>
+        <field name="res_model">hope.subscription.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_hope_subscription_request_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No record found
+            </p>
+            <p>
+                Create a new record.
+            </p>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         MENU
+    ══════════════════════════════════════════════════ -->
+     
+    <!-- Sub-menu: -->
+    <menuitem
+        id="menu_hope_subscription_request"
+        name="Subscription Request"
+        parent="menu_license_root"
+        groups="base.group_system"
+        action="action_hope_subscription_request"
+        sequence="30"/>
+
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eha_survey_coordinator_user,eha.survey_coordinator_user,model_res_coordinator,base.group_user,1,1,1,1
+access_eha_survey_facilitator_user,eha.survey_facilitator_user,model_res_facilitator,base.group_user,1,1,1,1

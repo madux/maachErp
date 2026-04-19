@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="payment_acquirer_paystackAcquirer" model="payment.acquirer">
+            <field name="name">Paystack</field>
+            <field name="image_128" type="base64" file="payment_paystack/static/src/img/paystack.png"/>
+            <field name="provider">paystackAcquirer</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="view_template_id" ref="paystack_form"/>
+            <!-- <field name="registration_view_template_id" ref="stripe_s2s_form"/> -->
+            <field name="environment">test</field>
+            <field name="pre_msg"><![CDATA[
+                <p>You will be prompted with Paystack Payment page for payment information.</p>]]></field>
+            <field name="paystack_public_key">pk_test_91796592e88b3b2d31f557c22e0be569b75aa860</field>
+            <field name="paystack_secret_key">sk_test_4e583d6e4f1c3113a3c5c52ba56cadcc1e54c14b</field>
+            <field name="description" type="html">
+                    <p>
+                        A payment gateway to accept online payments via Paystack.
+                    </p>
+                    <p>
+                        <i class="fa fa-check"/>Online Payment
+                        <i class="fa fa-check"/>eCommerce
+                        <i class="fa fa-check"/>Invoicing
+                        <i class="fa fa-check"/>Subscription
+                        <i class="fa fa-check"/>Save Cards
+                    </p>
+                </field>
+                    
+        </record>
+    </data>
+</odoo>

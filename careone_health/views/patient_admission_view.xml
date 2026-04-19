@@ -1,0 +1,194 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <!-- Inpatient Admission -->
+        <record model="ir.ui.view" id="careone_admission_form_view">
+            <field name="name">patient.medical.admission.form</field>
+            <field name="model">patient.medical.admission</field>
+
+            <field name="arch" type="xml">
+                <form string="Inpatient Admission">
+                    <header>
+                        <button string="Discharge Patient" confirm="Are you sure you want to discharge the patient?" name="action_discharge" type="object" class="oe_highlight" groups="careone_health.group_user_clinician,base.group_system"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,inpatient,outpatient" statusbar_colors='{"draft":"grey", "inpatient":"red", "outpatient": "blue"}'/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name"/>
+                            <h2><field name="name" class="oe_inline"/></h2>
+                        </div>
+                        <group name="general_info">
+                            <group>
+                                <field name="patient_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="admission_reason" required="1" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="room_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="admission_type" required="1"/>
+                                <field name="admittedby" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+
+                            <group>
+                                <field name="admission_date" required="1"/>
+                            </group>
+                            <group>
+                                <field name="discharge_date"/>
+                            </group>
+                        </group>
+
+                        <group name="admission_details">
+                            <group>
+                                <field name="admission_condition" string="Admission Condition"  style="background:#efefef"/>
+                            </group>
+                            <group>
+                                <!-- <field name="nursing_plan"  style="background:#efefef"/> -->
+                            </group>
+                            <group>
+                                <field name="discharge_plan"  style="background:#efefef"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Nurse Assesments" 
+                                groups="careone_health.group_user_clinician,base.group_system">
+                                <button name="action_nurse_assessment" type="object" string="Add Assessment" 
+                                    class="oe_highlight pull-right"
+                                    invisible="state in ['outpatient']"/>
+                                <p class='clearfix'/>
+                                <field name="nurse_assessment_ids">
+                                    <tree create="false" delete="false">
+                                        <field name="name" />
+                                        <field name="evaluation_start_date" widget="date" string="Date"/>
+                                        <field name="care_provider" string="Administered By"/>
+                                        <field name="evaluation_start_date" string="Time"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Doctor Evaluations" 
+                                groups="careone_health.group_user_clinician,base.group_system">
+                                <button name="action_evaluation" type="object" string="Add Evaluation" 
+                                    class="oe_highlight pull-right" 
+                                    invisible="state in ['outpatient']"/>
+                                <p class='clearfix'/>
+                                <field name="evaluation_ids">
+                                  <tree create="false" delete="false">
+                                        <field name="name" />
+                                        <field name="evaluation_start_date" widget="date" string="Date"/>
+                                        <!-- <field name="template_id" /> -->
+                                        <field name="care_provider" string="Administered By"/>
+                                        <field name="evaluation_start_date" string="Time"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="admission_tree_view">
+            <field name="name">patient.medical.admission.tree</field>
+            <field name="model">patient.medical.admission</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Inpatient Admission' decoration-info="state=='inpatient'" decoration-success="state=='outpatient'" >
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="admission_type"/>
+                    <field name="admission_date"/>
+                    <field name="discharge_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+            <record id="admission_filter_view" model="ir.ui.view">
+            <field name="name">patient.medical.admission.search</field>
+            <field name="model">patient.medical.admission</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Inpatient Admission">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="admittedby"/>
+                    <field name="dischargedby"/>
+                    <field name="state" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Patient" name="group_patient" domain="[]" context="{'group_by':'patient_id'}" />
+                        <filter string="Admission Type" name="group_admission_type" domain="[]" context="{'group_by':'admission_type'}" />
+                        <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Admission Kanban View -->
+        <record model="ir.ui.view" id="admission_kanban_view">
+            <field name="name">patient.medical.admission.kanban</field>
+            <field name="model">patient.medical.admission</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="sex"/>
+                    <field name="age"/>
+                    <field name="admission_date"/>
+                    <field name="state" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oeh_medical_image">
+                                    <!-- <a type="open"><img alt="Logo" t-att-src="kanban_image('oeh.medical.patient', 'image_medium', record.patient_id.raw_value)" class="oeh_medical_picture"/></a> -->
+                                </div>
+                                <div class="oeh_medical_details">
+                                    <ul>
+                                        <li class="text-muted float-right mb4" t-if="record.state.raw_value=='draft'"><i class="fa fa-circle" role="img" aria-label="Draft" title="Draft"/></li>
+                                        <li class="text-muted float-right mb4" t-if="record.state.raw_value=='outpatient'"><i class="fa fa-circle" role="img" aria-label="Discharged" title="Discharged"/></li>
+                                        <li class="text-success float-right mb4" t-if="record.state.raw_value=='inpatient'"><i class="fa fa-circle" role="img" aria-label="Admitted" title="Admitted"/></li>
+                                        <li class="mb4">
+                                            <strong><field name="name"/> <br/>
+                                                <field name="patient_id"/>
+                                            </strong> 
+
+                                        </li>
+                                        <li t-if="record.sex.raw_value"><field name="sex"/></li>
+                                        <li t-if="record.age.raw_value"><field name="age"/></li>
+                                        <li t-if="record.admission_date.raw_value"><field name="admission_date" widget="date"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="careone_action_admissions_action" model="ir.actions.act_window">
+                <field name="name">Admissions</field>
+                <field name="res_model">patient.medical.admission</field>
+
+                <field name="view_mode">kanban,tree,form</field>
+                <field name="domain">[]</field>
+                <field name="context">{"search_default_state": "inpatient"}</field>
+                <field name="view_id" eval="False"/>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                    Click to admit new patient.
+                    </p>
+                </field>
+        </record>
+
+        <record id="action_admission_view_form" model="ir.actions.act_window">
+            <field name="name">Admissions</field>
+            <field name="res_model">patient.medical.admission</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="careone_health.careone_admission_form_view"/>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem action="careone_action_admissions_action" id="careone_action_admissions" name="Admissions" parent="careone_health.menu_clinic_management_patient" sequence="20"/>
+
+    </data>
+</odoo>

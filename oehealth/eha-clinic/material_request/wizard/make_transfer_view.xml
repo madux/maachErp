@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="create_transfer_wizard_form">
+            <field name="name">create.transfer.wizard.form</field>
+            <field name="model">create.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Create RFQ">
+                    <group col="4" colspan="4">
+                         <field name="picking_type_id"/>
+                         <field name="partner_id"/>
+                     </group>
+                     <group col="4" colspan="4">
+                         <field name="source_loc_id"/>
+                         <field name="dest_location_id"/>
+                     </group>
+                    <footer>
+                        <button string="Create" confirm="Are you sure ? Do not forget to assign approved qty" name="create_transfer" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_create_transfer_wizard" model="ir.actions.act_window">
+            <field name="name">Create Transfer</field>
+            <field name="res_model">create.transfer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_visit_summary_document">
+        <t t-call="web.external_layout">
+            <t t-as="o" t-lang="">
+            <div class="mb64 center-block">
+                <h1>Visit Summary Report</h1>
+            </div>
+                <div class="page">
+                    <h3>
+                        <name>Evaluation Number: </name><span t-field="o.name"/>
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-7">
+                            <div t-if="o.discharge_patient_name">
+                                    <strong>Patient Name:</strong>
+                                    <p t-field="o.discharge_patient_name"/>
+                                </div>
+                            <div t-if="o.patient_admission_date">
+                                <strong>Evaluation Date:</strong>
+                                <p t-field="o.patient_admission_date"/>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div t-if="o.discharge_attending_physician">
+                                <strong>Attending Physician:</strong>
+                                <p t-field="o.discharge_attending_physician"/>
+                            </div>
+                            <div t-if="o.discharge_patient_id">
+                                <strong>Patient ID:</strong>
+                                <p t-field="o.discharge_patient_id"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-if="o.chief_complaint_discharge">
+                        <br/>
+                        <h5><strong>Chief Complaint:</strong></h5>
+                        <p t-field="o.chief_complaint_discharge"/>
+                    </div>
+
+                    <h5 t-if="o.last_vital_signs">
+                        <br/>
+                        <strong>Vital Signs</strong>
+                    </h5>
+                    <table class="table table-sm" t-if="o.last_vital_signs">
+                        <thead>
+                            <tr>
+                                <th><span>Time</span></th>
+                                <th><span>Temp</span></th>
+                                <th><span>Systolic</span></th>
+                                <th><span>Diastolic</span></th>
+                                <th><span>Heart Rate</span></th>
+                                <th><span>Respiratory</span></th>
+                                <th><span>Oxygen Saturation</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.last_vital_signs" t-as="vital">
+                                <td><span t-field="vital.time"/></td>
+                                <td><span t-field="vital.temp"/></td>
+                                <td><span t-field="vital.systolic"/></td>
+                                <td><span t-esc="vital.diastolic"/></td>
+                                <td><span t-field="vital.heart_rate"/></td>
+                                <td><span t-field="vital.respiratory"/></td>
+                                <td><span t-field="vital.oxy_saturate"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div t-if="o.indication_discharge">
+                        <br/>
+                        <h5><strong>Diagnoses:</strong></h5>
+                        <div t-foreach="o.indication_discharge" t-as="l">
+                            <td>
+                                <span t-field="l.name"/>
+                            </td>
+                        </div>
+                    </div>
+
+                    <div t-if="o.info_diagnosis_discharge">
+                        <br/>
+                        <h5><strong>Information on Diagnosis:</strong></h5>
+                        <p t-field="o.info_diagnosis_discharge"/>
+                    </div>
+
+                    <h5 t-if="o.treatments_administered_discharge">
+                        <br/>
+                        <strong>Administered medications</strong>
+                    </h5>
+                    <table class="table table-sm" t-if="o.treatments_administered_discharge">
+                        <thead>
+                            <tr>
+                                <th><span>Medication</span></th>
+                                <th><span>Dose</span></th>
+                                <th><span>Dose Unit</span></th>
+                                <th><span>Form</span></th>
+                                <th><span>x</span></th>
+                                <th><span>Route</span></th>
+                                <th><span>Date and Time</span></th>
+                                <th><span>Administered By</span></th>
+                                <th><span>Comments</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.treatments_administered_discharge" t-as="inv">
+                                <td><span t-field="inv.name"/></td>
+                                <td><span t-field="inv.dose"/></td>
+                                <td><span t-field="inv.dose_unit.name"/></td>
+                                <td><span t-esc="inv.dose_form.name"/></td>
+                                <td><span t-field="inv.qty"/></td>
+                                <td><span t-field="inv.route"/></td>
+                                <td><span t-field="inv.time"/></td>
+                                <td><span t-field="inv.administered_by.name"/></td>
+                                <td><span t-field="inv.comments"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h5 t-if="o.procedures_performed_discharge">
+                        <br/>
+                        <strong>Treatments / Procedures Performed</strong>
+                    </h5>
+                    <table class="table table-sm" t-if="o.procedures_performed_discharge">
+                        <thead>
+                            <tr>
+                                <th><span>Procedure</span></th>
+                                <th><span>Site</span></th>
+                                <th><span>Date/Time</span></th>
+                                <th><span>Performed By</span></th>
+                                <th><span>Comments</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.procedures_performed_discharge" t-as="inv">
+                                <td><span t-field="inv.name"/></td>
+                                <td><span t-field="inv.site"/></td>
+                                <td><span t-field="inv.time"/></td>
+                                <td><span t-field="inv.performed_by.name"/></td>
+                                <td><span t-field="inv.comments"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h5 t-if="o.prescribed_medication_lines">
+                        <br/>
+                        <strong>Prescribed Medications</strong>
+                    </h5>
+                    <table class="table table-sm" t-if="o.prescribed_medication_lines">
+                        <thead>
+                            <tr>
+                                <th><span>Prescription #</span></th>
+                                <th><span>Medicine</span></th>
+                                <th><span>Qty</span></th>
+                                <th><span>Dose</span></th>
+                                <th><span>Route</span></th>
+                                <th><span>Frequency</span></th>
+                                <th><span>Start Date</span></th>
+                                <th><span>End Date</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.prescribed_medication_lines" t-as="inv">
+                                <td><span t-field="inv.prescription_id.name"/></td>
+                                <td><span t-field="inv.name.name"/></td>
+                                <td><span t-field="inv.qty"/></td>
+                                <td><span t-field="inv.dose"/> <span t-if="inv.dose_unit" t-field="inv.dose_unit.name"/></td>
+                                <td><span t-field="inv.dose_route.name"/></td>
+                                <td><span t-field="inv.common_dosage.name"/></td>
+                                <td><span t-field="inv.start_treatment"/></td>
+                                <td><span t-field="inv.end_treatment"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div t-if="o.directions_diagnosis">
+                        <br/>
+                        <h5><strong>Treatment Plan:</strong></h5>
+                        <p t-field="o.directions_diagnosis"/>
+                    </div>
+
+                    <div t-if="o.follow_up_diagnosis">
+                        <br/>
+                        <h5><strong>Follow Up:</strong></h5>
+                        <p t-field="o.follow_up_diagnosis"/>
+                    </div>
+
+                   <h5 t-if="o.todays_labtests and any(labtest.state in ['Completed', 'Reviewed'] for labtest in o.todays_labtests)">
+                        <div style="page-break-after: always;"/>
+                        <strong>Lab Tests</strong>
+                        <br/>
+                    </h5>
+                    <div t-if="o.todays_labtests">
+                        <t t-foreach="o.todays_labtests" t-as="test">
+                            <t t-if="test.state in ['Completed', 'Reviewed']">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span><strong>Lab Test#:</strong></span>
+                                        <span t-field="test.name"/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div t-if="test.test_type">
+                                            <strong>Test Type:</strong>
+                                            <p t-field="test.test_type.name"/>
+                                        </div>
+                                        <div t-if="test.pathologist">
+                                            <strong>Pathologist: </strong>
+                                            <p t-field="test.pathologist.name"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div t-if="test.date_requested">
+                                            <strong>Date Requested:</strong>
+                                            <p t-field="test.date_requested"/>
+                                        </div>
+                                        <div t-if="test.requestor">
+                                            <strong>Doctor who requested test:</strong>
+                                            <p t-field="test.requestor"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <table class="table table-sm" t-if="test.lab_test_criteria">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">SEQUENCE</th>
+                                            <th class="text-left">TESTS</th>
+                                            <th class="text-center">RESULT</th>
+                                            <th class="text-center">NORMAL RANGE</th>
+                                            <th class="text-left">UNITS</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                        <tr t-foreach="test.lab_test_criteria" t-as="l">
+                                            <td class="text-center">
+                                            <strong><span t-field="l.sequence"/></strong>
+                                            </td>
+                                            <td>
+                                                <span t-field="l.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="l.result"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="l.normal_range"/>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="l.units.name"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="oe_structure"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="report_visit_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="oehealth_extension.report_visit_summary_document" t-lang="o.patient.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eha_asana_links_manager,eha.asana.links manager,model_eha_asana_links,group_asana_link_manager,1,1,1,1
+access_eha_asana_links_user,eha.asana.links user,model_eha_asana_links,base.group_user,1,0,0,0

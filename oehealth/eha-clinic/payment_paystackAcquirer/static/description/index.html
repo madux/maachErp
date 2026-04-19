@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex pt-2 justify-content-between">
+                <div class="px-2 py-2 font-weight-bold text-white bg-info rounded">
+                    <i class="fa fa-user mr-1" aria-hidden="true"></i>
+                    Ewetoye Ibrahim
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="px-2 py-2 font-weight-bold text-white rounded" style="background-color: #7C7BAD">
+                        <i class="fa fa-check mr-1"></i>Community
+                    </div>
+                    <div class=" ml-2 px-2 py-2 font-weight-bold text-white rounded" style="background-color: #875A7B">
+                        <i class="fa fa-check mr-1"></i>Enterprise
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <div class="container rounded bg-dark light pt-4 text-white">
+            <h1 class="text-center font-weight-bold">
+                Paystack Payment Acquirer</h1>
+            <h3 class="text-center pb-5">
+                Settle payments online
+            </h3>
+            <div class="text-center pb-3">
+                <img src="./icon.png" class="img-fluid rounded mt-n5" style="height: 200px;" alt="">
+            </div>
+        </div>
+
+        <div id="accordion" class="row pt-2">
+            <!-- About -->
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <div class="row " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                            aria-controls="collapseOne">
+                            <div class="col-10">
+                                <h4 class="text-info">About</h4>
+                                <p>The problem and solution</p>
+                            </div>
+                            <div class="col-2 text-right d-flex justify-content-end align-items-center">
+                                <i class="fa fa-chevron-right text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <p class="font-weight-bold">The Problem:</p>
+                            Odoo ships with alot of payment acquirers by default but local west african businesses seems
+                            not to be considered...
+                            What if we can receive payment online via Paystack?
+                            <br />
+                            <br />
+                            <p class="font-weight-bold">The Solution:</p>
+                            This module makes it possible for local west african businesses to receive payment from any
+                            part of the world through paystack.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Features -->
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <div class="row" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                            aria-controls="collapseTwo">
+                            <div class="col-10">
+                                <h4 class="text-info">Features</h4>
+                                <p>What this module does</p>
+                            </div>
+                            <div class="col-2 text-right d-flex justify-content-end align-items-center">
+                                <i class="fa fa-chevron-right text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="pl-3 py-3">
+                                <div class="d-flex">
+                                    <i class="mr-2 fa fa-check fa-2x text-success" aria-hidden="true"></i>
+                                    <p>Receive payment of website sales via card</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Installation -->
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <div class="row " data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                            aria-controls="collapseThree">
+                            <div class="col-10">
+                                <h4 class="text-info">Usage</h4>
+                                <p>Installation and Configuration</p>
+                            </div>
+                            <div class="col-2 text-right d-flex justify-content-end align-items-center">
+                                <i class="fa fa-chevron-right text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <a class="btn btn-primary font-weight-bold" href="https://youtu.be/xEl_b_JFLso"> Live Video</a>
+
+                            <ol>
+                                <li>
+                                    Get your public and secret keys from paystack
+                                    <div class="text-center m-2">
+                                        <img src="./api_settings.png" class="img-fluid rounded" style="width: 100%;" alt="">
+                                    </div>
+                                </li>
+                                <li>Go to <i>Website -> Configuration -> eCommerce -> Payment Acquirers</i> or
+                                    <i>Accounting/Invoicing -> Configuration -> Payments -> Payment Acquirers</i>; scroll or search for paystack and click
+                                    <strong>activate</strong>.
+                                </li>
+                                <li>In the <i>Credentials</i> tab, enter the Public and Secret key from Paystack obtained in 2</li>
+                                <li>In the <i>Configuration</i> tab, set the display name and journal.
+                                <li>Enable and Save to make the acquirer available for use in the eCommerce</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 pt-4 pb-2 text-center badge">
+                CONTACT FOR YOUR BUSINESS NEEDS <br /> (i.ewetoye@gmail.com)
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="view_disposal_invoice" model="ir.ui.view">
+			<field name="name">Invoice disposal</field>
+			<field name="model">invoice.disposal</field>
+			<field name="arch" type="xml">
+				<form string="Create invoice">
+					<group colspan="4">
+						<field name="journal_id"/>
+					</group>
+					<footer>
+						<button name="open_invoice" class="oe_highlight" string="Create" type="object" />
+						or
+						<button special="cancel" string="_Cancel" class="oe_link" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<act_window
+			name="Create invoice"
+			res_model="invoice.disposal"
+			src_model="asset.disposal"
+			key2="client_action_multi" multi="False"
+			view_mode="form"
+			view_type="form"
+			target="new"
+			id="action_invoice_disposal" />
+
+	</data>
+</odoo>

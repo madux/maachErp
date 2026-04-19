@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="send_covid19_cif_email_on_create" model="base.automation">
+            <field name="name">Send COVID-19 CIF form email</field>
+            <field name="model_id" ref="oehealth_extension.model_oeha_covid19_cif"/>
+            <field name="state">email</field>
+            <field name="template_id" ref="oehealth_extension.covid19_order_email_template"/>
+            <field name="trigger">on_create</field>
+            <field name="active" eval="True"/>
+            <field name="filter_domain">[('source', '=', 'website')]</field>
+        </record>
+    </data>
+</odoo>

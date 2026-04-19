@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        
+        <!--Kano Lamido Crescent-->
+       <record model="helpdesk.team" id="helpdesk_team_exam_room_one_kano_lamido">
+            <field name="name">Exam Room 1</field>
+            <field name="sequence">18</field>
+            <field name="alias_name">Exam-Room-1-kano-lamido</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_two_kano_lamido">
+            <field name="name">Exam Room 2</field>
+            <field name="sequence">19</field>
+            <field name="alias_name">Exam-Room-2-kano-lamido</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_three_kano_lamido">
+            <field name="name">Exam Room 3 / Acute Care</field>
+            <field name="sequence">20</field>
+            <field name="alias_name">Acute-Care-kano-lamido</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_four_kano_lamido">
+            <field name="name">Exam Room 4 / Procedures</field>
+            <field name="sequence">21</field>
+            <field name="alias_name">Procedures-kano-lamido</field>
+             <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_five_kano_lamido">
+            <field name="name">Exam Room 5 / Observation</field>
+            <field name="sequence">22</field>
+            <field name="alias_name">Observation1-kano-lamido</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_six_kano_lamido">
+            <field name="name">Exam Room 6 / Observation</field>
+            <field name="sequence">23</field>
+            <field name="alias_name">Observation2-kano-lamido</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_pharmacy_kano_lamido">
+            <field name="name">Pharmacy</field>
+            <field name="sequence">24</field>
+            <field name="alias_name">Pharmacy-kano-lamido</field>
+            <field name="status">clean</field>
+            <field name="room_type">Pharmacy</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_lab_kano_lamido">
+            <field name="name">Lab</field>
+            <field name="sequence">25</field>
+            <field name="alias_name">Lab-kano-lamido</field>
+            <field name="status">clean</field>
+            <field name="room_type">Laboratory</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_dental_clinic_kano_lamido">
+            <field name="name">Dental Clinic</field>
+            <field name="sequence">26</field>
+            <field name="alias_name">Dental-Clinic-kano-lamido</field>
+            <field name="status">clean</field>
+            <field name="room_type">Dental</field>
+        </record>
+     
+        <record model="helpdesk.team" id="helpdesk_team_eye_clinic_kano_lamido">
+            <field name="name">Eye Clinic</field>
+            <field name="sequence">27</field>
+            <field name="alias_name">Eye-Clinic-kano-lamido</field>
+            <field name="status">clean</field>
+            <field name="room_type">Ophthalmology</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_waiting_area_kano_lamido">
+            <field name="name">Waiting Area</field>
+            <field name="sequence">28</field>
+            <field name="alias_name">Waiting-Area-kano-lamido</field>
+            <field name="status">clean</field>
+            <field name="room_type">Waiting Room</field>
+        </record>
+
+        <!--Kano Independence Road Clinic -->
+       <record model="helpdesk.team" id="helpdesk_team_exam_room_one_kano_independence">
+            <field name="name">Exam Room 1</field>
+            <field name="sequence">12</field>
+            <field name="alias_name">exam-room-1-kano-independence</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+       <record model="helpdesk.team" id="helpdesk_team_exam_room_two_kano_independence">
+            <field name="name">Exam Room 2</field>
+            <field name="sequence">13</field>
+            <field name="alias_name">exam-room-2-kano-independence</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+       <record model="helpdesk.team" id="helpdesk_team_exam_room_three_kano_independence">
+            <field name="name">Exam Room 3 / Observation </field>
+            <field name="sequence">14</field>
+            <field name="alias_name">observation-kano-independence</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_pharmacy_kano_independence">
+            <field name="name">Pharmacy</field>
+            <field name="sequence">15</field>
+            <field name="alias_name">pharmacy-kano-independence</field>
+            <field name="status">clean</field>
+            <field name="room_type">Pharmacy</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_lab_kano_independence">
+            <field name="name">Lab</field>
+            <field name="sequence">16</field>
+            <field name="alias_name">lab-kano-independence</field>
+            <field name="status">clean</field>
+            <field name="room_type">Laboratory</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_waiting_area_kano_independence">
+            <field name="name">Waiting Area</field>
+            <field name="sequence">17</field>
+            <field name="alias_name">waiting-area-kano-independence</field>
+            <field name="status">clean</field>
+            <field name="room_type">Waiting Room</field>
+        </record>
+
+        <!--Abuja asba dantata-->
+       <record model="helpdesk.team" id="helpdesk_team_exam_room_one">
+            <field name="name">Exam Room 1</field>
+            <field name="sequence">1</field>
+            <field name="alias_name">Exam-Room-1-abuja-asba-dantata</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_two">
+            <field name="name">Exam Room 2</field>
+            <field name="sequence">2</field>
+            <field name="alias_name">Exam-Room-2-abuja-asba-dantata</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_three">
+            <field name="name">Exam Room 3 / Acute Care</field>
+            <field name="sequence">3</field>
+            <field name="alias_name">Acute-Care-abuja-asba-dantata</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_four">
+            <field name="name">Exam Room 4 / Procedures</field>
+            <field name="sequence">4</field>
+            <field name="alias_name">Procedures-abuja-asba-dantata</field>
+             <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_five">
+            <field name="name">Exam Room 5 / Observation</field>
+            <field name="sequence">5</field>
+            <field name="alias_name">Observation1-abuja-asba-dantata</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_exam_room_six">
+            <field name="name">Exam Room 6 / Observation</field>
+            <field name="sequence">6</field>
+            <field name="alias_name">Observation2-abuja-asba-dantata</field>
+            <field name="is_transitionable" eval="True"/>
+            <field name="status">clean</field>
+            <field name="room_type">Exam Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_pharmacy">
+            <field name="name">Pharmacy</field>
+            <field name="sequence">7</field>
+            <field name="alias_name">Pharmacy-abuja-asba-dantata</field>
+            <field name="status">clean</field>
+            <field name="room_type">Pharmacy</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_lab">
+            <field name="name">Laboratory</field>
+            <field name="sequence">8</field>
+            <field name="alias_name">Laboratory</field>
+            <field name="status">clean</field>
+            <field name="room_type">Laboratory</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_dental_clinic">
+            <field name="name">Dental Clinic</field>
+            <field name="sequence">9</field>
+            <field name="alias_name">Dental-Clinic-abuja-asba-dantata</field>
+            <field name="status">clean</field>
+            <field name="room_type">Dental</field>
+        </record>
+     
+        <record model="helpdesk.team" id="helpdesk_team_eye_clinic">
+            <field name="name">Eye Clinic</field>
+            <field name="sequence">10</field>
+            <field name="alias_name">Eye-Clinic-abuja-asba-dantata</field>
+            <field name="status">clean</field>
+            <field name="room_type">Ophthalmology</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_waiting_area">
+            <field name="name">Waiting Area</field>
+            <field name="sequence">11</field>
+            <field name="alias_name">Waiting-Area-abuja-asba-dantata</field>
+            <field name="status">clean</field>
+            <field name="room_type">Waiting Room</field>
+        </record>
+
+        <record model="helpdesk.team" id="helpdesk_team_incident_mgt">
+            <field name="name">Incident Management</field>
+            <field name="sequence">21</field>
+            <field name="alias_name">Helpdesk-team-incident-mgt</field>
+            <field name="is_transitionable" eval="False"/>
+            <field name="status">clean</field>
+            <field name="room_type">Others</field>
+        </record>
+
+        <!--stages-->
+        <record model="helpdesk.stage" id="helpdesk_stage_progress_incident">
+            <field name="name">Progress</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_incident_mgt')])]"/>
+        </record>
+        <record model="helpdesk.stage" id="helpdesk_stage_solved_incident">
+            <field name="name">Solved</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids" eval="[(6, 0, [ref('helpdesk_team_incident_mgt')])]"/>
+        </record>
+         
+        <!--Waiting Area-->
+        <record model="helpdesk.stage" id="helpdesk_stage_patient_checkedin">
+            <field name="name">Patient Checked In</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_waiting_area_kano_lamido'),ref('helpdesk_team_waiting_area'),ref('helpdesk_team_waiting_area_kano_independence')])]"/>
+        </record>
+
+
+        <record model="helpdesk.stage" id="helpdesk_stage_waiting_lab_result">
+            <field name="name">Waiting for Lab Results</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_waiting_area_kano_lamido'),ref('helpdesk_team_waiting_area'),ref('helpdesk_team_waiting_area_kano_independence')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_waiting_prescription">
+            <field name="name">Waiting for Prescription</field>
+            <field name="sequence">3</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_waiting_area_kano_lamido'),ref('helpdesk_team_waiting_area'),ref('helpdesk_team_waiting_area_kano_independence')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_for_discharge">
+            <field name="name">Ready for Discharge</field>
+            <field name="sequence">4</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_waiting_area_kano_lamido'),ref('helpdesk_team_waiting_area'),ref('helpdesk_team_waiting_area_kano_independence')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_discharged">
+            <field name="name">Discharged</field>
+            <field name="sequence">5</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_waiting_area_kano_lamido'),ref('helpdesk_team_waiting_area'),ref('helpdesk_team_waiting_area_kano_independence')])]"/>
+        </record>
+ 
+     
+       <!--Exam Rooms-->
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_nurse_vitalsigns">
+            <field name="name">Ready for Nurse: Vital Signs</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'),ref('helpdesk_team_exam_room_two_kano_independence'),
+            ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'),ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_nurse_procedure">
+            <field name="name">Ready for Nurse: Procedure</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'),ref('helpdesk_team_exam_room_one_kano_independence'),ref('helpdesk_team_exam_room_two_kano_independence'),
+            ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_nurse_counseling">
+            <field name="name">Ready for Nurse: Counseling</field>
+            <field name="sequence">3</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), 
+            ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_nurse_immunization">
+            <field name="name">Ready for Nurse: Immunization</field>
+            <field name="sequence">4</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_with_nurse">
+            <field name="name">With Nurse</field>
+            <field name="sequence">5</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'),ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_doctor_consultation">
+            <field name="name">Ready for Doctor: Consultation</field>
+            <field name="sequence">6</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_nurse_lab_resultreview">
+            <field name="name">Ready for Nurse: Lab Result Review</field>
+            <field name="sequence">7</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_doctor_lab_resultreview">
+            <field name="name">Ready for Doctor: Lab Result Review</field>
+            <field name="sequence">8</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_doctor_procedure">
+            <field name="name">Ready for Doctor: Procedure</field>
+            <field name="sequence">9</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_ready_doctor_imaging">
+            <field name="name">Ready for Doctor: Imaging</field>
+            <field name="sequence">10</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_with_doctor">
+            <field name="name">With Doctor</field>
+            <field name="sequence">11</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_one_kano_lamido'),ref('helpdesk_team_exam_room_two_kano_lamido'), 
+            ref('helpdesk_team_exam_room_three_kano_lamido'), ref('helpdesk_team_exam_room_four_kano_lamido'), ref('helpdesk_team_exam_room_five_kano_lamido'), 
+            ref('helpdesk_team_exam_room_six_kano_lamido'), ref('helpdesk_team_exam_room_one_kano_independence'), ref('helpdesk_team_exam_room_two_kano_independence'), ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_one'), ref('helpdesk_team_exam_room_two'), 
+            ref('helpdesk_team_exam_room_three'), ref('helpdesk_team_exam_room_four'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_observation">
+            <field name="name">Admitted</field>
+            <field name="sequence">12</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/> 
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_exam_room_five_kano_lamido'), ref('helpdesk_team_exam_room_six_kano_lamido'),
+            ref('helpdesk_team_exam_room_three_kano_independence'), ref('helpdesk_team_exam_room_five'), ref('helpdesk_team_exam_room_six')
+            ])]"/>
+        </record>
+
+
+        <!--Lab-->
+        <record model="helpdesk.stage" id="helpdesk_stage_lab_ready_collection">
+            <field name="name">Ready for Collection</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_lab_kano_lamido'),ref('helpdesk_team_lab'), ref('helpdesk_team_lab_kano_independence') ])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_lab_in_collection">
+            <field name="name">In Collection</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_lab_kano_lamido'),ref('helpdesk_team_lab'), ref('helpdesk_team_lab_kano_independence')])]"/>
+        </record>
+
+        <!--pharmacy-->
+        <record model="helpdesk.stage" id="helpdesk_stage_pharmacy_waiting_prescription">
+            <field name="name">Waiting for Prescription</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_pharmacy_kano_lamido'),ref('helpdesk_team_pharmacy'), ref('helpdesk_team_pharmacy_kano_independence')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_with_pharmacist">
+            <field name="name">With Pharmacist</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_pharmacy_kano_lamido'),ref('helpdesk_team_pharmacy'), ref('helpdesk_team_pharmacy_kano_independence')])]"/>
+        </record>
+
+        <!--Dental Clinic-->
+        <record model="helpdesk.stage" id="helpdesk_stage_dental_ready_dentist">
+            <field name="name">Ready for Dentist</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_dental_clinic_kano_lamido'),ref('helpdesk_team_dental_clinic')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_with_dentist">
+            <field name="name">With Dentist</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_dental_clinic_kano_lamido'),ref('helpdesk_team_dental_clinic')])]"/>
+        </record>
+
+        <!--Eye Clinic-->
+        <record model="helpdesk.stage" id="helpdesk_stage_dental_ready_ophthalmologist">
+            <field name="name">Ready for Ophthalmologist</field>
+            <field name="sequence">1</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_eye_clinic_kano_lamido'),ref('helpdesk_team_eye_clinic')])]"/>
+        </record>
+
+        <record model="helpdesk.stage" id="helpdesk_stage_with_ophthalmologist">
+            <field name="name">With Ophthalmologist</field>
+            <field name="sequence">2</field>
+            <field name="is_close" eval="False"/>
+            <field name="fold" eval="False"/>
+            <field name="team_ids"  eval="[(6, 0, [ref('helpdesk_team_eye_clinic_kano_lamido'),ref('helpdesk_team_eye_clinic')])]"/>
+        </record>
+
+        <!--DISABLE EXISTING HELPDESK Teams-->
+        <function model="helpdesk.team" name="archive_old_helpdesk" />
+
+    </data>
+</odoo>

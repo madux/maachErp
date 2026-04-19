@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pharmacy_stock_batch_tree" model="ir.ui.view">
+        <field name="name">pharmacy.stock.batch.tree</field>
+        <field name="model">pharmacy.stock.batch</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Batches" decoration-danger="is_expired==True" decoration-warning="days_to_expiry&lt;90 and days_to_expiry&gt;0">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="branch_id"/>
+                <field name="quantity"/>
+                <field name="manufacturing_date"/>
+                <field name="expiry_date"/>
+                <field name="days_to_expiry"/>
+                <field name="is_expired"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pharmacy_stock_batch_form" model="ir.ui.view">
+        <field name="name">pharmacy.stock.batch.form</field>
+        <field name="model">pharmacy.stock.batch</field>
+        <field name="arch" type="xml">
+            <form string="Stock Batch">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="location_id"/>
+                            <field name="branch_id"/>
+                        </group>
+                        <group>
+                            <field name="manufacturing_date"/>
+                            <field name="expiry_date"/>
+                            <field name="days_to_expiry"/>
+                            <field name="is_expired"/>
+                            <field name="supplier_id"/>
+                            <field name="purchase_price"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pharmacy_stock_batch" model="ir.actions.act_window">
+        <field name="name">Stock Batches</field>
+        <field name="res_model">pharmacy.stock.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_pharmacy_stock_batch"
+              name="Stock Batches"
+              parent="menu_pharmacy_root"
+              action="action_pharmacy_stock_batch"
+              sequence="30"/>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+	<record id="sale_dev_sale_customer_balance_inherited" model="ir.ui.view">
+		<field name="name">sale.dev.sale.customer.balance.inherited</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="partner_balance_amount"/>
+			</xpath>
+		</field>
+	</record>
+</odoo>

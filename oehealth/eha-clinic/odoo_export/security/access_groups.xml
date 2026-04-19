@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+
+    <record id="ma_export_category" model="ir.module.category">
+        <field name="name">Maach dynamic export</field>
+        <field name="description">Dynamic Export module</field>
+    </record>
+
+    <record id="ma_export_group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="ma_export_category" />
+    </record>
+  
+  </data>
+</odoo>

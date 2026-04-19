@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="import_atila_odoo_labtest" model="ir.ui.view">
+            <field name="name">atila_import.wizard</field>
+            <field name="model">atila_import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import Lab Test">
+                    <header>
+                        Import Lab Test
+                    </header>
+                    <group>
+                        <field name="data_file" filename="filename"/>
+                    </group>
+                    <group>
+                        <field name="filename" invisible="1"/> 
+                        <field name="import_type"/> 
+                        <field name="machine_type"/>
+                        <field name="appointment_date" attrs="{'required':[('import_type', '!=', 'kano')], 'invisible':[('import_type', '=', 'kano')]}"/>
+                        <field name="date_of_analysis" attrs="{'required':[('import_type', '=', 'kano')], 'invisible':[('import_type', '!=', 'kano')]}"/>
+
+                    </group>
+
+                    <p class="clearfix"/>
+                    <div class="oe_left">
+                        <center><a href="https://youtu.be/alMJSMKxYf0" target="_blank" attrs="{'invisible':[('machine_type', '!=', 'biorad')]}">Click Here for HowTo import Bio Rad File and the Excel Format to Use</a></center>
+                        <center><a href="https://drive.google.com/file/d/1smi5ar1d-OUyvo5x0v9iKINJJH7Up1GB/view" target="_blank" attrs="{'invisible':[('import_type', '!=', 'kano')]}">Click to see the Excel File format and how to import Kano records</a></center>
+                    </div>
+
+                    <footer>
+                        <button name="import_atila_lab_test" string="Import" type="object"  class="oe_highlight" attrs="{'invisible': ['|',('import_type','=', 'kano'), ('machine_type','!=', 'atila')]}"/>
+                        <button name="import_biorad_test" string="Import" type="object"  class="oe_highlight" attrs="{'invisible': ['|',('import_type','=', 'kano'), ('machine_type','!=', 'biorad')]}"/>
+                        <button name="import_bioexen_labtest_results" string="Import" type="object"  class="oe_highlight" attrs="{'invisible': ['|',('import_type','=', 'kano'), ('machine_type','!=', 'bioexen')]}"/>
+                        <button name="import_kano_atila_lab_test" string="Import" type="object" attrs="{'invisible': [('import_type','!=', 'kano')]}" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="action_wizard_import_atila_odoo_labtest" model="ir.actions.act_window">
+            <field name="name">Import Lab Test</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">atila_import.wizard</field>
+
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id ="import_menu_atila_import" name="Import Test Results" sequence="16" parent="oehealth.oeh_medical_laboratory_menu" action="action_wizard_import_atila_odoo_labtest"/>
+
+        <record id="oeh_confirm_dialog_view" model="ir.ui.view">
+            <field name="name">oeh.confirm.dialog</field>
+            <field name="model">oeh.confirm.dialog</field>
+            <field name="arch" type="xml">
+                <form string="Message">
+                    <field name="name"/>
+                
+                    <footer>
+                        <button string="OK" class="btn-primary" special="cancel" />
+                    </footer>				
+                </form>
+            </field>	
+	    </record>
+    </data>
+</odoo>

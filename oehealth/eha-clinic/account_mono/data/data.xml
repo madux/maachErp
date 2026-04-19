@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo noupdate="1">
+    <record id="ir_cron_fetch_mono" model="ir.cron">
+        <field name="name">Mono: Fetch Transactions</field>
+        <field name="model_id" ref="model_account_journal"/>
+        <field name="state">code</field>
+        <field name="numbercall">-1</field>
+        <field name="code">model._cron_fetch_transactions()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="active" eval="False"/>
+        <field name="doall" eval="False"/>
+    </record>
+</odoo>

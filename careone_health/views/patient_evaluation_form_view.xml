@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_patient_medical_evaluation_form" model="ir.ui.view">
+        <field name="name">patient.medical.evaluation.form</field>
+        <field name="model">patient.medical.evaluation</field>
+        <field name="arch" type="xml">
+            <form string="Evaluation">
+                <header>
+                    <button name="set_to_progress" invisible="state not in ['Draft']" string="Start Evaluation" confirm="Are you sure you want to start this evaluation?" type="object" class="oe_highlight" groups="careone_health.group_user_clinician,base.group_system"/>
+                    <button name="set_to_completed" invisible="state not in ['Published']" string="Complete Evaluation" confirm="Are you sure you want to complete this evaluation?" type="object" class="oe_highlight" groups="careone_health.group_user_clinician,base.group_system"/>
+                    <button name="set_to_draft" invisible="state not in ['Published']" string="Reverse Evaluation" confirm="Are you sure you want to reverse this evaluation?" type="object" groups="careone_health.group_user_clinician,base.group_system"/>
+                    <button name="action_admit" type="object" string="Admit Patient" invisible="state in ['Completed']" class="oe_highlight" groups="careone_health.group_user_clinician,base.group_system" />
+                    <!-- <button name="action_admit" type="object" string="Admit Patient" invisible="state in ['Completed']" class="oe_highlight" groups="careone_health.group_user_clinician,base.group_system" invisible="admission_state in ['inpatient']"/> -->
+                    <button string="Discharge Patient" name="action_discharge" type="object" class="oe_highlight" groups="careone_health.group_user_clinician,base.group_system" invisible="admission_state in ['outpatient','draft']" />
+                    <!-- <button name="print_visit_summary_report" string="Print Visit Summary" type="object"/> -->
+                    <field name="state" widget="statusbar" statusbar_visible="In Progress,Completed" statusbar_colors='{"Completed":"red","In Progress":"grey",}'/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+
+                        <h1>
+                            <label class="oe_edit_only" for="evaluation_no"/>
+                            <!-- <label class="oe_edit_only" for="name" string="Evaluation #"/> -->
+                            <!-- <field name="name" class="oe_inline"/> -->
+                            <field name="evaluation_no" class="oe_inline"/>
+                            <!-- <field name="evaluation_no" placeholder="Auto-generated" readonly="1"/> -->
+                            <!-- <field name="evaluation_no" class="oe_inline"/> -->
+                        </h1>
+                    </div>
+                    <!-- <div class="evaluation_header"> -->
+                    <group name="outer">
+                        <group name="left_side">
+
+                            <field name="admission_state" invisible="1" />
+                            <field name="admission_id" invisible="1"/>
+                            <!--This field is important for the admission workflow-->
+                            <field name="purpose" invisible="1"/>
+                            <!--This field is important for the admission workflow-->
+                            <!-- <field name="patient_id"/> -->
+                            <field name="patient_id" required="1"/>
+                            <!-- <field name="nurse" required="1" options="{'no_create': True}" readonly="state in ['Completed']"/> -->
+                            <field name="severity" required="1"/>
+                            <field name="care_provider" options="{'no_create': True}" invisible="patient_id == False" readonly="state == 'Completed'"/>
+
+                            <!-- <field name="property_product_pricelist" /> -->
+                        </group>
+
+                        <group name="right_side">
+                            <!-- <field name="doctor" invisible="1" required="0" options="{'no_create': True}" readonly="state in ['Completed']"/> -->
+                            <!-- <field name="edit_option" string="Edit"/> -->
+
+                            <!-- <field name="template_name" invisible="1"/> -->
+                            <field name="evaluation_type" readonly="state in ['Completed']" required="1"/>
+                            <field name="evaluation_start_date" readonly="state in ['Completed']"/>
+                            <field name="evaluation_duration" readonly="True"/>
+                            <field name="blood_group"/>
+                            <field name="genotype"/>
+                            <!-- <field name="appointment" domain="[('patient', '=', patient)]" options="{'no_create': True}"/> -->
+
+                        </group>
+                        <group colspan="4">
+                            <field name="age"/>
+                            <field name="sex"/>
+                            <field name="evaluation_end_date"/>
+                            <field name="notes_complaint" nolabel="1" invisible="1" />
+
+
+                        </group>
+                        <group colspan="4">
+                            <field name="chief_complaint" readonly="state in ['Completed']" placeholder="Chief complaint..." required="1"/>
+                            <field name="hpi" placeholder="History of present illness..." readonly="state in ['Completed']"/>
+                            <field string="Branch" name="branch_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
+
+                        </group>
+
+                    </group>
+                    <!-- </div>                //evaluation_header -->
+
+                    <notebook class="dolphin">
+
+                        <page string="Vital Signs" name="vital_signs">                            <!--page 2-->
+                            <div class="">
+                                <div class="o_horizontal_separator">Vital Signs</div>
+                                <field name="vitalsigns" readonly="0">
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="time"/>
+                                                <field name="temp" decoration-danger="(temp&lt;36.2 or temp&gt;37.9)"/>
+                                                <field name="systolic" decoration-danger="(systolic&lt;90 or systolic&gt;120)"/>
+                                                <field name="diastolic" decoration-danger="(diastolic&lt;60 or diastolic&gt;80)" />
+                                            </group>
+                                            <group>
+                                                <field name="heart_rate" decoration-danger="(heart_rate&lt;60 or heart_rate&gt;100)"/>
+                                                <field name="respiratory" decoration-danger="(respiratory&lt;12 or respiratory&gt;18)"/>
+                                                <field name="oxy_saturate" decoration-danger="(oxy_saturate&lt;95 or oxy_saturate&gt;100)"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                    <tree editable="bottom" create="1" delete="1">
+                                        <field name="time"/>
+                                        <field name="temp" options='{"fg_color": "red: (temp&lt;36.2 or temp&gt;37.9)"}'/>
+                                        <field name="systolic" options='{"fg_color": "red: (systolic&lt;90 or systolic&gt;120)"}'/>
+                                        <field name="diastolic" options='{"fg_color": "red: (diastolic&lt;60 or diastolic&gt;80)"}'/>
+                                        <field name="heart_rate" options='{"fg_color": "red: (heart_rate&lt;60 or heart_rate&gt;100)"}'/>
+                                        <field name="respiratory" options='{"fg_color": "red: (respiratory&lt;12 or respiratory&gt;18)"}'/>
+                                        <field name="oxy_saturate" options='{"fg_color": "red: (oxy_saturate&lt;95 or oxy_saturate&gt;100)"}'/>
+                                    </tree>
+                                </field>
+                            </div>
+
+                            <group string="Anthropometry">
+                                <group>
+                                    <field name="weight" on_change="onchange_height_weight(height,weight)" readonly="state in ['Completed']"/>
+                                    <field name="abdominal_circ" readonly="state in ['Completed']"/>
+                                    <field name="bmi" readonly="state in ['Completed']"/>
+                                </group>
+                                <group>
+                                    <field name="height" on_change="onchange_height_weight(height,weight)" readonly="state in ['Completed']"/>
+                                    <field name="head_circumference" readonly="state in ['Completed']"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="vital_signs_anthropometry_notes"/>
+                            </group>
+                        </page>
+                        <page string="Symptoms" name="symptoms">
+                        </page>
+                        <page string="Prescription" name="symptoms">
+
+                        </page>
+                         <page string="Disease" name="disease">
+                          <field name="disease"/>
+                           
+
+                        </page>
+                         <page string="Recommendation" name="recommendation">
+                  
+                            <field name="recommendation"/>
+
+                        </page>
+
+                        <page string="Dietary" name="dietary">
+                            <div class="">
+                                <div class="o_horizontal_separator">Dietary Info</div>
+                                <group>
+                                    <field name="dietary_history"/>
+                                    <field name="social_history"/>
+                                    <field name="notes"/>
+                                </group>
+                            </div>
+                        </page>
+                        <page string="Other Vitals" name="other_vital_signs">                            <!--page 2-->
+                            <group>
+                                <group>
+                                    <field name="vision"/>
+                                    <field name="corrective_device"/>
+                                    <field name="hearing"/>
+                                    <field name="hearing_aid"/>
+                                    <field name="range_of_motion"/>
+                                    <field name="assistive_devices"/>
+                                    <field name="mobility"/>
+                                    <field name="indwelling_catheter"/>
+                                    <field name="nocturnia"/>
+                                </group>
+                                <group>
+                                    <field name="pulse"/>
+                                    <field name="edema"/>
+                                    <field name="explain_edema"/>
+                                    <field name="chest_pain"/>
+                                    <field name="explain_chest_pain"/>
+                                    <field name="cough"/>
+                                    <field name="cough_type"/>
+                                    <field name="shorthess_of_breath"/>
+                                    <field name="shorthess_of_breath_trigger"/>
+                                    <field name="respirations"/>
+                                    <field name="breath_sounds"/>
+                                    <field name="pain"/>
+                                    <field name="pain_score"/>
+
+                                </group>
+
+                                <group>
+                                    <field name="skin"/>
+                                    <field name="skin_intact"/>
+                                    <field name="memory_deficit"/>
+                                    <field name="special_care"/>
+                                    <field name="wound_assessment"/>
+                                    <field name="mucous_membranes"/>
+                                    <field name="recent_weight_change"/>
+                                    <field name="conditions_affecting_ecs"/>
+                                </group>
+                                <group>
+                                    <field name="gastrointestinal_bleeding"/>
+                                    <field name="gastrointestinal_diarrhea"/>
+                                    <field name="gastrointestinal_constipation"/>
+                                    <field name="gastrointestinal_vomiting"/>
+                                    <field name="gastrointestinal_nausea"/>
+                                    <field name="gastrointestinal_gastrostomy"/>
+                                    <field name="gastrointestinal_abdominal_pain"/>
+                                    <field name="indwelling_catheter"/>
+                                    <field name="change_in_appetite"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Family History" name="fm_history">                            <!--page 2-->
+                            <field name="family_history_condition" nolabel="1" invisible="0" />
+                        </page>
+                        <page string="Treatment Plan" name="treatment_plan">                            <!--page 2-->
+                            <field name="family_history_condition" nolabel="1" invisible="0" />
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+
+
+
+
+ 

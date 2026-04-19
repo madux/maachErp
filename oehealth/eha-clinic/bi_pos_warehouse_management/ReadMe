@@ -1,0 +1,41 @@
+
+=> 15/11/19 ==> 13.0.0.1 ==> Index improved according to a mobile compatible format and change related and demanded apps link.
+
+Version 13.0.0.2 : (10-12-19)
+		- Add multiple validations when product is out of stock.
+
+Version 13.0.0.3 : (12-12-19)
+		- Update validations code when product is out of stock.
+
+Version 13.0.0.4 : (13-12-19)
+		-Solve error when there is no orderline .
+
+Version 13.0.0.5 : (30-12-19)
+	-Add validation to check quantity for config location(Default Location).
+
+Version 13.0.0.6 : (29-01-20)
+	-Remove unwanted code.
+
+Version 13.0.0.7 : (16-03-20)
+	- When user select location from popup that selected location shown as selected when entering quantity.
+	- Change warning message for entered quantity in popup.
+
+Version 13.0.0.8 : (01-04-20)
+	- Update configuration validations, validation only works when it is configured in pos config.
+	- Change string of "Update Qty" --> "Quantity to Use".
+
+Version 13.0.1.8 : (16-02-21)
+		- Update flow for out of stock quantity.
+		- Now user can add quantity from different location for same product.
+
+=> 13.0.1.9 : Improved an index as per latest improvements.
+
+Version 13.0.2.0 : (28-06-21)
+		- Add validation for config location quantity check also.
+		- Add domain for available location in pos config.
+
+Version 13.0.2.1 : (13-01-22)
+		- Issue when add serial number into pos create order click to Action pad it gives traceback error resolved this issue.
+
+Version 13.0.2.2 : (26-01-22)
+		- Product is out of stock then need to display warning but it gives message when lot add solve this issue.

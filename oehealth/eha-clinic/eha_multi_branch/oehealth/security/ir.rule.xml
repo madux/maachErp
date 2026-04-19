@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<odoo>
+    <data>
+        <!-- Nurse/Physicians see own Branch Appointment -->
+        <record id="oehealth.oeh_medical_appointment_physician" model="ir.rule">
+            <field name="name"> Nurse/Physicians to See only Appointments in Own Branch</field>
+            <field name="model_id" ref="oehealth.model_oeh_medical_appointment" />
+            <field name="domain_force">[('branch_id', '=', user.branch_id.id)]</field>
+            <!-- MIGRATIONTODO: uncomment if oehealth is installed <field name="groups" eval="[(4, ref('oehealth.group_oeh_medical_physician')),(4, ref('oehealth_extension.group_oeh_medical_nurse'))]"/> -->
+        </record>
+    </data>
+</odoo>

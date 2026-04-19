@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--<record id="group_invoice_disposal" model="res.groups">-->
+                <!--<field name="name">Invoice Disposal</field>-->
+                <!--&lt;!&ndash;<field name="category_id" ref="base.module_category_accounting_and_finance"/>&ndash;&gt;-->
+                <!--<field name="implied_ids" eval="[(4, ref('account.group_account_manager'))]"/>-->
+            <!--</record>-->
+
+        <record id="account_asset_add_multi_company_rule" model="ir.rule">
+            <field name="name">Account Asset Addition/Repair multi-company</field>
+            <!--<field ref="model_asset_capitalize" name="model_id"/>-->
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record id="account_asset_main_multi_company_rule" model="ir.rule">
+            <field name="name">Account Asset Maintenance multi-company</field>
+            <field ref="model_asset_maintanance" name="model_id"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record id="account_asset_main_dis_company_rule" model="ir.rule">
+            <field name="name">Account Asset Disposal multi-company</field>
+            <!--<field ref="model_asset_disposal" name="model_id"/>-->
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record id="property_rule_add_manager" model="ir.rule">
+            <field name="name">Manager Addition</field>
+            <!--<field name="model_id" ref="model_asset_capitalize"/>-->
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('account.group_account_manager'))]"/>
+        </record>
+        
+        <record id="property_rule_add_employee" model="ir.rule">
+            <field name="name">Account user Addition</field>
+            <!--<field name="model_id" ref="model_asset_capitalize"/>-->
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4,ref('account.group_account_user'))]"/>
+        </record>
+
+        <record id="property_rule_dis_manager" model="ir.rule">
+            <field name="name">Manager Disposal</field>
+            <!--<field name="model_id" ref="model_asset_disposal"/>-->
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('account.group_account_manager'))]"/>
+        </record>
+        
+        <record id="property_rule_dis_employee" model="ir.rule">
+            <field name="name">Account user Disposal</field>
+            <!--<field name="model_id" ref="model_asset_disposal"/>-->
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4,ref('account.group_account_user'))]"/>
+        </record>
+
+        <record id="property_rule_main_manager" model="ir.rule">
+            <field name="name">Manager Maintenance</field>
+            <field name="model_id" ref="model_asset_maintanance"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4,ref('account.group_account_manager'))]"/>
+        </record>
+        
+        <record id="property_rule_main_employee" model="ir.rule">
+            <field name="name">Account user Maintenance</field>
+            <field name="model_id" ref="model_asset_maintanance"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4,ref('account.group_account_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

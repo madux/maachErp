@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+    <odoo>
+        <record id="view_oeha_medical_evaluation_template_filter" model="ir.ui.view">
+            <field name="name">Evaluation Templates</field>
+            <field name="model">oeha.evaluation.template</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Templates">
+                    <separator orientation="vertical"/>
+                        <field name="code"/>
+                        <field name="name" select="1"/>
+                        <field name="description"/>
+                        <field name="system_ids" select="1"/>
+                        <field name="symptom_ids" select="1"/>
+                    <newline/>
+                    <group expand="0" string="Group By..." colspan="11" col="11">
+                        <filter name="group_name" string="Name" icon="terp-personal" domain="[]" context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_evaluation_template_tree">
+            <field name="name">Evaluation Templates</field>
+            <field name="model">oeha.evaluation.template</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Templates'>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="oeha_medical_evaluation_template_form">
+            <field name="name">Evaluation Templates</field>
+            <field name="model">oeha.evaluation.template</field>
+
+            <field name="arch" type="xml">
+                <form string="Templates">
+                    <header>
+                        <button name="generate_dynamic_template" confirm="Are you sure you want to generate the template?" string="Generate Template" type="object" class="oe_highlight" attrs="{'invisible':[('state','=','Published')]}"/>
+                        <button name="generate_dynamic_template" confirm="Are you sure you want to generate the template?"  string="Regenerate Template" type="object" class="oe_highlight" attrs="{'invisible':[('state','=','Draft')]}"/>
+                        <button name="action_toggle_system" confirm="Are you sure you want to Clear Evaluation System Display? This operation may take some time" string="Clear Eval. System Display" type="object" class="oe_highlight" attrs="{'invisible':[('state','=','Draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="Draft,Published" statusbar_colors='{"Published":"forestgreen","Draft":"grey"}'/>
+                    </header>
+                    <sheet>
+                        <div class="alert alert-success" aria-label="alert" role="alert" style="width:100%">
+                            Attention! Template generation is a long running task and may take up to <strong>20 mins or more</strong> to complete. <br/>
+                            Ensure the Systems are <strong>arranged in the order you want to be displayed in the evaluation form before generating</strong> the template
+                        </div>
+                        <group name="outer">
+                            <group name="left">
+                    
+                                <div class="oe_title" >
+                                    <label class="oe_edit_only" for="code" string="Code" />
+                                    <h1><field name="code" class="oe_inline" readonly="1"/></h1>
+                                </div>
+                                <field name="name" />
+                                <field name="friendly_name" />
+                                <field name="description" required="1"/>
+                            </group> 
+
+                            <group name="right" />
+
+                            <field name="system_ids" string="Systems" nolabel="1">
+                                <tree string="Systems">
+                                    <field name='sequence' widget='handle'/>
+                                    <field name="name" />
+                                    <field name="description" />
+                                </tree>
+                            </field>
+
+                            <field name="symptom_ids" widget="one2many_list" nolabel="1">
+                                <form string="Template Symptoms">
+                                    <field name="symptom_id" />
+                                    <field name="system_id" />
+                                    <field name="is_default" />
+                                </form>
+                                <tree string="Template Symptoms" editable="bottom">
+                                    <field name='sequence' widget='handle'/>
+                                    <field name="symptom_id" />
+                                    <field name="system_id" />
+                                    <field name="is_default" />
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="oeha_medical_evaluation_template_action_tree" model="ir.actions.act_window">
+            <field name="name">Evaluation Templates</field>
+            <field name="res_model">oeha.evaluation.template</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new template.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="oeha_medical_evaluation_template_action_tree" 
+            id="oeh_medical_evaluation_template_conf_list" parent="oeh_medical_conf_symptom" sequence="8"
+        />
+
+    </odoo>

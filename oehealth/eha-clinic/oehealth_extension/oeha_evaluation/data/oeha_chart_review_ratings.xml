@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+
+        <record model="oeha.chart.review.rating" id="oerating1">
+            <field name="name">Complete</field>
+        </record>
+        <record model="oeha.chart.review.rating" id="oerating2">
+            <field name="name">Incomplete</field>
+        </record>
+        <record model="oeha.chart.review.rating" id="oerating3">
+            <field name="name">Absent</field>
+        </record>
+
+    </data>
+</odoo>

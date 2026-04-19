@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="rave_form">
+            <!-- Flutterwave generates a new payment link for each transaction -->
+            <form t-att-action="api_url" method="get"></form>
+        </template>
+</odoo>

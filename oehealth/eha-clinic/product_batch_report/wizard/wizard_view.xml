@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_batch_report" model="ir.ui.view">
+        <field name="name">Product Lot or Serial Report</field>
+        <field name="model">product.batch.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Product Lot or Serial Report">
+                <group>
+                    <group>
+                        <field name="tracking_wise"/>
+                        <field name="product_id" attrs="{'invisible':[('is_tracking_wise','=',True)]}" widget="many2many_tags"/>
+                        <field name="expiry_type"/>
+                        <field name="is_tracking_wise" invisible = "1"/>
+                    </group>
+
+                    <group>
+                        <label for="expiry_days"/>
+                        <div>
+                            <field name="expiry_days" class="oe_inline"/>
+                            <span> Days</span>
+                        </div>
+                    </group>
+                </group>
+                <footer>
+                    <button name="generate_pdf_report" string="PDF Report" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_batch_report" model="ir.actions.act_window">
+    <field name="name">Serial or Lot Expiring Report</field>
+    <field name="res_model">product.batch.report.wizard</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    </record>
+    <menuitem id="product_batch_report_child_menu" name="Lot/Serial Expiry" action="action_product_batch_report" parent="stock.menu_warehouse_report"/>
+</odoo>

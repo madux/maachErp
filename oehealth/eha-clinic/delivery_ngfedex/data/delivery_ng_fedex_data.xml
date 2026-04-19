@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Fedex Product Packagings -->
+        <record id="fedex_packaging_FLY" model="stock.package.type">
+            <field name="name">Fedex Flyer/Smalls</field>
+            <field name="shipper_package_code">FLY</field>
+            <field name="package_carrier_type">ng_fedex</field>
+            <field name="max_weight">0.23</field>
+        </record>
+
+        <record id="fedex_packaging_COY" model="stock.package.type">
+            <field name="name">Fedex Parcels/Conveyables</field>
+            <field name="shipper_package_code">COY</field>
+            <field name="package_carrier_type">ng_fedex</field>
+            <field name="max_weight">31.5</field>
+        </record>
+        
+        <record id="fedex_packaging_NCY" model="stock.package.type">
+            <field name="name">Fedex Non-conveyables</field>
+            <field name="shipper_package_code">NCY</field>
+            <field name="package_carrier_type">ng_fedex</field>
+        </record>
+        
+        <record id="fedex_packaging_PAL" model="stock.package.type">
+            <field name="name">Fedex Pallets</field>
+            <field name="shipper_package_code">PAL</field>
+            <field name="height">10</field>
+            <field name="width">10</field>
+            <field name="length">10</field>
+            <field name="package_carrier_type">ng_fedex</field>
+            <field name="max_weight">1000</field>
+        </record>
+        <record id="fedex_packaging_DBL" model="stock.package.type">
+            <field name="name">Fedex Double Pallets</field>
+            <field name="shipper_package_code">DBL</field>
+            <field name="package_carrier_type">ng_fedex</field>
+            <field name="max_weight">1000</field>
+        </record>
+
+        <record id="fedex_packaging_BOX" model="stock.package.type">
+            <field name="name">Fedex Box</field>
+            <field name="shipper_package_code">BOX</field>
+            <field name="height">10</field>
+            <field name="width">10</field>
+            <field name="length">10</field>
+            <field name="package_carrier_type">ng_fedex</field>
+            <field name="max_weight">70</field>
+        </record>
+
+        <record id="product_product_delivery_ng_fedex" model="product.product">
+            <field name="name">Fedex Nigeria</field>
+            <field name="default_code">Delivery_NGN001</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="delivery.product_category_deliveries"/>
+            <field name="sale_ok" eval="False"/>
+            <field name="purchase_ok" eval="False"/>
+            <field name="list_price">0.0</field>
+        </record>
+
+        <record id="delivery_carrier_ng_fedex" model="delivery.carrier">
+            <field name="name">Fedex Nigeria </field>
+            <field name="product_id" ref="delivery_ngfedex.product_product_delivery_ng_fedex"/>
+            <field name="delivery_type">ng_fedex</field>
+            <field name="fedex_region_code">AP</field>
+            <field name="fedex_username">cnsdemoapiacct</field>
+            <field name="fedex_password">ClickNShip$12345</field>
+            <field name="fedex_account_number">803921577</field>
+            <field name="fedex_default_packaging_id" ref="delivery_ngfedex.fedex_packaging_BOX"/>
+        </record>
+
+    </data>
+</odoo>

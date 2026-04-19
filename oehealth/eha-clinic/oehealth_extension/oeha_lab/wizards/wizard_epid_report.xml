@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_epid_labtest_report_filter_form" model="ir.ui.view">
+            <field name="name">wizard.epid.report.form</field>
+            <field name="model">wizard.epid.report</field>
+            <field name="arch" type="xml">
+                <form string="Filter Lab Test Report">
+                        <group>
+                            <group>
+                                <field name="filter_type"/>
+                                <field name="date_from" string="Date From"
+                                attrs="{'invisible': [('filter_type', '!=', 'date')], 
+                                'required': [('filter_type', '=', 'date')]}"/>
+                                
+                            </group>
+                            <group>
+                                <field name="date_to" string="Date To" 
+                                attrs="{'invisible': [('filter_type', '!=', 'date')], 
+                                'required': [('filter_type', '=', 'date')]}"/>
+                            </group>
+                        </group>
+
+                    <footer>
+                        <button name="action_filter_records" type='object' string="Filter &amp; View Records" class="oe_highlight"/>
+                        or                        
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_epid_report_filter">
+            <field name="name">COVID-19 Missing Epid No. Report</field>
+            <field name="res_model">wizard.epid.report</field>
+
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_epid_labtest_report_filter_form"/>
+        </record>
+        <menuitem id="menu_epid_report_filter" name="COVID-19 Missing Epid No Report" sequence="18" parent="oehealth.oeh_medical_laboratory_menu" action="action_epid_report_filter"/>
+    </data>
+</odoo>

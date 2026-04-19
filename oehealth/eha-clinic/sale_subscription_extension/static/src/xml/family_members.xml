@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="family_members_body" xml:space="preserve">
+    <t t-name="sale_subscription_extension.family_members_lines">
+        <div class="container mt-6 mb-5">
+            <div class="purchase-summary">
+                <div class="summary-header">
+                    Family <span class="membership_type" t-esc="membership.membership_type" style="text-transform: capitalize;"/>
+                </div>
+                <table>
+                    <t t-set="total" t-value="0"/>
+                    <tr>
+                        <td class="position">1</td>
+                        <td class="item">
+                            <span data-toggle="modal">
+                                <a t-att-href="beneficiary.is_already_patient == 'on'? '#disabled': '#formModal'" data-toggle="modal" class="edit_member_details beneficiary">
+                                   <t t-esc="beneficiary.middlename"/> <t t-esc="beneficiary.firstname"/>
+                                    (Family Principal)
+                                    <span class="badge badge-white">
+                                        <span t-esc="beneficiary.family_class"/>
+                                    </span>
+                                </a>
+                            </span>
+                        </td>
+                        <td class="item-price">
+                            NGN <t t-esc="membership[beneficiary.family_class].formated_price"/>
+                            <t t-set="total" t-value="total+membership[beneficiary.family_class].price"/>
+                        </td>
+                    </tr>
+                    <t t-foreach="childs" t-as="child">
+                        <tr>
+                            <td class="position">
+                                <t t-esc="child_index+2"/>
+                            </td>
+                            <td class="item">
+                                <a t-att-href="child.is_already_patient == 'on'? '#disabled': '#formModal'" data-toggle="modal" class="edit_member_details beneficiary">
+                                    <span class="item-name">
+                                        <t t-esc="child.middlename"/>
+                                        <t t-esc="child.firstname"/>
+                                    </span>
+                                    <span class="badge badge-white">
+                                        <span><t t-esc="child.family_class"/></span>
+                                    </span>
+                                </a>
+                            </td>
+                            <td class="item-price">
+                                NGN <t t-esc="membership[child.family_class].formated_price"/>
+                                <t t-set="total" t-value="total+membership[child.family_class].price"/>
+                            </td>
+                            <td class="item-remove">
+                                <span href="#confirmModal" data-toggle="modal">
+                                        <i class="fa fa-trash"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </t>
+                    <tr class="summary-footer">
+                        <td colspan="2">Total</td>
+                        <td class="total-price" t-att-total_amount="total">NGN
+                            <span t-esc="widget.format_currency(total)"/>
+                        </td>
+                        <td/>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>

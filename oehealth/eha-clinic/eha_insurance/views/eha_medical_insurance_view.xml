@@ -1,0 +1,218 @@
+<?xml version="1.0" ?>
+<odoo>
+        <data>
+
+            <!-- Insurance Types -->
+
+            <record model="ir.ui.view" id="eha_medical_insurance_type_tree">
+                <field name="name">Insurance Types</field>
+                <field name="model">eha.medical.insurance.type</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string='Insurance Types' editable="bottom">
+                        <field name="name"/>
+                    </tree>
+                </field>
+            </record>
+
+             <record id="view_eha_medical_insurance_type_filter" model="ir.ui.view">
+                <field name="name">Insurance Types Search</field>
+                <field name="model">eha.medical.insurance.type</field>
+                <field name="priority" eval="8" />
+			    <field name="arch" type="xml">
+                    <search string="Insurance Types">
+                        <field name="name"/>
+				    </search>
+                </field>
+            </record>
+
+            <record id="eha_medical_insurance_type_action_tree" model="ir.actions.act_window">
+                    <field name="name">Insurance Types</field>
+                    <field name="res_model">eha.medical.insurance.type</field>
+
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{}</field>
+                    <field name="view_id" eval="False"/>
+                    <field name="help" type="html">
+                      <p class="o_view_nocontent_smiling_face">
+                        Click to add a new insurance types.
+                      </p>
+                    </field>
+            </record>
+
+            <menuitem action="eha_medical_insurance_type_action_tree" id="eha_medical_insurance_type_conf_list" name="Insurance type" parent="contacts.res_partner_menu_config" sequence="26"/>
+
+
+            <!-- Insurance -->
+
+            <record model="ir.ui.view" id="eha_medical_insurance_view">
+                <field name="name">Insurances</field>
+                <field name="model">eha.medical.insurance</field>
+
+                <field name="arch" type="xml">
+                    <form string="Insurances">
+                        <header>
+                            <button name="make_active" confirm="Are you sure you want to mark insurance as Active?" states="Draft" string="Make Active" type="object" class="oe_highlight"/>
+                            <field name="state" widget="statusbar" statusbar_visible="Draft,Active,Expired" statusbar_colors='{"Draft":"blue","Active":"red","Expired":"grey"}'/>
+                        </header>
+                        <sheet>
+                            <div class="oe_left" style="width: 500px;">
+                                <div class="oe_title" style="width: 390px;">
+                                    <label class="oe_edit_only" for="name" string="Insurer Name"/>
+                                    <h1><field name="name" class="oe_inline" required="1"/></h1>
+                                </div>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="insurance_company" string="Insurance company"/>
+                                    <field name="partner_id" required="1"/>
+                                    <field name="patientid"/>
+                                    <field name="start_date" required="1"/>
+                                </group>
+                                <group>
+                                    <field name="ins_type" required="1"/>
+                                    <field name="ins_no" required="1"/>                                    
+                                    <field name="exp_date" required="1"/>
+                                </group>
+                            </group>
+                            <group string="Extra Information">
+                                <field name="info" nolabel="1"/>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="eha_medical_insurance_tree">
+                <field name="name">Insurances</field>
+                <field name="model">eha.medical.insurance</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string='Insurances'>
+                        <field name="name" string="Insurance company"/>
+                        <field name="ins_no"/>
+                        <field name="partner_id"/>
+                        <field name="patientid"/>
+                        <field name="ins_type"/>
+                        <field name="start_date"/>
+                        <field name="exp_date"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </record>
+
+             <record id="view_eha_medical_insurance_filter" model="ir.ui.view">
+                <field name="name">Insurance Search</field>
+                <field name="model">eha.medical.insurance</field>
+                <field name="priority" eval="8" />
+			    <field name="arch" type="xml">
+                    <search string="Insurances">
+                        <field name="name" string="Insurance company"/>
+                        <field name="ins_no"/>
+                        <field name="patientid"/>
+                        <newline />
+                        <group expand="0" string="Group By...">
+                            <filter string="Name" name="group_name" domain="[]" context="{'group_by':'name'}" />
+                            <filter string="Patient" name="group_patient" domain="[]" context="{'group_by':'patientid'}" />
+                            <filter string="Type" name="group_type" domain="[]" context="{'group_by':'ins_type'}" />
+                            <filter string="State" name="group_state" domain="[]" context="{'group_by':'state'}" />
+                        </group>
+				    </search>
+                </field>
+            </record>
+
+            <record id="eha_medical_insurance_action_tree" model="ir.actions.act_window">
+                    <field name="name">Insurances</field>
+                    <field name="res_model">eha.medical.insurance</field>
+
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{}</field>
+                    <field name="view_id" eval="False"/>
+                    <field name="help" type="html">
+                      <p class="o_view_nocontent_smiling_face">
+                        Click to add a new insurance records.
+                      </p>
+                    </field>
+            </record>
+
+            <menuitem action="eha_medical_insurance_action_tree" name="Insurances" id="eha_medical_insurance_conf_list" parent="contacts.res_partner_menu_config" sequence="27"/>
+
+
+            <record model="ir.ui.view" id="eha_medical_insurance_organisation_tree">
+                <field name="name">Insurance Organisations</field>
+                <field name="model">eha.insurance.organisation</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string='Insurance Organisations' editable="bottom">
+                        <field name="name"/>
+                        <field name="phone"/>
+                    </tree>
+                </field>
+            </record>
+
+             <record id="view_eha_medical_insurance_organisation_filter" model="ir.ui.view">
+                <field name="name">Insurance Organisations Search</field>
+                <field name="model">eha.insurance.organisation</field>
+                <field name="priority" eval="8" />
+			    <field name="arch" type="xml">
+                    <search string="Insurance Organisations">
+                        <field name="name"/>
+                        <field name="phone"/>
+				    </search>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="oeh_medical_insurance_organisation_view">
+                <field name="name">Insurance Organisations</field>
+                <field name="model">eha.insurance.organisation</field>
+
+                <field name="arch" type="xml">
+                    <form string="Insurance organisations">                        
+                        <sheet>
+                            <div class="oe_left" style="width: 500px;">
+                                <div class="oe_title" style="width: 390px;">
+                                    <label class="oe_edit_only" for="name" string="Insurer Name"/>
+                                    <h1><field name="name" class="oe_inline"/></h1>
+                                </div>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="name" required="1"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="country_id"/>
+                                </group>
+                                <group>
+                                    <field name="phone"/>
+                                    <field name="mobile"/>
+                                    <field name="email"/>
+                                </group>
+                            </group>                            
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="eha_medical_insurance_organisation_action_tree" model="ir.actions.act_window">
+                    <field name="name">Insurance Organisations</field>
+                    <field name="res_model">eha.insurance.organisation</field>
+
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{}</field>
+                    <field name="view_id" eval="False"/>
+                    <field name="help" type="html">
+                      <p class="oe_view_nocontent_create">
+                        Click to add a new insurance organisation.
+                      </p>
+                    </field>
+            </record>
+
+            <menuitem action="eha_medical_insurance_organisation_action_tree" id="eha_medical_insurance_organisation_conf_list" parent="contacts.res_partner_menu_config"
+             sequence="4" name="Insurance organisation"/>
+
+
+        </data>
+</odoo>

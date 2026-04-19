@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="oeh_medical_evaluation_view" model="ir.ui.view">
+            <field name="name">oeh.medical.evaluation.view.form.inherit</field>
+            <field name="model">oeh.medical.evaluation</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_evaluation_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="migrate_evaluation_artifacts_to_emr" type="object" string="Migrate to EMR" class="oe_highlight" />
+                </xpath>
+                <xpath expr="//field[@name='hpi']" position="after">
+                    <field name="migrated_prescription_to_emr" string="Migrated Prescrption" />
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Select a number of evaluations and migrate them to EMR -->
+        <record model="ir.actions.server" id="action_migrate_evaluation_to_emr">
+            <field name="name">Migrate To Evaluation and Artifacts EMR</field>
+            <field name="model_id" ref="oehealth.model_oeh_medical_evaluation" />
+            <field name="binding_model_id" ref="oehealth.model_oeh_medical_evaluation" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.migrate_evaluation_artifacts_to_emr()
+            </field>
+        </record>
+
+        <record model="ir.actions.server" id="action_migrate_allergies_to_emr">
+            <field name="name">Migrate Prescription(s) To EMR</field>
+            <field name="model_id" ref="oehealth.model_oeh_medical_evaluation" />
+            <field name="binding_model_id" ref="oehealth.model_oeh_medical_evaluation" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.migrate_prescription_to_emr()
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

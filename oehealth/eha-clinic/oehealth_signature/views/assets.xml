@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <!-- <template id="oehealth_sign_assets_common" name="custom signature assets" inherit_id="web.assets_common">
+            <xpath expr="." position="inside"> 
+                <script type="text/javascript" src="/oehealth_signature/static/src/sign_common.js"/> 
+            </xpath> 
+        </template> -->
+        
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_users_form_2fa" model="ir.ui.view">
+	    <field name="name">res.users.form</field>
+	    <field name="model">res.users</field>
+	    <field name="inherit_id" ref="base.view_users_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//header" position="inside">
+	    		<button name="send_two_factor_auth_mail" type="object" string="Send 2FA Mail" class="btn-primary"/> 
+	    	</xpath>
+	    	<xpath expr="//page[last()]" position="after">
+	    	<page string="Two Factor Authentication">
+	    		<group>
+					<field name="is_2fa_enable"/>
+					<field name="secret_key" attrs="{'invisible': [('is_2fa_enable', '=', False)]}"/>
+								
+	    			</group>
+	    			<p attrs="{'invisible': [('is_2fa_enable', '=', False)]}" style="color: red;font-weight:bold">Scan below QR Code after saving this record, using Google Authenticator App from your iPhone/Android. Please save this QR Code or secret key in safe place. to restore or reuse it in new device.</p>
+						<div style="text-align:center" attrs="{'invisible': [('is_2fa_enable', '=', False)]}">
+							<field name="qr_code" widget="image" filename="file_name" style="height:350px;width:350px"  readonly="1" nolabel="1"/>
+							<field name="file_name" invisible="1"/>
+						</div>
+	    		</page>
+	    	</xpath>
+	    </field>
+	</record>
+</odoo>
+	

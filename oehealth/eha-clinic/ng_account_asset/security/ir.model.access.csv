@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_asset_capitalize_user,asset.capitalize,model_asset_capitalize,account.group_account_user,1,1,1,0
+access_asset_capitalize_manager,asset.capitalize,model_asset_capitalize,account.group_account_manager,1,1,1,1
+access_asset_repair_user,asset.repair.program,model_asset_repair_program,account.group_account_user,1,1,1,0
+access_asset_loc_user,asset.location,model_asset_location,account.group_account_user,1,1,1,0
+access_asset_repair_manager,asset.repair.program,model_asset_repair_program,account.group_account_manager,1,1,1,1
+access_asset_dis_user,asset.disposal,model_asset_disposal,account.group_account_user,1,1,1,0
+access_asset_dis_manager,disposal,model_asset_disposal,account.group_account_manager,1,1,1,1
+access_asset_main_user,asset.maintanance,model_asset_maintanance,account.group_account_user,1,1,1,0
+access_asset_main_manager,maintanance,model_asset_maintanance,account.group_account_manager,1,1,1,1
+access_asset_part_user,account.asset.part,model_account_asset_part,account.group_account_user,1,1,1,0
+access_asset_part_manager,account.asset.part,model_account_asset_part,account.group_account_manager,1,1,1,1
+access_invoice_disposal,invoice.disposal,model_invoice_disposal,account.group_account_manager,1,1,1,1

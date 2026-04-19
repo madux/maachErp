@@ -1,0 +1,165 @@
+// Colors
+// $o-community-color: #7C7BAD;
+// $o-enterprise-color: hsl(316, 20%, 44%);
+// $o-enterprise-primary-color: #00A09D;
+
+// $o-brand-odoo: $o-enterprise-color;
+// $o-brand-primary: $o-enterprise-primary-color;
+
+// Enhanced Modern Color Palette for Odoo 14
+
+// Primary Brand Colors - Vibrant and Modern
+$o-community-color: #3b82f6;
+$o-enterprise-color: #3b82f6;
+// $o-enterprise-primary-color: #6e9ae0;
+
+$o-brand-odoo: $o-enterprise-color;
+// $o-brand-primary: $o-enterprise-primary-color;
+
+// Extended Color Palette for Modern UI
+$o-primary-gradient-start: #00A09D;
+$o-primary-gradient-end: #008784;
+$o-secondary-gradient-start: #3b82f6;
+$o-secondary-gradient-end: #3b82f6;
+
+// Accent Colors
+$o-accent-teal: #00A09D;
+$o-accent-teal-dark: #008784;
+$o-accent-teal-darker: #006b69;
+$o-accent-teal-light: #33b3b0;
+$o-accent-teal-lighter: rgba(0, 160, 157, 0.1);
+
+$o-accent-purple: #875A7B;
+$o-accent-purple-dark: #6d4861;
+$o-accent-purple-light: #a17a93;
+$o-accent-purple-lighter: rgba(135, 90, 123, 0.1);
+
+// Neutral Colors - Modern Gray Scale
+$o-gray-50: #f9fafb;
+$o-gray-100: #f7fafc;
+$o-gray-200: #edf2f7;
+$o-gray-300: #e2e8f0;
+$o-gray-400: #cbd5e0;
+$o-gray-500: #a0aec0;
+$o-gray-600: #718096;
+$o-gray-700: #4a5568;
+$o-gray-800: #2d3748;
+$o-gray-900: #1a202c;
+
+// Text Colors
+$o-text-primary: #0f347d;
+$o-text-secondary: #9fa5ae;
+$o-text-muted: #718096;
+$o-text-light: #a0aec0;
+
+// Background Colors
+$o-bg-primary: #ffffff;
+$o-bg-secondary: #5c8fc3;
+$o-bg-tertiary: #f7fafc;
+$o-bg-gradient-light: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+$o-bg-gradient-white: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+
+// Border Colors
+$o-border-light: #f1f5f9;
+$o-border-medium: #e2e8f0;
+$o-border-dark: #cbd5e0;
+
+// Shadow Definitions
+$o-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+$o-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+$o-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.1);
+$o-shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+// Colored Shadows
+$o-shadow-primary: 0 2px 8px rgba(0, 160, 157, 0.3);
+$o-shadow-primary-hover: 0 4px 16px rgba(0, 160, 157, 0.4);
+$o-shadow-secondary: 0 2px 8px rgba(135, 90, 123, 0.3);
+
+// Status Colors - Vibrant
+$o-success: #10b981;
+$o-success-light: #d1fae5;
+$o-warning: #f59e0b;
+$o-warning-light: #fef3c7;
+$o-danger: #ef4444;
+$o-danger-light: #fee2e2;
+$o-info: #3b82f6;
+$o-info-light: #dbeafe;
+
+// Gradient Definitions
+$o-gradient-primary: linear-gradient(135deg, $o-primary-gradient-start 0%, $o-primary-gradient-end 100%);
+$o-gradient-secondary: linear-gradient(135deg, $o-secondary-gradient-start 0%, $o-secondary-gradient-end 100%);
+$o-gradient-mixed: linear-gradient(90deg, $o-accent-teal, $o-accent-purple, $o-accent-teal);
+$o-gradient-hover: linear-gradient(135deg, rgba(0, 160, 157, 0.1), rgba(135, 90, 123, 0.1));
+
+// Border Radius
+$o-border-radius-sm: 4px;
+$o-border-radius-md: 6px;
+$o-border-radius-lg: 8px;
+$o-border-radius-xl: 12px;
+$o-border-radius-pill: 20px;
+
+// Transitions
+$o-transition-fast: 0.15s ease;
+$o-transition-normal: 0.3s ease;
+$o-transition-slow: 0.5s ease;
+$o-transition-all: all 0.3s ease;
+
+// Spacing Scale
+$o-spacing-xs: 4px;
+$o-spacing-sm: 8px;
+$o-spacing-md: 12px;
+$o-spacing-lg: 16px;
+$o-spacing-xl: 24px;
+$o-spacing-2xl: 32px;
+
+// Typography
+$o-font-weight-normal: 400;
+$o-font-weight-medium: 500;
+$o-font-weight-semibold: 600;
+$o-font-weight-bold: 700;
+
+$o-font-size-xs: 0.75rem;
+$o-font-size-sm: 0.85rem;
+$o-font-size-base: 0.95rem;
+$o-font-size-lg: 1.1rem;
+$o-font-size-xl: 1.25rem;
+
+// Z-index Scale
+$o-z-dropdown: 1000;
+$o-z-sticky: 1020;
+$o-z-fixed: 1030;
+$o-z-modal-backdrop: 1040;
+$o-z-modal: 1050;
+$o-z-popover: 1060;
+$o-z-tooltip: 1070;
+
+// Opacity Scale
+$o-opacity-disabled: 0.5;
+$o-opacity-hover: 0.8;
+$o-opacity-overlay: 0.9;
+
+// Override Odoo Default Variables
+$border-color: $o-border-medium;
+$body-bg: $o-bg-secondary;
+$text-color: $o-text-primary;
+$link-color: $o-brand-primary;
+$link-hover-color: $o-accent-teal-dark;
+
+// Button Variables
+$btn-padding-y: 0.5rem;
+$btn-padding-x: 1rem;
+$btn-border-radius: $o-border-radius-md;
+$btn-transition: $o-transition-all;
+
+// Input Variables
+$input-border-color: $o-border-medium;
+$input-focus-border-color: $o-brand-primary;
+$input-border-radius: $o-border-radius-md;
+
+// Table Variables
+$table-border-color: $o-border-light;
+$table-hover-bg: rgba(0, 160, 157, 0.05);
+
+// Card Variables
+$card-border-radius: $o-border-radius-xl;
+$card-box-shadow: $o-shadow-md;

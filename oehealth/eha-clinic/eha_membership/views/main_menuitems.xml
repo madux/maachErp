@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- Top menu item -->
+    <menuitem name="EHA Membership" id="eha_membership_menu_root" web_icon="eha_membership,static/description/icon.png"/>
+
+    <!-- Configuration -->
+    <menuitem name="Configuration" id="eha_membership_menu_config" parent="eha_membership_menu_root" sequence="100"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="oeha_prescription_report_label">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-foreach="o.prescription_line" t-as="line">
+                        <t t-call="web.basic_layout">
+                            <div class="page">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img class="img-responsive" width="120"
+                                             src="/oehealth_extension/static/src/img/ehaclinic_black.png"/>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <div t-field="o.branch_id"/>,
+                                        <span t-field="o.branch_id.city"/>,
+                                        <span t-field="o.branch_id.country_id"/>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        Prescription:
+                                        <strong t-field="o.name"/>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <div t-esc="datetime.datetime.strftime(o.date, '%d %b %Y')" />
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <strong t-field="o.patient.name"/>
+                                        <div t-field="o.patient.identification_code"/>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 text-center">
+                                    <div class="col-10 text-center">
+                                        <strong t-field="line.name"/>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 text-center ">
+                                    <div class="col-10 text-center">
+                                        Take
+                                        <span t-field="line.dose"/>
+                                        <span t-field="line.dose_unit"/>,
+                                        <span t-field="line.common_dosage"/>,
+                                        for 
+                                        <t t-esc="line.duration"/>
+                                        <t t-esc="line.duration_period"/>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 text-center">
+                                    <div class="col-10 text-center">
+                                        <span t-field="line.auxiliary_instructions"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="paperformat_prescription" model="report.paperformat">
+            <field name="name">Prescription Label</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">50</field>
+            <field name="page_width">70</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">1</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">1</field>
+            <field name="dpi">130</field>
+        </record>
+
+        <report
+                id="oeha_prescription_report_action"
+                string="Prescription Label (PDF)"
+                model="oeh.medical.prescription"
+                report_type="qweb-pdf"
+                name="oehealth_extension.oeha_prescription_report_label"
+                file="oehealth_extension.oeha_prescription_report_label"
+                print_report_name="'Prescription Labels - %s' % (object.name)"
+        />
+
+        <record id="oehealth_extension.oeha_prescription_report_action" model="ir.actions.report">
+            <field name="paperformat_id" ref="oehealth_extension.paperformat_prescription"/>
+        </record>
+
+    </data>
+</odoo>

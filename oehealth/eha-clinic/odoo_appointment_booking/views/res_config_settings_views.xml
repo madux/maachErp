@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.odoo.calendar</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Appointment Booking Settings" string="Appointment Booking Settings" data-key="odoo_appointment_booking">
+                        <div id="odoo_appointment_booking">
+                            <h2>Odoo Calendar</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <label for="appointment_feedback_form_link"/>
+                                        <div class="text-muted">Covid 19 Appointment Feedback Form Link</div>
+                                        <div class="content-group">
+                                            <field name="appointment_feedback_form_link" widget="url" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="odoo_appointment_booking_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_config_settings_view_form"/>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'odoo_appointment_booking', 'bin_size': False}</field>
+        </record>
+
+        <menuitem id="odoo_appointment_booking_config_menu" name="Configuration" parent="odoo_appointment_booking.eha_menu_calendar" sequence="10"/>
+        <menuitem id="odoo_appointment_booking_settings_menu_action" name="Settings" parent="odoo_appointment_booking_config_menu" sequence="1" action="odoo_appointment_booking_config_settings_action" groups="base.group_system"/>
+    </data>
+</odoo>

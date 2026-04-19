@@ -1,0 +1,29 @@
+<odoo>
+	<data>
+		<record id="applicant_resume_line_view_form" model="ir.ui.view">
+			<field name="name">hr.applicant.resume.line.form</field>
+			<field name="model">hr.applicant.resume.line</field>
+			<field name="arch" type="xml">
+				<form string="Resumé">
+					<div class="oe_title">
+						<label for="name" class="oe_edit_only" />
+						<h1>
+							<field name="name" placeholder="Title" required="True" />
+						</h1>
+					</div>
+					<group>
+						<group>
+							<field name="line_type_id" />
+							<field name="display_type" required="1" />
+						</group>
+						<group>
+							<field name="date_start" required="True" />
+							<field name="date_end" />
+						</group>
+					</group>
+					<field name="description" placeholder="Description" />
+				</form>
+			</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,407 @@
+/* ============================================
+   HOME MENU OVERLAY STYLES - v4.0
+   Odoo 17 Community Edition
+   ============================================ */
+
+:root {
+    --overlay-bg: rgba(15, 23, 42, 0.98);
+    --overlay-content-bg: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.8);
+    --card-hover-bg: rgba(51, 65, 85, 0.9);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --accent-color: #3b82f6;
+    --border-color: rgba(148, 163, 184, 0.1);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.2);
+    --shadow-xl: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+/* ============================================
+   OVERLAY CONTAINER
+   ============================================ */
+.hmo-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hmo-overlay.hmo-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ============================================
+   BACKDROP
+   ============================================ */
+.hmo-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ============================================
+   MAIN CONTENT AREA
+   ============================================ */
+.hmo-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hmo-overlay.hmo-active .hmo-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.hmo-content::-webkit-scrollbar { width: 8px; }
+.hmo-content::-webkit-scrollbar-track { background: transparent; }
+.hmo-content::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,0.3);
+    border-radius: 4px;
+}
+.hmo-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(148,163,184,0.5);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.hmo-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(to bottom,
+        var(--overlay-content-bg) 0%,
+        var(--overlay-content-bg) 80%,
+        transparent 100%);
+    padding: 1.75rem 3rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.hmo-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.hmo-back-btn:hover {
+    background: var(--card-hover-bg);
+    transform: translateX(-3px);
+    border-color: rgba(148,163,184,0.3);
+}
+
+.hmo-back-btn i { font-size: 1rem; }
+
+.hmo-title {
+    flex: 1;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hmo-search-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.hmo-search-wrap svg {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-secondary);
+}
+
+.hmo-search {
+    padding: 0.65rem 1rem 0.65rem 2.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    width: 280px;
+    transition: all 0.25s ease;
+}
+
+.hmo-search:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: rgba(30,41,59,1);
+    width: 320px;
+}
+
+.hmo-search::placeholder { color: var(--text-secondary); }
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.hmo-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    gap: 1rem;
+    color: var(--text-secondary);
+}
+
+.hmo-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: hmo-spin 0.8s linear infinite;
+}
+
+@keyframes hmo-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   APPS GRID
+   ============================================ */
+.hmo-grid-wrap {
+    padding: 2rem 3rem 4rem;
+}
+
+.hmo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   APP CARD
+   ============================================ */
+.hmo-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none !important;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.hmo-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(59,130,246,0.06) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.hmo-card:hover::after { opacity: 1; }
+
+.hmo-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59,130,246,0.4);
+    box-shadow: var(--shadow-xl);
+    background: var(--card-hover-bg);
+}
+
+/* Stagger animation */
+.hmo-overlay.hmo-active .hmo-card {
+    animation: hmo-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.hmo-overlay.hmo-active .hmo-card:nth-child(1)  { animation-delay: 0.04s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(2)  { animation-delay: 0.08s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(3)  { animation-delay: 0.12s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(4)  { animation-delay: 0.16s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(5)  { animation-delay: 0.20s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(6)  { animation-delay: 0.24s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(7)  { animation-delay: 0.28s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(8)  { animation-delay: 0.32s; }
+.hmo-overlay.hmo-active .hmo-card:nth-child(n+9){ animation-delay: 0.36s; }
+
+@keyframes hmo-slide-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   APP ICON
+   ============================================ */
+.hmo-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.hmo-card:hover .hmo-icon {
+    transform: scale(1.08) rotate(-4deg);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+.hmo-icon i {
+    font-size: 1.8rem;
+    color: white;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+}
+
+.hmo-icon img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+/* ============================================
+   APP INFO
+   ============================================ */
+.hmo-info {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.hmo-app-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.3rem;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hmo-app-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.hmo-empty {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--text-secondary);
+    grid-column: 1 / -1;
+}
+
+.hmo-empty i {
+    font-size: 3.5rem;
+    opacity: 0.4;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.hmo-empty h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+}
+
+.hmo-empty p { font-size: 0.95rem; margin: 0; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .hmo-header {
+        padding: 1.25rem 1.25rem 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .hmo-title {
+        font-size: 1.4rem;
+        order: -1;
+        width: 100%;
+    }
+
+    .hmo-search { width: 100%; }
+    .hmo-search:focus { width: 100%; }
+    .hmo-search-wrap { flex: 1; }
+
+    .hmo-grid-wrap { padding: 1.25rem 1.25rem 3rem; }
+    .hmo-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .hmo-card { padding: 1.25rem; }
+    .hmo-icon { width: 48px; height: 48px; border-radius: 10px; }
+    .hmo-icon i { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+    .hmo-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================
+   SUPPRESS ODOO DEFAULT DROPDOWN
+   ============================================ */
+.o-dropdown.o_navbar_apps_menu .o-dropdown--menu,
+.o-dropdown.o_navbar_apps_menu .dropdown-menu {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+.o-dropdown.o_navbar_apps_menu .dropdown-toggle::after,
+.o-dropdown.o_navbar_apps_menu button::after {
+    display: none !important;
+}

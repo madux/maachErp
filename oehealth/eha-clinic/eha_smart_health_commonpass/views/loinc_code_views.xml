@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+        <record id="view_tree_loinc_code" model="ir.ui.view">
+            <field name="name">view.tree.loinc.code</field>
+            <field name="model">loinc.code</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="eha_test_type_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_form_loinc_code" model="ir.ui.view">
+            <field name="name">view.form.loinc.code</field>
+            <field name="model">loinc.code</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="eha_test_type_ids" widget="many2many_tags" options="{'no_create_edit': 'True', 'no_open': 'True'}"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_action_loinc_code" model="ir.actions.act_window">
+            <field name="name">LOINC Code</field>
+            <field name="res_model">loinc.code</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_loinc_code_view_open" name="LOINC Codes" parent="oehealth.oeh_medical_conf_laboratory" action="view_action_loinc_code" />
+
+    </data>
+</odoo>

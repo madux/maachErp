@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <record id="oeha_medical_lab_test_form" model="ir.ui.view">
+        <field name="name">Extensions to Lab test Form</field>
+        <field name="model">oeh.medical.lab.test</field>
+        <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_form"/>
+        <field name="arch" type="xml">
+            <!-- Allow lab scientists to view buttons -->
+            <button name="set_to_test_inprogress" position="before">
+                <button confirm="Please confirm sample collection" name="set_to_sample_collected" states="Draft" string="Collect Sample" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse" />
+            </button>
+            <button name="set_to_test_inprogress" position="replace">
+                <button confirm="Are you sure you want to start the test?" name="set_to_test_inprogress" states="Sample Collected" string="Start Test" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse" />
+            </button>
+            <button name="set_to_test_complete" position="replace">
+                <button confirm="Are you sure you want to complete the test?" name="set_to_test_complete" states="Test In Progress" string="Complete Test" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse" />
+            </button>
+            <button name="action_lab_invoice_create" position="replace">
+                <button confirm="Are you sure you want to create the invoice?" name="action_lab_invoice_create" states="Completed" string="Create Lab Test Invoice" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse"/>
+            </button>
+            <button name="print_patient_labtest" position="replace">
+                <button name="print_patient_labtest" states="Test In Progress,Completed,Reviewed,Invoiced" string="Print Lab Test" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse"/>
+            </button>
+            <button name="action_lab_invoice_create" position="after">
+                <button confirm="Are you sure you want to mark this test as reviewed?" name="set_to_test_reviewed" states="Completed" string="Mark as Reviewed" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician" />
+            </button>
+            <button name="print_patient_labtest" position="after">
+
+                <button name="action_send_mail" attrs="{'invisible': [('state','in', ['Draft', 'Sample Collected', 'Test In Progress'] )]}" string="Send By Mail" type="object" class="btn-primary" />
+                <!-- <button confirm="Are you sure you want to Send this mail to ThirdParty Partner?" name="action_send_mail_to_thirdpartner" attrs="{'invisible': [('state','in', ['Draft', 'Sample Collected', 'Test In Progress'] )]}" string="Send Mail To Partner" type="object" class="btn-primary" /> -->
+            </button>
+            <field name="state" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="Draft,Test In Progress,Completed,Reviewed" statusbar_colors='{"Completed":"blue","Test In Progress":"red","Reviewed":"grey"}'
+                    />
+            </field>
+                <!--redesign labtest-->
+                <xpath expr="//sheet/group[1]/group[2]" position="replace">
+                    <group>
+                        <field name="test_type_code" invisible="1" />
+                        <field name="evaluation_id" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('test_type_code','=','COVID-19')]}" />
+                        <field name="passport_attachment" invisible="1" />
+                    </group>
+                </xpath>
+                <xpath expr="//sheet/group[1]" position="after">
+                    <group>
+                        <group>
+                            <field name="lab_department" required="1"/>
+                            <field name="property_product_pricelist" />
+                            <field name="test_type" on_change="onchange_test_type_id(test_type)" options="{'no_create': True}"/>
+                            <field name="sample_type" required="0" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="referring_partner" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" attrs="{'invisible': [('test_type_code','!=','COVID-19')], 'required': [('test_type_code','=','COVID-190')]}"/>
+                            <!-- <field name="referring_partner" options="{'no_create': True, 'no_open': True, 'no_create_edit': True}" attrs="{'invisible': [('test_type_code','!=','COVID-19')]}"/> -->
+                            <field name="reason_for_test" widget="selection" attrs="{'required': [('referring_partner','!=', False)], 'invisible': [('referring_partner','=', False)]}" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="instruction_to_lab" style="background:#efefef" />
+                        </group>
+                        <group>
+                            <!--empty-->
+                        </group>
+                        <group>
+                            <field name="location" required="1"/>
+                            <field name="lab_partner" attrs="{'required':[('location','=','External')], 'invisible':[('location','=','Internal')]}" options="{'no_create': True}"/>
+                            <field name="sample_collection_date" invisible="0" />
+                            <field name="sample_collected_by" invisible="0" readonly="1"/>
+                            <field name="active" invisible="1" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="care_provider_who_ordered_test" required="1" options="{'no_create': True}"/>
+                            <field name="date_requested"/>
+
+                        </group>
+                        <group>
+                            <field name="care_provider_who_performed_test" attrs="{'readonly': [('state','in','Draft')]}" options="{'no_create': True}"/>
+                            <field name="date_analysis"/>
+                        </group>
+                    </group>
+                </xpath>
+                <!--//redesign labtest-->
+
+                <!-- Insert patient ID in form view -->
+                <xpath expr="//sheet/div/div/h1" position="after">
+                    <group>
+                        <field name="identification_code" class="oe_inline"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Other Information">
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="cif_ref" string="CIF REF"/>
+                                    <field name="sms_status" />
+                                </group>
+                                <group>
+                                    <field name="thirdparty_partner_id" widget="many2many_tags" string="Third Party Partner" force_save="1" required="0" readonly="0"/>
+                                </group>
+                            </group>
+                            <separator string="NCDC COVID-19 Upload"/>
+                            <group>
+                                <group>
+                                    <field name="ncdc_sent_status" />
+                                    <field name="ncdc_cert_number" string="NCDC Cert. #" readonly="1" force_save="1" />
+                                    <field name="ncdc_test_id" readonly="1" force_save="1" />
+                                </group>
+                                <group/>
+                            </group>
+                            <separator string="Panabios Upload"/>
+                            <group>
+                                <group>
+                                    <field name="panabios_sent_status" readonly="1"/>
+                                </group>
+                            </group>
+                            <separator string="Email Status" colspan="2" />
+                            <field name="mail_log_ids" readonly="1" string="Emails">
+                                <tree string="Emails" editable="bottom">
+                                    <field name="subject" string="SUbject"/>
+                                    <field name="date" string="Date"/>
+                                    <field name="email_from" string="From"/>
+                                    <field name="state" string="Status"/>
+                                </tree>
+                            </field>
+                            
+                        </form>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="oeha_medical_lab_test_tree" model="ir.ui.view">
+            <field name="name">Extensions to Lab test tree view</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_tree"/>
+            <field name="arch" type="xml">
+                <field name="patient" position="before">
+                    <field name="identification_code"/>
+                </field>
+                <field name="state" position="after">
+                    <field name="sms_status" />
+                </field>
+            </field>
+        </record>
+
+
+        <record id="oeha_medical_lab_test_types_form" model="ir.ui.view">
+            <field name="name">Extensions to Lab test types Form</field>
+            <field name="model">oeh.medical.labtest.types</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_types_form"/>
+            <field name="arch" type="xml">
+                <field name="lab_department" position="replace">
+                    <field name="lab_department" required="1"/>
+                    <div class="alert alert-info" role="alert">
+                        Note: Check this box if it is a covid-19 related test type <br/>
+                    </div>
+                    <field name="is_covid_19"/>
+                    <field name="is_covid_pcr" attrs="{'invisible': [('is_covid_19', '=', False)]}"/>
+                    <field name="is_covid_antigen" attrs="{'invisible': [('is_covid_19', '=', False)]}"/>
+                    <div class="alert alert-info" role="alert" attrs="{'invisible': [('is_covid_19', '=', False)]}">
+                        Check the following fields if syncing is required 
+                    </div>
+
+                    
+                    <field name="allow_ncdc_sync" attrs="{'invisible': [('is_covid_19', '=', False)]}"/>
+                    <field name="allow_panabios_sync" attrs="{'invisible': [('is_covid_19', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="oeha_medical_lab_test_filter" model="ir.ui.view">
+            <field name="name">Lab Tests Tree Extension</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="inherit_id" ref="oehealth.view_oeh_medical_lab_test_filter"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="patient" string="Patient" select="1"/>
+                    <field name="identification_code" string="Patient ID" select="1"/>
+                    <field name="test_type"/>
+                    <field name="care_provider_who_ordered_test"/>
+                    <field name="patient"/>
+                    <field name="thirdparty_partner_id"/>
+                    <field name="identification_code"/>
+                    <field name="sample_collection_date"/>
+                    <field name="sms_status" />
+                </field>
+                <filter name="group_patient" position="after">
+                    <filter string="Care Provider Who Ordered Test" name="group_care_provider_who_ordered_test" domain="[]" context="{'group_by':'care_provider_who_ordered_test'}"/>
+                    <filter string="Sample Collection Date" name="sample_collection_date" domain="[]" context="{'group_by':'sample_collection_date'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="view_oeh_medical_lab_test_pivot" model="ir.ui.view">
+            <field name="name">oeh.medical.lab.test.pivot</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="arch" type="xml">
+                <pivot string="Lab Test" display_quantity="false">
+                    <field name="test_type" type="row"/>
+                    <field name="date_requested" interval="month"/>
+                    <field name="date_analysis" type="row"/>
+                    <field name="care_provider_who_ordered_test" type="row"/>
+                    <field name="patient" type="row"/>
+                    <!-- <field name="age_ranges" operator="+" type="col"/>
+                    -->
+                </pivot>
+            </field>
+        </record>
+
+        <record id="oehealth.oeh_medical_lab_test_action_tree" model="ir.actions.act_window">
+            <field name="name">Lab Tests</field>
+            <field name="res_model">oeh.medical.lab.test</field>
+
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Click to add a new lab tests.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_to_export_atila" model="ir.actions.server">
+            <field name="name">Export Atila Lab test</field>
+            <field name="model_id" ref="oehealth_extension.model_oeh_medical_lab_test"/>
+            <field name="binding_model_id" ref="oehealth_extension.model_oeh_medical_lab_test"/>
+            <field name="state">code</field>
+            <field name="code">
+            if records:
+                action = records.action_atila_export_and_download()
+            </field>
+        </record>
+
+        <record id="action_export_to_panabios" model="ir.actions.server">
+            <field name="name">Export To Panabios</field>
+            <field name="model_id" ref="oehealth_extension.model_oeh_medical_lab_test"/>
+            <field name="binding_model_id" ref="oehealth_extension.model_oeh_medical_lab_test"/>
+            <field name="state">code</field>
+            <field name="code">
+            if records:
+                action = records.action_panabios_export_and_download()
+            </field>
+        </record>
+
+    <record id="action_ncdc_labtest_sync" model="ir.actions.server">
+        <field name="name">Sync Labtests to NCDC</field>
+        <field name="model_id" ref="oehealth_extension.model_oeh_medical_lab_test"/>
+        <field name="binding_model_id" ref="oehealth_extension.model_oeh_medical_lab_test"/>
+        <field name="state">code</field>
+        <field name="code">
+        if records:
+            action = records.action_ncdc_labtest_sync()
+        </field>
+    </record>
+ 
+</odoo>

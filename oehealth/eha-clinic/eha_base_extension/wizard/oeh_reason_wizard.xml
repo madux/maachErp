@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="action_oeh_reason_wizard" model="ir.actions.act_window">
+        <field name="name">Dialog</field>
+        <field name="res_model">oeh.reason.wizard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+        <field name="target">new</field>
+          <p class="o_view_nocontent_smiling_face">
+            -
+          </p><p>
+            -
+          </p>
+        </field>
+    </record>
+     
+    <record id="oeh_reason_wizard_tree_view" model="ir.ui.view">
+        <field name="name">oeh.reason.wizard.tree</field>
+        <field name="model">oeh.reason.wizard</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name" readonly="0"/>
+                <field name="user_id" readonly="1"/>
+                <field name="action" required="1"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="oeh_reason_wizard_form_view" model="ir.ui.view">
+        <field name="name">oeh.reason.wizard Form</field>
+        <field name="model">oeh.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Wizard">
+                <header> 
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Add message..." readonly="0"/>
+                            <field name="action" readonly="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="model_name" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="post_action" string="Post" type="object" default_focus="1" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </sheet> 
+            </form>
+        </field>
+    </record>
+
+</odoo>

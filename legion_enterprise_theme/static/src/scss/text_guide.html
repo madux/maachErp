@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form Step Pointer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00A09D, #875A7B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        /* Form Group Styling */
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #cbd5e0;
+            box-shadow: 0 0 0 3px rgba(203, 213, 224, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Step Pointer Styles */
+        .form-group.form-step {
+            opacity: 0.4;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+
+        .form-group.form-step.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+            animation: slideIn 0.4s ease;
+        }
+
+        .form-group.form-step.completed {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+
+        .form-group.form-step.active label {
+            color: #00A09D;
+            font-size: 16px;
+        }
+
+        .form-group.form-step.active input,
+        .form-group.form-step.active select,
+        .form-group.form-step.active textarea {
+            border-color: #00A09D;
+            box-shadow: 0 0 0 4px rgba(0, 160, 157, 0.1);
+            background: linear-gradient(135deg, rgba(0, 160, 157, 0.02), rgba(135, 90, 123, 0.02));
+        }
+
+        .form-group.form-step.completed input,
+        .form-group.form-step.completed select,
+        .form-group.form-step.completed textarea {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        /* Step Number Badge */
+        .step-badge {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #00A09D, #008784);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0, 160, 157, 0.4);
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .form-group.form-step.active .step-badge {
+            opacity: 1;
+            transform: scale(1);
+            animation: pulse 2s infinite;
+        }
+
+        .form-group.form-step.completed .step-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            opacity: 1;
+            transform: scale(1);
+            animation: none;
+        }
+
+        .form-group.form-step.completed .step-badge::after {
+            content: '✓';
+            position: absolute;
+            font-size: 18px;
+        }
+
+        .form-group.form-step.completed .step-badge span {
+            display: none;
+        }
+
+        /* Pointer Arrow */
+        .step-pointer {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 32px;
+            color: #00A09D;
+            opacity: 0;
+            animation: pointRight 1.5s infinite;
+            pointer-events: none;
+        }
+
+        .form-group.form-step.active .step-pointer {
+            opacity: 1;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 40px;
+            background: #f1f5f9;
+            height: 8px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00A09D, #875A7B);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 8px rgba(0, 160, 157, 0.3);
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 12px;
+            color: #718096;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #cbd5e0, #a0aec0);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .submit-btn.active {
+            background: linear-gradient(135deg, #00A09D, #008784);
+            cursor: pointer;
+            opacity: 1;
+            box-shadow: 0 4px 16px rgba(0, 160, 157, 0.3);
+        }
+
+        .submit-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 160, 157, 0.4);
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(0, 160, 157, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(0, 160, 157, 0.6), 0 0 0 8px rgba(0, 160, 157, 0.1);
+            }
+        }
+
+        @keyframes pointRight {
+            0%, 100% {
+                transform: translateY(-50%) translateX(0);
+            }
+            50% {
+                transform: translateY(-50%) translateX(10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            padding: 20px;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-radius: 10px;
+            text-align: center;
+            color: #065f46;
+            font-weight: 600;
+            margin-top: 20px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Helper Text */
+        .helper-text {
+            font-size: 13px;
+            color: #a0aec0;
+            margin-top: 6px;
+        }
+
+        .form-group.form-step.active .helper-text {
+            color: #00A09D;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Smart Form Wizard</h1>
+        <p class="subtitle">Fill out each field step by step</p>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">Step 0 of 6 (0%)</div>
+
+        <form id="smartForm">
+            <!-- Add class "form-step" to any field you want to be part of the step system -->
+            
+            <div class="form-group form-step">
+                <div class="step-badge"><span>1</span></div>
+                <div class="step-pointer">👉</div>
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+                <p class="helper-text">Enter your complete name</p>
+            </div>
+
+            <div class="form-group form-step">
+                <div class="step-badge"><span>2</span></div>
+                <div class="step-pointer">👉</div>
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+                <p class="helper-text">We'll never share your email</p>
+            </div>
+
+            <div class="form-group form-step">
+                <div class="step-badge"><span>3</span></div>
+                <div class="step-pointer">👉</div>
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required>
+                <p class="helper-text">Include country code if international</p>
+            </div>
+
+            <div class="form-group form-step">
+                <div class="step-badge"><span>4</span></div>
+                <div class="step-pointer">👉</div>
+                <label for="department">Department *</label>
+                <select id="department" name="department" required>
+                    <option value="">Select a department...</option>
+                    <option value="sales">Sales</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="hr">Human Resources</option>
+                    <option value="finance">Finance</option>
+                </select>
+                <p class="helper-text">Choose your primary department</p>
+            </div>
+
+            <div class="form-group form-step">
+                <div class="step-badge"><span>5</span></div>
+                <div class="step-pointer">👉</div>
+                <label for="position">Position/Title *</label>
+                <input type="text" id="position" name="position" required>
+                <p class="helper-text">Your current job title</p>
+            </div>
+
+            <div class="form-group form-step">
+                <div class="step-badge"><span>6</span></div>
+                <div class="step-pointer">👉</div>
+                <label for="message">Additional Comments</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+                <p class="helper-text">Optional: Any additional information</p>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Complete Form</button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            ✅ Form submitted successfully! All steps completed.
+        </div>
+    </div>
+
+    <script>
+        class FormStepper {
+            constructor(formSelector) {
+                this.form = document.querySelector(formSelector);
+                this.steps = this.form.querySelectorAll('.form-step');
+                this.currentStep = 0;
+                this.totalSteps = this.steps.length;
+                this.progressBar = document.getElementById('progressBar');
+                this.progressText = document.getElementById('progressText');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.successMessage = document.getElementById('successMessage');
+                
+                this.init();
+            }
+
+            init() {
+                // Activate first step
+                this.activateStep(0);
+                
+                // Add event listeners to all step inputs
+                this.steps.forEach((step, index) => {
+                    const inputs = step.querySelectorAll('input, select, textarea');
+                    inputs.forEach(input => {
+                        input.addEventListener('input', () => this.handleInput(index));
+                        input.addEventListener('change', () => this.handleInput(index));
+                    });
+                });
+
+                // Form submit handler
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+                // Update initial progress
+                this.updateProgress();
+            }
+
+            activateStep(index) {
+                if (index >= this.totalSteps) return;
+                
+                // Remove active from all steps
+                this.steps.forEach(step => step.classList.remove('active'));
+                
+                // Add active to current step
+                this.steps[index].classList.add('active');
+                
+                // Scroll to active step smoothly
+                setTimeout(() => {
+                    this.steps[index].scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 100);
+            }
+
+            handleInput(stepIndex) {
+                const step = this.steps[stepIndex];
+                const inputs = step.querySelectorAll('input, select, textarea');
+                
+                // Check if all required fields in this step are filled
+                let allFilled = true;
+                inputs.forEach(input => {
+                    if (input.hasAttribute('required') && !input.value.trim()) {
+                        allFilled = false;
+                    }
+                });
+
+                if (allFilled) {
+                    // Mark step as completed
+                    step.classList.add('completed');
+                    
+                    // Move to next step if this is the current step
+                    if (stepIndex === this.currentStep) {
+                        this.currentStep++;
+                        this.activateStep(this.currentStep);
+                    }
+                } else {
+                    // Remove completed status if field is emptied
+                    step.classList.remove('completed');
+                    
+                    // If we're on a later step and this step becomes incomplete, go back
+                    if (stepIndex < this.currentStep) {
+                        this.currentStep = stepIndex;
+                        this.activateStep(this.currentStep);
+                    }
+                }
+
+                this.updateProgress();
+            }
+
+            updateProgress() {
+                const completedSteps = this.form.querySelectorAll('.form-step.completed').length;
+                const percentage = (completedSteps / this.totalSteps) * 100;
+                
+                this.progressBar.style.width = percentage + '%';
+                this.progressText.textContent = `Step ${completedSteps} of ${this.totalSteps} (${Math.round(percentage)}%)`;
+
+                // Enable submit button when all steps are completed
+                if (completedSteps === this.totalSteps) {
+                    this.submitBtn.classList.add('active');
+                    this.submitBtn.disabled = false;
+                } else {
+                    this.submitBtn.classList.remove('active');
+                    this.submitBtn.disabled = true;
+                }
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                
+                // Show success message
+                this.successMessage.classList.add('show');
+                this.form.style.display = 'none';
+                
+                // Log form data (in real app, send to server)
+                const formData = new FormData(this.form);
+                console.log('Form submitted with data:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
+
+                // Reset after 3 seconds (optional)
+                setTimeout(() => {
+                    this.resetForm();
+                }, 3000);
+            }
+
+            resetForm() {
+                this.form.reset();
+                this.form.style.display = 'block';
+                this.successMessage.classList.remove('show');
+                this.currentStep = 0;
+                
+                this.steps.forEach(step => {
+                    step.classList.remove('active', 'completed');
+                });
+                
+                this.activateStep(0);
+                this.updateProgress();
+            }
+        }
+
+        // Initialize the form stepper
+        document.addEventListener('DOMContentLoaded', () => {
+            new FormStepper('#smartForm');
+        });
+    </script>
+</body>
+</html>

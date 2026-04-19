@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_subscription_template_view_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.view.inherit</field>
+            <field name="model">sale.order.template</field>
+            <field name="inherit_id" ref="sale_subscription.sale_subscription_template_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <field name="subscription_type"/>
+                </xpath>
+                
+            </field>
+    </record>
+
+</odoo>

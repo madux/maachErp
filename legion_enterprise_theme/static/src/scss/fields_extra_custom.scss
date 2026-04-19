@@ -1,0 +1,613 @@
+// Enhanced Modern Colorful UI for Odoo 14
+body, .o_web_client {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 14px;
+}
+// Input Fields with modern styling
+.o_input {
+    border: 2px solid #e3e8ef;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    transition: all 0.3s ease;
+    
+    &:focus {
+        border-bottom-color: #00A09D;
+        box-shadow: 0 2px 0 rgba(0, 160, 157, 0.2);
+    }
+}
+
+//status bar
+
+.o_form_view .o_form_statusbar > .o_statusbar_status {
+        background: linear-gradient(135deg, #3b82f6 0%, #88b6b5 100%) !important;
+        color: #f9fafb !important;
+}
+
+// Required fields with gradient accent
+.o_required_modifier {
+    &.o_input, .o_input {
+        border-bottom: 3px solid transparent;
+        background: linear-gradient(rgb(246, 240, 240), white) padding-box,
+                    linear-gradient(90deg, #f91d36, #ffffff) border-box !important;
+        border-image: linear-gradient(90deg, #fb1010, #f8f7f8) 1;
+    }
+}
+
+// Field Widgets
+// .o_field_widget {
+//     &.o_field_many2one .o_external_button {
+//         color: $o-brand-primary;
+//         color: white;
+//         transition: all 0.3s ease;
+//         background: linear-gradient(135deg, #00A09D, #4374ce);
+//          &:hover {
+//             color: darken($o-brand-primary, 10%);
+//             transform: scale(1.1);
+//         }
+//     }
+// }
+
+
+.o_field_widget.o_field_date { 
+    .o_input_dropdown {
+        position: relative;
+        background: #FFFFFF;
+        border-radius: 12px;
+        padding: 2px;
+        background: linear-gradient(135deg, #00A09D, #875A7B);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transition: all 0.3s ease;
+    }
+
+    /* Inner input */
+    .o_input {
+        border: none !important;
+        border-radius: 12px;
+        padding: 12px 44px 12px 16px;
+        font-size: 14px;
+        height: 12px;
+        background-color: #FFFFFF;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.25s ease;
+    }
+
+    /* Focus effect (Bootstrap inspired) */
+    .o_input:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(0, 160, 157, 0.25);
+    }
+
+    /* Calendar icon */
+    .o_input_group_append {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: #875A7B;
+        font-size: 14px;
+        transition: all 0.25s ease;
+    }
+
+    /* Hover on icon */
+    .o_external_button:hover {
+        background: rgba(135, 90, 123, 0.15);
+        transform: translateY(-50%) scale(1.15);
+    }
+
+    /* Hover whole field */
+    .o_input_dropdown:hover {
+        box-shadow: 0 10px 28px rgba(0, 160, 157, 0.25);
+    }
+}
+
+.o_field_widget.o_field_many2one { 
+    .o_input_dropdown {
+        position: relative;
+        background: #FFFFFF;
+        border-radius: 14px;
+        padding: 2px;
+        background: linear-gradient(135deg, #00A09D, #875A7B);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transition: all 0.3s ease;
+    }
+
+    /* Inner input */
+    .o_input {
+        border: none !important;
+        border-radius: 12px;
+        padding: 12px 44px 12px 16px;
+        font-size: 12px;
+        height: 15px;
+        background-color: #FFFFFF;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.25s ease;
+    }
+
+    /* Focus effect (Bootstrap inspired) */
+    .o_input:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(0, 160, 157, 0.25);
+    }
+
+    /* Dropdown / external button */
+    .o_external_button {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        color: #875A7B;
+        font-size: 12px;
+        padding: 4px;
+        border-radius: 50%;
+        transition: all 0.25s ease;
+    }
+
+    /* Hover on icon */
+    .o_external_button:hover {
+        background: rgba(135, 90, 123, 0.15);
+        transform: translateY(-50%) scale(1.15);
+    }
+
+    /* Hover whole field */
+    .o_input_dropdown:hover {
+        box-shadow: 0 10px 28px rgba(0, 160, 157, 0.25);
+    }
+}
+ 
+// Enhanced Button Box with gradients
+.oe_button_box {
+    .oe_stat_button {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        
+        &:hover {
+            background: linear-gradient(135deg, rgba(0, 160, 157, 0.1), rgba(135, 90, 123, 0.1)) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .o_button_icon {
+            color: #ef0303 !important;
+            transition: color 0.3s ease;
+        }
+        
+        &:hover .o_button_icon {
+            color: #875A7B !important;
+        }
+    }
+}
+
+// Modern form sheet with gradient background
+.o_form_sheet_bg {
+    border-bottom: none !important;
+    background: white; //linear-gradient(135deg, #f8f9ff 0%, #5c74ac 100%) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+// Colorful search facets
+.o_searchview .o_searchview_facet {
+    border: none;
+    background: linear-gradient(135deg, #00A09D, #4374ce);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 12px;
+    box-shadow: 0 2px 8px rgba(0, 160, 157, 0.3);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 160, 157, 0.4);
+    }
+}
+
+// Modern table headers
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: none;
+    padding-left: 3px;
+    font-weight: 600;
+    color: #4a5568;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+// Enhanced list view with gradient header
+.o_list_view thead {
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, #00A09D, #875A7B, #00A09D) 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+ 
+
+.o_list_view thead > tr > th {
+    border-left: 0px solid #fff;
+    padding: 16px 8px;
+    position: relative;
+    
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #00A09D, transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    &:hover:after {
+        opacity: 1;
+    }
+}
+
+.o_list_view .o_optional_columns_dropdown_toggle {
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background-color: rgba(0, 160, 157, 0.1);
+    }
+}
+
+.o_list_view {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding-top: 16px !important;
+    padding-left: 16px !important;
+}
+
+// Modern table rows
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    height: auto;
+    border-top: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.o_list_view tbody tr {
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: linear-gradient(90deg, rgba(0, 160, 157, 0.05), rgba(135, 90, 123, 0.05));
+        transform: scale(1.001);
+    }
+}
+
+// Checkbox styling
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.625rem;
+    padding-left: 1.5rem;
+}
+
+.o_control_panel > .o_cp_right {
+    max-height: 60px;
+}
+
+// Modern dropdown buttons
+.o_dropdown_toggler_btn {
+    padding: 8px 12px;
+    color: #4a5568;
+    text-transform: initial;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-group .o_dropdown {
+    border: none;
+}
+
+// .o-dropdown.dropdown.o-dropdown--no-caret {
+//     background-color: #e83e8c !important;
+//     box-shadow: 0 6px 18px rgba(232, 62, 140, 0.25);
+// }
+
+// .o-dropdown.dropdown.o-dropdown--no-caret:hover {
+//     box-shadow: 0 6px 18px rgba(232, 62, 140, 0.25);
+// }
+
+.o_main_navbar .o_menu_sections .o_nav_entry, .o_main_navbar .o_menu_sections .dropdown-toggle {
+    background-color: rgb(21, 136, 230) !important;
+    // color: #090606 !important;
+
+}
+
+// .o_main_navbar, .o_main_navbar a, .o_main_navbar .dropdown-toggle {
+//     color: #090606 !important;
+// }
+
+
+
+.o_dropdown_toggler_btn {
+    text-transform: none !important;
+    background-color: rgb(21, 136, 230) !important;
+    border: 1px solid #e2e8f0;
+    
+    &:hover, &:focus {
+        background: linear-gradient(135deg, #2080c1, #2b3b4b) !important;
+        border-color: #00A09D;
+        box-shadow: 0 2px 8px rgba(0, 160, 157, 0.15);
+        transform: translateY(-1px);
+    }
+}
+
+.dropdown-item{
+    color: #164186 !important
+}
+
+.btn-icon, .o_graph_button {
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: linear-gradient(135deg, rgba(0, 160, 157, 0.1), rgba(135, 90, 123, 0.1)) !important;
+        border-color: #00A09D !important;
+    }
+}
+
+// Enhanced secondary buttons
+.btn-secondary {
+    color: #4a5568;
+    background: linear-gradient(135deg, #ffffff, #f7fafc);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: linear-gradient(135deg, #f7fafc, #edf2f7);
+        border-color: #00A09D;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+    color: rgb(13, 9, 9);
+    background: linear-gradient(135deg, #00A09D, #008784);
+    border-color: #00A09D;
+    box-shadow: 0 2px 8px rgba(0, 160, 157, 0.3);
+}
+
+// Modern search view
+.o_searchview {
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    align-items: flex-end;
+    position: relative;
+    padding: 0 20px 8px 0;
+    background: linear-gradient(180deg, white 0%, #f9fafb 100%);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+// Colorful navigation tabs
+.nav-tabs {
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.nav-tabs .nav-link {
+    color: #64748b;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 12px 20px;
+    
+    &:hover, &.show {
+        color: #00A09D;
+        border-bottom-color: #00A09D;
+        background: linear-gradient(180deg, rgba(0, 160, 157, 0.05), transparent);
+    }
+}
+
+.o_main_navbar {
+    background: linear-gradient(
+        180deg,
+        lighten(#3b82f6, 8%) 0%,
+        #3b82f6 45%,
+        darken(#3b82f6, 6%) 100%
+    ) !important;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+    .o_main_navbar,
+    .o_main_navbar a,
+    .o_main_navbar .dropdown-toggle {
+        color: #040404 !important;
+    }
+    
+
+    .o_main_navbar .o_menu_toggle,
+    .o_main_navbar .o_nav_entry,
+    .o_main_navbar .o_user_menu {
+        color: #060101 !important;
+    }
+    .o_main_navbar .o_nav_entry:hover,
+    .o_main_navbar .dropdown-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .o_main_navbar .o_nav_entry.active {
+        background-color: rgba(0, 0, 0, 0.15) !important;
+    }
+
+
+    .o_home_menu .container,
+        .o_home_menu .o_container_small {
+            background: linear-gradient(
+                180deg,
+                lighten(#3b82f6, 18%) 0%,
+                lighten(#3b82f6, 28%) 45%,
+                lighten(#3b82f6, 38%) 100%
+            ) !important;
+    }
+    .o_home_menu_background {
+            background: linear-gradient(
+                180deg,
+                lighten(#3b82f6, 18%) 0%,
+                lighten(#3b82f6, 28%) 45%,
+                lighten(#3b82f6, 38%) 100%
+            ) !important;
+    }
+
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #875A7B;
+    background: linear-gradient(180deg, white, rgba(135, 90, 123, 0.05));
+    border-bottom: 3px solid #875A7B;
+    box-shadow: 0 -2px 8px rgba(135, 90, 123, 0.1);
+}
+
+// Text color updates
+.o_list_view .text-info {
+    color: #00A09D !important;
+    font-weight: 500;
+}
+
+// Enhanced button base styles
+.btn, .o_account_reports_page .oe_link_reports, .o_radio_hide_bullet label {
+    display: inline-block;
+    font-weight: 500;
+    color: #4a5568;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+// Modern primary button with gradient
+.btn-primary {
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #3b82f6 0%, #88b6b5 100%);
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 160, 157, 0.3);
+    font-weight: 600;
+    
+    &:hover {
+        background: linear-gradient(135deg, #1c71fb 0%, #495d83 100%);
+        box-shadow: 0 4px 16px rgba(0, 160, 157, 0.4);
+        transform: translateY(-2px);
+    }
+    
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(0, 160, 157, 0.3);
+    }
+}
+
+// Many2one field external button
+.o_field_widget.o_field_many2one .o_external_button {
+    color: #00A09D;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        color: #875a7b;
+        transform: scale(1.15);
+    }
+}
+
+// Additional modern enhancements
+.o_list_view .o_list_record_selector,
+.o_list_view .o_list_record_remove,
+.o_list_view .o_handle_cell {
+    width: 39px;
+    padding-left: 16px !important;
+    padding-right: 5px !important;
+}
+
+// Custom scrollbar styling
+.o_list_view::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.o_list_view::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.o_list_view::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00A09D, #875A7B);
+    border-radius: 4px;
+    
+    &:hover {
+        background: linear-gradient(180deg, #008784, #6d4861);
+    }
+}
+
+// Badge and label styling
+.badge {
+    padding: 0.35em 0.65em;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background: linear-gradient(135deg, #00A09D, #008784);
+    box-shadow: 0 2px 4px rgba(0, 160, 157, 0.2);
+}
+
+.badge-secondary {
+    background: linear-gradient(135deg, #875A7B, #6d4861);
+    box-shadow: 0 2px 4px rgba(135, 90, 123, 0.2);
+}
+
+// Card-like containers
+.o_form_sheet {
+    // background: white;
+    background: linear-gradient(190deg, #f8f9ff 0%, #d1ddf8 100%) !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    margin: 16px;
+}
+
+// Animated loading states
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.o_loading {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}

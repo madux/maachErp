@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_wallet_odoo_template" inherit_id="point_of_sale.template" xml:space="preserve">
+
+    <t t-name="CustomPackLotLinePopupWidget">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-text">
+                <header class="title"><t t-esc=" widget.options.title || '' " /></header>
+                <main class='packlot-lines'>
+                    <t t-if="widget.options.pack_lot_lines">
+                        <t t-set="focus_lot_line"
+                           t-value="widget.focus_model || widget.options.pack_lot_lines.get_empty_model()"/>
+                        <t t-foreach='widget.options.pack_lot_lines.models' t-as='lot_line'>
+                            <input type="text" t-att-cid="lot_line.cid"
+                                   t-att-value="lot_line.get('lot_name')"
+                                   t-att-autofocus="lot_line === focus_lot_line ? 'autofocus': undefined"
+                                   class="popup-input packlot-line-input"
+                                   placeholder="Serial/Lot Number"/>
+                            <i class="oe_link_icon remove-lot fa fa-trash-o" role="img" aria-label="Remove"
+                               title="Remove"></i>
+                        </t>
+                    </t>
+                </main>
+                <footer class="footer">
+                    <div class="button confirm">
+                        Ok
+                    </div>
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="AllowPackLotLinePopupWidget">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-text">
+                <header class="title"><t t-esc=" widget.options.title || '' " /></header>
+                <main class='packlot-lines'>
+                    <t t-if="widget.options.pack_lot_lines">
+                        <t t-set="focus_lot_line"
+                           t-value="widget.focus_model || widget.options.pack_lot_lines.get_empty_model()"/>
+                        <t t-foreach='widget.options.pack_lot_lines.models' t-as='lot_line'>
+                            <input type="text" t-att-cid="lot_line.cid"
+                                   t-att-value="lot_line.get('lot_name')"
+                                   t-att-autofocus="lot_line === focus_lot_line ? 'autofocus': undefined"
+                                   class="popup-input packlot-line-input"
+                                   placeholder="Serial/Lot Number"/>
+                            <i class="oe_link_icon remove-lot fa fa-trash-o" role="img" aria-label="Remove"
+                               title="Remove"></i>
+                        </t>
+                    </t>
+                </main>
+                <footer class="footer">
+                    <div class="button confirm">
+                        Ok
+                    </div>
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="NoLotAvailablePopup">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-text">
+                <header class="title"><t t-esc=" widget.options.title || '' " /></header>
+                <main class='packlot-lines' style="font-size: 17px !important; font-weight: 500; !important">
+                    The Entered Lot/Serial number does not exist, please try with Different/Existing one.
+                </main>
+                <footer class="footer">
+                    <div class="button cancel">
+                        Ok
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="ExpiryDatePopup">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-text">
+                <header class="title"><t t-esc=" widget.options.title || '' " /></header>
+                <main class='packlot-lines' style="font-size: 17px !important; font-weight: 500; !important">
+                    Expiry Date : <t t-esc="widget.options.expiry_date"/>
+                </main>
+                <footer class="footer">
+                    <div class="button cancel">
+                        Ok
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+    
+    <t t-name="WarningMessagePopup">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-text">
+                <header class="title"><t t-esc=" widget.options.title || '' " /></header>
+                <main class='packlot-lines' style="font-size: 17px !important; font-weight: 500; !important">
+                    <t t-if="widget.options.mes_len > 0">
+                        The Entered Serial number
+                        <t t-set="count" t-value="0"/>
+                        <t t-foreach="widget.options.message" t-as="invalid">
+                            <t t-if="count &gt; 0">
+                                <span>,</span>
+                            </t>
+                            <t t-esc="invalid.attributes.lot_name"/>
+                            <t t-set="count" t-value="count+1"/>
+                        </t>
+                        does not exist.
+                        <br/><br/>
+                    </t>
+                    <t t-if="widget.options.expiry_len > 0">
+                        <table style="width:100%">
+                            <tr>
+                                <th>Serial Number</th>
+                                <th>Expiry Date</th>
+                            </tr>
+                            <t t-foreach="widget.options.expiry_lot" t-as="expiry">
+                                <tr>
+                                    <td><t t-esc="expiry.name"/></td>
+                                    <td><t t-esc="expiry.alert_date"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </t>
+                </main>
+                <footer class="footer">
+                    <div class="button cancel">
+                        Ok
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+</templates>

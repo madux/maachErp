@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <template t-name="eha_website_hr_recruitment.preloader" name="eha-Preloader">
+            <div class="text-center mt-30 mb-50" id="preloader">
+                <i class="fa fa-spinner fa-spin fa-2x"></i> working...
+            </div>
+            <script>
+                console.log("Preloader....")
+                window.onload = function() {
+                    var preloader = document.getElementById("preloader");
+                    preloader.classList.add("d-none")
+                    var wrapper = document.getElementById("wrapper");
+                    wrapper.classList.remove("d-none");
+                };
+            </script>
+        </template>
+    </data>
+
+</odoo>

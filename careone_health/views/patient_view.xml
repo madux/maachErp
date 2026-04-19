@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_patient_tree" model="ir.ui.view">
+        <field name="name">res.partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree string="Patient">
+                <field name="name"/>
+                <field name="date_of_registration"/>
+                <field name="patient_no"/>
+                <field name="gender"/>
+                <field name="street"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_partner_patient_search" model="ir.ui.view">
+        <field name="name">res.partner.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Patient search">
+                <field name="name"/>
+                <field name="first_name"/>
+                <field name="middle_name"/>
+                <field name="last_name"/>
+                <field name="phone"/>
+                <field name="date_of_registration"/>
+                <field name="patient_no"/>
+                <field name="street"/>
+                <field name="city"/>
+                <!-- <field name="state_id"/> -->
+                <field name="gender"/>
+                <field name="dob"/>
+                <field name="age"/>
+                <field name="country_id"/>
+                <filter string="Male" name="male" domain="[('gender','=','Male')]"/>
+                <filter string="Female" name="female" domain="[('gender','=','Female')]"/>
+                <separator/>
+                <!-- <filter string="Urgent" name="urgent" domain="[('priority','&gt;','0')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('date','&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="This Week" name="week" domain="[('date','&gt;=', (context_today()-datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/> -->
+                <group expand="0" string="Group By">
+                    <filter string="Gender" name="gender_by" context="{'group_by':'gender'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_res_patient_data_action" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'default_is_patient': 1}</field>
+        <field name="domain">[('is_patient', '=', True)]</field>
+    </record>
+
+    <menuitem id="menu_clinic_management_patient"
+              name="Patients Management"
+              parent="careone_health.menu_pharmacy_root"
+              action="action_res_patient_data_action"
+              sequence="3"/>
+
+    <menuitem id="menu_clinic_patient"
+              name="Patients"
+              parent="careone_health.menu_clinic_management_patient"
+              action="action_res_patient_data_action"
+              sequence="3"/>
+</odoo>

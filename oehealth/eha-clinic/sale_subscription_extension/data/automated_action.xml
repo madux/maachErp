@@ -1,0 +1,59 @@
+<odoo>
+    <data noupdate="1">
+        <record id="sale_subscription_notification_ext" model="ir.cron">
+            <field name="name">Send SMS Subscription</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_sale_order" />
+            <field name="state">code</field>
+            <field name="code">model.cron_send_notification()</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="sale_subscription_expiry_notification" model="ir.cron">
+            <field name="name">Old Sale Subscription: Expiry Notification</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_sale_order" />
+            <field name="state">code</field>
+            <field name="code">model.cron_send_expiry_notification()</field>
+        </record>
+
+        <record id="sale_order_template_expiry_notification" model="ir.cron">
+            <field name="name">Sale Subscription: Expiry Notification</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_sale_order_template" />
+            <field name="state">code</field>
+            <field name="code">model.cron_send_expiry_notification()</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="sale_subscription_migrate_beneficiaries" model="ir.cron">
+            <field name="name">Sale Subscription: Migrate Beneficiaries</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_sale_order" />
+            <field name="state">code</field>
+            <field name="code">model.action_migration_beneficiaries()</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         1a.  EXPIRED SUBSCRIPTION PAGE
+         ══════════════════════════════════════════════════════════════════════ -->
+    <template id="expired_page" name="MaachERP – Subscription Expired">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div id="hc-expired-root">
+
+                <!-- Animated background particles -->
+                <div class="hc-particles" aria-hidden="true">
+                    <span/><span/><span/><span/><span/>
+                    <span/><span/><span/><span/><span/>
+                </div>
+
+                <div class="hc-centered-card">
+
+                    <!-- Icon -->
+                    <div class="hc-icon-wrap hc-icon-expired">
+                        <i class="fa fa-lock"/>
+                    </div>
+
+                    <h1 class="hc-title">Subscription Expired</h1>
+                    <p class="hc-subtitle">
+                        Your access to <strong t-esc="db_name"/> has lapsed.<br/>
+                        Enter your renewal key below or start a new subscription.
+                    </p>
+
+                    <!-- ── Renewal key box ───────────────────────────────── -->
+                    <div class="hc-renewal-box" id="hc-renewal-section">
+                        <label class="hc-label" for="hc-renewal-key">
+                            <i class="fa fa-key me-1"/> Subscription Key
+                        </label>
+                        <div class="hc-input-group">
+                            <input type="text" id="hc-renewal-key"
+                                   class="hc-input"
+                                   placeholder="XXXX-XXXX-XXXX-XXXX"
+                                   autocomplete="off"/>
+                            <button id="hc-btn-activate" class="hc-btn hc-btn-primary">
+                                <span class="btn-text">Activate</span>
+                                <span class="btn-spinner d-none">
+                                    <i class="fa fa-spinner fa-spin"/>
+                                </span>
+                            </button>
+                        </div>
+                        <div id="hc-renewal-msg" class="hc-msg d-none"/>
+                    </div>
+
+                    <div class="hc-divider"><span>or</span></div>
+
+                    <!-- ── New subscription CTA ──────────────────────────── -->
+                    <a href="/maacherp/register" class="hc-btn hc-btn-outline hc-btn-full">
+                        <i class="fa fa-plus-circle me-2"/>
+                        Start a New Subscription
+                    </a>
+
+                    <p class="hc-footer-note">
+                        Need help? Contact
+                        <a href="mailto:support@maacherp.org">support@maacherp.org</a>
+                    </p>
+
+                </div><!-- /.hc-centered-card -->
+            </div><!-- /#hc-expired-root -->
+        </t>
+    </template>
+
+</odoo>

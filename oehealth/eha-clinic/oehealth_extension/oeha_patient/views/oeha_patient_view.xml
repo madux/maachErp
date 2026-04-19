@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Extensions to the patient view -->
+    <record id="oeha_medical_patient_view" model="ir.ui.view">
+        <field name="name">Extensions to Patient Form</field>
+        <field name="model">oeh.medical.patient</field>
+        <field name="inherit_id" ref="oehealth.oeh_medical_patient_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="replace">
+                <form string="Patient">
+                    <header>
+                        <button name="print_patient_label" string="Patient Card" type="object" class="oe_highlight"/>
+                        <button name="flag_patient" string="FLAG" type="object" class="btn-danger" attrs="{'invisible': [('flag', '=', True)]}" groups="eha_base_extension.group_quality_team"/>
+                        <button name="unflag_patient" string="Unflag" type="object" class="oe_highlight" attrs="{'invisible': [('flag', '=', False)]}" groups="eha_base_extension.group_quality_team"/>
+                        <button type="object" class="oe_highlight" name="record_evaluation_covid" context="{'default_patient': active_id}" string="COVID-19 Triage Eval" />
+                        <field name="flag" invisible="1"/>
+                        <field name="state" widget="statusbar" statusbar_visible="outpatient,inpatient" statusbar_colors='{"inpatient":"red","outpatient":"grey"}'/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="buttons">
+                            <button type="action" class="oe_stat_button" name="%(oehealth.oeh_medical_evaluation_action_tree)d" context="{'search_default_patient': id,'default_patient': id}" icon="fa-user-md" groups="oehealth.group_oeh_medical_patient,oehealth_extension.group_oeh_medical_nurse,oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_chp_nurse">
+                                <field string="Evaluations" name="evaluation_count" widget="statinfo"/>
+                            </button>
+                            <button type="action" class="oe_stat_button" name="%(oehealth.oeh_medical_prescription_action_tree)d" context="{'search_default_patient': id,'default_patient': id}" icon="fa-prescription-bottle-alt" groups="oehealth.group_oeh_medical_patient,oehealth_extension.group_oeh_medical_nurse,oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_chp_nurse">
+                                <field string="Prescriptions" name="prescription_count" widget="statinfo"/>
+                            </button>
+                            <button type="action" class="oe_stat_button" name="%(oehealth.oeh_medical_lab_test_action_tree)d" context="{'search_default_patient': id,'default_patient': id}" icon="fa-vials" groups="oehealth.group_oeh_medical_patient,oehealth_extension.group_oeh_medical_nurse,oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_chp_nurse,oehealth_extension.group_oeh_medical_lab_off">
+                                <field string="Lab Tests" name="labs_count" widget="statinfo"/>
+                            </button>
+                            <button type="action" class="oe_stat_button" name="%(oehealth.oeh_medical_vaccine_action_tree)d" context="{'search_default_patient': id,'default_patient': id}" icon="fa-list" groups="oehealth_extension.group_oeh_medical_nurse,oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse,oehealth_extension.group_oeh_medical_lab_off">
+                                <field string="Vaccines" name="vaccine_count" widget="statinfo"/>
+                            </button>
+                            <button type="action" class="oe_stat_button" name="%(action_admissions)d" context="{'search_default_patient_id': id}" icon="fa-building-o">
+                                <field string="Admissions" name="admission_count" widget="statinfo"/>
+                            </button>
+                            <button type="object" class="oe_stat_button" name="action_view_blood_pressure_diaries" context="{'search_default_patient': id,'default_patient': id}" icon="fa-prescription-bottle-alt" groups="oehealth.group_oeh_medical_patient,oehealth_extension.group_oeh_medical_nurse,oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_chp_nurse">
+                                <field string="Blood Pressure" name="blood_diaries_count" widget="statinfo"/>
+                            </button>
+                            <button type="action" class="oe_stat_button" name="%(account.action_move_out_invoice_type)d" context="{'search_default_patient': id,'default_patient': id}" icon="fa-edit">
+                                <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Flagged" bg_color="bg-danger" attrs="{'invisible': [('flag', '=', False)]}"/>
+                        <div class="evaluation_header">
+                            <div class="oe_title">
+                                <field name="identification_code" readonly="1"/>
+                                <h1><field name="name" readonly="1"/></h1>
+                            </div>
+                            <group name="outer">
+                                <group name="left_side">
+                                    <!-- <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/> -->
+                                    
+                                    <field name="partner_id" required="0" readonly="1"/>
+                                    <field name="firstname" required="True"/>
+                                    <field name="lastname2"/>
+                                    <field name="lastname" required="True"/>
+                                    <field name="sex" string="Gender" required="1"/>
+                                    <field name="dob" required="1"/>
+                                    <field name="age" string="Age"/>
+                                    <field name="blood_type"/>
+                                    <field name="marital_status"/>
+                                    <field name="rh"/>
+                                    <field string="Registered At" name="branch_id" options="{'no_create': True, 'no_open': True}" />
+                                    <field name="doctor" options="{'no_create': True}" invisible="1"/>
+                                    <field name="oeh_patient_user_id" string="Odoo User" options="{'no_create': True}" groups="oehealth.group_oeh_medical_manager"/>
+                                </group>
+                                <group name="right_side">
+                                    <!-- <div class="row"> -->
+                                        <!-- <div class="col-12 allergies">  -->
+                                    <field name="medication_allergies_ids" class="table-dolphin" nolabel="1">
+                                        <tree string="Medical / Allergies List" editable="bottom">
+                                            <field name="name" string="Medical / Other Allergies"/>
+                                            <field name="allergy_reaction"/>
+                                            <field name="allergy_type"/>
+                                        </tree>
+                                    </field>
+                                    <div class="clearfix" />
+                                    <field name="currentmedications" class="table-dolphin" nolabel="1">
+                                        <tree string="Current Medications">
+                                            <field name="name" string="Current Medication"/>
+                                            <field name="dose"/>
+                                            <field name="start_date"/>
+                                        </tree>
+                                    </field>
+                                    <group style="margin-top:20px">
+                                        <field name="property_product_pricelist"/>
+                                        <field name="patient_tag_ids" readonly="0" widget="many2many_tags"/>
+                                    </group>
+                                        <!-- </div>
+                                    </div> -->
+                                </group>
+                                <div class="clearfix" />
+                            </group>
+                        </div>
+                        <div class="clearfix" name="after_patient_header"/>
+                        <!-- <div class="col-12">
+                            <div id="form-wizard">
+                                <div>
+                                    <button name="navigate_left" id="btn-prev" icon="fa-chevron-left" aria-label="Previous" title="previous" invisible="1"></button>
+                                </div>
+                                <div>
+                                    <h2 id="title" class="tab-content-title">Personal</h2>
+                                </div>
+                                <div>
+                                    <button name="navigate_right" id="btn-next" icon="fa-chevron-right" aria-label="Next" title="previous" invisible="1"></button>
+                                </div>
+                            </div>
+                        </div> -->
+                        <notebook>
+                         <!-- class="dolphin"> -->
+                            <page string="Personal">
+                                <group>
+                                    <group>
+                                        <label for="street" string="Address"/>
+                                        <div class="o_address_format">
+                                            <field name="street" placeholder="Street..." class="o_address_street"/>
+                                            <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                            <field name="city" placeholder="City" class="o_address_city"/>
+                                            <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                            <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                            <field name="lga" placeholder="LGA" class="o_address_street" />
+                                            <field name="ward" placeholder="LGA Ward" class="o_address_street" />
+                                            <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                        </div>
+                                        <field name="phone" string="Primary Phone Number" placeholder="e.g. +234 818 123 3700" attrs="{'readonly': [('country_id', '=', False)]}"/>
+                                        <field name="mobile" sring="Alternate / Guardian Phone Number" placeholder="e.g. +234 818 123 3700" attrs="{'readonly': [('country_id', '=', False)]}"/>
+                                        <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                                    </group>
+                                    <group>
+                                        <field name="function" string="Profession" placeholder="e.g. Sales Director"/>
+                                        <field name="email" string="Primary Email" widget="email"/>
+                                        <field name="secondary_email" widget="email" string="Secondary Email"/>
+                                        <field name="national_identity_number" placeholder="e.g MD-34556-7897-W"/>
+                                        <!--extra covid-19 fields-->
+                                        <field name="passport_no" />
+                                        <field name="passport_issuing_country"/>
+                                        <field name="is_inbound_tester" invisible="0"/>
+                                        <field name="epid_number" />
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="deceased"/>
+                                        <field name="cod" attrs="{'invisible':[('deceased','=',False)]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="dod" attrs="{'invisible':[('deceased','=',False)],'required':[('deceased','=',True)]}"/>
+                                    </group>
+                                </group>
+
+                                <group name="next_of_kin">
+                                    <group>
+                                        <field name="next_of_kin" placeholder="Next of kin"/>
+                                    </group>
+                                    <group>
+                                        <field name="next_of_kin_contact" placeholder="Next of kin contact number"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group string="Critical Information">
+                                        <field name="critical_info" nolabel="1"/>
+                                    </group>
+                                    <group string="Extra Information">
+                                        <field name="general_info" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Family &amp; Insurance">
+                                <group>
+                                    <group>
+                                        <field name="ethnic_group" options="{'no_create': True}"/>
+                                        <field name="genetic_risks" widget="many2many_tags" options="{'no_create': True}"/>
+                                    </group>
+                                    <group>
+                                        <field name="current_insurance" context="{'default_patient': active_id, 'default_state': 'Active'}"/>
+                                    </group>
+                                </group>
+                                <group string="Family">
+                                    <field name="family" nolabel="1">
+                                        <tree string="Family" editable="bottom" nolabel="1">
+                                            <field name="name"/>
+                                            <field name="relation"/>
+                                            <field name="age"/>
+                                            <field name="deceased"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Children">
+                                <group>
+                                    <field name="children"/>
+                                </group>
+                            </page>
+                            <page string="Evaluations">
+                                <field name="evaluation_ids" nolabel="1" readonly="1"/>
+                            </page>
+
+                            <page string="Medicines">
+                                <field name="prescription_line" nolabel="1" >
+                                    <tree string="Medicines" create="false" edit="false" delete="false">
+                                        <field name="name"/>
+                                        <field name="prescription_id"/>
+                                        <field name="dose"/>
+                                        <field name="dose_unit"/>
+                                        <field name="qty"/>
+                                        <field name="duration"/>
+                                        <field name="info"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Lab Tests">
+                                <field name="lab_test_ids"  readonly="1">
+                                    <tree string='Lab Tests' decoration-muted="state=='Invoiced'" decoration-info="state=='Test In Progress'" decoration-success="state=='Completed'" decoration-danger="state=='Cancelled'">
+                                        <field name="name"/>
+                                        <field name="test_type"/>
+                                        <field name="date_requested"/>
+                                        <field name="date_analysis"/>
+                                        <field name="state"/>
+                                        <field name="patient" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Imaging Tests" groups="oehealth_extension.group_oeh_medical_nurse">
+                                <field name="image_test_ids" groups="oehealth_extension.group_oeh_medical_nurse" readonly="1">
+                                    <tree string='Imaging Tests' decoration-muted="state=='Invoiced'" decoration-primary="state=='Test In Progress'" decoration-success="state=='Completed'" decoration-danger="state=='Cancelled'">
+                                        <field name="name"/>
+                                        <field name="test_type"/>
+                                        <field name="pathologist"/>
+                                        <field name="requestor"/>
+                                        <field name="date_requested"/>
+                                        <field name="date_analysis"/>
+                                        <field name="state"/>
+                                        <field name="patient" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Medical History" name="med_history_page">
+                                         
+                                <div name="outer_gynecological_history_div"> 
+                                    <div class="o_horizontal_separator clearfix toggle-open-separator">Gynecological History
+                                        <div class="toggle-open" title="open" style="float: right"> 
+                                        </div>
+                                    </div>
+                                    <div class="o_horizontal_separator clearfix toggle-close-separator">Gynecological History
+                                        <div class="toggle-close" title="close" style="float: right">
+                                        </div>
+                                    </div>
+                                    <div class="collapse">
+                                        <group>
+                                            <group>
+                                                <field name="gynaecology_last_menses"/>
+                                                <field name="gynaecology_amenorrhea"/>
+                                                <field name="gynaecology_dysmenorrhea" />
+                                            </group>
+                                            <group>
+                                                <field name="gynaecology_menorrhagia" />
+                                                <field name="gynaecology_metromenorrhagia" />
+                                                <field name="gynaecology_infertility" />
+                                                <field name="gynaecology_subfertility" />
+                                            </group>
+                                        </group>
+                                            
+                                    </div>
+                                </div>
+
+                                <div name="outer_past_history_div"> 
+                                    <div class="o_horizontal_separator clearfix toggle-open-separator">Past Medical History
+                                        <div class="toggle-open" title="open" style="float: right"> 
+                                        </div>
+                                    </div>
+                                    <div class="o_horizontal_separator clearfix toggle-close-separator">Past Medical History
+                                        <div class="toggle-close" title="close" style="float: right">
+                                        </div>
+                                    </div>
+                                    <div class="collapse">
+                                        <group>
+                                            <group>
+                                                <field name="past_medical_history_sickle_cell"/>
+                                                <field name="past_medical_history_diabetes"/>
+                                                <field name="past_medical_history_hypertension"/>
+                                                <field name="past_medical_history_epilepsy"/>
+                                                <field name="past_medical_history_dyslipidemia"/>
+                                                <field name="past_medical_history_tia"/>
+                                                <field name="past_medical_history_stroke" />
+                                            </group>
+                                            <group>
+                                                <field name="past_medical_history_myocardial_infarction" />
+                                                <field name="past_medical_history_dvt" />
+                                                <field name="past_medical_history_asthma" />
+                                                <field name="past_medical_history_copd" />
+                                                <field name="past_medical_history_immunization" />
+                                                <field name="past_medical_history_developmental_milestones" />
+                                                <field name="other_medical_history" />
+                                            </group>
+                                        </group>
+                                    </div>
+                                </div>
+
+                                <div name="outer_family_history_div"> 
+                                    <div class="o_horizontal_separator clearfix toggle-open-separator">Family History
+                                        <div class="toggle-open" title="open" style="float: right"> 
+                                        </div>
+                                    </div>
+                                    <div class="o_horizontal_separator clearfix toggle-close-separator">Family History
+                                        <div class="toggle-close" title="close" style="float: right">
+                                        </div>
+                                    </div>
+                                    <div class="collapse">
+                                        <group>
+                                            <field name="family_history_condition" placeholder="Enter family conditions"/>
+                                        </group>
+                                    </div>
+                                </div>
+
+                                <div name="outer_surgery_history_div"> 
+                                    <div class="o_horizontal_separator clearfix toggle-open-separator">Surgery History
+                                        <div class="toggle-open" title="open" style="float: right">
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="o_horizontal_separator clearfix toggle-close-separator">Surgery History
+                                        <div class="toggle-close" title="close" style="float: right">
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="collapse">
+                                        <field name="surgical_history_ids" context="{'default_system_type': 'surgical'}">
+                                            <tree>
+                                                <field name="type_of_surgery" required="1"/>
+                                                <field name="hospital"/>
+                                                <field name="date_of_surgery" required="1"/>
+                                                <field name="migrated_medical_history_to_emr"/>
+                                            </tree>
+                                            <form>
+                                                <group>
+                                                    <group>
+                                                        <field name="system_type" string="System Type" invisible="1"/>
+                                                        <field name="type_of_surgery" string="Surgery type" required="1"/>
+                                                        <field name="hospital" string="Hospital"/>
+                                                         
+                                                    </group>
+                                                    <group>
+                                                        <field name="date_of_surgery" string="Date of Surgery" required="1"/>
+                                                        <field name="outcome_of_surgery" string="Outcome of Surgery" required="1"/>
+                                                        <field name="migrated_medical_history_to_emr"/>
+                                                    </group>
+                                                </group>
+
+                                            </form>
+                                        </field>
+                                    </div>
+                                </div>
+
+
+                                <div name="outer_ostetrics_history_div"> 
+                                    <div class="o_horizontal_separator clearfix toggle-open-separator">Obstetrics
+                                        <div class="toggle-open" title="open" style="float: right">
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="o_horizontal_separator clearfix toggle-close-separator">Obstetrics
+                                        <div class="toggle-close" title="close" style="float: right">
+                                        </div>
+                                    </div>
+                                    <div class="collapse">
+                                        <field name="obstetrics_history_ids" context="{'default_system_type': 'obstetrics'}">
+                                            <tree>
+                                                <field name="system_type" string="System Type" invisible="1"/>
+                                                <field name="pregnancy_date"/>
+                                                <field name="mode_of_delivery" required="0"/>
+                                                <field name="child_sex" required="1"/>
+                                                <field name="deseased" required="1"/>
+                                                <field name="birth_date"/>
+                                                <field name="delivery_weeks" string="Weeks at delivery" placeholder="e.g 2"/>
+                                                <field name="pregnancy_induce_complications" />
+                                            </tree>
+                                            <form>
+                                                <group>
+                                                    <group>
+                                                        <field name="system_type" string="System Type" invisible="1"/>
+                                                        <field name="pregnancy_date"/>
+                                                        <field name="mode_of_delivery" required="1"/> 
+                                                        <field name="child_sex" required="1"/>
+                                                        <field name="deseased" required="1"/>
+                                                        <field name="birth_date" />
+                                                        <field name="delivery_weeks" />
+                                                        <field name="pregnancy_induce_complications" />
+                                                    </group>
+                                                    <group>
+                                                        <field name="gestational_age" />
+                                                        <field name="previous_miscarriages" />
+                                                        <field name="has_miscarriage" attrs="{'required': [('previous_miscarriages', '=', 'yes')]}"/>
+                                                        <field name="mode_of_termination" attrs="{'invisible': [('has_miscarriage', '!=', 'Voluntary')], 'required': [('has_miscarriage', '=', 'Voluntary')]}"/>
+                                                        <field name="location_of_miscarriage" attrs="{'invisible': [('has_miscarriage', '!=', 'Voluntary')], 'required': [('has_miscarriage', '=', 'Voluntary')]}"/>
+                                                        <field name="specify_other_miscarriage_location" attrs="{'invisible': [('location_of_miscarriage', '!=', 'Other')], 'required': [('location_of_miscarriage', '=', 'Other')]}"/>
+                                                        <field name="is_post_abortal" />
+                                                        <field name="specify_other_post_abortal" attrs="{'invisible': [('is_post_abortal', '!=', 'yes')], 'required': [('is_post_abortal', '=', 'yes')]}"/>
+                                                        
+                                                    </group>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </div>
+                                </div> 
+ 
+                            </page>
+                            <page string="Program(s)">
+                                <group>
+                                    <field name="program_ids" widget="many2many_tags"/>
+                                </group>
+                            </page>
+                            <page string="Health Mate App">
+                                <group>
+                                    <field name="healthmate_is_registered_user" readonly="1"/>
+                                    <field name="healthmate_registration_date" readonly="1"/>
+                                    <field name="is_synced_to_firebase" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                       <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </form>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_oeh_medical_patient_filter_ext" model="ir.ui.view">
+        <field name="name">oeh.medical.patient.extension</field>
+        <field name="model">oeh.medical.patient</field>
+        <field name="priority" eval="8" />
+        <field name="inherit_id" ref="oehealth.view_oeh_medical_patient_filter"/>
+        <field name="arch" type="xml">
+            <filter name="group_doctor" position="after">
+                <filter string="Is HealthMate App User" name="healthmate_is_registered_user" domain="[]" context="{'group_by':'healthmate_is_registered_user'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- Move physician action tree to under conf menu -->
+    <menuitem action="oehealth.oeh_medical_physician_action_tree" id="oehealth.oeh_medical_physician_list" name="Physician" parent="oehealth.oeh_medical_conf_physician" sequence="1"/>
+
+    <menuitem action="oehealth.oeh_medical_patient_action_tree" parent="oehealth.oeh_medical_patients_menu" name="Patients" id="oehealth.oeh_medical_edit_patient" sequence="1" groups="oehealth_extension.external_command_center,oehealth_extension.group_oeh_medical_nurse,oehealth_extension.group_oeh_medical_op_ass"/>
+
+
+</odoo>

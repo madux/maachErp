@@ -1,0 +1,34 @@
+version: '2'
+services:
+  nginx:
+    build: core-app/nginx/.
+    image: odoo_nginx
+    links:
+      - odoo
+    ports:
+      - "80:80"
+
+  odoo:
+    build: core-app/.
+    image: odoo
+    env_file:
+      - core-app/.env
+    depends_on:
+      - db
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./core-app/config:/etc/odoo
+      - ./core-app/addons:/mnt/extra-addons
+    command: [ "start" ]
+
+  db:
+    image: postgres:9.4
+    env_file:
+      - core-app/.env
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+  odoo-web-data:
+  odoo-db-data:
+  nginx:

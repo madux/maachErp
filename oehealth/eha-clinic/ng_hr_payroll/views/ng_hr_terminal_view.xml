@@ -1,0 +1,208 @@
+<odoo>
+    <data>
+
+        <!-- Terminal view -->
+
+        <record id="view_terminal_policy_filter" model="ir.ui.view">
+            <field name="name">terminal.policy.list.select</field>
+            <field name="model">terminal.policy</field>
+            <field name="arch" type="xml">
+                <search string="Search Terminal Policies">
+                    <group>
+                        <field name="name" filter_domain="[('name','ilike',self)]"/>
+                        <field name="years"/>
+                        <field name="value_month"/>
+                        <field name="retrospect"/>
+                        <field name="company_id" groups="base.group_multi_company"
+                               widget="selection"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter name="group_base" string="Based On" domain="[]" context="{'group_by':'base'}"/>
+                        <separator orientation="vertical"/>
+                        <filter name="group_company_id" string="Company" domain="[]"
+                                context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_policy_tree_terminal" model="ir.ui.view">
+            <field name="name">terminal.policy.tree</field>
+            <field name="model">terminal.policy</field>
+            <field name="arch" type="xml">
+                <tree string="Terminal policies">
+                    <field name="name"/>
+                    <field name="years"/>
+                    <field name="value_month"/>
+                    <field name="retrospect"/>
+                    <field name="base"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_policy_form_terminal" model="ir.ui.view">
+            <field name="name">policy.form</field>
+            <field name="model">terminal.policy</field>
+            <field name="arch" type="xml">
+                <form string="Terminal Policies" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <label for="code" class="oe_edit_only"/>
+                            <h2>
+                                <field name="code"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <separator string="General" colspan="4"/>
+                            <field name="years"/>
+                            <field name="value_month"/>
+                            <field name="retrospect"/>
+                            <field name='base'/>
+                            <field name="allowance_ids" colspan="4" attrs="{'invisible': [('base','!=', 'allow')]}"/>
+                            <field name="value"/>
+                            <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_terminal_policy" model="ir.actions.act_window">
+            <field name="name">Terminal Policies</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">terminal.policy</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_terminal_policy_filter"/>
+        </record>
+
+        <menuitem sequence="999" id="terminal_policies" parent="hr.menu_human_resources_configuration"
+                  name="Terminal Policies"/>
+        <menuitem action="action_terminal_policy" sequence="100" id="terminal_policies_ben" parent="terminal_policies"
+                  name="Benefits"/>
+
+
+        <!-- NOTICE PERIOD -->
+
+        <record id="view_notice_policy_filter" model="ir.ui.view">
+            <field name="name">notice.policy.list.select</field>
+            <field name="model">notice.period</field>
+            <field name="arch" type="xml">
+                <search string="Search Notice Periods">
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id"/>
+                        <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Company Basis" name="group_company_basis" domain="[]"
+                                context="{'group_by':'company_base'}"/>
+                        <filter string="Employee Basis" name="group_employee_basis" domain="[]"
+                                context="{'group_by':'emp_base'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Category" name="category_id" context="{'group_by':'category_id'}"/>
+                        <filter string="Company" name="group_company_id" domain="[]"
+                                context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_policy_tree_notice" model="ir.ui.view">
+            <field name="name">notice.policy.tree</field>
+            <field name="model">notice.period</field>
+            <field name="arch" type="xml">
+                <tree string="Notice Periods">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="days"/>
+                    <field name="company_base"/>
+                    <field name="company_value"/>
+                    <field name="emp_base"/>
+                    <field name="emp_value"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_policy_form_notice" model="ir.ui.view">
+            <field name="name">policy.form</field>
+            <field name="model">notice.period</field>
+            <field name="arch" type="xml">
+                <form string="Notice Periods" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <label for="category_id" class="oe_edit_only"/>
+                            <h2>
+                                <field name="category_id"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <separator string="General" colspan="4"/>
+                            <field name="days"/>
+                            <field name="company_base"/>
+                            <field name="company_value"
+                                   attrs="{'invisible':[('company_base','!=', 'fixed')]}"/>
+                            <field name="emp_base"/>
+                            <field name="emp_value" attrs="{'invisible':[('emp_base','!=', 'fixed')]}"/>
+                            <newline/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   widget="selection"/>
+                            <newline/>
+                            <separator string="Notes" colspan="4"/>
+                            <field name="notes" nolabel="1" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_notice_policy" model="ir.actions.act_window">
+            <field name="name">Notice Periods</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">notice.period</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_notice_policy_filter"/>
+        </record>
+
+        <menuitem action="action_notice_policy" sequence="200" id="notice_policies_ben" parent="terminal_policies"
+                  name="Notice Periods"/>
+
+
+        <!-- Employee-->
+
+        <record id="employee_union_form" model="ir.ui.view">
+            <field name="name">employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <page name="hr_settings" position="after">
+                        <page string="Terminal Policy">
+                            <group col="4" colspan="4">
+                                <separator string="Terminal Policy" colspan="4"/>
+                                <field name="terminal_policy" nolabel="1" colspan="4"/>
+                            </group>
+                        </page>
+                    </page>
+                </data>
+            </field>
+        </record>
+
+        <!-- Employee Categories Done in Union view -->
+
+    </data>
+</odoo>

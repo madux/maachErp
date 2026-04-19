@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <data noupdate='1'>
+            <!-- Internal picking type true by default -->
+            <function id="default_internal_type"
+                model="stock.picking.type" name="write_internal_type" eval="()"/>
+            <!-- MR sequence -->
+            <record id="seq_material_request" model="ir.sequence">
+                <field name="name">Material Request</field>
+                <field name="code">material.request</field>
+                <field name="prefix">MR</field>
+                <field name="padding">5</field>
+            </record>
+
+        </data>
+
+        <!-- default multi location multi warehouse -->
+        <record id="base.group_user" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('stock.group_stock_multi_locations')),
+                    (4, ref('stock.group_stock_multi_warehouses'))]"/>
+        </record>
+
+        <!-- Chatter communication -->
+        <record id="mt_request_for_approve" model="mail.message.subtype">
+           <field name="name">Request for approved</field>
+            <field name="res_model">material.request</field>
+            <field name="default" eval="True"/>
+            <field name="description">Request submit for approve</field>
+        </record>
+
+
+        <record id="mt_request_to_approve" model="mail.message.subtype">
+            <field name="name">Request to be approved</field>
+            <field name="res_model">material.request</field>
+            <field name="default" eval="True"/>
+            <field name="description">Request submit to approve</field>
+        </record>
+
+        <record id="mt_request_approved" model="mail.message.subtype">
+            <field name="name">Request approved</field>
+            <field name="res_model">material.request</field>
+            <field name="default" eval="True"/>
+            <field name="description">Request approved</field>
+        </record>
+
+        <record id="mt_request_cancel" model="mail.message.subtype">
+            <field name="name">Request rejected</field>
+            <field name="res_model">material.request</field>
+            <field name="default" eval="True"/>
+            <field name="description">Request Canceled</field>
+        </record>
+
+</odoo>

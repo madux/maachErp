@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="mail_template_telehealth_booking_patient" model="mail.template">
+            <field name="name">Telehealth Appointment Booking: Patient Notification</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="subject">EHA Clinics: Telehealth Appointment Booking: Patient Notification</field>
+            <field name="email_from">${(object.event_id.user_id.email_formatted or user.email_formatted or '') | safe}</field>
+            <field name="email_to">${('' if object.partner_id.email and object.partner_id.email == object.email else object.email) | safe}</field>
+            <field name="partner_to">${object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;font-size: 13px;">
+                    <p>Hello <h4>${object.partner_id.firstname}!</h4></p>
+                    <br />
+                    <p>Thank you for choosing EHA Clinics! Your Telehealth appointment has been booked.</p>
+                    
+                    % if object.event_id.telehealth_google_meet_link:
+                        <p>Here is the link to your event: <a t-att-href="${object.event_id.telehealth_google_meet_link}">${object.event_id.telehealth_google_meet_link}</a></p>
+                    % else:
+                        <p>If you haven't got a Google meet link to the event, please exercise patience as the link will be sent to you shortly.</p>
+                    % endif
+                    <div>
+                        We look forward to seeing you! <br />
+                        Kind regards,<br />
+                    </div>
+                    <strong>EHA Clinics</strong>
+                    <strong>Tweet about us! </strong>
+                </div>
+            </field>
+        </record>
+
+        <record id="email_to_template_command_center" model="mail.template">
+            <field name="name">Telehealth </field>
+            <field name="email_from">info@eha.ng</field>
+            <field name="subject">Telehealth Booking Using Insurance</field>
+            <!-- <field name="email_to">${(object.pharmacist_email or '')|safe}</field> -->
+            <field name="email_to">${ctx['email_to']}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <p>Hello EHA Clinics: Command Center,</p>
+                <br/>
+                <p>This is to remind you that a telehealth Booking was generated using an insurance code <b>Kindly check the Sale order with reference No: ${object.name}</b></p>
+                <br/>
+                <br/>
+                <p>Thank You</p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="ir.ui.view" id="eha_booking_services_form_view">
+            <field name="name">eha.booking.services</field>
+            <field name="model">eha.booking.services</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_compute_time_slots" string="Generate time slots" type="object" class="oe_highlight" confirm="Are you sure you want to generate?"/>
+                    </header>
+                    <sheet>
+                        <group string="Services">
+                            <group>
+                                <field name = "name" required ="1"/>
+                                <field name = "service_providers" widget="many2many_tags"/>
+                            </group>
+
+                            <group>
+                                <field name = "email_template" required ="0"/>
+                                <field name = "min_schedule_hours" widget="float_time" invisible="1" required="0"/>
+                                <field name = "max_schedule_days" widget="float_time" invisible="1" required="0"/>
+                                <field name = "min_cancellation_hours" widget="float_time" invisible="1" required="0"/>
+                                <field name = "max_appointment_slot"/>
+                                <field name = "is_covid_service"/>
+                                <field name = "is_hsc"/>
+                                <field name = "service_type" attrs="{'required': [('is_covid_service', '!=', False)],'invisible': [('is_covid_service', '=', False)]}"/> 
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Slots">
+                                <field name = "slot_ids" context="{'default_eha_booking_services_id': active_id}">
+                                    <tree string="Slots" editable ="bottom">
+                                        <field name="sequence" widget="handle" nolabel="1"/>
+                                        <field name = "weekday" required="1"/>
+                                        <field name = "start_hour"/>
+                                        <field name = "stop_hour" invisible="0"/>
+                                        <field name = "time_stamp_type" required="1"/>
+                                        <field name = "appointment_duration" required="1" invisible="0"/>
+                                        <field name = "maximum_booking_allowed" string="Max. Book Allowed" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="usl_booking_services_tree_view" model="ir.ui.view">
+            <field name="name">eha.booking.services.tree</field>
+            <field name="model">eha.booking.services</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name = "name" required ="1"/>
+                    <field name = "service_providers" widget="many2many_tags"/>
+                    <field name = "appointment_duration"/>
+                    <field name = "max_appointment_slot"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_eha_booking_services_search">
+            <field name="name">eha.booking.services.search</field>
+            <field name="model">eha.booking.services</field>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <search string="services">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="eha_booking_service_action" model="ir.actions.act_window">
+            <field name="name">Services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">eha.booking.services</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_eha_booking_services_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to Add Location.
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="eha_booking_appointment_slot_form_view">
+            <field name="name">booking_appointment_slot</field>
+            <field name="model">eha.booking.appointment.slot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Slots">
+                            <group>
+                                <field name = "eha_booking_services_id"/>
+                                <field name = "weekday" required ="1"/>
+                                <field name = "start_hour"/>
+                                <field name = "stop_hour"/>
+                            </group>
+                            <group>
+                                <field name = "time_stamp_type" required="1"/>
+                                <field name = "appointment_duration" widget="float_time"/>
+                                <span>mins/hours</span>
+                                <field name = "maximum_booking_allowed" required="1"/>
+                            </group>
+                            <field name = "time_slot_ids">
+                                <tree string="time slots">
+                                    <field name="name"/>
+                                    <field name="is_available" invisible="1"/>
+                                    <field name="maximum_booking_allowed"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="booking_appointment_slot_tree_view" model="ir.ui.view">
+            <field name="name">eha.booking.appointment.slot.tree</field>
+            <field name="model">eha.booking.appointment.slot</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name = "eha_booking_services_id"/>
+                    <field name = "weekday" required ="1"/>
+                    <field name = "start_hour"/>
+                    <field name = "stop_hour"/>
+                    <field name = "maximum_booking_allowed" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_eha_booking_appointment_slot_search">
+            <field name="name">eha.booking.appointment.slot.search</field>
+            <field name="model">eha.booking.appointment.slot</field>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <search string="Slots">
+                    <field name="eha_booking_services_id" filter_domain="[('name','ilike',self)]" string="Name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="eha_booking_appointment_slot_action" model="ir.actions.act_window">
+            <field name="name">Slots</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">eha.booking.appointment.slot</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_eha_booking_appointment_slot_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to Add Slots.
+                </p>
+            </field>
+        </record>
+        <menuitem id="eha_appt_booking_menu" name="EHA Clinic Booking" sequence="2" parent="odoo_appointment_booking.eha_menu_calendar"/>
+        <menuitem id="appt_services_menu_id" name="Services" sequence="5" action="eha_booking_service_action" parent="eha_appt_booking_menu"/>
+        <menuitem id="appt_location_menu_id" name ="Location" parent="eha_appt_booking_menu" sequence="9" action="eha_multi_branch.action_res_branch_form"/>
+        <menuitem id="appt_slot_menu_id" name ="Slots" parent="eha_appt_booking_menu" sequence="8" action="eha_booking_appointment_slot_action"/>
+
+
+    </data>
+</odoo>

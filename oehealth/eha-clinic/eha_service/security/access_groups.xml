@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+
+    <record id="eha_service_module_category" model="ir.module.category">
+        <field name="name">EHA Services</field>
+        <field name="description">EHA Services</field>
+    </record>
+
+    <record id="eha_service_group_category" model="ir.module.category">
+        <field name="name">EHA Services</field>
+        <field name="description">EHA Services</field>
+        <field name="parent_id" ref="eha_service_module_category" />
+    </record>
+
+    <record id="group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="eha_service_group_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="users" eval="[(4, ref('base.user_admin'))]" />
+    </record>
+
+    <record id="group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="eha_service_group_category" />
+        <field name="implied_ids" eval="[(4, ref('eha_service.group_user'))]" />
+        <field name="users" eval="[(4, ref('base.user_admin'))]" />
+    </record>
+  
+  </data>
+</odoo>

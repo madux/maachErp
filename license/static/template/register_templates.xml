@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         1c.  REGISTRATION PAGE
+         ══════════════════════════════════════════════════════════════════════ -->
+    
+    <template id="register_page" name="MaachERP– New Subscription">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div id="hc-register-root">
+
+                <div class="hc-particles" aria-hidden="true">
+                    <span/><span/><span/><span/><span/>
+                    <span/><span/><span/><span/><span/>
+                </div>
+
+                <div class="hc-register-card">
+
+                    <!-- Header -->
+                    <div class="hc-register-header">
+                        <div class="hc-icon-wrap hc-icon-register">
+                            <i class="fa fa-user-plus"/>
+                        </div>
+                        <h1 class="hc-title">New Subscription</h1>
+                        <p class="hc-subtitle">Fill in your details to get started</p>
+                    </div>
+
+                    <!-- Global error -->
+                    <t t-if="errors and errors.get('general')">
+                        <div class="hc-alert hc-alert-danger">
+                            <i class="fa fa-exclamation-triangle me-2"/>
+                            <t t-esc="errors['general']"/>
+                        </div>
+                    </t>
+
+                    <form action="/maacherp/register/submit" method="POST"
+                          id="hc-register-form" novalidate="novalidate">
+
+                        <input type="hidden" name="csrf_token"
+                               t-att-value="request.csrf_token()"/>
+
+                        <!-- ── Row 1: Company | Database ────────────────── -->
+                        <div class="hc-form-row">
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="company_name">
+                                    <i class="fa fa-building me-1"/> Company Name
+                                </label>
+                                <input type="text" id="company_name" name="company_name"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('company_name','') if form_data else ''"
+                                       placeholder="Hope Children Foundation"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('company_name')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['company_name']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="database_name">
+                                    <i class="fa fa-database me-1"/> Database Name
+                                </label>
+                                <input type="text" id="database_name" name="database_name"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('database_name','') if form_data else ''"
+                                       placeholder="hope_children"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('database_name')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['database_name']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Row 2: Username | Email ───────────────────── -->
+                        <div class="hc-form-row">
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="username">
+                                    <i class="fa fa-user me-1"/> Admin Username
+                                </label>
+                                <input type="text" id="username" name="username"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('username','') if form_data else ''"
+                                       placeholder="admin"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('username')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['username']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="email">
+                                    <i class="fa fa-envelope me-1"/> Email Address
+                                </label>
+                                <input type="email" id="email" name="email"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('email','') if form_data else ''"
+                                       placeholder="admin@example.com"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('email')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['email']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Row 3: Phone | Months ─────────────────────── -->
+                        <div class="hc-form-row">
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="phone">
+                                    <i class="fa fa-phone me-1"/> Phone Number
+                                </label>
+                                <input type="tel" id="phone" name="phone"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('phone','') if form_data else ''"
+                                       placeholder="+234 800 000 0000"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('phone')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['phone']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="months">
+                                    <i class="fa fa-calendar me-1"/> Subscription Duration (months)
+                                </label>
+                                <input type="number" id="months" name="months"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('months', 12) if form_data else 12"
+                                       min="8" placeholder="Min. 8 months"
+                                       required="required"/>
+                                <span class="hc-hint">Minimum 8 months</span>
+                                <t t-if="errors and errors.get('months')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['months']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Row 4: Password | Confirm ─────────────────── -->
+                        <div class="hc-form-row">
+                            <div class="hc-form-group hc-password-wrap">
+                                <label class="hc-label" for="password">
+                                    <i class="fa fa-lock me-1"/> Password
+                                </label>
+                                <div class="hc-input-icon-right">
+                                    <input type="password" id="password" name="password"
+                                           class="hc-input"
+                                           placeholder="Min. 8 characters"
+                                           required="required"/>
+                                    <i class="fa fa-eye hc-toggle-pwd" data-target="#password"/>
+                                </div>
+                                <t t-if="errors and errors.get('password')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['password']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group hc-password-wrap">
+                                <label class="hc-label" for="password_confirmation">
+                                    <i class="fa fa-lock me-1"/> Confirm Password
+                                </label>
+                                <div class="hc-input-icon-right">
+                                    <input type="password" id="password_confirmation"
+                                           name="password_confirmation"
+                                           class="hc-input"
+                                           placeholder="Repeat password"
+                                           required="required"/>
+                                    <i class="fa fa-eye hc-toggle-pwd"
+                                       data-target="#password_confirmation"/>
+                                </div>
+                                <t t-if="errors and errors.get('password_confirmation')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['password_confirmation']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="hc-form-row">
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="number_of_users">
+                                    <i class="fa fa-user me-1"/> Users
+                                </label>
+                                <input type="number" id="number_of_users" name="number_of_users"
+                                       class="hc-input"
+                                       t-att-value="form_data.get('number_of_users', 10) if form_data else 10"
+                                       min="10" placeholder="Min. 10 months"
+                                       required="required"/>
+                                <t t-if="errors and errors.get('number_of_users')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['number_of_users']"/>
+                                    </span>
+                                </t>
+                            </div>
+
+                            <div class="hc-form-group">
+                                <label class="hc-label" for="note">
+                                    <i class="fa fa-calendar me-1"/> Bill Address
+                                </label>
+                                <input type="text" id="address" name="address"
+                                       class="hc-input"
+                                       t-att-value=""
+                                       min="8" placeholder="No. 8 Maduka Street"
+                                       />
+                                <span class="hc-hint">No. 8 Godwin GK street</span>
+                                <t t-if="errors and errors.get('address')">
+                                    <span class="hc-field-error">
+                                        <t t-esc="errors['address']"/>
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Module selection ──────────────────────────── -->
+                        <div class="hc-form-group">
+                            <label class="hc-label">
+                                <i class="fa fa-th-large me-1"/> Select Modules
+                            </label>
+                            <t t-if="errors and errors.get('modules')">
+                                <span class="hc-field-error">
+                                    <t t-esc="errors['modules']"/>
+                                </span>
+                            </t>
+                            <div class="hc-module-grid">
+                                <t t-foreach="available_modules" t-as="mod">
+                                    <label class="hc-module-chip">
+                                        <input type="checkbox" name="modules"
+                                               t-att-value="mod['key']"
+                                               t-att-checked="'checked' if (form_data and form_data.get('modules') and mod['key'] in form_data.get('modules')) else None"/>
+                                        <span>
+                                            <i class="fa fa-check-circle hc-chip-check"/>
+                                            <t t-esc="mod['label']"/>
+                                        </span>
+                                    </label>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- ── Submit ────────────────────────────────────── -->
+                        <button type="submit" class="hc-btn hc-btn-primary hc-btn-full"
+                                id="hc-register-submit">
+                            <i class="fa fa-paper-plane me-2"/>
+                            Confirm Subscription Request
+                        </button>
+
+                        <p class="hc-footer-note mt-3">
+                            Already have a key?
+                            <a href="/maacherp/expired">Activate here</a>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SUCCESS PAGE after registration
+         ══════════════════════════════════════════════════════════════════════ -->
+    <template id="register_success_page" name="MaachERP – Subscription Submitted">
+        <t t-call="website.layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div id="hc-expired-root">
+                <div class="hc-particles" aria-hidden="true">
+                    <span/><span/><span/><span/><span/>
+                </div>
+                <div class="hc-centered-card">
+                    <div class="hc-icon-wrap hc-icon-success">
+                        <i class="fa fa-check"/>
+                    </div>
+                    <h1 class="hc-title">Request Submitted!</h1>
+                    <p class="hc-subtitle">
+                        Thank you, <strong t-esc="company_name"/>!<br/>
+                        Your subscription request has been received and is under review.<br/>
+                        We will contact you via email once it is approved.
+                    </p>
+                    <a href="/" class="hc-btn hc-btn-outline mt-4">
+                        <i class="fa fa-arrow-left me-2"/> Back to Portal
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

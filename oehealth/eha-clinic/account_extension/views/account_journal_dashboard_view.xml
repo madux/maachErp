@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_journal_dashboard_kanban_view1" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.kanban1</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-name='JournalBodyBankCash']/div[hasclass('o_kanban_primary_right')]/t" position="after">
+                    <t t-else="">
+                        <!-- <div class="row">
+                            <div class="col overflow-hidden text-left">
+                                <span title="Balance in General Ledger">Balance in GL</span>
+                            </div>
+                            <div class="col-auto text-right">
+                                <span>
+                                    <t t-esc="dashboard.account_balance"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" name="latest_statement">
+                            <div class="col overflow-hidden text-left">
+                                <span title="Latest Statement">Latest Statement</span>
+                            </div>
+                            <div class="col-auto text-right">
+                                <span>
+                                    <t t-esc="dashboard.last_balance"/>
+                                </span>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <!-- <div class="col-7 text-left">
+                                <a type="action" name="account_reports.action_account_report_bank_reconciliation_with_journal)d">
+                                    Difference
+                                </a>
+                            </div> -->
+                            <div class="col-5 text-right">
+                                <span>
+                                    <t t-esc="dashboard.difference"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

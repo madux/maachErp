@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<report id="asset_disposal_report_reg"
+				string="Asset Disposal Report" 
+				model="asset.disposal"
+				report_type="qweb-pdf"
+				multi="True"
+				file = "ng_account_asset.asset_disposal_report_from_wiz"
+				name ="ng_account_asset.asset_disposal_report_from_wiz"/>
+	</data>
+</odoo>

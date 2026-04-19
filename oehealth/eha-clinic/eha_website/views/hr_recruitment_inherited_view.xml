@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_applicant_inherited_view_form" model="ir.ui.view">
+        <field name="name">hr.applicant</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml"> 
+            <field name="email_from" position="before">
+                <field name="first_name"/>
+                <field name="middle_name"/>
+                <field name="last_name" invisible="0" force_save="1" required="1"/>
+            </field>
+
+            <!-- <field name="description" position="replace">
+                <field name="description" invisible="1"/>
+            </field> -->
+ 
+            <xpath expr="//form/sheet/group[last()]">
+                <notebook name="otherinfo">
+                    <page name="Other informations" string="Other informations">
+                        <group>
+                            <group colspan="4">
+                                <field name="has_completed_nysc"/>
+                                <field name="know_anyone_at_eha"/>
+                                <field name="specify_personal_personality" attrs="{'invisible':[('know_anyone_at_eha', '!=', 'Yes')]}"/>
+                                <field name="degree_in_relevant_field"/>
+                                <field name="specifylevel_qualification" attrs="{'invisible':[('degree_in_relevant_field', '!=', 'Yes')]}"/>
+
+                            </group>
+                            <group colspan="4">
+                                <field name="reside_job_location"/>
+                                <field name="relocation_plans" attrs="{'invisible':[('reside_job_location', '!=', 'No')]}"/>
+                                <field name="resumption_period"/>
+                            </group>
+
+                            <group colspan="4">
+                                 <field name="reference_name"/>
+                                <field name="reference_title"/>
+                            </group>
+                            <group colspan="4">
+                                <field name="reference_email"/>
+                                <field name="reference_phone"/>
+                            </group>
+                        </group>
+                         
+                    </page> 
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>

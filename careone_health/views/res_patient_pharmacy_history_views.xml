@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_patient_pharmacy_history_tree" model="ir.ui.view">
+        <field name="name">res.patient.pharmacy.history.tree</field>
+        <field name="model">res.patient.pharmacy.history</field>
+        <field name="arch" type="xml">
+            <tree string="Pharmacy History">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="patient_id"/>
+                <field name="branch_id"/>
+                <field name="stage_id"/>
+                <field name="total_amount"/>
+                <field name="state" widget="badge" decoration-success="state=='done'" decoration-info="state in ('draft','verified')" decoration-warning="state=='dispensed'"/>
+                <field name="priority" widget="priority"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_patient_pharmacy_history_form" model="ir.ui.view">
+        <field name="name">res.patient.pharmacy.history.form</field>
+        <field name="model">res.patient.pharmacy.history</field>
+        <field name="arch" type="xml">
+            <form string="Pharmacy Prescription">
+                <header>
+                    <button name="action_proceed" string="Proceed" type="object" class="oe_highlight" invisible="state in ['done', 'cancelled']"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ['done', 'cancelled']"/>
+                    <button name="action_view_sale_order" string="View Sale Order" type="object" class="oe_highlight" invisible="sale_order_id == False"/>
+                    <button name="action_view_invoice" string="View Invoice" type="object" class="oe_highlight" invisible="invoice_id == False"/>
+                    <field name="stage_id" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sale_order" type="object" class="oe_stat_button" icon="fa-usd" invisible="invoice_id == False">
+                            <field name="sale_order_id" widget="statinfo" string="Sale Order"/>
+                        </button>
+                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="invoice_id== False">
+                            <field name="invoice_id" widget="statinfo" string="Invoice"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id" options="{'no_create': True}" domain="[('is_patient', '=', True)]"/>
+                            <field name="patient_evaluation_id" required="0" options="{'no_create': True}"/>
+                            <field name="branch_id" options="{'no_create': True}"/>
+                            <field name="date"/>
+                            <field name="state"/>
+                            <field name="stage_id" options="{'no_create': True}"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                        <group>
+                            <field name="prescriber_id"/>
+                            <field name="pharmacist_id"/>
+                            <field name="verified_by" readonly="1"/>
+                            <field name="verified_date" readonly="1"/>
+                            <field name="dispensed_by" readonly="1"/>
+                            <field name="dispensed_date" readonly="1"/>
+                            <field name="prescription_document" readonly="0"/>
+                            <field name="prescription_type" readonly="0"/>
+
+                        </group>
+                    </group>
+                    <group>
+                        <field name="diagnosis" placeholder="Type diagnosis"/>
+                    </group>
+                    <notebook>
+                        <page string="Prescription Lines">
+                            <field name="prescription_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id" options="{'no_create': True}"/>
+                                    <field name="dosage"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="frequency_duration"/>
+                                    <field name="frequency"/>
+                                    <field name="route_of_administration" optional="hide"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="expected_next_visit" optional="hide"/>
+                                    <field name="refills_allowed"/>
+                                    <field name="price_unit" optional="show"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="is_dispensed" readonly="1" optional="hide"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="dosage"/>
+                                            <field name="quantity"/>
+                                            <field name="uom_id"/>
+                                            <field name="route_of_administration"/>
+                                        </group>
+                                        <group>
+                                            <field name="frequency_duration"/>
+                                            <field name="frequency"/>
+                                            <field name="start_date"/>
+                                            <field name="end_date"/>
+                                            <field name="expected_next_visit"/>
+                                            <field name="refills_allowed"/>
+                                            <field name="refills_remaining"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="price_unit"/>
+                                            <field name="price_subtotal"/>
+                                        </group>
+                                        <group>
+                                            <field name="is_dispensed"/>
+                                            <field name="dispensed_quantity" invisible="is_dispensed == False"/>
+                                            <field name="dispensed_by" invisible="is_dispensed == False"/>
+                                            <field name="dispensed_date" invisible="is_dispensed == False"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="instructions"/>
+                                    </group>
+                                    <group>
+                                        <field name="notes"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_amount" widget="monetary"/>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_res_patient_pharmacy_history_kanban" model="ir.ui.view">
+        <field name="name">res.patient.pharmacy.history.kanban</field>
+        <field name="model">res.patient.pharmacy.history</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="total_amount"/>
+                <field name="priority"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <span class="float-right">
+                                        <field name="priority" widget="priority"/>
+                                    </span>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="patient_id"/>
+                                    <br/>
+                                    <field name="date"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="state" widget="badge"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="total_amount" widget="monetary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_res_patient_pharmacy_history_search" model="ir.ui.view">
+        <field name="name">res.patient.pharmacy.history.search</field>
+        <field name="model">res.patient.pharmacy.history</field>
+        <field name="arch" type="xml">
+            <search string="Pharmacy History">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="branch_id"/>
+                <field name="prescriber_id"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Verified" name="verified" domain="[('state','=','verified')]"/>
+                <filter string="Dispensed" name="dispensed" domain="[('state','=','dispensed')]"/>
+                <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                <separator/>
+                <filter string="Urgent" name="urgent" domain="[('priority','&gt;','0')]"/>
+                <separator/>
+                <filter string="Today" name="today" domain="[('date','&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="This Week" name="week" domain="[('date','&gt;=', (context_today()-datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Patient" name="patient" context="{'group_by':'patient_id'}"/>
+                    <filter string="Branch" name="branch" context="{'group_by':'branch_id'}"/>
+                    <filter string="Stage" name="stage" context="{'group_by':'stage_id'}"/>
+                    <filter string="Status" name="status" context="{'group_by':'state'}"/>
+                    <filter string="Date" name="date" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_res_patient_pharmacy_history" model="ir.actions.act_window">
+        <field name="name">Pharmacy Prescriptions</field>
+        <field name="res_model">res.patient.pharmacy.history</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+    </record>
+
+    <menuitem id="menu_pharmacy_root" name="EMR" sequence="50"/>
+
+    <menuitem id="menu_pharmacy_prescriptions" name="Prescriptions" parent="menu_pharmacy_root" action="action_res_patient_pharmacy_history" sequence="10"/>
+
+    <menuitem id="menu_pharmacy_config" name="Configuration" parent="menu_pharmacy_root" sequence="100"/>
+</odoo>

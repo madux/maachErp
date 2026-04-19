@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!--report
+            auto="False" 
+            id="payroll_advice_ng" 
+            model="hr.payroll.advice" 
+            name="payroll.advice.ng" 
+            rml="ng_hr_payroll/report/report_payroll_advice.rml"
+            string="Print Advice Report" / -->
+
+        <!--report
+            auto="False" 
+            id="hr_salary_employee_bymonth_ng" 
+            model="hr.salary.employee.month" 
+            name="salary.employee.bymonth.ng" 
+            rml="ng_hr_payroll/report/report_hr_salary_employee_bymonth.rml"
+            string="Yearly Salary by Category" / -->
+
+        <!-- report
+            auto="False" 
+            id="yearly_salary_ng" 
+            model="yearly.salary.detail" 
+            name="salary.detail.byyear.ng" 
+            rml="ng_hr_payroll/report/report_hr_yearly_salary_detail.rml"
+            string="Yearly Salary by Employee" / -->
+
+        <!--report
+           auto="False"
+           menu="False"
+           id="contribution_register_emp"
+           model="hr.contribution.register"
+           name="contribution.register"
+           rml="ng_hr_payroll/report/report_contrib_reg_per_employee.rml"
+           string="Conribution Register By Employee" / -->
+
+        <!-- report
+            auto="False" 
+            id="payroll_register" 
+            model="payroll.register" 
+            name="hr.payroll.register" 
+            rml="ng_hr_payroll/report/payroll_register_report.rml"
+            string="Payroll Register" / -->
+
+        <!-- report
+            auto="False"
+            menu="False"
+            id="hr_payroll.contribution_register"
+            model="hr.contribution.register"
+            name="contribution.register.lines.employee"
+            rml="ng_hr_payroll/report/report_contribution_register.rml"
+            string="PaySlip Lines By Contribution Register" /-->
+
+    </data>
+</odoo>

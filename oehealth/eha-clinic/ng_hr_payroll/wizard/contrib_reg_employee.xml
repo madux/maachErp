@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_contribution_register" model="ir.ui.view">
+            <field name="name">contribution.register.employee</field>
+            <field name="model">contribution.register.employee</field>
+            <field name="arch" type="xml">
+                <form string="Contribution Register per Employee">
+                    <header>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </header>
+                    <separator string="Contribution Register By Employee"/>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="employee_ids"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_employee_contribution_register" model="ir.actions.act_window">
+            <field name="name">Contribution Register by Employee's</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">contribution.register.employee</field>
+
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_contribution_register"/>
+            <field name="target">new</field>
+        </record>
+
+        <!--
+	   <record model="ir.values" id="contribution_register_value">
+            <field name="model_id" ref="hr_payroll.model_hr_contribution_register" />
+            <field name="name">Register By Employee</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_employee_contribution_register'))" />
+            <field name="key">action</field>
+            <field name="model">hr.contribution.register</field>
+        </record>
+        -->
+
+    </data>
+</odoo>

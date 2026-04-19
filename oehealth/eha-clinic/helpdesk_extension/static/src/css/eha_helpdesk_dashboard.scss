@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono&display=swap');
+
+$bg-color: #DDECF2;
+$color-tertiary: #719593;
+$color-secondary: #25A9E0;
+$color-red: #FF6A6A;
+$color-green: #00D67E;
+$color-yellow: #DBAE18;
+$color-text-light: #EFEFEF;
+
+.label-top-left {
+    display: inline-block;
+    position: fixed;
+    color: #fff;
+    background: rgba($color-secondary, .8);
+    padding: .1rem 1rem;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .08;
+    border-bottom-right-radius: 6px;
+}
+
+.dashboard {
+    width: 100vw;
+    height: 100vh;
+    background: $bg-color;
+}
+
+.dashboard-table {
+    width: 100%;
+    font-size: 15px;
+    line-height: 22px;
+    
+    th {
+        font-size: 15px;
+        padding: 1.6rem 1rem .6rem;
+    }
+    
+    td {
+        border-top: 3px solid $bg-color;
+        border-collapse: collapse;
+        padding: .6rem 1rem .5rem;
+        vertical-align: baseline;
+    }
+    
+    table td {
+        background: #fff;
+        border-top: 1px solid rgba($color-tertiary, .2);
+        border-right: 1px solid rgba($color-tertiary, .2);
+    }
+    
+    .eha_online_pharmacy td{
+        background: rgb(241, 235, 141);
+    }
+
+    table tr:first-child td {
+        border-top: 0;
+    }
+    
+    td.patient {
+        padding: 0;
+        table {
+            width: 100%;
+        }
+    }
+    
+    td.name,
+    th.name {
+        width: 16vw;
+        min-width: 12rem;
+    }
+    
+    td.status,
+    th.status {
+        width: 30vw;
+    }
+    
+    th.physician,
+    td.physician{
+       width: 20vw; 
+    }
+    
+    th.prescription,
+    th.test,
+    td.prescription,
+    td.test {
+        width: 3rem;
+        padding-left: .2rem;
+        padding-right: .2rem;
+        text-align: center;
+    }
+    
+    th.time,
+    td.time{
+        width: 10vw;
+        min-width: 8rem;
+    }
+    
+    td.room,
+    td.room-status {
+        background: rgba(#fff, .4);
+        padding: .3rem 1rem;
+    }
+    
+    td.room,
+    th.room {
+        padding-left: 2vw;
+        width: 14vw;
+        min-width: 11rem;
+    }
+    
+    td.room {
+        font-weight: 600;
+        border-right: 3px solid $bg-color;
+    }
+    
+    td.name {
+        font-size: 20px;
+    }
+    
+    td.time {
+        color: $color-tertiary;
+        i {
+            margin-right: .4em;
+        }
+    }
+    
+    .room-status {
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: .04em;
+        font-size: 13px;
+    }
+    .time-status {
+        color: $color-tertiary;
+        display: inline-block;
+        width: 5rem;
+        font-family: "Ubuntu Mono", monospace;
+        margin-right: 0.85em;
+    }
+    
+    .status-dirty {
+        color: $color-red;
+    }
+    .status-clean {
+        color: darken($color-green, 10);
+    }
+    .status-blocked {
+        color: $color-text-light;
+    }
+    .status-ready {
+        color: $color-green;
+    }
+    .status-progress {
+        color: $color-yellow;
+    }
+    .status-pickedup {
+        color: $color-text-light;
+    }
+}

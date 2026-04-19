@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'ehaclinics';
+  src: url('../font/ehaclinics.eot?27063780');
+  src: url('../font/ehaclinics.eot?27063780#iefix') format('embedded-opentype'),
+       url('../font/ehaclinics.woff2?27063780') format('woff2'),
+       url('../font/ehaclinics.woff?27063780') format('woff'),
+       url('../font/ehaclinics.ttf?27063780') format('truetype'),
+       url('../font/ehaclinics.svg?27063780#ehaclinics') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'ehaclinics';
+    src: url('../font/ehaclinics.svg?27063780#ehaclinics') format('svg');
+  }
+}
+*/
+[class^="eha-"]:before, [class*=" eha-"]:before {
+  font-family: "ehaclinics";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.eha-search:before { content: '\e800'; } /* '' */
+.eha-doctor:before { content: '\e801'; } /* '' */
+.eha-virus:before { content: '\e802'; } /* '' */
+.eha-cart:before { content: '\e803'; } /* '' */
+.eha-plus:before { content: '\e804'; } /* '' */
+.eha-user:before { content: '\e805'; } /* '' */
+.eha-patientfile:before { content: '\e806'; } /* '' */
+.eha-close:before { content: '\e807'; } /* '' */
+.eha-pregnant:before { content: '\e808'; } /* '' */
+.eha-medication:before { content: '\e809'; } /* '' */
+.eha-heart:before { content: '\e80a'; } /* '' */
+.eha-prescription:before { content: '\e80b'; } /* '' */
+.eha-dental:before { content: '\e80c'; } /* '' */
+.eha-home:before { content: '\e80d'; } /* '' */
+.eha-patient:before { content: '\e80e'; } /* '' */
+.eha-ophtalmology:before { content: '\e80f'; } /* '' */
+.eha-telemedicine:before { content: '\e810'; } /* '' */
+.eha-pharmacy:before { content: '\e811'; } /* '' */
+.eha-heartrate:before { content: '\e812'; } /* '' */
+.eha-maximize:before { content: '\e813'; } /* '' */
+.eha-minimize:before { content: '\e814'; } /* '' */
+.eha-dots:before { content: '\e815'; } /* '' */
+.eha-immunization:before { content: '\e816'; } /* '' */
+.eha-down:before { content: '\e817'; } /* '' */
+.eha-left:before { content: '\e818'; } /* '' */
+.eha-right:before { content: '\e819'; } /* '' */
+.eha-up:before { content: '\e81a'; } /* '' */
+.eha-hamburger:before { content: '\e81b'; } /* '' */
+.eha-encounter:before { content: '\e81c'; } /* '' */
+.eha-height:before { content: '\e81d'; } /* '' */
+.eha-weight:before { content: '\e81e'; } /* '' */
+.eha-temperature:before { content: '\e81f'; } /* '' */
+.eha-level1:before { content: '\e820'; } /* '' */
+.eha-level2:before { content: '\e821'; } /* '' */
+.eha-level3:before { content: '\e822'; } /* '' */
+.eha-level4:before { content: '\e823'; } /* '' */
+.eha-checkin:before { content: '\e824'; } /* '' */
+.eha-male:before { content: '\e825'; } /* '' */
+.eha-neuter:before { content: '\e826'; } /* '' */
+.eha-female:before { content: '\e827'; } /* '' */
+.eha-telehealth:before { content: '\e828'; } /* '' */
+.eha-drop:before { content: '\e829'; } /* '' */
+.eha-appointment:before { content: '\e82a'; } /* '' */
+.eha-lungs:before { content: '\e82b'; } /* '' */
+.eha-lab:before { content: '\e82d'; } /* '' */
+.eha-arm:before { content: '\e830'; } /* '' */
+.eha-abdomen:before { content: '\e831'; } /* '' */
+.eha-head:before { content: '\e832'; } /* '' */
+.eha-phone:before { content: '\e833'; } /* '' */
+.eha-email:before { content: '\e834'; } /* '' */
+.eha-settings:before { content: '\e835'; } /* '' */
+.eha-check-circle:before { content: '\e836'; } /* '' */
+.eha-circle:before { content: '\e837'; } /* '' */
+.eha-fullscreen-enter:before { content: '\e838'; } /* '' */
+.eha-fullscreen-exit:before { content: '\e839'; } /* '' */
+.eha-clock:before { content: '\e83a'; } /* '' */

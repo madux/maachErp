@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_product_form_inherit_pharmacy" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.pharmacy</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="Pharmacy Information" invisible ="is_drugs == False">
+                    <group>
+                        <group>
+                            <field name="is_drugs"/>
+                            <field name="drug_category_id"/>
+                            <field name="active_ingredient"/>
+                            <field name="dosage_form"/>
+                            <field name="strength"/>
+                            <field name="manufacturer_id"/>
+                        </group>
+                        <group>
+                            <field name="requires_prescription"/>
+                            <field name="controlled_substance"/>
+                            <field name="expiry_alert_days"/>
+                            <field name="reorder_level"/>
+                            <field name="max_stock_level"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="storage_condition"/>
+                    </group>
+                    <group>
+                        <field name="side_effects"/>
+                    </group>
+                    <group>
+                        <field name="contraindications"/>
+                    </group>
+                    <group>
+                        <field name="interactions"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_product_tree_inherit_pharmacy" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit.pharmacy</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_drugs"/>
+                <field name="dosage_form"/>
+                <field name="strength"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_pharmacy_drugs" model="ir.actions.act_window">
+        <field name="name">Drugs</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_drugs', '=', True)]</field>
+        <field name="context">{'default_is_drugs': True}</field>
+    </record>
+
+    <menuitem id="menu_pharmacy_drugs"
+              name="Drugs"
+              parent="menu_pharmacy_root"
+              action="action_pharmacy_drugs"
+              sequence="20"/>
+</odoo>

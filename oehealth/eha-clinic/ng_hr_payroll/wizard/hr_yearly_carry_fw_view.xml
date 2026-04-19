@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_carry_fw_detail" model="ir.ui.view">
+            <field name="name">carry.fw.form</field>
+            <field name="model">carry.fw</field>
+            <field name="arch" type="xml">
+                <form string="Carry Forward">
+                    <separator
+                            string="This wizard will carry forward all remaining leaves of employees where leave type has carry forward option set to ticked. This wizard can only be run once a year and changes cannot be reverted."
+                            colspan="4"/>
+                    <group colspan="4">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="type" context="{'Carry_fw': True}"/>
+                        <field name="days" attrs="{'invisible':[('type','!=', 'few')]}"/>
+                    </group>
+                    <footer>
+                        <button name="carry_fw" string="Create"
+                                confirm="You have selected to run this Carried Forward Wizard. Changes cannot be reverted. Please confirm."
+                                type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_yearly_carry" model="ir.actions.act_window">
+            <field name="name">Carry Forward</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">carry.fw</field>
+
+            <field name="view_mode">form</field>
+            <field name="context">{'carry_fw':True}</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="HR Processing" groups="hr.group_hr_user,hr.group_hr_manager" parent="hr.menu_hr_root"
+                  id="menu_open_pp" sequence="30"/>
+
+        <menuitem name="Carry Forward Leaves" parent="menu_open_pp" action="action_yearly_carry" sequence="250"
+                  id="menu_yearly_carry_fw"/>
+
+    </data>
+</odoo>

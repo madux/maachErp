@@ -1,0 +1,229 @@
+<odoo>
+    <data>
+        <template id="gazelle_product_page" name="Gazelle">
+            <t t-name="website.gazelle">
+                <t t-call="eha_website.service-layout">
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_banner parallax s_parallax_is_fixed pb96 s_parallax_no_overflow_hidden" data-scroll-background-ratio="1" style="background-image: none;">
+                            <span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-image: url(&quot;/eha_website/static/src/img/gazelle/bg-gazelle.jpg&quot;); background-position: 50.12% 48.14%;"/>
+                            <div class="topbar pt-4">
+                                <a href="http://www.eha.ng"><img class="top-logo" src="/eha_website/static/src/img/gazelle/EHAclinic_white.png" data-original-title="" title="" aria-describedby="tooltip309326"/></a>
+                                <ul class="nav topbar-nav">
+                                    <li class="nav-item">
+                                        <a class="topnav-link scrollLink" href="#anchor1">ABOUT GAZELLE</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="topnav-link scrollLink" href="#anchor2">HOW IT WORKS</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="topnav-link scrollLink" href="#anchor3">FAQ</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="topnav-link scrollLink" href="#anchor4">CONTACT &amp; SUPPORT</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="container mt-6">
+                                <div class="row s_nb_column_fixed">
+                                    <div class="col-lg-8 jumbotron pt32 pb32 box-rounded no-plan" data-name="Box" style="">
+                                        <div class="row">
+                                            <div class="gazelle-header-img">
+                                                <img width="250" src="/eha_website/static/src/img/gazelle/gazelle.jpg" data-original-title="" title="" aria-describedby="tooltip309326"/>
+                                            </div>
+                                            <div class="col-md-9 pb-5" data-name="Title">
+                                                <h1 class="s_title_default">
+                                                    <font style="font-size: 160%;">
+                                                        <b>Gazelle.</b> 
+                                                    </font>
+                                                </h1>
+                                                <h1 class="s_title_default">
+                                                    <font style="font-size: 120%;">
+                                                        Life-changing medical diagnostics.
+                                                    </font>
+                                                </h1>
+                                            </div>
+                                            <div class="col-lg-12 s_btn text-left pt16 pb16" data-name="Button">
+                                                <a href="#anchor4" class="scrollLink btn btn-primary btn-lg">Order now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="anchor1" class="s_picture pt48 oe_custom_bg" style="">
+                            <div class="container">
+                                <h2 class="section-title text-center mt-4"> About 
+                                    <span class="text-primary">Gazelle</span>
+                                </h2>
+                                <p class="text-lg p-5 text-center">Gazelle is an affordable, life-changing medical diagnostics for underserved communities designed to reach populations at risk for malaria and sickle cell.</p>
+                            </div>
+                        </section>
+                        <section class="s_text_image pt32 pb32 section bgPrimary" style="">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6 pb16 pt16 img-rounded">
+                                        <img src="/eha_website/static/src/img/gazelle/HOME.jpg" class="img img-fluid mx-auto" alt="Odoo • Image and Text" data-original-title="" title="" aria-describedby="tooltip530899"/>
+                                    </div>
+                                    <div class="col-lg-6 box-rounded m-0 p-5">
+                                        <h4>Features</h4>
+                                        <ul class="check text-lg">
+                                            <li>
+                                                <i class="fa fa-check"/> Portable 
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check"/> Affordable 
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check"/> Easy-to-use 
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check"/> Result in 1 Minute 
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check"/> Minimal training required to operate 
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="section">
+                            <div class="container">
+                                <div class="row mt-6">
+                                    <div class="col-md-2"/>
+                                    <div class="col-md-2"/></div>
+                            </div>
+                        </section>
+                        <section class="s_text_image pb32 pt0">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-5">
+                                        <p class="text-lg">Results can be stored locally or transmitted to the cloud for patient and disease tracking via a SMART Application developed by eHealth Africa. Paired with the Gazelle device and other point-of-care diagnostic tools, previously unreached populations now have access to high-quality diagnostics and care.
+                                            <br/>
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <img src="/eha_website/static/src/img/gazelle/gazelle-workflow.jpg" class="img img-fluid mx-auto" alt="Odoo • Image and Text" data-original-title="" title="" aria-describedby="tooltip73700"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="section">
+                            <div class="container">
+                                <div class="row mt-6 dashed-border-top">
+                                    <div class="col-md-2"/>
+                                    <div class="col-md-8 p-4 text-center">
+                                        <p class="quote">“We describe Gazelle as ‘the smartphone of diagnostics’ because it integrates powerful consumer electronics, digital storage and wireless communication into a portable multi-disease platform.”</p>
+                                        <p class="text-lg text-secondary pt-4">Patti White</p>
+                                        <p>Hemex Health’s Co-Founder and CEO</p>
+                                    </div>
+                                    <div class="col-md-2"/></div>
+                            </div>
+                        </section>
+                        <section id="anchor2">
+                            <div class="container mt-6 pt-5">
+                                <h2 class="section-title text-center mt-4"> How it 
+                                    <span class="text-primary">Works</span>
+                                </h2>
+                            </div>
+                        </section>
+                        <section class="s_text_image pt32 pb32">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="pt16 pb16 col-lg-12 img-rounded">
+                                        <img src="/eha_website/static/src/img/gazelle/image2.png" class="img img-fluid mx-auto" alt="Odoo • Image and Text" data-original-title="" title="" aria-describedby="tooltip620229"/>
+                                    </div>
+                                    <div class="col-md-6 p-5 text-center">
+                                        <img width="350px" src="/eha_website/static/src/img/gazelle/gazelle.jpg" class="img img-fluid mx-auto" alt="Odoo • Image and Text" data-original-title="" title="" aria-describedby="tooltip530899"/>
+                                    </div>
+                                    <div class="col-md-6 box-rounded no-plan m-0">
+                                        <ul class="check benefit-list text-lg">
+                                            <li>
+                                                <i class="fa fa-check text-primary"/>No cold chain requirement
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check text-primary"/>One minute from sample to result
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check text-primary"/>Finds malaria missed by today’s diagnostics
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check text-primary"/>Compact, battery-powered reader works anywhere
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check text-primary"/>Detects all plasmodium species, including HRP2/3 deleted
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-check text-primary"/>Digital connectivity for reduced transcription errors and greater access
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="text-center mb-3 mt-3"><a href="https://calendly.com/eha-clinics/eha-gazelle-demo" class="btn btn-primary btn-lg">Request a demo</a></div>
+                            </div>
+                        </section>
+                        <div id="anchor3" class="section bgLight pt-4 pb-4">
+                            <div class="container mt-5">
+                                <h2 class="section-title text-center mt-4">
+                                    <i class="fa fa-lightbulb rounded-icon mr-4"/>Frequently Asked 
+                                    <span class="text-primary">Questions</span>
+                                </h2>
+                                <div class="row">
+                                    <div class="col-md-12 box-rounded white-transparent">
+                                        <h4>What’s the size of the Gazelle device?</h4>
+                                        <p>3.5kg</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 box-rounded white-transparent">
+                                        <h4>How is the device powered?</h4>
+                                        <p>The device is powered by an in-built battery which when fully charged can run the entire day.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 box-rounded white-transparent">
+                                        <h4>How many tests can the device conduct in a day?</h4>
+                                        <p>Each device can run about 35 - 40 samples per day</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="anchor4" class="section bgLight dashed-border-top pt-4 pb-4">
+                            <div class="container mt-5">
+                                <h2 class="section-title text-center mt-4">
+                                    Contact
+                                    <span class="text-primary"> Us</span>
+                                </h2>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="phone-number"><i class="fas fa-phone"/> <a href="tel:0800-342 254 6427">0800-EHACLINICS</a> <small>(0800-342 254 6427)</small></div><br />
+                                        <div class="phone-number"><i class="fas fa-envelope"/> <a href="mailto:gazelle@eha.ng">gazelle@eha.ng</a></div>
+                                    </div>
+                                    <div class="col-md-12 text-center mt-5 mb-5">
+                                        <h5>Need support with your Gazelle Device?</h5>
+                                        <a href="https://calendly.com/eha-clinics/eha-support-meeting" class="btn btn-primary mt-3">Request a support meeting</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer footer-con">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <a href="http://www.eha.ng"><img class="logo-small" src="/eha_website/static/src/img/logo.png"/></a>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                            $( "a.scrollLink" ).click(function( event ) {
+                                event.preventDefault();
+                                $("html, body").animate({ scrollTop: $($(this).attr("href")).offset().top - 100 }, 500);
+                            });
+                        });
+                    </script>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

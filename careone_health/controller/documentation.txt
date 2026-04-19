@@ -1,0 +1,147 @@
+```
+
+### 2. Get Prescription Lines
+```
+GET /api/v1/prescription-lines
+```
+**Parameters:**
+- `id`, `history_id`, `patient_id`, `sale_order_id`, `invoice_id`, `prescriber_id`, `pharmacist_id`, `company_id`
+- `dispensed_date_from`, `dispensed_date_to` (YYYY-MM-DD format)
+
+### 3. Get Partners/Patients
+```
+GET /api/v1/partners?patient_no=PAT001
+```
+
+### 4. Get Pharmacy History
+```
+GET /api/v1/pharmacy-history?patient_no=PAT001
+```
+
+### 5. Get Journals
+```
+GET /api/v1/journals?code=BANK
+```
+
+### 6. Get Invoices
+```
+GET /api/v1/invoices?patient_no=PAT001
+```
+
+### 7. Get Sale Orders
+```
+GET /api/v1/sale-orders?so_number=SO001
+```
+
+### 8. Get Taxes
+```
+GET /api/v1/taxes?company_id=1
+```
+
+### 9. Get Branches
+```
+GET /api/v1/branches
+```
+
+### 10. Get Pharmacy Stages
+```
+GET /api/v1/pharmacy-stages?branch_id=1
+```
+
+### 11. Get Purchase Orders
+```
+GET /api/v1/purchase-orders?po_number=PO001
+```
+
+### 12. Get Stock Locations
+```
+GET /api/v1/stock-locations?branch_id=1
+```
+
+### 13. Get Stock Moves
+```
+GET /api/v1/stock-moves?branch_id=1
+```
+
+### 14. Get Stock Warehouses
+```
+GET /api/v1/stock-warehouses?branch_id=1
+```
+
+### 15. Get Stock Quants
+```
+GET /api/v1/stock-quants?product_code=DRUG001
+```
+
+## POST Endpoints
+
+### 1. Create Partner
+```
+POST /api/v1/partners
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "patient_no": "PAT001",
+  "phone": "+1234567890",
+  "email": "john@example.com"
+}
+```
+
+### 2. Create Pharmacy History
+```
+POST /api/v1/pharmacy-history
+Content-Type: application/json
+
+{
+  "patient_id": 1,
+  "branch_id": 1,
+  "prescription_lines": [...]
+}
+```
+
+### 3. Create Sale Order
+```
+POST /api/v1/sale-orders
+Content-Type: application/json
+
+{
+  "partner_id": 1,
+  "order_line": [...]
+}
+```
+
+### 4. Create Purchase Order
+```
+POST /api/v1/purchase-orders
+Content-Type: application/json
+
+{
+  "partner_id": 5,
+  "order_line": [...]
+}
+```
+
+### 5. Create Invoice
+```
+POST /api/v1/invoices
+Content-Type: application/json
+
+{
+  "partner_id": 1,
+  "move_type": "out_invoice",
+  "invoice_line_ids": [...]
+}
+```
+
+### 6. Create Stock Move
+```
+POST /api/v1/stock-moves
+Content-Type: application/json
+
+{
+  "product_id": 10,
+  "product_uom_qty": 50,
+  "location_id": 8,
+  "location_dest_id": 9
+}

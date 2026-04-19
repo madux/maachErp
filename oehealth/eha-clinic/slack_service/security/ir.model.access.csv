@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_slack_service_slack_service,slack_service.slack_service,model_slack_service_slack_service,base.group_user,1,1,1,1

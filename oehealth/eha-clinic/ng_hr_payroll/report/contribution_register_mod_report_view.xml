@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="contribution_register_mod_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <div style="text-align:center;">
+                                <span>
+                                    <h2>
+                                        <b>Deduction Register</b>
+                                    </h2>
+                                </span>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">Register</th>
+                                        <th style="text-align:center;">Date From</th>
+                                        <th style="text-align:center;">Date To</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="text-align:center;">
+                                        <td>
+                                            <span>
+                                                <t t-esc="o['name']"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="data['form']['date_from']"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="data['form']['date_to']"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Payslip</th>
+                                        <th>Line Code</th>
+                                        <th>Line Name</th>
+                                        <th style="text-align:right;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="get_payslip_lines(o, data['form'])" t-as="r">
+                                        <td>
+                                            <span>
+                                                <t t-esc="r.get('payslip_name', False)"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="r['quantity']"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="r['code']"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <t t-esc="r['name']"/>
+                                            </span>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span>
+                                                <t t-esc="r['amount']"/>
+                                                <t t-esc="o.company_id and o.company_id.currency_id.symbol"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td style="border-top:1px solid black;">
+                                            <span>
+                                                <b>Total:</b>
+                                            </span>
+                                        </td>
+                                        <td style="border-top:1px solid black;text-align:right;">
+                                            <span>
+                                                <b>
+                                                    <t t-esc="sum_total()"/>
+                                                    <t t-esc="o.company_id and o.company_id.currency_id.symbol"/>
+                                                </b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         1b.  CUSTOM LANDING PAGE  (replaces Odoo home screen)
+              Matches the dark-themed Applications grid in the screenshot.
+         ══════════════════════════════════════════════════════════════════════ -->
+    <template id="landing_page" name="MaachERP – Application">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Applications – MaachERP</title>
+                <link rel="stylesheet"
+                      href="/license/static/src/css/landing.css"/>
+            </t>
+
+            <div id="hc-launcher">
+
+                <!-- ── Top bar ─────────────────────────────────────────── -->
+                <header class="hc-topbar">
+                    <a href="#" class="hc-back-btn" id="hc-back-btn" onclick="history.back(); return false;">
+                        <i class="fa fa-arrow-left"/> Back
+                    </a>
+                    <h1 class="hc-launcher-title">Applications</h1>
+                    <div class="hc-topbar-right">
+                        <div class="hc-search-wrap">
+                            <i class="fa fa-search hc-search-icon"/>
+                            <input type="search" id="hc-app-search"
+                                   class="hc-search-input"
+                                   placeholder="Search applications…"
+                                   autocomplete="off"/>
+                        </div>
+                        <a t-att-href="'/web'">
+                            <div class="hc-user-badge" id="hc-user-badge">
+                                <i class="fa fa-user-circle"/>
+                                <span t-esc="user_name"/>
+                            </div>
+                        </a>
+                    </div>
+                </header>
+
+                <!-- ── App grid ─────────────────────────────────────────── -->
+                <main class="hc-app-grid" id="hc-app-grid">
+                    <t t-foreach="apps" t-as="app">
+                        <a t-att-href="app['url']"
+                           class="hc-app-card"
+                           t-att-data-name="app['name'].lower()">
+                            <div class="hc-app-icon-wrap">
+                                <img t-att-src="app['icon']"
+                                     t-att-alt="app['name']"
+                                     class="hc-app-icon"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+                                <div class="hc-app-icon-fallback" style="display:none">
+                                    <i class="fa fa-th-large"/>
+                                </div>
+                            </div>
+                            <div class="hc-app-info">
+                                <span class="hc-app-name" t-esc="app['name']"/>
+                                <span class="hc-app-desc" t-esc="app['description']"/>
+                            </div>
+                        </a>
+                    </t>
+
+                    <!-- No results state (hidden by default, shown by JS) -->
+                    <div class="hc-no-results d-none" id="hc-no-results">
+                        <i class="fa fa-search-minus"/>
+                        <p>No applications found</p>
+                    </div>
+                </main>
+
+            </div><!-- /#hc-launcher -->
+
+            <script src="/license/static/src/js/landing.js"/>
+        </t>
+    </template>
+
+</odoo>

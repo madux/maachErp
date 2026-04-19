@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="Calendar_event_inherit_eha_telehealth" model="ir.ui.view">
+            <field name="name">calendar.event.view.form.inherit</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="odoo_appointment_booking.view_eha_online_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/group/group[2]" position="inside">
+                    <field name="telehealth_google_meet_link" widget="url" invisible="1" />
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button string="Telehealth Notify Attendees" name="action_mail_telehealth_attendees" type="object" class="oe_highlight" invisible="1" />
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+</odoo>

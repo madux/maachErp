@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- <record id="aether_server" model="ir.config_parameter">
+            <field name="key">aether_server</field>
+            <field name="value">https://exm.eha.im/dev</field>
+        </record>
+        <record id="aether_schemadecorator_id" model="ir.config_parameter">
+            <field name="key">aether_schemadecorator_id</field>
+            <field name="value">f4e3e56d-081d-4c55-b535-43959110793a</field>
+        </record>
+        <record id="aether_referer" model="ir.config_parameter">
+            <field name="key">aether_referer</field>
+            <field name="value">https://exm.eha.im</field>
+        </record>
+        <record id="aether_username" model="ir.config_parameter">
+            <field name="key">aether_username</field>
+            <field name="value">user</field>
+        </record>
+        <record id="aether_password" model="ir.config_parameter">
+            <field name="key">aether_password</field>
+            <field name="value">password</field>
+        </record> -->
+        <!--NCDC-->
+        <record id="aether_server_ncdc" model="ir.config_parameter">
+            <field name="key">aether_server_ncdc</field>
+            <field name="value">https://eha-data.org:443/ncdc-lab</field>
+        </record>
+        <record id="aether_schemadecorator_id_ncdc" model="ir.config_parameter">
+            <field name="key">aether_schemadecorator_id_ncdc</field>
+            <field name="value">c89818ae-7d27-4808-83da-c4a4b98270de</field>
+        </record>
+        <record id="aether_referer_ncdc" model="ir.config_parameter">
+            <field name="key">aether_referer_ncdc</field>
+            <field name="value">https://eha-data.org</field>
+        </record>
+        <record id="aether_username_ncdc" model="ir.config_parameter">
+            <field name="key">aether_username_ncdc</field>
+            <field name="value">user</field>
+        </record>
+        <record id="aether_password_ncdc" model="ir.config_parameter">
+            <field name="key">aether_password_ncdc</field>
+            <field name="value">isohshu0eeWe</field>
+        </record>
+
+        <record id="aether_ncdc_sync_new" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_sync_new</field>
+            <field name="value">False</field>
+        </record>
+
+        <record id="aether_ncdc_sync_update" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_sync_update</field>
+            <field name="value">False</field>
+        </record>
+
+        <record id="aether_ncdc_sync_both" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_sync_both</field>
+            <field name="value">True</field>
+        </record>
+
+        <!--firebase config-->
+        <record id="fb_sync_collection" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection</field>
+            <field name="value">members2</field>
+        </record>
+
+        <record id="fb_sync_only_healthmate" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_sync_only_active_healthmate</field>
+            <field name="value">False</field>
+        </record>
+        
+
+        <record id="fb_sync_new" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_sync_new</field>
+            <field name="value">False</field>
+        </record>
+
+        <record id="fb_sync_update" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_sync_update</field>
+            <field name="value">False</field>
+        </record>
+
+        <record id="fb_sync_both" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_sync_both</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="fb_sync_noemail" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_sync_no_email</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="fb_first_sync" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_first_sync</field>
+            <field name="value">false</field>
+        </record>
+
+        <record id="fb_delete_replace" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_delete_replace_mr</field>
+            <field name="value">false</field>
+        </record>
+
+        <record id="fb_first_sync_offset" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_first_sync_offset</field>
+            <field name="value">0</field>
+        </record>
+
+        <record id="fb_first_sync_limit" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_first_sync_limit</field>
+            <field name="value">2000</field>
+        </record>
+
+
+        <!-- Country, branch, state, airlines, prices fields-->
+
+        <record id="fb_sync_collection_country" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_country</field>
+            <field name="value">countries</field>
+        </record>
+
+
+        <record id="fb_sync_collection_state" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_state</field>
+            <field name="value">states</field>
+        </record>
+
+
+        <record id="fb_sync_collection_branch" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_branch</field>
+            <field name="value">branches</field>
+        </record>
+
+        <record id="fb_sync_collection_pricelist" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_pricelist</field>
+            <field name="value">pricelist</field>
+        </record>
+
+        <record id="fb_sync_collection_shipping_method" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_shipping_method</field>
+            <field name="value">shipping_method</field>
+        </record>
+
+        <record id="fb_sync_collection_price" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_price</field>
+            <field name="value">prices</field>
+        </record>
+
+        <record id="fb_sync_collection_airline" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_airlines</field>
+            <field name="value">airlines</field>
+        </record>
+
+        <record id="fb_sync_collection_dc_membership_products" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_membership_products</field>
+            <field name="value">membershipProducts</field>
+        </record>
+
+        <record id="fb_sync_collection_products" model="ir.config_parameter">
+            <field name="key">eha_connector.firebase_collection_products</field>
+            <field name="value">products</field>
+        </record>
+
+        <!--ncdc config-->
+        <record id="ncdc_sync_offset" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_sync_offset</field>
+            <field name="value">0</field>
+        </record>
+
+        <record id="ncdc_sync_limit" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_sync_limit</field>
+            <field name="value">10000</field>
+        </record>
+
+        <record id="ncdc_sync_login_username" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_login_username</field>
+            <field name="value">eha</field>
+        </record>
+
+        <record id="ncdc_sync_login_password" model="ir.config_parameter">
+            <field name="key">eha_connector.ncdc_login_password</field>
+            <field name="value">password</field>
+        </record>
+
+        <!--checkpoints-->
+        <!-- <record id="fb_checkpoint_new_patient" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_checkpoint_new_patient</field>
+            <field name="value">12/31/1960</field>
+        </record>
+
+        <record id="fb_checkpoint_updated_patient" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_checkpoint_updated_patient</field>
+            <field name="value">12/31/1960</field>
+        </record> -->
+
+        <!--service account-->
+        <record id="fb_service_account_file" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_service_account_file</field>
+            <field name="value">clinics-companion-app-dev-firebase-adminsdk-dbjb4-139daaea1b.json</field>
+        </record>
+
+        <record id="fb_service_account_live" model="ir.config_parameter">
+            <field name="key">eha_connector.fb_service_account_live</field>
+            <field name="value">clinics-companion-app-firebase-adminsdk-sjq4u-5cbb902318.json</field>
+        </record>
+
+        <record id="panabios_username" model="ir.config_parameter">
+            <field name="key">eha_connector.panabios_username</field>
+            <field name="value">dummylabadmin@pana.org</field>
+        </record>
+
+        <record id="panabios_password" model="ir.config_parameter">
+            <field name="key">eha_connector.panabios_password</field>
+            <field name="value" eval="'abcdefgh'"/>
+        </record>
+
+        <record id="panabios_sync_start_date" model="ir.config_parameter">
+            <field name="key">eha_connector.panabios_sync_start_date</field>
+            <field name="value" eval="(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))"/>
+        </record>
+
+        <record id="panabios_allowed_countries" model="ir.config_parameter">
+            <field name="key">eha_connector.panabios_allowed_countries</field>
+            <field name="value" eval="'Kenya','Ethiopia'"/>
+        </record>
+
+        <record id="panabios_allowed_airliners" model="ir.config_parameter">
+            <field name="key">eha_connector.panabios_allowed_airliners</field>
+            <field name="value" eval="'Ethiopian Airlines flights','Kenya Airways flights'"/>
+        </record>
+
+        <record id="panabios_api_url" model="ir.config_parameter">
+            <field name="key">eha_connector.panabios_api_url</field>
+            <field name="value" eval="'https://staging.panabios.org'"/>
+        </record>
+        
+    </data>
+</odoo>

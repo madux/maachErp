@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Day 2 countries config-->
+       <record id="day2_countries_list" model="ir.config_parameter">
+            <field name="key">oehealth_extension.day2_countries_list</field>
+            <field name="value">South Africa,India,Brazil,Turkey</field>
+       </record>
+    </data>
+</odoo>

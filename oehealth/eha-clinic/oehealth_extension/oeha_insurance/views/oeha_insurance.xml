@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+    <odoo>
+        <data>
+            <!-- Insurance Types -->
+
+            <record model="ir.ui.view" id="oeha_medical_insurance_organisation_tree">
+                <field name="name">Insurance Organisations</field>
+                <field name="model">oeha.insurance.organisation</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string='Insurance Organisations' editable="bottom">
+                        <field name="name"/>
+                        <field name="phone"/>
+                    </tree>
+                </field>
+            </record>
+
+             <record id="view_oeha_medical_insurance_organisation_filter" model="ir.ui.view">
+                <field name="name">Insurance Organisations Search</field>
+                <field name="model">oeha.insurance.organisation</field>
+                <field name="priority" eval="8" />
+			    <field name="arch" type="xml">
+                    <search string="Insurance Organisations">
+                        <field name="name"/>
+                        <field name="phone"/>
+				    </search>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="oeh_medical_insurance_organisation_view">
+                <field name="name">Insurance Organisations</field>
+                <field name="model">oeha.insurance.organisation</field>
+
+                <field name="arch" type="xml">
+                    <form string="Insurance organisations">                        
+                        <sheet>
+                            <div class="oe_left" style="width: 500px;">
+                                <div class="oe_title" style="width: 390px;">
+                                    <label class="oe_edit_only" for="name" string="Insurer Name"/>
+                                    <h1><field name="name" class="oe_inline"/></h1>
+                                </div>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="name" required="1"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="country_id"/>
+                                </group>
+                                <group>
+                                    <field name="phone"/>
+                                    <field name="mobile"/>
+                                    <field name="email"/>
+                                </group>
+                            </group>                            
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="oeha_medical_insurance_organisation_action_tree" model="ir.actions.act_window">
+                    <field name="name">Insurance Organisations</field>
+                    <field name="res_model">oeha.insurance.organisation</field>
+
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{}</field>
+                    <field name="view_id" eval="False"/>
+                    <field name="help" type="html">
+                      <p class="oe_view_nocontent_create">
+                        Click to add a new insurance organisation.
+                      </p>
+                    </field>
+            </record>
+
+            <menuitem action="oeha_medical_insurance_organisation_action_tree" id="oeha_medical_insurance_organisation_conf_list" parent="oehealth.oeh_medical_conf_insurances"
+             sequence="4" name="Insurance" groups="oehealth_extension.group_oeh_medical_op_ass,oehealth.group_oeh_medical_manager"/>
+
+             <!-- override insurances form -->
+            <record id="oeha_medical_insurance_view" model="ir.ui.view">
+                <field name="name">Extensions to Insurance Form</field>
+                <field name="model">oeh.medical.insurance</field>
+                <field name="inherit_id" ref="oehealth.oeh_medical_insurance_view"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//sheet/group" position="replace">
+                        <group>
+                                <group>
+                                    <field name="insurance_company"/>
+                                    <field name="patient"/>
+                                    <field name="start_date"/>
+                                </group>
+                                <group>
+                                    <field name="ins_type"/>
+                                    <field name="ins_no"/>                                    
+                                    <field name="exp_date"/>
+                                </group>
+                            </group>
+                            <group string="Extra Information">
+                                <field name="info" nolabel="1"/>
+                            </group>
+                    </xpath>
+                </field>
+            </record>
+        </data>
+    </odoo>

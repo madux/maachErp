@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="product_template_only_form_view_extension" model="ir.ui.view">
+            <field name="name">product.template.product.form.extension</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <!--<field name="value_ids" position="after">
+                    <label for="variant_nafdac_number" string="NAFDAC Number"/>
+                    <field name="variant_nafdac_number"/>
+                </field>-->
+                <xpath expr="//field[@name='value_ids']" position="after">
+                    <field name="variant_nafdac_number"/>
+                </xpath>
+                
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="nafdac_number" attrs="{'invisible': [('attribute_line_ids', '&gt;', 1)]}"/>
+                  
+                </xpath>
+                    
+                    
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Helpdesk lab Team Wizard Action-->
+    <!-- <act_window id="action_helpdesk_lab_room_wizard"
+                name="Transition to a Room"
+                binding_model="oeh.medical.lab.test"
+                res_model="helpdesk.lab.team.wizard"
+                view_mode="form"
+                target="new"
+    /> -->
+    <record id="action_helpdesk_lab_room_wizard" model="ir.actions.act_window">
+        <field name="name">Transition to a Room</field>
+        <field name="res_model">helpdesk.lab.team.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="oehealth.model_oeh_medical_lab_test"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="hepdesk_lab_room_wizard" model="ir.ui.view">
+        <field name="name">Helpdesk Lab Room Wizard</field>
+        <field name="model">helpdesk.lab.team.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="labtest_id" invisible="1"/>
+                        <field name="team_id" options='{"always_reload": True,"no_create":True, "no_open": True}' />
+                        <field name="stage_id" string="State" options='{"always_reload": True,"no_create":True, "no_open": True}'/>
+                        <field name="user_id" options='{"always_reload": True,"no_create":True, "no_open": True}'/>
+                        <field name="lab_result_ready" />
+                    </group>
+                    <group>
+                        <field name="current_team_id" invisible="1" />
+                        <field name="current_stage_id" invisible="1" />
+                    </group>
+                </group>
+                <footer>
+                    <button type="object" name="do_transition_room" string="Ok" class="oe_highlight"
+                            confirm="Are you sure you want to perform this operation?" />
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="oeha_medical_lab_test_form_helpdesk2" model="ir.ui.view">
+        <field name="name">Helpdesk Extensions to Lab test Form</field>
+        <field name="model">oeh.medical.lab.test</field>
+        <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_form"/>
+        <field name="arch" type="xml">
+            <!-- To Room Button -->
+            <button name="print_patient_labtest" position="after">
+                <button name="move_to_room" string="Transition Ticket" type="object" class="oe_highlight"/>
+            </button>
+        </field>
+    </record>
+</odoo>

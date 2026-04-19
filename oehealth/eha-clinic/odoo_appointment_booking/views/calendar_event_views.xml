@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_eha_online_calendar_event_form" model="ir.ui.view">
+            <field name="name">calendar.event.online.form</field>
+            <field name="model">calendar.event</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Online booking">
+                    <header attrs="{'invisible': [('is_online_booking', '=', False)]}">
+                        <button name="action_confirm" string="Set In progress" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'Draft')]}"/>
+                        <button name="action_confirm_batch_booking" string="Batch booking" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_batch_booking', '=', False), ('status', '!=', 'Draft')]}"/>
+                        <button name="action_done" string="Complete" type="object" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'In Progress')]}"/>
+                        <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('status', '!=', 'In Progress')]}"/>
+                        <button name="action_reset" string="Reset to Draft" type="object" attrs="{'invisible': [('status', '!=', 'Cancel')]}"/>
+                        <field name="status" widget="statusbar" statusbar_visible="Draft,In Progess,Done"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <button string="Document" class="oe_stat_button float-right" icon="fa-bars" type="object" name="action_open_calendar_event" attrs="{'invisible': ['|', ('res_model', '=', False), ('res_id', '=', False)]}"/>
+                        <field name="res_model" invisible="1" />
+                        <field name="res_id" invisible="1" />
+                        <field name="attendee_status" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="sequence" string="Booking code"/>
+                            </div>
+                            <h1>
+                                <field name="name" string = "Booking Code" placeholder="e.g. Covid 19 Booking" required="0" invisible= "0" readonly="1"/>
+                            </h1>
+                            <label for="partner_ids" string="Attendees" class="oe_edit_only"/>
+                            <h2>
+                                <field name="partner_ids" widget="many2manyattendee" placeholder="Select attendees..." context="{'force_email':True}" class="oe_inline"/>
+                            </h2>
+                        </div>
+                        <notebook>
+                            <page name="page_online_details" string="Booking Details">
+                                <group>
+                                    <group>
+                                        <field name="start" attrs="{'invisible': True}"/>
+                                        <field name="stop" attrs="{'invisible': True}"/>
+                                        <field name="id" attrs="{'invisible': True}"/>
+                                        <field name="start_date" string="Starting at" invisible = "1" attrs="{'readonly': [('status', '!=', 'Draft')]}" force_save="1"/>
+                                        <field name="stop_date" string="Ending at" invisible = "1" attrs="{'readonly': [('status', '!=', 'Draft')]}" force_save="1"/>
+                                        <field name="followup_email_sent" />
+                                        <field name = "is_online_booking" force_save="1" invisible = "1"/>
+                                        <field name = "eha_service_location_id" string = "Location" attrs="{'invisible': [('is_online_booking', '=', False)], 'required': [('is_online_booking', '=', True)]}"/>
+                                        <field name = "service_id" attrs="{'invisible': [('eha_service_location_id', '=', False)], 'required': [('is_online_booking', '=', True)]}"/>
+                                        <field name = "service_provider_id" attrs="{'invisible': [('service_id', '=', False)], 'required': [('is_online_booking', '=', True)]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="start" string="Date" invisible="1" required = "0" attrs="{'readonly': [('status', '!=', 'Draft')]}"/>
+                                        <field name = "booking_start_date" string="Date" required="1" invisible="0" attrs="{'invisible': [('service_provider_id', '=', False)]}"/>
+                                        <field name = "strt_slot_time" required="1" attrs="{'invisible': [('booking_start_date', '=', False)]}"/>
+                                        <field name = "strt_slot_time_text" invisible="1" force_save="1"/>
+                                        <field name="stop" invisible="1"/>
+                                        <field name = "is_batch_booking" force_save="1" invisible="1"/>
+                                        <field name="sequence" string = "Booking code" placeholder="e.g. Covid 19 Booking" readonly="1"/>
+                                    </group>
+                                </group>
+                                <label for="description"/>
+                                <field name="description"/>
+                                <field name="is_antibody"/>
+                            </page>
+                            <page name="page_online_invitations" string="Patients">
+                                <button name="action_sendmail" type="object" string="Send mail" icon="fa-envelope" class="oe_link"/>
+                                <field name="attendee_ids" widget="one2many" mode="tree,kanban">
+                                    <tree string="Booking details" editable="top" create="false" delete="false">
+                                        <field name="partner_id" />
+                                        <field name="state" />
+                                        <field name="email" widget="email"/>
+                                        <button name="do_tentative" states="needsAction,declined,accepted" string="Uncertain" type="object" icon="fa-asterisk" />
+                                        <button name="do_accept" string="Accept" states="needsAction,tentative,declined" type="object" icon="fa-check text-success"/>
+                                        <button name="do_decline" string="Decline" states="needsAction,tentative,accepted" type="object" icon="fa-times-circle text-danger"/>
+                                    </tree>
+                                    <kanban class="o_kanban_mobile" create="false" delete="false">
+                                        <field name="partner_id" />
+                                        <field name="state" />
+                                        <field name="email" widget="email"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="d-flex flex-column justify-content-between">
+                                                    <field name="partner_id"/>
+                                                    <field name="email" widget="email"/>
+                                                    <span>Status: <field name="state" />
+                                                    </span>
+                                                    <div class="text-right">
+                                                        <button name="do_tentative" states="needsAction,declined,accepted" string="Uncertain" type="object" class="btn fa fa-asterisk"/>
+                                                        <button name="do_accept" states="needsAction,tentative,declined" string="Accept" type="object" class="btn fa fa-check text-success"/>
+                                                        <button name="do_decline" states="needsAction,tentative,accepted" string="Decline" type="object" class="btn fa fa-times-circle text-danger"/>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                            <page name="page_misc" string="Misc" groups="base.group_no_one">
+                                <group>
+                                    <label for="user_id" string="Owner"/>
+                                    <field name="user_id" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record> 
+
+        <record id="view_calendar_event_eha_booking_calendar" model="ir.ui.view">
+            <field name="name">calendar.eha.event.calendar</field>
+            <field name="model">calendar.event</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar js_class="attendee_calendar" string="Appointments" date_start="booking_start_date" date_stop="booking_start_date" date_delay="duration" all_day="allday"
+                    event_open_popup="true"
+                    event_limit="5" color="partner_id">
+                    <field name="booking_start_date"/>
+                    <field name="strt_slot_time_text" string="Time"/>
+                    <field name="attendee_status"/>
+                    <field name="status"/>
+                    <!-- <field name="partner_id"/> -->
+                    
+                    <field name="partner_ids" widget="many2many_tags_avatar" write_model="calendar.contacts" write_field="partner_id" avatar_field="image_128"/>
+                    <field name="is_highlighted" invisible="1"/>
+                    <field name="eha_service_location_id" string="Location"/>
+                    <field name="service_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="action_calendar_event_eha" model="ir.actions.act_window">
+            <field name="name">Appointment</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="context">{'default_is_online_booking': True}</field>
+            <field name="domain">[('is_online_booking', '=', True)]</field>
+            <field name="view_id" ref="view_calendar_event_eha_booking_calendar"/>
+            <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+            <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Schedule an appointment
+            </p><p>
+                This calendar is only designed for Odoo EMR appointment booking
+            </p>
+            </field>
+        </record>
+
+        <record id="view_eha_calendar_event_tree_inherited" model="ir.ui.view">
+            <field name="name">Extensions to Calendar event Form</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='start']" position="replace">
+                    <field name = "booking_start_date"/>
+                    <field name = "strt_slot_time_text" string="Time"/>
+                </xpath>
+                <xpath expr="//field[@name='stop']" position="replace">
+                    <field name = "eha_service_location_id" force_save="1"/>
+                    <field name = "service_id" force_save="1"/>
+                    <field name = "service_provider_id" force_save="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='location']" position="replace">
+                    <field name="eha_service_location_id" string="Location"/>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_ids']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='strt_slot_time_text']" position="after">
+                    <field name = "partner_ids" widget="many2many_tags" string="Patients"/>
+                    <field name = "patient_hp" string="Patient HP"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="eha_online_calendar_booking_action" model="ir.actions.act_window">
+            <field name="name">Online Booking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">calendar.event</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="context">{'default_is_online_booking': True}</field>
+            <field name="domain">[('is_online_booking', '=', True)]</field>
+            <field name="view_id" ref="calendar.view_calendar_event_tree"/>
+            <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to Add Bookings.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_eha_online_calendar_event_tree" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="eha_online_calendar_booking_action"/>
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="calendar.view_calendar_event_tree"/>
+        </record>
+
+        <record id="action_view_eha_online_calendar_event_form" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="eha_online_calendar_booking_action"/>
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_eha_online_calendar_event_form"/>
+        </record>
+        <record id="action_view_eha_online_calendar_event_calendar" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="eha_online_calendar_booking_action"/>
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="view_calendar_event_eha_booking_calendar"/>
+        </record>
+
+        <menuitem
+        id="eha_menu_calendar"
+        name="EHA Appointment"
+        sequence="3"
+        action="eha_online_calendar_booking_action"
+        web_icon="odoo_appointment_booking,static/description/icon.png"
+        groups="oehealth.group_oeh_medical_manager,oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.external_command_center,oehealth_extension.group_oeh_medical_op_ass,base.group_system,oehealth_extension.group_oeh_medical_nurse"/>
+
+        <menuitem id="menu_eha_online_calendar_booking" parent="odoo_appointment_booking.eha_menu_calendar" sequence="1" name="Calendar" action="eha_online_calendar_booking_action"/>
+        
+    </data>
+</odoo>

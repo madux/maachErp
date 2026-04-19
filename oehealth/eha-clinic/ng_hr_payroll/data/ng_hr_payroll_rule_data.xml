@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Contribution Registers -->
+
+        <record id="hr_houserent_allowance_register_ng" model="hr.contribution.register">
+            <field name="name">Register for House Rent Allowance</field>
+        </record>
+
+        <record id="hr_allowance_register_utility" model="hr.contribution.register">
+            <field name="name">Register for Utility Allowance</field>
+        </record>
+
+        <record id="hr_allowance_register_ot" model="hr.contribution.register">
+            <field name="name">Register for Overtime Allowance</field>
+        </record>
+
+        <record id="hr_allowance_register_entertainment" model="hr.contribution.register">
+            <field name="name">Register for Entertainment Allowance</field>
+        </record>
+
+        <record id="hr_register_pension_fund" model="hr.contribution.register">
+            <field name="name">Register for Pension Fund (Company)</field>
+        </record>
+
+        <record id="hr_register_personal_allow" model="hr.contribution.register">
+            <field name="name">Register for Consolidated Relief</field>
+        </record>
+
+
+        <record id="hr_register_pension_fund_emp" model="hr.contribution.register">
+            <field name="name">Register for Pension Fund (Employee)</field>
+        </record>
+
+        <record id="hr_food_coupen_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Meal</field>
+        </record>
+
+        <record id="hr_tds_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Tax Pay</field>
+        </record>
+
+        <record id="hr_nhf_contribution_register" model="hr.contribution.register">
+            <field name="name">Register for NHF Contribution</field>
+        </record>
+
+        <record id="hr_company_transport_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Company Provided Transport</field>
+        </record>
+
+        <record id="hr_leave_availed_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Leave Availed Deduction</field>
+        </record>
+
+        <record id="hr_medical_insurance_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Company Provided Medical Insurance Deduction</field>
+        </record>
+
+        <record id="hr_other_deduction_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Other Deduction from Employer</field>
+        </record>
+
+        <record id="hr_company_bonus_register_ng" model="hr.contribution.register">
+            <field name="name">Register for Benefit</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_pa">
+            <field name="name">Consolidated Relief</field>
+            <field name="code">PA</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxfreepay">
+            <field name="name">TAX FREE PAY</field>
+            <field name="code">TAXFREEPAY</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxincome">
+            <field name="name">TAXABLE INCOME</field>
+            <field name="code">TAXINCOME</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_payfirst">
+            <field name="name">PAYE 1ST</field>
+            <field name="code">PAYFIRST</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_paynexttwo">
+            <field name="name">PAYE NEXT 2</field>
+            <field name="code">PAYNEXTTWO</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxthird">
+            <field name="name">PAYE NEXT 3</field>
+            <field name="code">TAXTHIRD</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxforth">
+            <field name="name">PAYE NEXT 4</field>
+            <field name="code">TAXFORTH</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxfive">
+            <field name="name">PAYE NEXT 5</field>
+            <field name="code">TAXFIVE</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxsix">
+            <field name="name">PAYE NEXT 6</field>
+            <field name="code">TaxSIX</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_payfirstpart">
+            <field name="name">PAYE 1ST</field>
+            <field name="code">PAYFIRSTPART</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_nexttwopart">
+            <field name="name">PAYE NEXT 2</field>
+            <field name="code">NEXTTWOPART</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_paythirdpart">
+            <field name="name">PAYE NEXT 3</field>
+            <field name="code">PAYTHIRDPART</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_payforthpaart">
+            <field name="name">PAYE NEXT 4</field>
+            <field name="code">PAYFORTHPAART</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_taxfifthpart">
+            <field name="name">PAYE NEXT 5</field>
+            <field name="code">TAXFIFTHPART</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_payperannum">
+            <field name="name">PAYE PER ANNUM</field>
+            <field name="code">PAYPERANNUM</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_paypermonth">
+            <field name="name">PAY</field>
+            <field name="code">PAYPERMONTH</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_efftaxrate">
+            <field name="name">EFF TAX RATE</field>
+            <field name="code">EFFTAXRATE</field>
+        </record>
+
+        <record model="hr.salary.rule.category" id="n_EMPCON">
+            <field name="name">Employer Contribution</field>
+            <field name="code">EMPCON</field>
+        </record>
+
+
+        <!-- Salary Rule -->
+
+        <record id="hr_salary_rule_houserentallowanc_ng" model="hr.salary.rule">
+            <field name="code">HRANG</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =(contract.wage * contract.hra / 100)</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">House Rent Allowance</field>
+            <field name="register_id" ref="hr_houserent_allowance_register_ng"/>
+            <field name="sequence" eval="51"/>
+            <field name="note">HRA is an allowance given by the employer to the employee for taking care of his rental
+                or accommodation expenses. (75% Of Basic)
+            </field>
+        </record>
+
+        <record id="hr_salary_rule_utility_ng" model="hr.salary.rule">
+            <field name="code">UTING</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =(contract.wage * contract.utility / 100)</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Utility</field>
+            <field name="register_id" ref="hr_allowance_register_utility"/>
+            <field name="sequence" eval="52"/>
+        </record>
+
+        <record id="hr_salary_rule_meal_ng" model="hr.salary.rule">
+            <field name="code">MLNG</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =(contract.wage * contract.meal / 100)</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Meal Allowance</field>
+            <field name="register_id" ref="hr_food_coupen_register_ng"/>
+            <field name="sequence" eval="53"/>
+        </record>
+
+        <record id="hr_salary_rule_entertain_ng" model="hr.salary.rule">
+            <field name="code">ENNG</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =(contract.wage * contract.entertain / 100)</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Entertainment Allowance</field>
+            <field name="register_id" ref="hr_allowance_register_entertainment"/>
+            <field name="sequence" eval="54"/>
+        </record>
+
+        <record id="hr_salary_rule_transport_ng" model="hr.salary.rule">
+            <field name="code">TRNG</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =(contract.wage * contract.transport / 100)</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Transport Allowance</field>
+            <field name="register_id" ref="hr_company_transport_register_ng"/>
+            <field name="sequence" eval="55"/>
+        </record>
+
+
+        <record id="hr_salary_rule_la" model="hr.salary.rule">
+            <field name="code">LANG</field>
+            <field name="name">Leave Allowance</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="quantity">1</field>
+            <field name="amount_percentage" eval="4"/>
+            <field name="sequence" eval="56"/>
+            <field name="note">(4% of annual basic ie paid one a year on the anniversary of joining)</field>
+        </record>
+
+        <record id="hr_salary_rule_benefit_ng" model="hr.salary.rule">
+            <field name="code">BONUSNG</field>
+            <field name="name">Bonus/Benefit to Employee</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.BNSNG.amount</field>
+            <field name="sequence" eval="58"/>
+            <field name="register_id" ref="hr_company_bonus_register_ng"/>
+        </record>
+
+        <record id="hr_salary_rule_ot_ng" model="hr.salary.rule">
+            <field name="code">OT</field>
+            <field name="name">Overtime Allowance</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.OT.amount</field>
+            <field name="sequence" eval="59"/>
+            <field name="register_id" ref="hr_allowance_register_ot"/>
+        </record>
+
+
+        <record model="hr.salary.rule" id="hr_salary_rule_personal_ng_company">
+            <field name="name">Consolidated Relief</field>
+            <field name="code">PERNG</field>
+            <field name="sequence" eval="105"/>
+            <field name="category_id" ref="n_pa"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="register_id" ref="hr_register_personal_allow"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = (-200000+( .20 * ( GROSS*12)) ) / 12</field>
+        </record>
+
+        <record id="hr_payslip_rule_nhf" model="hr.salary.rule">
+            <field name="code">NHFNG</field>
+            <field name="name">Employee's NHF Contribution</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="amount_percentage" eval="-2.5"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">contract.wage</field>
+            <field name="sequence" eval="155"/>
+            <field name="register_id" ref="hr_nhf_contribution_register"/>
+        </record>
+
+        <record id="hr_salary_rule_pension_ng" model="hr.salary.rule">
+            <field name="code">PENNG</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = - ((contract.wage+ HRANG+ TRNG) * contract.pension_employee /
+                100)
+            </field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Employee's Pension Contribution</field>
+            <field name="register_id" ref="hr_register_pension_fund_emp"/>
+            <field name="sequence" eval="156"/>
+        </record>
+
+        <record id="hr_salary_rule_pension_ng_company" model="hr.salary.rule">
+            <field name="code">PENCNG</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =- ((contract.wage+ HRANG+ TRNG) * contract.pension_company /
+                100)
+            </field>
+            <field name="category_id" ref="n_EMPCON"/>
+            <field name="name">Employer's Pension Contribution</field>
+            <field name="register_id" ref="hr_register_pension_fund"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="sequence" eval="157"/>
+        </record>
+
+        <!--        <record id="hr_payslip_rule_tax" model="hr.salary.rule">
+                    <field name="code">TAXNG</field>
+                    <field name="name">PAY TAX</field>
+                    <field name="category_id" ref="hr_payroll.DED"/>
+                    <field name="sequence" eval="180"/>
+                    <field name="register_id" ref="hr_tds_register_ng"/>
+                </record> -->
+
+        <!-- Tax -->
+        <record model="hr.salary.rule" id="n_tax_free_pay">
+            <field name="name">Tax Free Pay</field>
+            <field name="code">TAXFREEPAY</field>
+            <field name="sequence" eval="160"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxfreepay"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result= -((PERNG ) + (PENNG * 12) + (NHFNG * 12))</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_taxable_income">
+            <field name="name">Taxable Income</field>
+            <field name="code">TAXINCOME</field>
+            <field name="sequence" eval="161"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxincome"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = (GROSS * 12) - TAXFREEPAY</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_paye_1st">
+            <field name="name">PAYE 1ST</field>
+            <field name="code">TAXPAYFIRST</field>
+            <field name="sequence" eval="162"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_payfirst"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python" eval="'result = TAXINCOME  &lt; 300000.00'"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="7.0"/>
+            <field name="amount_percentage_base">TAXINCOME</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_paye 1st_n">
+            <field name="name">PAYE 1ST</field>
+            <field name="code">TAXPAYFIRST</field>
+            <field name="sequence" eval="163"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_payfirstpart"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python" eval="'result = TAXINCOME  > 300000.00'"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="7.0"/>
+            <field name="amount_percentage_base">300000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_2">
+            <field name="name">NEXT</field>
+            <field name="code">TAXPAYTWO</field>
+            <field name="sequence" eval="164"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_paynexttwo"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">range</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_range_min">300001.0</field>
+            <field name="condition_range_max">600000.0</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="11.0"/>
+            <field name="amount_percentage_base">TAXINCOME - 300000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_2_n">
+            <field name="name">NEXT</field>
+            <field name="code">TAXPAYTWO</field>
+            <field name="sequence" eval="165"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_nexttwopart"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python" eval="'result = TAXINCOME  > 600000.00'"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="11.0"/>
+            <field name="amount_percentage_base">300000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_3">
+            <field name="name">NEXT</field>
+            <field name="code">TAXTHIRD</field>
+            <field name="sequence" eval="166"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxthird"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">range</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_range_min">600001.0</field>
+            <field name="condition_range_max">1100000.0</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="15.0"/>
+            <field name="amount_percentage_base">TAXINCOME - 600000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_3_n">
+            <field name="name">NEXT</field>
+            <field name="code">TAXTHIRD</field>
+            <field name="sequence" eval="167"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_paythirdpart"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_python" eval="'result = TAXINCOME  > 1100000.00'"/>
+            <field name="condition_range_min">600001.0</field>
+            <field name="condition_range_max">1100000.0</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="15.0"/>
+            <field name="amount_percentage_base">500000</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_4">
+            <field name="name">NEXT</field>
+            <field name="code">TAXForth</field>
+            <field name="sequence" eval="168"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxforth"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip"></field>
+            <field name="condition_select">range</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_range_min">1100001.0</field>
+            <field name="condition_range_max">1600000.0</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="19.0"/>
+            <field name="amount_percentage_base">TAXINCOME - 1100000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_4_n">
+            <field name="name">NEXT</field>
+            <field name="code">TAXForth</field>
+            <field name="sequence" eval="169"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_payforthpaart"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_python" eval="'result = TAXINCOME  > 1600000.00'"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="19.0"/>
+            <field name="amount_percentage_base">500000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_5">
+            <field name="name">NEXT</field>
+            <field name="code">TAXFive</field>
+            <field name="sequence" eval="170"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxfive"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip"></field>
+            <field name="condition_select">range</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_range_min">1600001.0</field>
+            <field name="condition_range_max">3200000.0</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="21.0"/>
+            <field name="amount_percentage_base">TAXINCOME - 1600000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_5_n">
+            <field name="name">NEXT</field>
+            <field name="code">TAXFive</field>
+            <field name="sequence" eval="171"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxfifthpart"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_python" eval="'result = TAXINCOME  > 3200000.00'"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="21.0"/>
+            <field name="amount_percentage_base">1600000.00</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_next_6">
+            <field name="name">NEXT</field>
+            <field name="code">TAXSIX</field>
+            <field name="sequence" eval="172"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_taxsix"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip"></field>
+            <field name="condition_select">python</field>
+            <field name="condition_range">TAXINCOME</field>
+            <field name="condition_python" eval="'result = TAXINCOME  > 3200001'"/>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage" eval="24.0"/>
+            <field name="amount_percentage_base">TAXINCOME - 3200000</field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_paye_per_annum">
+            <field name="name">PAYE PER ANNUM</field>
+            <field name="code">PAYPERANNUM</field>
+            <field name="sequence" eval="173"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="n_payperannum"/>
+            <field name="active">True</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =
+                categories.PAYFIRST+categories.PAYFIRSTPART+categories.PAYNEXTTWO+categories.NEXTTWOPART+categories.TAXTHIRD+categories.PAYTHIRDPART+categories.TAXFORTH+categories.PAYFORTHPAART+categories.TAXFIFTHPART+categories.TAXFIVE+categories.TaxSIX
+            </field>
+        </record>
+
+        <record model="hr.salary.rule" id="n_per_month">
+            <field name="name">PAYE Tax</field>
+            <field name="code">PAYPERMONTH</field>
+            <field name="sequence" eval="174"/>
+            <field name="quantity">1.0</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="active">True</field>
+            <field name="condition_select">none</field>
+            <field name="condition_range">contract.wage</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = - (PAYPERANNUM / 12)</field>
+            <field name="register_id" ref="hr_tds_register_ng"/>
+        </record>
+
+
+        <!-- inputs -->
+
+        <record id="hr_rule_input_benefit_ng" model="hr.rule.input">
+            <field name="code">BNSNG</field>
+            <field name="name">Bonus/Benefit of Employee</field>
+            <field name="input_id" ref="hr_salary_rule_benefit_ng"/>
+        </record>
+
+        <record id="hr_rule_input_ot_ng" model="hr.rule.input">
+            <field name="code">OT</field>
+            <field name="name">Overtime of Employee</field>
+            <field name="input_id" ref="hr_salary_rule_ot_ng"/>
+        </record>
+
+
+    </data>
+</odoo>

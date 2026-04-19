@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Pages-->
+    <template id="template_family_standard_pricing" name="Family Standard - Pricing">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty"/>
+            <div class="container family-plan plan-standard">
+                <input type="hidden" name="membership_type" t-att-value="type"/>
+                <input type="hidden" name="membership_pricing" t-att-value="pricing"/>
+                <input type="hidden" name="membership_discount" t-att-value="discount"/>
+                <input type="hidden" name="membership_discount_type" t-att-value="discount_type"/>
+                <div class="row mt-5">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Membership Plans</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Family Standard
+                        </li>
+                    </ul>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <div class="product-img">
+                            <img src="/eha_website_hr_recruitment/static/src/img/icon-family.png"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h3 class="plan-title">Family Standard</h3>
+                        <h4 class="plan-subtitle">Customize your plan to fit your family</h4>
+                        <p>You want your whole family to benefit from a membership? No matter how big or
+                            small, each family member will get a 5k price reduction per year.
+                            <br/>
+                            Use the calculator for the yearly subscription price, taylored to your family.
+                        </p>
+
+                        <div class="table-responsive price-calculator mt-4 mb-5 p-3 background">
+                            <h4 class="text-secondary">Price Calculator</h4>
+                            <table class="mt-4">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="adult-qty" class="form-control select-product-qty"
+                                                    data-sub-product="adult"
+                                                    t-att-data-product-id="products[0]"
+                                                    t-att-data-discount="discount[0]"
+                                                    t-att-data-discount-type="discount_type[0]"
+                                                    t-att-data-price="pricing[0]"
+                                            >
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Adult</b>
+                                            (20-65 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) > 0">
+                                            <span class="badge badge-light" t-if="discount_type[0] == 'perc'">
+                                                <t t-esc="discount[0]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[0]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="youth-qty" class="form-control select-product-qty"
+                                                    data-sub-product="youth"
+                                                    t-att-data-product-id="products[2]"
+                                                    t-att-data-discount="discount[2]"
+                                                    t-att-data-discount-type="discount_type[2]"
+                                                    t-att-data-price="pricing[2]">
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Youth</b>
+                                            (0-19 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) >= 3">
+                                            <span class="badge badge-light" t-if="discount_type[2] == 'perc'">
+                                                <t t-esc="discount[2]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[2]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="senior-qty"
+                                                    class="form-control select-product-qty"
+                                                    data-sub-product="senior"
+                                                    t-att-data-product-id="products[1]"
+                                                    t-att-data-discount="discount[1]"
+                                                    t-att-data-discount-type="discount_type[1]"
+                                                    t-att-data-price="pricing[1]"
+                                            >
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Senior</b>
+                                            (above 65 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) >= 2">
+                                            <span class="badge badge-light" t-if="discount_type[1] == 'perc'">
+                                                <t t-esc="discount[1]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[1]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="plan-details">₦
+                                <t t-esc="total"/>
+                                / Year
+                            </div>
+                        </div>
+                        <a t-att-href="'/membership-step1/'+type" class="btn-primary">Subscribe</a>
+                    </div>
+                </div>
+            </div>
+            <div class="container benefits plan-standard mt-5">
+                <h4>Includes:</h4>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/ambulance.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Discounted ambulance services for transportation between hospitals within
+                            metropolitan Kano and Abuja.
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/dental.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            One discounted annual dental check up and cleaning session per year.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Unlimited free dental consultations year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Primary Dental Care (relief of pain, fillings, nonsurgical procedures,
+                            extractations, preventive care, scaling and polishing) offered at a 20% discount
+                            from cost for all.
+                        </li>
+                    </ul>
+                </div>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/lab.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Free ECG services year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Free Ultrasound services year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            All lab tests discounted.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="template_family_premium_pricing" name="Family Premium - Pricing">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty"/>
+            <div class="container family-plan plan-standard">
+                <input type="hidden" name="membership_type" t-att-value="type"/>
+                <input type="hidden" name="membership_pricing" t-att-value="pricing"/>
+                <input type="hidden" name="membership_discount" t-att-value="discount"/>
+                <input type="hidden" name="membership_discount_type" t-att-value="discount_type"/>
+                <div class="row mt-5">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Membership Plans</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Family Premium
+                        </li>
+                    </ul>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <div class="product-img">
+                            <img src="/eha_website_hr_recruitment/static/src/img/icon-family.png"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h3 class="plan-title">Family Premium</h3>
+                        <h4 class="plan-subtitle">Customize your plan to fit your family</h4>
+                        <p>You want your whole family to benefit from a membership? No matter how big or
+                            small, each family member will get a 5k price reduction per year.
+                            <br/>
+                            Use the calculator for the yearly subscription price, taylored to your family.
+                        </p>
+
+                        <div class="table-responsive price-calculator mt-4 mb-5 p-3 background">
+                            <h4 class="text-secondary">Price Calculator</h4>
+                            <table class="mt-4">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="adult-qty" class="form-control select-product-qty"
+                                                    data-sub-product="adult" t-att-data-product-id="products[0]"
+                                                    t-att-data-discount="discount[0]"
+                                                    t-att-data-discount-type="discount_type[0]"
+                                                    t-att-data-price="pricing[0]"
+                                            >
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Adult</b>
+                                            (20-65 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) > 0">
+                                            <span class="badge badge-light" t-if="discount_type[0] == 'perc'">
+                                                <t t-esc="discount[0]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[0]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="youth-qty" class="form-control select-product-qty"
+                                                    data-sub-product="youth" t-att-data-product-id="products[2]"
+                                                    t-att-data-discount="discount[2]"
+                                                    t-att-data-discount-type="discount_type[2]"
+                                                    t-att-data-price="pricing[2]">
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Youth</b>
+                                            (0-19 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) >= 3">
+                                            <span class="badge badge-light" t-if="discount_type[2] == 'perc'">
+                                                <t t-esc="discount[2]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[2]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="senior-qty"
+                                                    class="form-control select-product-qty"
+                                                    data-sub-product="senior" t-att-data-product-id="products[1]"
+                                                    t-att-data-discount="discount[1]"
+                                                    t-att-data-discount-type="discount_type[1]"
+                                                    t-att-data-price="pricing[1]">
+
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Senior</b>
+                                            (above 65 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) >= 2">
+                                            <span class="badge badge-light" t-if="discount_type[1] == 'perc'">
+                                                <t t-esc="discount[1]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[1]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="plan-details">₦
+                                <t t-esc="total"/>
+                                / Year
+                            </div>
+                        </div>
+
+
+                        <a t-att-href="'/membership-step1/'+type" class="btn-primary">Subscribe</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="container benefits plan-standard mt-5">
+                <h4>Includes:</h4>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/ambulance.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Discounted ambulance services for transportation between hospitals within
+                            metropolitan Kano and Abuja.
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/dental.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            One discounted annual dental check up and cleaning session per year.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Unlimited free dental consultations year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Primary Dental Care (relief of pain, fillings, nonsurgical procedures,
+                            extractations, preventive care, scaling and polishing) offered at a 20% discount
+                            from cost for all.
+                        </li>
+                    </ul>
+                </div>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/lab.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Free ECG services year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Free Ultrasound services year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            All lab tests discounted.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="template_family_prem_international_pricing" name="Family Premium International - Pricing">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty"/>
+            <div class="container family-plan plan-standard">
+                <input type="hidden" name="membership_type" t-att-value="type"/>
+                <input type="hidden" name="membership_pricing" t-att-value="pricing"/>
+                <input type="hidden" name="membership_discount" t-att-value="discount"/>
+                <input type="hidden" name="membership_discount_type" t-att-value="discount_type"/>
+                <div class="row mt-5">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Membership Plans</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Family Premium International
+                        </li>
+                    </ul>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <div class="product-img">
+                            <img src="/eha_website_hr_recruitment/static/src/img/icon-family.png"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h3 class="plan-title">Family Premium International</h3>
+                        <h4 class="plan-subtitle">Customize your plan to fit your family</h4>
+                        <p>You want your whole family to benefit from a membership? No matter how big or
+                            small, each family member will get a 5k price reduction per year.
+                            <br/>
+                            Use the calculator for the yearly subscription price, taylored to your family.
+                        </p>
+
+                        <div class="table-responsive price-calculator mt-4 mb-5 p-3 background">
+                            <h4 class="text-secondary">Price Calculator</h4>
+                            <table class="mt-4">
+                                <tbody>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="adult-qty" class="form-control select-product-qty"
+                                                    data-sub-product="adult" t-att-data-product-id="products[0]"
+                                                    t-att-data-discount="discount[0]"
+                                                    t-att-data-discount-type="discount_type[0]"
+                                                    t-att-data-price="pricing[0]">
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Adult</b>
+                                            (20-65 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) > 0">
+                                            <span class="badge badge-light" t-if="discount_type[0] == 'perc'">
+                                                <t t-esc="discount[0]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[0]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="youth-qty" class="form-control select-product-qty"
+                                                    data-sub-product="youth" t-att-data-product-id="products[2]"
+                                                    t-att-data-discount="discount[2]"
+                                                    t-att-data-discount-type="discount_type[2]"
+                                                    t-att-data-price="pricing[2]">
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Youth</b>
+                                            (0-19 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) >= 3">
+                                            <span class="badge badge-light" t-if="discount_type[2] == 'perc'">
+                                                <t t-esc="discount[2]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[2]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:30%; padding:0px 20px 10px 0px;">
+                                            <select name="senior-qty"
+                                                    class="form-control select-product-qty"
+                                                    data-sub-product="senior" t-att-data-product-id="products[1]"
+                                                    t-att-data-discount="discount[1]"
+                                                    t-att-data-discount-type="discount_type[1]"
+                                                    t-att-data-price="pricing[1]">
+                                                <option selected="selected" value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <b>Senior</b>
+                                            (above 65 years old)
+                                        </td>
+                                        <td t-if="discount and len(discount) >= 2">
+                                            <span class="badge badge-light" t-if="discount_type[1] == 'perc'">
+                                                <t t-esc="discount[1]"/>
+                                                %
+                                            </span>
+                                            <span class="badge badge-light" t-else="1">
+                                                <span t-esc="discount[1]" t-options="{'widget': 'monetary', 'display_currency': request.website.currency_id}"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="plan-details">₦
+                                <t t-esc="total"/>
+                                / Year
+                            </div>
+                        </div>
+
+
+                        <a t-att-href="'/membership-step1/'+type" class="btn-primary">Subscribe</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="container benefits plan-standard mt-5">
+                <h4>Includes:</h4>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/ambulance.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Discounted ambulance services for transportation between hospitals within
+                            metropolitan Kano and Abuja.
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/dental.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            One discounted annual dental check up and cleaning session per year.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Unlimited free dental consultations year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Primary Dental Care (relief of pain, fillings, nonsurgical procedures,
+                            extractations, preventive care, scaling and polishing) offered at a 20% discount
+                            from cost for all.
+                        </li>
+                    </ul>
+                </div>
+                <div class="benefit-section">
+                    <div class="benefit-icon">
+                        <div class="service-img">
+                            <img class="service-img-inner"
+                                 src="/eha_website_hr_recruitment/static/src/img/service/lab.png"/>
+                        </div>
+                    </div>
+                    <ul class="benefit-list">
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Free ECG services year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            Free Ultrasound services year round.
+                        </li>
+                        <li class="check">
+                            <i class="fa fa-check"></i>
+                            All lab tests discounted.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

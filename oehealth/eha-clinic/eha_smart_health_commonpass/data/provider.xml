@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+
+		<record id="smart_health_provider_commonpass" model="smart.health.card.provider">
+	        <field name="name">CommonPass Provider</field>
+	        <field name="image_128" type="base64" file="eha_smart_health_commonpass/static/description/icon.png" />
+	        <field name="provider">commonpass</field>
+	        <field name="key_type">ec</field>
+	        <field name="private_key">{}</field>
+        </record>
+
+    </data>
+</odoo>

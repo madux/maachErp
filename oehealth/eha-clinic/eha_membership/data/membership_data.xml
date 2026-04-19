@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="standard_membership_plan" model="eha.membership.plan">
+            <field name="name">Standard</field>
+            <field name="plan_code">SP</field>
+        </record>
+        <record id="premium_membership_plan" model="eha.membership.plan">
+            <field name="name">Premium</field>
+            <field name="plan_code">PP</field>
+        </record>
+        <record id="premium_intl_membership_plan" model="eha.membership.plan">
+            <field name="name">Premium International</field>
+            <field name="plan_code">PIP</field>
+        </record>
+
+        <record id="individual_membership_category" model="eha.membership.category">
+            <field name="name">Individual</field>
+            <field name="categ_code">INC</field>
+        </record>
+        <record id="corporate_membership_category" model="eha.membership.category">
+            <field name="name">Corporate</field>
+            <field name="categ_code">CORPC</field>
+        </record>
+        <record id="family_membership_category" model="eha.membership.category">
+            <field name="name">Family</field>
+            <field name="categ_code">FAMC</field>
+            <field name="has_discount">True</field>
+            <field name="discount_qty">5</field>
+        </record>
+        <record id="group_membership_category" model="eha.membership.category">
+            <field name="name">Group</field>
+            <field name="categ_code">GRPC</field>
+        </record>
+
+        <record id="membership_tag" model="res.partner.category">
+            <field name="name">Member</field>
+        </record>
+        <record id="standard_membership_plan_tag" model="res.partner.category">
+            <field name="name">Standard</field>
+            <field name="code">SP</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+        <record id="premium_membership_plan_tag" model="res.partner.category">
+            <field name="name">Premium</field>
+            <field name="code">PP</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+        <record id="premium_intl_membership_plan_tag" model="res.partner.category">
+            <field name="name">Premium International</field>
+            <field name="code">PIP</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+
+        <record id="individual_membership_category_tag" model="res.partner.category">
+            <field name="name">Individual</field>
+            <field name="code">INC</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+        <record id="corporate_membership_category_tag" model="res.partner.category">
+            <field name="name">Corporate</field>
+            <field name="code">CORPC</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+        <record id="family_membership_category_tag" model="res.partner.category">
+            <field name="name">Family</field>
+            <field name="code">FAMC</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+        <record id="group_membership_category_tag" model="res.partner.category">
+            <field name="name">Group</field>
+            <field name="code">GRPC</field>
+            <field name="parent_id" ref="membership_tag"/>
+        </record>
+
+    </data>
+</odoo>

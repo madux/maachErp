@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="cron_send_reminder_day2_test_for_odoo_calendar" model="ir.cron">
+            <field name="name">COVID-19 Send Reminder For Day 2 Test on Odoo calendar</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_calendar_event"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_calendar_send_reminder()</field>
+        </record>
+
+        <record id="cron_status_done_for_odoo_calendar" model="ir.cron">
+            <field name="name">Set status to Done in Odoo calendar</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_calendar_event"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_calendar_set_done()</field>
+        </record>
+
+        <record id="cron_odoo_calendar_feedback" model="ir.cron">
+            <field name="name">Odoo Calendar Feedback</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">0</field>
+            <field name="model_id" ref="model_calendar_event"/>
+            <field name="state">code</field>
+            <field name="code">model.send_booking_feedback_email()</field>
+        </record>
+
+    </data>
+</odoo> 

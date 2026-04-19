@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="certification_report_view" inherit_id="survey.certification_report_view">
+            <!-- the inheritance is handled in here -->
+            <xpath expr="//t[@t-call='web.html_container']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="user_input">
+                        <div t-att-data-oe-model="user_input._name" t-att-data-oe-id="user_input.id"
+                            class="article certification-wrapper">
+                            <div class="logo">
+                                <img height="34" alt="Product image"
+                                    src="/eha_survey_certification/static/src/img/EHAclinic.png" />
+                            </div>
+                            <div class="certification-header">
+                                <h1 class="certificate-title">
+                                    Certificate
+                                </h1>
+                                <h2 class="certificate-subtitle">of attendance</h2>
+                            </div>
+                            <div
+                                t-attf-class="certification #{'test-entry' if user_input.test_entry else ''}">
+
+                                <span>proudly presented to</span>
+                                <h2 class="attendee">
+                                    <span t-esc="user_input.partner_id.name or user_input.email" />
+                                </h2>
+                                <!-- You should not print a certificate if failed :) -->
+                                <span t-if="user_input.scoring_success">for participating in the EHA Clinics
+                                    Lab Academy webinar titled</span>
+                                <span t-if="not user_input.scoring_success">failed</span>
+                                <h2 class="survey">
+                                    <span t-field="user_input.survey_id.display_name" />
+                                </h2>
+                                <div class="date">
+                                    <span t-esc="user_input.create_date.strftime('%B %d %Y')" />
+                                </div>
+                                <div class="signatures">
+                                    <div class="signature">
+                                        <img height="40" alt="Product image"
+                                            t-attf-src="data:image/*;base64,{{user_input.survey_id.coordinator_sign_signature}}" />
+                                        <br />
+                                        <small>
+                                            <b>
+                                                <span
+                                                    t-esc="user_input.survey_id.coordinator_id.partner_id.title.name" />
+                                                <span
+                                                    t-esc="user_input.survey_id.coordinator_id.partner_id.name" />
+                                            </b>
+                                        </small>
+                                        <br />
+                                        <small>
+                                            <b>
+                                                <span t-esc="user_input.survey_id.coordinator_id.position" />
+                                            </b>
+                                        </small>
+                                        <br />
+                                        <small t-field="user_input.survey_id.coordinator_id.company" />
+                                        <!-- <small
+                                        t-field="user_input.survey_id.create_uid.company_id.display_name"/>  -->
+                                    </div>
+                                    <div class="signature">
+                                        <img height="40" alt="Product image"
+                                            t-attf-src="data:image/*;base64,{{user_input.survey_id.facilitator_sign_signature}}" />
+                                        <br />
+                                        <small>
+                                            <b>
+                                                <span
+                                                    t-esc="user_input.survey_id.facilitator_id.partner_id.title.name" />
+                                                <span
+                                                    t-esc="user_input.survey_id.facilitator_id.partner_id.name" />
+                                            </b>
+                                        </small>
+                                        <br />
+                                        <small>
+                                            <b>
+                                                <span t-esc="user_input.survey_id.facilitator_id.position" />
+                                            </b>
+                                        </small>
+                                        <br />
+                                        <small t-field="user_input.survey_id.facilitator_id.company" />
+                                    </div>
+                                </div>
+
+                                <!-- <div class="signatures">
+                                    <div
+                                class="signature">
+                                        <img height="40"
+                                t-attf-src="data:image/*;base64,{{user_input.survey_id.coordinator_sign_signature}}"/>
+                                <br/>
+                                        <small>
+                                            <b>
+                                <span t-esc="user_input.survey_id.coordinator_id.partner_id.title.name"/>
+                                <span t-esc="user_input.survey_id.coordinator_id.partner_id.name"/>
+                                            </b>
+                                </small><br/>
+                                        <small>
+                                            <b>
+                                <span t-esc="user_input.survey_id.coordinator_id.position"/>
+                                            </b>
+                                </small><br/>
+                                        <small
+                                t-field="user_input.survey_id.coordinator_id.company"/>
+                                        <small
+                                t-field="user_input.survey_id.create_uid.company_id.display_name"/>
+                                    </div>
+                                <div class="signature">
+                                        <img height="40"
+                                t-attf-src="data:image/*;base64,{{user_input.survey_id.facilitator_sign_signature}}"/>
+                                <br/>
+                                        <small>
+                                            <b>
+                                <span t-esc="user_input.survey_id.facilitator_id.partner_id.title.name"/>
+                                <span t-esc="user_input.survey_id.facilitator_id.partner_id.name"/>
+                                            </b>
+                                </small><br/>
+                                        <small>
+                                            <b>
+                                <span t-esc="user_input.survey_id.facilitator_id.position"/>
+                                            </b>
+                                </small><br/>
+                                        <small
+                                t-field="user_input.survey_id.facilitator_id.company"/>
+                                    </div>
+                                </div>
+                                <div class="signatures">
+                                    <div
+                                class="signature">
+                                        <img height="40"
+                                src="/eha_survey_certification/static/src/img/signature_ravi.png"/>
+                                            <br
+                                />
+                                            <small>Dr. Nirmal Ravi</small><br />
+                                <small><b>Chief Innovation Officer</b></small><br />
+                                            <small>EHA
+                                Clinics Ltd.</small>
+                                            <small
+                                t-field="user_input.survey_id.create_uid.company_id.display_name"/> 
+                                    </div>
+                                <div class="signature">
+                                        <img height="40"
+                                src="/eha_survey_certification/static/src/img/signature_westgard.png"/>
+                                            <br
+                                />
+                                            <small>Sten Westgard</small><br />
+                                <small><b>Director, Client Services and IT</b></small><br />
+                                            <small>Westgard
+                                QC</small> 
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</odoo>

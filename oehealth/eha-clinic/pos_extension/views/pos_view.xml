@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+    <menuitem
+        id="point_of_sale.menu_point_root"
+        name="Point of Sale"
+        groups="pos_extension.group_pos_accountant"/>
+
+    <menuitem id="menu_point_of_sale"
+        name="Orders"
+        groups="pos_extension.group_pos_accountant"/>
+
+    <menuitem
+        id="point_of_sale.menu_pos_session_all"
+        name="Sessions"
+        parent="point_of_sale.menu_point_of_sale"
+        groups="pos_extension.group_pos_accountant"/>
+
+</odoo>

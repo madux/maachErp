@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_batch_labtest_emailing" model="ir.ui.view">
+        <field name="name">Email labtest In Batch</field>
+        <field name="model">batch.labtest.emailing</field>
+        <field name="arch" type="xml">
+            <form string="Batch Labtest Emailing">
+                <group>
+                    <group>
+                        <field name="appointment_booking" invisible="1"/>
+                        <field name="is_individual_mail" invisible="1"/>
+                        <field name="notification_type" attrs="{'invisible': [('is_individual_mail', '=', True)]}"/>
+                        <field name="mail_type" widget="radio" attrs="{'invisible': ['|', ('appointment_booking', '=', True), ('is_individual_mail', '=', True)]}"/>
+                        <field name="cif_mail_type" widget="radio" attrs="{'invisible': ['|', ('appointment_booking', '!=', True), ('is_individual_mail', '=', True)]}"/>
+                        <field name="partner_ids" attrs="{'invisible': ['|', ('is_individual_mail', '=', True), ('appointment_booking', '=', True)], 'required': [('appointment_booking', '=', False),('mail_type', 'not in', ['individual'])]}" widget="many2many_tags"/>
+                        <field name="request_type" attrs="{'invisible': [('cif_mail_type', 'not in', ['inbound', 'outbound', 'referral'])], 'required': [('cif_mail_type', 'in', ['inbound', 'outbound', 'referral'])]}"/>
+                        <field name="template_id" string="Mail Template" attrs="{'invisible': ['|',('notification_type','=','sms'),('cif_mail_type', 'not in', ['inbound',  'outbound', 'referral'])],                                'required': [('notification_type','in',['email','both']),('cif_mail_type', 'in', ['inbound', 'outbound', 'referral'])]}"/>
+                        <field name="is_specific_mail" attrs="{'invisible': [('is_individual_mail', '=', False)]}"/>
+                        <field name="specific_mail_address" attrs="{'invisible': ['|', ('is_specific_mail','=', False), ('is_individual_mail','=', False)], 'required': [('is_specific_mail','=', True), ('is_individual_mail','=', True)]}"/>
+                        
+                        </group>
+                    <group>
+                        <field name="sms_template_id" string="SMS Mail Template"
+                               attrs="{'invisible': ['|',('notification_type','=','email'),('cif_mail_type', 'not in', ['inbound',  'outbound', 'referral'])],
+                               'required': [('notification_type','in',['sms','both']),('cif_mail_type', 'in', ['inbound', 'outbound', 'referral'])]}"/>
+                 
+                        <field name="email_ids" invisible="1" widget="many2many_tags" readonly="1"/>
+                        <field name="active_list_ids" invisible="1" readonly="1"/>
+                    </group>
+                </group>
+                <footer>                        
+                    <button name="action_send_batch_labtest_mail" string="Send Labtest(s)"
+                        type="object" attrs="{'invisible': ['|',('mail_type', 'not in', ['individual', 'organization', 'both']),('appointment_booking', '=', True)]}" class="oe_highlight" />
+                    <button name="action_send_cif_batch_mail" attrs="{'invisible': [('cif_mail_type', 'not in', ['inbound','outbound', 'referral'])]}" string="Send Notification(s)"
+                        type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link"
+                        special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- <act_window id="batch_labtest_emailing_action"
+            name="Send Result by Email"
+            res_model="batch.labtest.emailing"
+            binding_model="oeh.medical.lab.test"
+            view_mode="form"
+            context = "{'default_cif_mail_type': '', 'default_appointment_booking': False, 'is_individual_mail': False}"
+            target="new"/> -->
+    <record id="batch_labtest_emailing_action" model="ir.actions.act_window">
+            <field name="name">Send Result by Email</field>
+            <field name="res_model">oeh.medical.lab.test</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_cif_mail_type': '', 'default_appointment_booking': False, 'is_individual_mail': False}</field>
+            <field name="binding_model_id" ref="oehealth.model_oeh_medical_lab_test"/>
+            <field name="target">new</field>
+        </record>
+    
+</odoo>
+

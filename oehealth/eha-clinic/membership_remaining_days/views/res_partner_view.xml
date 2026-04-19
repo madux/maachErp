@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+        <!--Extending existing partner form view to add remaining days of membership field-->
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form.membership.remaining.days</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml"> 
+               <xpath expr="//field[@name='membership_stop']" position="after">
+                     <field name="membership_days_remaining" attrs="{'invisible': [('membership_stop','=', False)]}"/>
+               </xpath>
+            </field>
+        </record>
+
+</data>
+</odoo>

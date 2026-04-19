@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="eha_product_batch_report_ext" model="ir.ui.view">
+            <field name="name">eha.product.batch.report.wizard.form</field>
+            <field name="model">product.batch.report.wizard</field>
+            <field name="inherit_id" ref="product_batch_report.product_batch_report" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='generate_pdf_report']" position="after">
+                    <button name="action_print_xlsx_report" string="Excel Report" type="object" class="oe_highlight"/>
+                </xpath>
+                <field name="is_tracking_wise" position="after">
+                    <field name="product_category_ids" widget="many2many_tags"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

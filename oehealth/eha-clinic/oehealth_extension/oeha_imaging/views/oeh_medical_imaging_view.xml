@@ -1,0 +1,250 @@
+<?xml version="1.0" ?>
+    <odoo>
+        <data>
+            <!-- Lab Test Types Management -->
+            <record id="view_oeha_medical_imaging_test_types_filter" model="ir.ui.view">
+                <field name="name">Imaging Test Types</field>
+                <field name="model">oeha.medical.imaging.types</field>
+                <field name="type">search</field>
+                <field name="arch" type="xml">
+                    <search string="Search Imaging Types">
+                        <separator orientation="vertical"/>
+                            <field name="name" select="1"/>
+                            <field name="code" select="1"/>
+                    </search>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="oeha_medical_imaging_test_types_tree">
+                <field name="name">Imaging Test Types</field>
+                <field name="model">oeha.medical.imaging.types</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string='Imaging Test Types'>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="lab_department"/>
+                        <field name="test_charge"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="oeha_medical_imaging_test_types_form">
+                <field name="name">Imaging Test Types</field>
+                <field name="model">oeha.medical.imaging.types</field>
+
+                <field name="arch" type="xml">
+                    <form string="Imaging Test Types">
+                        <sheet>
+                            <div class="oe_left" style="width: 500px;">
+                                <div class="oe_title" style="width: 390px;">
+                                    <label class="oe_edit_only" for="name"/>
+                                    <h1><field name="name" class="oe_inline"/></h1>
+                                </div>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="lab_department"/>
+                                    <field name="code" required="1"/>
+                                </group>
+                                <group>
+                                    <field name="test_charge" required="1"/>
+                                </group>
+                            </group>                            
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="oeha_medical_imaging_test_types_action_tree" model="ir.actions.act_window">
+                    <field name="name">Imaging Test Types</field>
+                    <field name="res_model">oeha.medical.imaging.types</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{}</field>
+                    <field name="view_id" eval="False"/>
+                    <field name="help" type="html">
+                      <p class="oe_view_nocontent_create">
+                        Click to add a new imaging test type.
+                      </p>
+                    </field>
+            </record>
+
+            <menuitem action="oeha_medical_imaging_test_types_action_tree" id="oeha_medical_imaging_test_types_conf_list" 
+            parent="oeh_medical_conf_imaging" sequence="3" groups="oehealth.group_oeh_medical_manager,oehealth_extension.group_oeh_medical_lab_off"/>
+
+            <!-- Lab Tests -->
+
+            <record id="view_oeha_medical_imaging_test_filter" model="ir.ui.view">
+                <field name="name">Imaging Tests</field>
+                <field name="model">oeha.medical.imaging.test</field>
+                <field name="type">search</field>
+                <field name="arch" type="xml">
+                    <search string="Search Tests">
+                        <separator orientation="vertical"/>
+                            <field name="name" select="1"/>
+                            <!-- <field name="branch_id" /> -->
+                        <group expand="0" string="Group By..." colspan="11" col="11">
+                            <filter name="group_patient" string="Patient" icon="terp-personal" domain="[]" context="{'group_by':'patient'}"/>
+                            <filter name="group_pathologist" string="Pathologist" icon="terp-personal" domain="[]" context="{'group_by':'pathologist'}"/>
+                            <filter name="group_test_type" string="Test Type" icon="terp-personal" domain="[]" context="{'group_by':'test_type'}"/>
+                            <filter name="group_state" string="State" icon="terp-personal" domain="[]" context="{'group_by':'state'}"/>
+                        </group>
+                    </search>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="oeha_medical_imaging_test_tree">
+                <field name="name">Imaging Tests</field>
+                <field name="model">oeha.medical.imaging.test</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string='Imaging Tests'
+                          decoration-muted="state=='Invoiced'"
+                          decoration-primary="state=='Test In Progress'"
+                          decoration-success="state=='Completed'"
+                          decoration-danger="state=='Cancelled'">
+                        <field name="name"/>
+                        <field name="test_type"/>
+                        <field name="patient"/>
+                        <field name="pathologist"/>
+                        <field name="requestor"/>
+                        <field name="date_requested"/>
+                        <field name="date_analysis"/>
+                        <field name="state"/>
+                        <field name="branch_id"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="oeha_medical_imaging_test_form">
+                <field name="name">Imaging Tests</field>
+                <field name="model">oeha.medical.imaging.test</field>
+
+                <field name="arch" type="xml">
+                    <form string="Lab Tests">
+                        <header>
+                            <button confirm="Are you sure you want to start the test?" name="set_to_test_inprogress" states="Draft" string="Start Test" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager,oehealth_extension.group_oeh_medical_lab_off"/>
+                            <button confirm="Are you sure you want to complete the test?" name="set_to_test_complete" states="Test In Progress" string="Complete Test" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager,oehealth_extension.group_oeh_medical_lab_off"/>
+                            <button confirm="Are you sure you want to create the invoice?" name="action_imaging_invoice_create" states="Completed" string="Create Test Invoice" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager,oehealth_extension.group_oeh_medical_lab_off"/>
+                            <button name="print_patient_imagingtest" states="Test In Progress,Completed,Invoiced" string="Print Imaging Test" type="object" class="oe_highlight" groups="oehealth.group_oeh_medical_physician,oehealth.group_oeh_medical_manager,oehealth_extension.group_oeh_medical_lab_off"/>
+                            <field name="state" widget="statusbar" statusbar_visible="Draft,Test In Progress,Completed,Invoiced" statusbar_colors='{"Completed":"blue","Test In Progress":"red","Invoiced":"grey"}'/>
+                        </header>
+                        <sheet>
+                            <div class="oe_left" style="width: 500px;">
+                                <div class="oe_title" style="width: 390px;">
+                                    <label class="oe_edit_only" for="name"/>
+                                    <h1><field name="name" class="oe_inline"/></h1>
+                                </div>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="test_type"/>                                    
+                                </group>
+                                <group>
+                                    <field name="lab_department"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="patient" options="{'no_create': True}"/>
+                                    <field name="date_requested"/>
+                                    
+                                    <field name="requestor" options="{'no_create': True}"/>
+                                </group>
+                                <group>
+                                    <field name="pathologist" options="{'no_create': True}"/>
+                                    <field name="date_analysis"/>
+                                    <field string="Branch" name="branch_id" options="{'no_create': True, 'no_open': True}" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Images">
+                                    <group>
+                                        <group>
+                                            <field name="image1" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image1", "size": [90, 90]}'/>
+                                            <field name="image3" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image3", "size": [90, 90]}'/>
+                                            <field name="image5" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image5", "size": [90, 90]}'/>
+                                        </group>
+                                        <group>
+                                            <field name="image2" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image2", "size": [90, 90]}'/>
+                                            <field name="image4" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image4", "size": [90, 90]}'/>
+                                            <field name="image6" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image6", "size": [90, 90]}'/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </form>
+                </field>
+            </record>
+
+             <record id="view_oeh_medical_lab_imaging_test_pivot" model="ir.ui.view">
+                <field name="name">oeh.medical.imaging.test.pivot</field>
+                <field name="model">oeha.medical.imaging.test</field>
+                <field name="arch" type="xml">
+                    <pivot string="Imaging Test" display_quantity="false">
+                        <field name="test_type" type="row"/>
+                        <field name="patient" type="row"/> 
+                    </pivot>
+                </field>
+            </record>
+
+            <record id="oeha_medical_imaging_test_action_tree" model="ir.actions.act_window">
+                    <field name="name">Imaging Tests</field>
+                    <field name="res_model">oeha.medical.imaging.test</field>
+
+                    <field name="view_mode">tree,form,pivot</field>
+                    <field name="domain">[]</field>
+                    <field name="context">{}</field>
+                    <field name="view_id" eval="False"/>
+                    <field name="help" type="html">
+                      <p class="oe_view_nocontent_create">
+                        Click to add a new imaging test.
+                      </p>
+                    </field>
+            </record>
+
+            <menuitem name="Imaging Tests" action="oeha_medical_imaging_test_action_tree" id="oeh_medical_imaging_test_conf_list"
+             parent="oeh_medical_imaging_menu" sequence="5" groups="oehealth.group_oeh_medical_manager,oehealth_extension.group_oeh_medical_lab_off"/>
+
+            <record id="view_oeh_medical_imaging_filter" model="ir.ui.view">
+                <field name="name">Imaging Search</field>
+                <field name="model">oeha.medical.imaging.test</field>
+                <field name="type">search</field>
+                <field name="arch" type="xml">
+                    <search string="Search Imaging">
+                        <separator orientation="vertical"/>
+                            <field name="name" select="1"/>
+                            <field name="patient" string="Patient" select="1"/>
+                            <field name="pathologist" string="Lab Scientist" select="1"/>
+                            <field name="test_type" string="Test Type" select="1"/>
+                        <newline/>
+                        <group expand="0" string="Group By..." colspan="11" col="11">
+                            <filter name="group_patient" string="Patient" context="{'group_by':'patient'}"/>
+                            <filter name="group_pathologist" string="Lab Scientist" context="{'group_by':'pathologist'}"/>
+                            <filter name="group_test_type" string="Test Type" context="{'group_by':'test_type'}"/>
+                        </group>
+                    </search>
+                </field>
+            </record>
+
+            <record id="oeha_medical_patient_imaging_button_count_view2" model="ir.ui.view">
+                <field name="name">Patient</field>
+                <field name="model">oeh.medical.patient</field>
+                <field name="inherit_id" ref="oehealth.oeh_medical_patient_view"/>
+                <field name="arch" type="xml">
+                    <div class="oe_button_box" name="buttons" position="inside">
+                        <button type="action" class="oe_stat_button" name="%(oeha_medical_imaging_test_action_tree)d" context="{'search_default_patient': active_id,'default_patient': active_id}" icon="fa-x-ray">
+                            <field string="Imaging Tests" name="images_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </field>
+            </record>
+
+        </data>
+    </odoo>

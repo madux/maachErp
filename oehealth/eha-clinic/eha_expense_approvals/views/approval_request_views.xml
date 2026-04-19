@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="approval_request_view_form_inherit" model="ir.ui.view">
+            <field name="name">eha.approval.request.view.form</field>
+            <field name="model">approval.request</field>
+            <field name="inherit_id" ref="approvals.approval_request_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button type="object" name="action_view_expenses" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('hr_expense_count', '=', 0)]}" context="{'default_approvals_id': id}">
+                        <field name="hr_expense_count" widget="statinfo" string="Expenses"/>
+                    </button>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="create_hr_expense" string="Create Expense" attrs="{'invisible':[('request_status','!=','approved')]}" type="object" class="oe_highlight"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_expense_actions_all" model="ir.actions.act_window">
+            <field name="name">All Expenses</field>
+            <field name="res_model">hr.expense</field>
+            <field name="view_mode">tree,form,kanban,activity,graph,pivot</field>
+            <field name="search_view_id" ref="hr_expense.hr_expense_view_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new expense
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

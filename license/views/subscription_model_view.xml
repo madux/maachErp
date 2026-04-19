@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ══════════════════════════════════════════════════
+         TREE / LIST VIEW
+    ══════════════════════════════════════════════════ -->
+    <record id="view_subscription_model_request_tree" model="ir.ui.view">
+        <field name="name">subscription.model.tree</field>
+        <field name="model">subscription.model</field>
+        <field name="arch" type="xml">
+            <tree
+                string="Subscription"
+                decoration-warning="state == 'not_running'"
+                decoration-info="state == 'deactivated'"
+                decoration-success="state == 'activated'"
+                decoration-muted="state == 'cancel'"
+                decoration-danger="state in ['closed', 'overdue']"
+                multi_edit="0"
+                class="o_qms_list">
+
+                <field name="name" string="Reference" optional="show"/>
+                <field name="date_of_registration" string="Reg. Date" optional="show"/>
+                <field name="contact_client" optional="show"/>
+                
+                <field name="last_subscription_date" string="Last Sub. Date"/>
+                <field name="subscription_start_date" string="Start Date"/>
+                <field name="subscription_end_date" string="End Date"/>
+                <field name="days_duration" optional="show"/>
+                <field name="database_name" optional="show"/>
+                <field name="admin_user" optional="show"/>
+                <field name="admin_password" optional="hide"/>
+                <field name="state" widget="badge"
+                        decoration-warning="state == 'not_running'"
+                        decoration-info="state == 'deactivated'"
+                        decoration-success="state == 'activated'"
+                        decoration-muted="state == 'cancel'"
+                        decoration-danger="state in ['closed', 'overdue']"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         SEARCH VIEW
+    ══════════════════════════════════════════════════ -->
+    <record id="view_subscription_model_request_search" model="ir.ui.view">
+        <field name="name">subscription.model.search</field>
+        <field name="model">subscription.model</field>
+        <field name="arch" type="xml">
+            <search string="Search Lab Requests">
+                <field name="name" string="Reference"/>
+                <field name="date_of_registration" string="Reg. Date"/>
+                <field name="contact_client"/>
+                <field name="last_subscription_date" string="Last Sub. Date"/>
+                <field name="subscription_start_date" string="Start Date"/>
+                <field name="subscription_end_date" string="End Date"/>
+                <field name="days_duration"/>
+                <field name="database_name"/>
+                <field name="admin_user"/> 
+                <filter string="Not Running" name="not_running" domain="[('state','=','not_running')]"/>
+                <filter string="Activated" name="activated" domain="[('state','=','activated')]"/>
+                <filter string="Deactivated" name="deactivated" domain="[('state','=','deactivated')]"/>
+                <filter string="Overdue" name="overdue" domain="[('state','=','overdue')]"/>
+                <separator/>
+                <group>
+                    <filter string="State" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Contact" name="group_contact_client" context="{'group_by':'contact_client'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         FORM VIEW  — Modern Card-based UI
+    ══════════════════════════════════════════════════ -->
+    <record id="view_subscription_model_request_form" model="ir.ui.view">
+        <field name="name">subscription.model.form</field>
+        <field name="model">subscription.model</field>
+        <field name="arch" type="xml">
+            <form string="Subscription" class="o_qms_form">
+                <!-- ══ STATUS BAR ══ -->
+                <header>
+                    <button name="action_create_database" string="✓ Confirm &amp; Approve"
+                            type="object" class="btn btn-success"
+                            confirm="Are you sure you want to create database?"
+                            invisible="not database_name_created or state not in ('review', 'deactivated')"/>
+
+                    <button name="action_deactivated" string="De-activated"
+                            type="object" class="btn btn-warning"
+                            confirm="Are you sure you want to deactivated"
+                            invisible="state in ('activated')"/>
+
+                    <button name="update_licensed_users" string="Update Licensed Users"
+                            type="object" class="btn btn-warning"
+                            confirm="Are you sure you want to update"
+                            invisible="not database_name_created"/>
+
+                    <button name="action_drop_database" string="✓ Drop Database"
+                            type="object" class="btn btn-danger"
+                            confirm="Are you sure you want to drop database?"
+                            invisible="state in ('deactivated', 'cancel', 'closed')"/>
+					<field name="state" widget="statusbar" force_save="1" readonly="1"/>
+                </header>
+                <sheet>
+                    <!-- ══ HERO HEADER BANNER ══ -->
+                    <div class="qms-header-hero">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="qms-hero-ref">
+                                    <field name="name" readonly="1" class="d-inline"/>
+                                </div>
+                                <div class="qms-hero-sub">Subcription</div>
+                                <div class="qms-badge-row">
+                                    <field name="state" widget="badge"
+                                            decoration-warning="state == 'not_running'"
+                                            decoration-info="state == 'deactivated'"
+                                            decoration-success="state == 'activated'"
+                                            decoration-muted="state == 'cancel'"
+                                            decoration-danger="state in ['closed', 'overdue']"/>
+                                </div>
+                            </div>
+                            <div class="text-end" style="color:rgba(255,255,255,.7); font-size:12px;">
+                                <div>
+                                    <field name="company_name" readonly="1"
+                                            groups="base.group_multi_company"
+                                            style="color:rgba(255,255,255,.8);"/>
+                                </div>
+                                <div style="margin-top:4px;">
+                                    Contact client: 
+                                    <field name="contact_client" readonly="1" style="color:#FFC940; font-weight:600;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ KPI STRIP ══ -->
+                    <div class="qms-kpi-strip">
+                        <div class="qms-kpi-box">
+                            <div class="qms-kpi-label">Users</div>
+                            <div class="qms-kpi-value">
+                                <field name="no_of_users" readonly="1"/>
+                            </div>
+                        </div>
+                        <div class="qms-kpi-box kpi-info">
+                            <div class="qms-kpi-label">Days Remaining</div>
+                            <div class="qms-kpi-value">
+                                <field name="days_remaining" readonly="1"/>
+                            </div>
+                        </div>
+                        <div class="qms-kpi-box kpi-success">
+                            <div class="qms-kpi-label">Target Date</div>
+                            <div class="qms-kpi-value" style="font-size:14px;">
+                                <field name="subscription_end_date" readonly="1"/>
+                            </div>
+                        </div>
+                        <div class="qms-kpi-box kpi-danger">
+                            <div class="qms-kpi-label">Days Subscribed</div>
+                            <div class="qms-kpi-value" style="font-size:14px;">
+                                <field name="days_duration" readonly="1"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ══ CARD: IDENTIFICATION ══ -->
+                    <div class="qms-card">
+                        <div class="qms-card-header">
+                            <div class="qms-card-icon">
+                                <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </div>
+                            <span class="qms-card-title">Subscription</span>
+                        </div>
+                        <div class="qms-card-body">
+                            <group col="4">
+                                <field name="license_key" readonly="0"/>
+                                <field name="is_publish" options="{'no_create': True}"/>
+                                <field name="active" options="{'no_create': True}"/>
+                                <field name="database_name" options="{'no_create': True}"/>
+                                <field name="admin_user" options="{'no_create': True}"/>
+                                <field name="admin_password" options="{'no_create': True}"/>
+                                <field name="admin_user_id" options="{'no_create': True}"/>
+                            </group>
+                            <div class="qms-divider"/>
+                            <group col="4">
+                                <field name="contact_client" options="{'no_create': True}"/>
+                                <field name="company_name" readonly="0"/>
+                                <field name="address" readonly="0"/>
+                                <field name="token" readonly="1"/>
+                                <field name="token_hash" readonly="1"/>
+                                <field name="database_name_created" readonly="0"/>
+                                <field name="subscribed_users" readonly="0"/>
+                                <field name="amount_per_user" readonly="0"/>
+                                <field name="amount_paid" readonly="0"/>
+                                <field name="amount_to_pay" readonly="0"/>
+                            </group>
+                        </div>
+                    </div>
+
+                    <!-- ══ CARD: DATES & TIMELINE ══ -->
+                    <div class="qms-card">
+                        <div class="qms-card-header">
+                            <div class="qms-card-icon" style="background:#17A2B8;">
+                                <svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </div>
+                            <span class="qms-card-title">Dates &amp; Timeline &amp; Location</span>
+                        </div>
+                        <div class="qms-card-body">
+                            <group col="4">
+                                <field name="date_of_registration" options="{'no_create': True}"/>
+                                <field name="last_subscription_date" options="{'no_create': True}"/>
+                                
+                            </group>
+                            <group col="3">
+                                <field name="days_duration" options="{'no_create': True}"/>
+                                <field name="subscription_start_date" required="1" options="{'no_create': True}"/>
+                                <field name="subscription_end_date" options="{'no_create': True}"/>
+                            </group>
+                        </div>
+                    </div>
+                    <!-- ══ NOTEBOOKS / TABS ══ -->
+                    <notebook> 
+                        <page string="📝 Users" name="users">
+                            <field name="licensed_subscription_ids" widget="many2many_list">
+                                <tree string="">
+                                    <field name="user_id"/>
+                                    <field name="user_name"/>
+                                    <field name="user_login"/>
+                                    <field name="database"/>
+                                    <field name="group_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page> 
+                        <page string="📝 Applications" name="Applications">
+                            <field name="application_ids" widget="many2many_list">
+                                <tree string="">
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page> 
+                    </notebook> 
+                </sheet> 
+                <!-- <chatter/> --> 
+            </form>
+        </field>
+    </record> 
+    <!-- ══════════════════════════════════════════════════
+         ACTION
+    ══════════════════════════════════════════════════ -->
+    <record id="action_subscription_model_request" model="ir.actions.act_window">
+        <field name="name">Subscription</field>
+        <field name="res_model">subscription.model</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_subscription_model_request_search"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No record found
+            </p>
+            <p>
+                Create a new record.
+            </p>
+        </field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         MENU
+    ══════════════════════════════════════════════════ -->
+    <!-- Top-level QMS menu -->
+    <menuitem
+        id="menu_license_root"
+        name="License"
+        sequence="90"
+        web_icon="license,static/description/qms_icon.png"
+        groups="base.group_system"
+        />
+
+    <!-- Sub-menu: -->
+    <menuitem
+        id="menu_subscription_model_request"
+        name="Subscription"
+        parent="menu_license_root"
+        groups="base.group_system"
+        action="action_subscription_model_request"
+        sequence="10"/>
+
+</odoo>

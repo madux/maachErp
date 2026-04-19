@@ -1,0 +1,448 @@
+<?xml version="1.0"?><!--bug:report should be print each employee detail in new page-->
+<odoo>
+    <data>
+        <template id="yearly_salary_ng_report">
+            <t t-call="report.html_container">
+                <!--				<t t-foreach="docs" t-as="o"-->
+                <t t-call="report.internal_layout">
+                    <div class="page" style="font-size:13px;page-break-before:always;">
+                        <t t-foreach="get_employee(data['form'])" t-as="o">
+                            <div style="text-align:center;font-size:14px;">
+                                <span>From
+                                    <u>
+                                        <t t-esc="data['form']['date_from']"/>
+                                    </u>
+                                    To
+                                    <u>
+                                        <t t-esc="data['form']['date_to']"/>
+                                    </u>
+                                </span>
+                            </div>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <b>Employee Code</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.identification_id"/>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <b>Department</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.department_id and o.department_id.name or ''"/>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <b>Bank</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.bank_account_id and o.bank_account_id.bank_name or ''"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <b>Employee Name</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.name"/>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <b>Other No.</b>
+                                        </span>
+                                    </td>
+                                    <td><!--span t-esc="o.otherid or ''"/--></td><!--TODOPROBUSE-->
+                                    <td>
+                                        <span>
+                                            <b>Address</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.address_home_id and o.address_home_id.name or ''"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <b>Designation</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.job_id and o.job_id.name or ''"/>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <b>Phone No.</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.work_phone or ''"/>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <b>E-mail Address</b>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-esc="o.work_email or ''"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <t t-foreach="get_periods(data['form'])" t-as="m">
+                                        <t t-esc="get_employee_detail(data['form'],o)">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>
+                                                    <t t-esc="m[0] != 'None' and m[0] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[1] != 'None' and m[1] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[2] != 'None' and m[2] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[3] != 'None' and m[3] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[4] != 'None' and m[4] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[5] != 'None' and m[5] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[6] != 'None' and m[6] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[7] != 'None' and m[7] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[8] != 'None' and m[8] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[9] != 'None' and m[9] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[10] != 'None' and m[10] or ''"/>
+                                                </th>
+                                                <th>
+                                                    <t t-esc="m[11] != 'None' and m[11] or ''"/>
+                                                </th>
+                                                <th style="text-align:right;">Total</th>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom:hidden;">
+                                        <td colspan="14">
+                                            <span>
+                                                <b>Allowances with Basic:</b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr t-foreach="get_allow()" t-as="e1">
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[0]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[0]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[1] != '' and e1[1]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[1]!='' and e1[1]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[2]!='' and e1[2]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[2]!='' and e1[2]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[3]!='' and e1[3]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[3]!='' and e1[3]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[4]!='' and e1[4]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[4]!='' and e1[4]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[5]!='' and e1[5]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[5]!='' and e1[5]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[6]!='' and e1[6]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[6]!='' and e1[6]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[7]!='' and e1[7]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[7]!='' and e1[7]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[8]!='' and e1[8]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[8]!='' and e1[8]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[9]!='' and e1[9]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[9]!='' and e1[9]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[10]!='' and e1[10]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[10]!='' and e1[10]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[11]!='' and e1[11]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[11]!='' and e1[11]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[0] in ['Basic','Gross'] and e1[12]!='' and e1[12]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e1[0] not in ['Basic','Gross'] and e1[12]!='' and e1[12]"/>
+                                            </span>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e1[13]"/>
+                                                    <t t-esc="company.currency_id.symbol"/>
+                                                </b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom:hidden;">
+                                        <td colspan="14">
+                                            <b>Deductions:</b>
+                                        </td>
+                                    </tr>
+                                    <tr t-foreach="get_deduct()" t-as="e2">
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[1]!='' and e2[1]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[1]!='' and e2[1]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[2]!='' and e2[2]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[2]!='' and e2[2]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[3]!='' and e2[3]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[3]!='' and e2[3]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[4]!='' and e2[4]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[4]!='' and e2[4]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[5]!='' and e2[5]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[5]!='' and e2[5]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[6]!='' and e2[6]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[6]!='' and e2[6]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[7]!='' and e2[7]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[7]!='' and e2[7]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[8]!='' and e2[8]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[8]!='' and e2[8]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[9]!='' and e2[9]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[9]!='' and e2[9]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[10]!='' and e2[10]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[10]!='' and e2[10]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[11]!='' and e2[11]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[11]!='' and e2[11]"/>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[0] in ['Net'] and e2[0] and e2[12]!='' and e2[12]"/>
+                                                </b>
+                                            </span>
+                                            <span>
+                                                <t t-esc="e2[0] not in ['Net'] and e2[0] and e2[12]!='' and e2[12]"/>
+                                            </span>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span>
+                                                <b>
+                                                    <t t-esc="e2[13]"/>
+                                                    <t t-esc="company.currency_id.symbol"/>
+                                                </b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+                <!--				</t>	-->
+            </t>
+        </template>
+    </data>
+</odoo>

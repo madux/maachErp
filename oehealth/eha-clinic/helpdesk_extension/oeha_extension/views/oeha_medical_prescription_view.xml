@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+    <odoo>
+
+        <!-- Helpdesk Pres Team Wizard Action-->
+        <!-- <act_window id="action_helpdesk_pres_room_wizard"
+                    name="Transition to a Room" binding_model="oeh.medical.prescription"
+                    res_model="helpdesk.pres.team.wizard" view_mode="form" target="new"
+                    /> -->
+        <record id="action_helpdesk_pres_room_wizard" model="ir.actions.act_window">
+            <field name="name">Transition to a Room</field>
+            <field name="res_model">helpdesk.pres.team.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="oehealth.model_oeh_medical_prescription"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="helpdesk_pres_room_wizard" model="ir.ui.view">
+            <field name="name">Helpdesk Pres Room Wizard</field>
+            <field name="model">helpdesk.pres.team.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="prescription_id" invisible="1"/>
+                            <field name="team_id" options='{"always_reload": True,"no_create":True, "no_open": True}' />
+                            <field name="stage_id" string="State" options='{"always_reload": True,"no_create":True, "no_open": True}'/>
+                            <field name="user_id" options='{"always_reload": True,"no_create":True, "no_open": True}'/>
+                            <field name="prescription_ready" />
+                            <field name="is_online_pharmacy" />
+                        </group>
+                        <group>
+                            <field name="current_team_id" invisible="1" />
+                            <field name="current_stage_id" invisible="1" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button type="object" name="do_transition_room" string="Ok" class="oe_highlight" confirm="Are you sure you want to perform this operation?" />
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="oeha_medical_lab_test_form_helpdesk" model="ir.ui.view">
+            <field name="name">Helpdesk Extensions to prescription Form</field>
+            <field name="model">oeh.medical.prescription</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_prescription_view"/>
+            <field name="arch" type="xml">
+                <!-- To Room Button -->
+                <button name="print_patient_prescription" position="after">
+                    <button name="move_to_room" string="Transition Ticket" type="object" class="oe_highlight"/>
+                </button>
+            </field>
+        </record>
+    </odoo>

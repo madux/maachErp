@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="eha_website_sale.labtest-booking">
+    <button href="#labtestBookingModal" data-toggle="modal" class="btn-primary" type="button">In Clinic Collection Booking</button>
+    <div id="labtestBookingModal" class="modal show">
+      <div class="modal-dialog h-auto">
+        <div class="modal-content">
+        <div class="modal-header">
+          <span type="button" class="close" data-dismiss="modal">&#215;</span>
+          <h3 class="mb-4 mx-5 mt-2">Book Appointment for Lab Test</h3>
+        </div>
+          <script src="//widget.simplybook.pro/v2/widget/widget.js"></script>                        <!-- SIMPLYBOOKENTERPRISE -->
+                        <script>var widget = new SimplybookWidget({"widget_type":"iframe","url":"https:\/\/ehaclinics.simplybook.pro","theme":"hugo","theme_settings":{"timeline_show_end_time":"0","timeline_modern_display":"as_slots","nav_bg_color":"#ffffff","sb_base_color":"#25a9e0","display_item_mode":"block","body_bg_color":"#ffffff","dark_font_color":"#405352","light_font_color":"#719593","sb_company_label_color":"#ffffff","hide_img_mode":"1","show_sidebar":"0","sb_busy":"#dad2ce","sb_available":"#d2effb"},"timeline":"modern","datepicker":"top_calendar","is_rtl":false,"app_config":{"predefined":{"service":"40"}}});</script>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="eha_website_sale.home-labtest-booking">
+    <button href="#homelabtestBookingModal" data-toggle="modal" class="btn-primary" type="button">Homecare Collection Booking</button>
+    <div id="homelabtestBookingModal" class="modal show">
+      <div class="modal-dialog h-auto">
+        <div class="modal-content">
+        <div class="modal-header">
+          <span type="button" class="close" data-dismiss="modal">&#215;</span>
+          <h3 class="mb-4 mx-5 mt-2">Book Home Appointment for Lab Test</h3>
+        </div>
+          <script src="//widget.simplybook.pro/v2/widget/widget.js"></script>                        <!-- SIMPLYBOOKENTERPRISE -->
+                        <script>var widget = new SimplybookWidget({"widget_type":"iframe","url":"https:\/\/ehaclinics.simplybook.pro","theme":"hugo","theme_settings":{"timeline_show_end_time":"0","timeline_modern_display":"as_slots","nav_bg_color":"#ffffff","sb_base_color":"#25a9e0","display_item_mode":"block","body_bg_color":"#ffffff","dark_font_color":"#405352","light_font_color":"#719593","sb_company_label_color":"#ffffff","hide_img_mode":"1","show_sidebar":"0","sb_busy":"#dad2ce","sb_available":"#d2effb"},"timeline":"modern","datepicker":"top_calendar","is_rtl":false,"app_config":{"predefined":{"service":"41","category":"12"}}});</script>
+        </div>
+      </div>
+    </div>
+  </template>
+</odoo>

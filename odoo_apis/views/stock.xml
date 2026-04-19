@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+
+    <record id="view_stockpicking_form_odoo_sales_man" model="ir.ui.view">
+        <field name="name">stock.picking.odoosaleman.view.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='origin']" position="after">
+              <field name="assigned_delivery_man" nolabel="0" domain="[('is_delivery_person', '=', True), ('is_available', '=', True)]"/>
+              <field name="order_delivery_status" nolabel="0"/>
+              <field name="is_acknowledge" nolabel="0"/>
+          </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

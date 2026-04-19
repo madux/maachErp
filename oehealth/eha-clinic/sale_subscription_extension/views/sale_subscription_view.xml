@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_subscription_view_form_inherit" model="ir.ui.view">
+        <field name="name">sale.subscription.form.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_order_view_form"/>
+        <field name="arch" type="xml"> 
+            <field name="sale_order_template_id" position="after">
+                <field name="subscription_type" invisible="1"/>
+                <field name="plan_id" invisible="0" force_save="1" readonly="1"/>
+                <field name="in_progress" invisible="0" force_save="1" readonly="1"/>
+                <field name="current_end_date" readonly="1" attrs="{'invisible': [('in_progress', '=', False)]}"/>
+            </field>
+            <xpath expr="//button[@name='action_invoice_subscription']" position="after">
+                <button class="oe_stat_button" icon="fa-book" name="action_open_beneficiaries" string="Beneficiaries" type="object">
+                </button>
+            </xpath>
+
+            <xpath expr="//notebook/page[last()]" position="before">
+
+                <page name="roles" string="Plans &amp; Packages" attrs="{'invisible': [('subscription_type', '!=', 'corporate')]}">
+                    <group string="Custom Package" name="custom_package">
+                        <field name="custom_package_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="qty"/>
+                                <field name="product_id"/>
+                                <field name="categ_id"/>
+                                <field name="price"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Membership Roles" name="membership_roles">
+                        <field name="role_ids" nolabel="1" attrs= "{'required': [('subscription_type', '=', 'corporate')]}">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="plan_id"/>
+                                <field name="package_ids" widget="many2many_tags"/>
+                                <field name="budget"/>
+                                <field name="billing_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+
+                <page string="Beneficiaries" invisible="0">
+                    <p style="color: red;">* Ensure it's a Coporate Subscription before using the import feature  </p>
+                    <p style="color: red;">* Under the membership roles, create lines with the following names e.g Family Youth, Worker</p>
+                    <button type="action" class="btn-sm oe_left oe_highlight" name="%(sale_subscription_extension.view_beneficiary_import_wizard_import_action)d" context="{'default_subscription_id': active_id, 'default_import_type': 'Beneficiaries'}" string="Add Beneficiary">
+                    </button>
+                    <field name="beneficiary_ids" context="{'default_subscription_id': active_id, 'default_subscription_type': subscription_type}">
+                        <tree string="Beneficiaries">
+                            <field name="is_staff"/>
+                            <field name="partner_id" required="1"/>
+                            <field name="gender"/>
+                            <field name="age_group"/>
+                            <field name="subscription_id" invisible="1"/>
+                            <field name="subscription_type" invisible="1"/>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="role_id" domain="[('subscription_id', '=', subscription_id)]" attrs= "{'required': [('subscription_type', '=', 'corporate')]}"/>
+                            <field name="used_budget" sum="Total Used Budget"/>
+                            <field name="company_billing" sum="Total Billing" string="Company billing"/>
+                            <button type="object" class="oe_highlight" name="action_open_contact" icon="fa-plus" title="for membership"/>
+                        </tree>
+                        <form string="Beneficiary">
+                            <header>
+                                <button type="object" class="btn-sm oe_highlight" name="action_open_patient" string="Open Patient"/>
+                                <button type="object" class="btn-sm oe_highlight" name="action_add_packages" string="Add Packages"/>
+                                <button type="object" class="btn-sm oe_highlight" name="action_upgrade_plan" string="Upgrade Plans"/>
+                            </header>
+                            <group>
+                                <group>
+                                    <field name="partner_id" required="1"/>
+                                    <field name="gender"/>
+                                    <field name="dob"/>
+                                    <field name="age_group"/>
+                                    <field name="is_staff"/>
+                                    <field name="address"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="subscription_id" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="subscription_type" invisible="1"/>
+                                    <field name="role_id" context="{'default_subscription_id': subscription_id}" attrs= "{'required': [('subscription_type', '=', 'corporate')]}"/>
+                                    <!-- domain="[('subscription_id', '=', subscription_id)]"  -->
+                                    <field name="plan_id"/>
+                                    <!-- <field name="product_id" widget="many2many_tags" domain="[('plan_id', '=', plan_id)]" required="0"/> -->
+                                    <field name="product_id" widget="many2many_tags" required="0"/>
+                                    <field name="used_budget"/>
+                                    <field name="start_date" required="1"/>
+                                    <field name="end_date" required="1"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Dependents">
+                                    <field name="dependent_ids">
+                                        <tree string="Dependents" delete="0" create="0">
+                                            <field name="name"/>
+                                            <field name="phone"/>
+                                            <field name="email"/>
+                                            <field name="street"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </form>
+                    </field>
+                </page>
+                <page string="Beneficiaries" invisible="1">
+                    <p style="color: red;">* Ensure it's a Coporate Subscription before using the import feature  </p>
+                    <p style="color: red;">* Under the membership roles, create lines with the following names e.g Family Youth, Worker</p>
+                    <button type="action" class="btn-sm oe_left oe_highlight" name="%(sale_subscription_extension.view_beneficiary_import_wizard_import_action)d" context="{'default_subscription_id': active_id, 'default_import_type': 'Beneficiaries'}" string="Add Beneficiary">
+                    </button>
+                    <group>
+                        <group>
+                            <field name="beneficiaries_migrated" invisible="1"/>
+                        </group>
+                    </group>
+                    <div>
+                        <label for="beneficiaries" />
+                        <field name="beneficiaries" />
+                    </div>
+                </page>
+            </xpath>
+
+            <field name="end_date" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+        </field>
+    </record> 
+    <record id="sale_subscription_alert_view_form_ext" model="ir.ui.view">
+        <field name="name">sale.subscription.alert.view.form.inherit</field>
+        <field name="model">sale.order.alert</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_alert_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[@name='action_wrapper']/group/field[@name='template_id']" position="after">
+                <field name="sms_message" attrs="{'invisible': [('action', '!=', 'sms')],
+                        'required': [('action', '=', 'sms')]}"/>
+                <field name="sales_message" attrs="{'invisible': [('action', '!=', 'sms')],
+                        'required': [('action', '=', 'sms')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

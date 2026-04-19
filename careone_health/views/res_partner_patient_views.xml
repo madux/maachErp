@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_pharmacy" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.pharmacy</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//field[@name='name']" position="after">
+                 <field name="patient_no"/>
+                 <field name="is_patient"/>
+            </xpath> -->
+
+           
+       
+
+
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_evaluation" groups="sales_team.group_sale_salesman" icon="fa-heartbeat">
+                    <field string="Evaluation" name="patient_evaluation_count" widget="statinfo"/>
+                </button>
+            </div>
+
+
+            <!-- <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_prescription" groups="sales_team.group_sale_salesman" icon="fa-heartbeat">
+                    <field string="Prescription" name="patient_prescription_count" widget="statinfo"/>
+                </button>
+            </div> -->
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="placeholder">e.g. John Michael Doe</attribute>
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <!-- <xpath expr="//field[@name='phone']" position="befor">
+                <field name="staff_id"/>
+            </xpath> -->
+            <xpath expr="//field[@name='title']" position="after">
+                <field name="is_patient"/>
+                <field name="is_staff"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='function']" position="attributes">
+                <attribute name="invisible">is_patient == True</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="before">
+
+                <page string="Patient Information" invisible="is_patient == False">
+                    <group>
+                        <group>
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
+                            <field name="phone"/>
+                            <field name="date_of_registration"/>
+                            <field name="patient_no"/>
+                            <field name="street"/>
+                            <field name="city"/>
+                            <!-- <field name="state_id"/> -->
+
+                        </group>
+                        <group>
+                            <field name="related_employee_number"/>
+                            <field name="gender"/>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="last_visit_date"/>
+                            <field name="prescription_count"/>
+                            <field name="genotype"/>
+                            <field name="blood_group"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="pharmacyhistory" string="Pharmacy History">
+                            <field name="pharmacy_history_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="branch_id"/>
+                                    <field name="stage_id"/>
+                                    <field name="state"/>
+                                    <field name="total_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="allergies" string="Allergies">
+                            <field name="allergy_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                    <field name="severity"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="Evaluation" string="Evaluation">
+                            <field name="patient_evaluation_ids">
+                                <!-- context="{'form_view_ref': }"> -->
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="chief_complaint" readonly="state in ['Completed']" placeholder="Chief complaint..."/>
+                                    <field name="state"/>
+                                    <field name="severity"/>
+                                    <field name="patient_id"/>
+                                    <field name="severity"/>
+                                    <field name="prescription_document"/>
+                                    <!-- <field name="pharmacy_prescription_line_ids" widget="many2many_tags"/> -->
+
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="Medical_History" string="Medical History">
+                            <field name="patient_history_ids">
+                                <!-- context="{'form_view_ref': }"> -->
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                    <field name="severity"/>
+                                    <field name="patient_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="chroniccondition" string="Chronic Condition">
+                            <field name="chronic_condition_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </page>
+                <page string="Next of Kin">
+                    <field name="next_of_kin_ids" context="{
+                           'default_parent_id': id,
+                           'default_type': 'other',
+                           'default_street': street,
+                           'default_street2': street2,
+                           'default_city': city,
+                           'default_state_id': state_id,
+                           'default_zip': zip,
+                           'default_country_id': country_id,
+                           'default_lang': lang,
+                           'default_user_id': user_id
+                       }">
+                        <!-- Kanban View -->
+                        <kanban>
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="function"/>
+                            <field name="relationship"/>
+                            <field name="image_128"/>
+                            <field name="avatar_128"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe_kanban_global_click">
+                                        <div class="o_kanban_image">
+                                            <!-- <img t-att-src="kanban_image('res.partner','image_128', record.id.raw_value)"/> -->
+                                            <img alt="Contact image" t-att-src="kanban_image('res.partner', 'avatar_128', record.id.raw_value)"/>
+                                        </div>
+                                        <div class="oe_kanban_details">
+                                            <field name="name"/>
+                                            <div t-if="record.relationship.raw_value">
+                                                <field name="relationship"/>
+                                            </div>
+                                            <div t-if="record.phone.raw_value">
+                                                <field name="phone"/>
+                                            </div>
+                                            <div t-if="record.mobile.raw_value">
+                                                <field name="mobile"/>
+                                            </div>
+                                            <div t-if="record.email.raw_value">
+                                                <field name="email"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+
+                        <!-- Tree View -->
+                        <form string="Next of Kins">
+
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="name" string="Contact Name"/>
+                                        <label for="street" string="Address"/>
+                                        <div >
+                                            <div class="o_address_format" name="div_address">
+                                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                                <field name="city" placeholder="City" class="o_address_city"/>
+                                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                            </div>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <field name="relationship"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

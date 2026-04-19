@@ -1,0 +1,200 @@
+<odoo>
+    <data>
+        <template id="eha_website.buytest-step3" name="Checkout: Buy COVID-19 Test">
+            <t t-name="website.buytest-step3">
+                <t t-call="website.layout">
+                    <link rel="stylesheet" href="/eha_website/static/src/lib/build/css/intlTelInput.min.css" />
+                    <div id="wrap" class="oe_structure oe_empty"/>
+                    <t t-call="eha_website.covid19-preloader"/>
+                     <div id="wrapper" class="wrapper d-none">
+                        <div class="section bgLight">
+                            <div class="container pt-4 pb-3">
+                                <h4 id="product_name_header"></h4>
+                            </div>
+                        </div>
+                        <div class="section bgLight">
+                            <div class="container">
+                                <div class="tabs">
+                                    <a href="/services/buy-covid19-patientinfo" id="step1" class="step-tab pt-4 pb-4 visited">
+                                        <div>
+                                        <span class="badge badge-primary badge-m mr-2">1</span>
+                                         Who is getting tested?
+                                        </div>
+                                    </a>
+                                    <a href="/services/buy-covid19-appointmenttype" id="step2" class="step-tab pt-4 pb-4 visited">
+                                        <div>
+                                            <span class="badge badge-primary badge-m mr-2">2</span>
+                                        Sample Collection
+                                        </div>
+                                    </a>
+
+                                    <div class="step-tab pt-4 pb-4 active">
+                                        <div>
+                                            <span class="badge badge-primary badge-m mr-2">3</span>
+                                                Purchase
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="container mt-6 mb-5">
+                                <div class="purchase-summary">
+                                    <div class="summary-header" id="product_summary">
+                                        <!--COVID-19 PCR for International Travel + Antibody Test-->
+                                    </div>
+                                    <table id="main_table" data-delete="false">
+                                        <tbody>
+                                            <!--display dynamic row-->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr id="hsc">
+                                                <!-- <td class="position">+</td>
+                                                <td class="item" id="hsc">
+                                                    <i class="fa fa-calendar text-primary mr-2"></i>Home Sample Collection: <b>12.01.2021 | 5:30pm</b>
+                                                </td>
+                                                <td class="item-price"></td> -->
+                                            </tr>
+                                            <tr id="total" class="summary-footer">
+                                                <td colspan="2">Total</td>
+                                                <td id="main_total" class="total-price"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                        <div class="section">
+                            <div class="container">
+                                <h5>Billing Information</h5>
+                                <form method="POST" action="#" name="form-billing">
+                                    <input type="hidden" name="public_key" t-att-value="public_key" />
+                                    <input type="hidden" name="redirect_url" t-att-value="redirect_url" />
+                                    <input type="hidden" name="provider" t-att-value="provider" />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-row" id="name_div">
+                                                <div class="form-group col-11">
+                                                    <label class="col-form-label">
+                                                        Name
+                                                    </label>
+                                                    <input type="text" maxlength="75" required="required" placeholder="Your name" name="name" id="billing_name" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-row" id="phone_div">
+                                                <div class="form-group col-11">
+                                                    <label class="col-form-label">
+                                                    Phone 
+                                                    <!-- <span style="color:red">*</span> -->
+                                                    </label>
+                                                    <input type="text" maxlength="25" required="required" placeholder="Your phone" id="phone" name="phone" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-row" id="email_div">
+                                                <div class="form-group col-11">
+                                                    <label class="col-form-label">
+                                                        Email
+                                                    </label>
+                                                    <input type="email" maxlength="75" required="required" placeholder="Your email" name="email" id="billing_email" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-row background-50 p-4">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" name="coupon_checkbox" id="coupon_checkbox" class="checkbox mr-2"></input>
+                                                        <label class="col-form-label">
+                                                            Company Code
+                                                        </label>
+                                                    </div>
+                                                    <p>
+                                                        <i>Corporate Clients may register with their company code to track invoices.</i>
+                                                    </p>
+                                                    <input type="text" maxlength="75" placeholder="Your code" name="coupon_code" id="coupon_code" class="form-control d-none"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row actions mt-6 pt-4 border-top-blue">
+                                        <!--cancel purchase modal-->
+                                        <t t-call="eha_website.cancel-purchase" />
+                                        <div class="col-6">
+                                            <div  data-target="#confirmCancelModal" data-toggle="modal" class="btn btn-outline-primary mr-3 mb-2">Cancel Purchase</div>
+                                            <a href="/services/buy-covid19-appointmenttype">
+                                                <div name="back" class="btn btn-outline-primary mb-2">Back</div>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <button type="submit" name="paynow" class="btn btn-primary btn-lg">Pay now</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        <div class="section">
+                            <div class="container mt-6 mb-5"></div>
+                        </div>
+                    </div>
+
+                    <!--OTP Process modal-->
+                    <div id="otpProcessModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                   <form id="otp_verify_form" action="#" method="post">
+                                        <h4>Please enter the Verification Code for the Company Coupon.
+                                        </h4>
+                                        <p class="mt-3" id="label_sms_verification">An SMS has been sent to your phone number (…3456). 
+                                        </p>
+                                        <a href ="#" id="resend_otp">Send again</a>
+                                        <div class="form-group mt-3">
+                                            <label class="col-form-label">Verification Code</label>
+                                            <input type="text" name="otp_token" required="required" id="otp_token" inputmode="numeric" pattern="[0-9]*" class="form-control col-6 "/>
+                                        </div>
+                                        <div class="row actions mt-4 pt-4 border-top-blue">
+                                            <div class="col-6">
+                                                <div data-dismiss="modal" class="btn btn-outline-primary">Cancel</div>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <button type="button" id="button_otp_verify" name="button_otp_verify" class="btn btn-primary">Verify</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--process payment modal-->
+                    <div id="processPaymentModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                   <div class="text-center">
+                                        <i class="fa fa-spinner fa-spin fa-2x"></i> Finalizing Payment...Please Wait
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="/eha_website/static/src/js/utils.js?v=1.0.1"></script>
+                    <script src="/eha_website/static/src/lib/build/js/intlTelInput.min.js"></script>
+                    <!-- <script type="text/javascript" src="/eha_website/static/src/js/covid19/covid19_test_patients.js?v=1.0.4"></script> -->
+                    <t t-if="provider == 'rave'">
+                        <script src="https://checkout.flutterwave.com/v3.js"></script>
+                    </t>
+                    <t t-if="provider == 'paystackAcquirer'">
+                        <script src="https://js.paystack.co/v2/inline.js"></script>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

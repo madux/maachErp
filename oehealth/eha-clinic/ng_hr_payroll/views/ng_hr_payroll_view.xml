@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_payroll.hr_salary_rule_category_form" model="ir.ui.view">
+            <field name="name">hr.salary.rule.category.form</field>
+            <field name="model">hr.salary.rule.category</field>
+            <field name="arch" type="xml">
+                <form string="Salary Categories" version="7.0">
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="parent_id"/>
+                    </group>
+                    <separator string="Notes"/>
+                    <field name="note"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_payslip_inherit_form_ng">
+            <field name="name">hr.payslip.inherit.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <field name="credit_note" position="after">
+                    <field name="pay_type"/>
+                    <!--<field name="mid_month"/> -->
+                    <field name="mid_percentage" attrs="{'invisible':[('pay_type','=', 'dynamic')]}"/>
+                    <!-- <field name="old_percentage" attrs="{'invisible':[('mid_month','=', 
+                        True)]}" /> -->
+                </field>
+                <field name="input_line_ids" position="after">
+                    <field name="ot_ids" nolabel="1" colspan="4">
+                        <tree string="Employee Overtime">
+                            <field name="name"/>
+                            <field name="number_of_days"/>
+                            <field name="number_of_hours"/>
+                        </tree>
+                    </field>
+                </field>
+                <!--<xpath expr="//page[1]/field[2]/form/group/field[@name='payslip_id']" position="replace">
+                </xpath> probusetodo-->
+            </field>
+        </record>
+
+
+        <record id="view_hr_employee_structure_form" model="ir.ui.view">
+            <field name="name">hr.payroll.structure.inherit.form</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group" position="before">
+                    <header>
+                        <separator string="" colspan="4"/>
+                        <button name="button_cancel" string="Cancel" states="draft" type="object"/>
+                        <button name="button_done" class="oe_highlight" string="Approve" states="draft" type="object"/>
+                        <button name="button_draft" string="Reset to Draft" states="approve" type="object"/>
+                        <button name="button_draft" string="Reset to Draft" states="cancel" type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_hr_payroll_structure_tree_inh" model="ir.ui.view">
+            <field name="name">hr.payroll.structure.tree</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_list_view"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_hr_payroll_structure_filter_inherit" model="ir.ui.view">
+            <field name="name">hr.payroll.structure.select</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <filter name="to_approve" string="To Approve" domain="[('state','=','draft')]"
+                            help="New Structure"/>
+                    <filter name="approved" string="Approved" domain="[('state','=','approve')]"
+                            help="Approved Structure"/>
+                    <separator orientation="vertical"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="hr_payslip_run_form_inherit_cancel" model="ir.ui.view">
+            <field name="name">hr.payslip.run.form.inherit.cancel</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <!--                <button name="close_payslip_run" type="object" string="Close" states="draft" class="oe_highlight" position="after"-->
+                <xpath expr="//form/header/button[1]" position="after">
+                    <button name="cancel_batch" type="object" string="Cancel" states="close"/>
+                    <button string="Set to Draft" name="draft_payslip_run" type="object" states="cancel"/>
+                </xpath>
+
+                <!--
+                                <xpath expr="//header" position="inside">
+                                    <button name="send_to_generate" states="draft" string="Generate" type="object" class="oe_highlight"/>
+
+                                    <button name="submit" states="generated" string="Submit" type="object" class="oe_highlight"/>
+
+                                    <button name="action_icu_approval" states="submitted" string="ICU Approval" type="object" class="oe_highlight" groups="ng_chams_hr.group_icu_approval"/>
+                                    <button name="return_submit" states="submitted" string="Return" type="object" class="oe_highlight" groups="ng_chams_hr.group_icu_approval"/>
+
+
+                                    <button name="return_action_draft" states="icu_approval" string="Return" type="object" class="oe_highlight" groups="ng_chams_hr.group_coo_approval"/>
+                                    <button name="action_coo_approval" states="icu_approval" string="CFO Approval" type="object" class="oe_highlight" groups="ng_chams_hr.group_coo_approval"/>
+
+                                    <button name="action_md_approval" states="coo_approval" string="MD Approval" type="object" class="oe_highlight" groups="ng_chams_hr.group_md_approval"/>
+                                    <button name="return_icu_approval" states="coo_approval" string="Return" type="object" class="oe_highlight" groups="ng_chams_hr.group_md_approval"/>
+
+                                    <button name="return_coo_approval" states="md_approval" string="Return" type="object" class="oe_highlight" groups="ng_chams_hr.group_md_approval"/>
+
+                                </xpath>
+
+                                <button name="%(hr_payroll.action_hr_payslip_by_employees)d" position="replace">
+                                    <button name="%(hr_payroll.action_hr_payslip_by_employees)d" states="generated" string="Generate Payslips" type="action" class="oe_highlight"/>
+                                </button>
+
+                                <button name="close_payslip_run" position="replace">
+                                    <button name="close_payslip_run" string="Close" type="object" class="oe_highlight"
+                                    attrs = "{'invisible':[('state','not in',('md_approval'))]}"/>
+
+                                </button>
+                                    -->
+                <!--                </button-->
+            </field>
+        </record>
+
+        <record id="hr_payslip_run_form_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.run.form.inherit</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='credit_note']" position="after">
+                        <field name="struct_id"/>
+                        <field name="pay_type"/>
+                        <field name="mid_percentage" attrs="{'invisible':[('pay_type','=', 'dynamic')]}"/>
+                        <newline/>
+                        <field name="available_advice"/>
+                        <newline/>
+                    </xpath>
+                    <xpath expr="//button[@name='draft_payslip_run']" position="after">
+                        <button name="create_advice" class="oe_highlight" string="Create Advice" type="object"
+                                states="close"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="hr_payslip_run_search_inherit" model="ir.ui.view">
+            <field name="name">hr.payslip.run.search.inherit</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='name']" position="before">
+                        <separator orientation="vertical"/>
+                        <filter name="to_advice" string="To Advice" domain="[('available_advice','=', False)]"
+                                help="Payslip Batches ready to be Adviced"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_hr_bank_advice_tree" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.tree</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Advice">
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    <field name="bank_id"/>
+                    <field name="bankaccount_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_bank_advice_form" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.form</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <form string="Bank Advice" version="7.0">
+                    <header>
+                        <button name="confirm_sheet" class="oe_highlight" string="Confirm Sheet" states="draft"
+                                type="object"/>
+                        <button name="compute_advice" class="oe_highlight" string="Compute Advice" states="draft"
+                                type="object"/>
+                        <button name="cancel_sheet" string="Cancel" states="draft" type="object"/>
+                        <button name="set_to_draft" string="Set to Draft" states="cancel,confirm" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <label for="date" class="oe_edit_only"/>
+                            <h2>
+                                <field name="date"/>
+                            </h2>
+                        </div>
+                        <separator string="General" colspan="4"/>
+                        <group colspan="3" col="6">
+                            <field name="bank_id"/>
+                            <field name="bankaccount_id" on_change="onchange_bankaccount_id(bankaccount_id)"
+                                   domain="[('bank_id','=', bank_id)]"/>
+                            <field name="bank_account_no"/>
+                            <field name="number"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Payment Lines">
+                                <field name="line_ids" colspan="4" nolabel="1">
+                                    <tree string="Payment Lines" editable="bottom">
+                                        <field name="employee_id" on_change="onchange_employee_id(employee_id)"/>
+                                        <field name="name"/>
+                                        <field name="bank_name"/>
+                                        <field name="ifsc" invisible="1"/>
+                                        <field name="ifsc_code" attrs="{'invisible':[('ifsc','=', False)]}"/>
+                                        <field name="bysal"/>
+                                        <field name="debit_credit"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other Information">
+                                <group colspan="4" col="6">
+                                    <field name="company_id" on_change="onchange_company_id(company_id)"
+                                           groups="base.group_multi_company" widget="selection"/>
+                                    <field name="chaque_nos"/>
+                                    <field name="neft"/>
+                                    <field name="batch_id"/>
+                                </group>
+                                <separator colspan="4" string="Letter Details"/>
+                                <field name="note" colspan="4" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_payroll_advice_filter" model="ir.ui.view">
+            <field name="name">hr.payroll.advice.select</field>
+            <field name="model">hr.payroll.advice</field>
+            <field name="arch" type="xml">
+                <search string="Search Payment advice">
+                    <group>
+                        <filter name="draft_advices" string="Draft" domain="[('state','=','draft')]"
+                                help="Draft Advices"/>
+                        <filter name="confirm" string="Confirm" domain="[('state','=','confirm')]"
+                                help="Confirm Advices"/>
+                        <separator orientation="vertical"/>
+                        <field name="date"/>
+                        <field name="number"/>
+                        <field name="name"/>
+                        <field name="bank_id"/>
+                        <field name="batch_id"/>
+                        <field name="bankaccount_id"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Bank" name="bank_id" context="{'group_by':'bank_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Company" name="company_id" groups="base.group_multi_company"
+                                context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_view_hr_bank_advice_tree" model="ir.actions.act_window">
+            <field name="name">Payment Advices</field>
+            <field name="res_model">hr.payroll.advice</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_bank_advice_tree"/>
+            <field name="search_view_id" ref="view_hr_payroll_advice_filter"/>
+        </record>
+
+        <menuitem action="action_view_hr_bank_advice_tree" id="hr_menu_payment_advice"
+                  parent="hr_payroll.menu_hr_payroll_root"/>
+
+        <record id="view_advice_line_form" model="ir.ui.view">
+            <field name="name">advice.line.form</field>
+            <field name="model">hr.payroll.advice.line</field>
+            <field name="arch" type="xml">
+                <form string="Advice Lines">
+                    <field name="advice_id"/>
+                    <group>
+                        <field name="employee_id" on_change="onchange_employee_id(employee_id)"/>
+                        <field name="name"/>
+                        <field name="ifsc" invisible="1"/>
+                        <field name="ifsc_code" attrs="{'invisible':[('ifsc','=', False)]}"/>
+                        <field name="bysal"/>
+                        <field name="debit_credit"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_res_company_da" model="ir.ui.view">
+            <field name="name">res.company.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//form/sheet/notebook/page[last()]" position="inside">
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <menuitem name="Leaves by Department" parent="hr.menu_hr_reporting_timesheet"
+                  groups="hr.group_hr_user" action="hr_holidays.action_hr_holidays_summary_dept"
+                  id="hr_holidays.menu_account_central_journal" icon="STOCK_PRINT"/>
+
+        <!-- Shortcuts -->
+
+        <act_window name="Payslips" domain="[('advice_id', '=', active_id)]"
+                    res_model="hr.payslip" src_model="hr.payroll.advice" view_id="hr_payroll.view_hr_payslip_tree"
+                    id="act_hr_emp_payslip_list"/>
+
+        <!--record model="ir.actions.act_window" id="open_view_hr_evaluation_tree_done">
+            <field name="name">Employee Appraisals</field>
+            <field name="res_model">hr_evaluation.evaluation</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'done')]</field>
+            <field name="search_view_id" ref="hr_evaluation.evaluation_search" />
+            <field name="context">{"search_default_next_month":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new appraisal.
+                </p>
+                <p>
+                    Each employee may be assigned an Appraisal Plan. Such a plan
+                    defines the frequency and the way you manage your periodic
+                    personnel evaluation. You will be able to define steps and
+                    attach interviews to each step. OpenERP manages all kinds of
+                    evaluations: bottom-up, top-down, self-evaluation and final
+                    evaluation by the manager.
+                </p>
+            </field>
+        </record--><!--TODOPROBUSE-->
+
+        <!--menuitem name="Employee Appraisals" parent="hr_evaluation.menu_eval_hr" id="menu_open_view_hr_evaluation_tree_normal_self_test" action="open_view_hr_evaluation_tree_done" groups="base.group_user" /--><!--TODOPROBUSE-->
+
+        <menuitem id="menu_hr_root_payroll" parent="hr.menu_hr_root" name="Payroll" sequence="30"/>
+
+        <record id="action_view_hr_payslip_form_self" model="ir.actions.act_window">
+            <field name="name">Employee Done Payslips</field>
+            <field name="res_model">hr.payslip</field>
+
+            <field name="domain">[('state', '=', 'done')]</field>
+            <field name="view_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="search_view_id" ref="hr_payroll.view_hr_payslip_filter"/>
+        </record>
+
+        <menuitem action="action_view_hr_payslip_form_self" id="menu_department_tree_self_pay"
+                  parent="ng_hr_payroll.menu_hr_root_payroll" groups="base.group_user"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="checkout" inherit_id="payment.checkout">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="https://js.paystack.co/v1/inline.js"></script>
+        </xpath>
+    </template>
+
+    <template id="manage" inherit_id="payment.manage">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="https://js.paystack.co/v1/inline.js"></script>
+        </xpath>
+    </template>
+
+    <template id="redirect_form">
+        <!-- Paystack generates a new payment link for each transaction -->
+        <form t-att-action="api_url" method="get"></form>
+    </template>
+
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECURITY GROUPS
+    ══════════════════════════════════════════════════════════════ -->
+
+    <record id="module_category_medical_booking" model="ir.module.category">
+        <field name="name">Medical Booking</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="group_booking_doctor" model="res.groups">
+        <field name="name">Doctor / Medical Staff</field>
+        <field name="category_id" ref="module_category_medical_booking"/>
+        <field name="comment">Doctors can view their own assigned bookings.</field>
+    </record>
+
+    <record id="group_booking_manager" model="res.groups">
+        <field name="name">Booking Manager</field>
+        <field name="category_id" ref="module_category_medical_booking"/>
+        <field name="implied_ids" eval="[(4, ref('group_booking_doctor'))]"/>
+        <field name="comment">Full access to all bookings and configuration.</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         RECORD RULES
+    ══════════════════════════════════════════════════════════════ -->
+
+    <!-- Doctors see bookings where they are in available_doctor_ids OR assigned -->
+    <record id="rule_booking_doctor_own" model="ir.rule">
+        <field name="name">Doctor: See own assigned bookings only</field>
+        <field name="model_id" ref="medical_booking.model_booking_record"/>
+        <field name="groups" eval="[(4, ref('group_booking_doctor'))]"/>
+        <field name="domain_force">
+            ['|',
+             ('available_doctor_ids', 'in', [user.id]),
+             ('assign_doctor_id', '=', user.id)]
+        </field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Booking managers see everything — overrides the doctor rule -->
+    <record id="rule_booking_manager_all" model="ir.rule">
+        <field name="name">Booking Manager: Full access</field>
+        <field name="model_id" ref="medical_booking.model_booking_record"/>
+        <field name="groups" eval="[(4, ref('group_booking_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Doctors only see their own branches -->
+    <record id="rule_booking_branch_doctor" model="ir.rule">
+        <field name="name">Doctor: See own branches only</field>
+        <field name="model_id" ref="medical_booking.model_booking_branch"/>
+        <field name="groups" eval="[(4, ref('group_booking_doctor'))]"/>
+        <field name="domain_force">
+            [('doctor_ids', 'in', [user.id])]
+        </field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Managers see all branches -->
+    <record id="rule_booking_branch_manager" model="ir.rule">
+        <field name="name">Manager: All branches</field>
+        <field name="model_id" ref="medical_booking.model_booking_branch"/>
+        <field name="groups" eval="[(4, ref('group_booking_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>

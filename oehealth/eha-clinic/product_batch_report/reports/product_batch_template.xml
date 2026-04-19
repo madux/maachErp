@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_batch_report_template">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+                <div class="page">
+                    <h3 align="center">Lot/Serial Number Expiry Report</h3>
+                    <div class="row mt32">
+                            <t t-if="expiry_type =='expire'">
+                                <div class="col-3">
+                                    <span>From :</span>
+                                    <strong t-esc="today"></strong>
+                                </div>
+                                <div class="col-12">
+                                    <span>To :</span>
+                                    <strong t-esc="date_within"></strong>
+                                </div>
+                            </t>
+                            <t t-if="expiry_type =='expired'">
+                                <div class="col-3">
+                                <span>From :</span>
+                                <strong t-esc="date_within"></strong>
+                                </div>
+                                <div class="col-12">
+                                <span>To :</span>
+                                <strong t-esc="today"></strong>
+                                </div>
+                            </t>
+                    </div>
+                </div>
+            <table class="table table-condensed">
+                <thead>
+                    <t t-if="view_type =='product_wise'">
+                    <th>Product</th>
+                    </t>
+                    <th>Lot/Serial Number</th>
+                    <th>Expiry Date</th>
+                    <t t-if="expiry_type =='expire'">
+                        <th>Expire Within</th>
+                    </t>
+                    <t t-if="expiry_type =='expired'">
+                        <th>Expired Before</th>
+                    </t>
+                </thead>
+                <tbody>
+                    <t t-if="view_type =='product_wise'">
+                        <tr t-foreach="heading" t-as="doc">
+                            <td align="left" colspan="4">
+                                <strong>
+                                    <span t-esc="doc['name']" style="color:#515151"></span>
+                                </strong>
+                            </td>
+                            <tr t-foreach="values" t-as="doc2">
+                                <t t-if="doc['name']==doc2['product']">
+                                    <td></td>
+                                    <td align="left">
+                                        <span t-esc="doc2['lot_name']"></span>
+                                    </td>
+                                    <td align="left">
+                                        <span t-esc="doc2['expiry_date']"></span>
+                                    </td>
+                                    <td align="left">
+                                        <span t-esc="doc2['expiry_days']"></span>
+                                    </td>
+                                </t>
+                            </tr>
+                        </tr>
+                    </t>
+                    <t t-if="view_type =='tracking_wise'">
+                        <tr t-foreach="values" t-as="doc2">
+                            <td align="left">
+                                <span t-esc="doc2['lot_name']"></span>
+                            </td>
+                            <td align="left">
+                                <span t-esc="doc2['expiry_date']"></span>
+                            </td>
+                            <td align="left">
+                                <span t-esc="doc2['expiry_days']"></span>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </t>
+        </t>
+    </template>
+</odoo>

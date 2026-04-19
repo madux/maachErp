@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <template id="report_oeh_medical_patient_labtest_document">
+        <t
+    t-call="web.external_layout">
+            <t t-set="o"
+    t-value="o.with_context({'lang':o.patient.partner_id.lang})"/>
+            <div class="row mt32
+    mb32">
+                <div t-if="o.passport_attachment" class="col-6 bm-2">
+                    <img
+    t-att-src="image_data_uri(o.passport_attachment.datas)" style="height:100px; width:100px"/>
+    </div>
+                <div t-set="address" class="col-6 bm-2">
+                    <div
+    t-field="o.patient.partner_id"
+                        t-options='{"widget": "contact",
+    "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                </div>
+    </div>
+            <div class="page">
+                <div class="oe_structure"/>
+                <h2>Labtest
+    Report</h2>
+                <div class="row mt32 mb32">
+                    <div t-if="o.name"
+    class="col-3 bm-2">
+                        <strong>Lab Test#:</strong>
+                        <p
+    class="m-0" t-field="o.name"/>
+                    </div>
+                    <div
+    t-if="o.patient" class="col-3 bm-2">
+                        <strong>Patient:</strong>
+                        <p
+    class="m-0" t-field="o.patient.name"/>
+                    </div>
+                    <div
+    t-if="o.date_requested" class="col-3 bm-2">
+                        <strong>Date
+    Requested:</strong>
+                        <p class="m-0" t-field="o.date_requested"/>
+                    </div>
+    <div t-if="o.care_provider_who_ordered_test" class="col-3 bm-2">
+                        <strong>Doctor
+    who requested test:</strong>
+                        <p class="m-0"
+    t-field="o.care_provider_who_ordered_test.name"/>
+                    </div>
+                    <div
+    t-if="o.patient.passport_no" class="col-3 bm-2">
+                        <strong>Passport
+    Number:</strong>
+                        <p class="m-0" t-field="o.patient.passport_no" />
+    </div>
+                    
+                </div>
+                <div class="row mt32 mb32">
+    <div t-if="o.test_type" class="col-3 bm-2">
+                        <strong>Test Type:</strong>
+    <p class="m-0" t-field="o.test_type.name"/>
+                    </div>
+                    <div
+    t-if="o.pathologist" class="col-3 bm-2">
+                        <strong>Pathologist: </strong>
+    <p class="m-0" t-field="o.pathologist.name"/>
+                    </div>
+                    <div
+    t-if="o.date_analysis" class="col-3 bm-2">
+                        <strong>Analysis
+    Date:</strong>
+                        <p class="m-0" t-field="o.date_analysis"/>
+                    </div>
+    </div>
+                <table class="table table-condensed mt32">
+                    <thead>
+    <tr>
+                            <th class="text-center">SEQUENCE</th>
+                            <th
+    class="text-left">TESTS</th>
+                            <th class="text-center">RESULT</th>
+                            <th
+    class="text-center">NORMAL RANGE</th>
+                            <th
+    class="text-left">UNITS</th>
+                        </tr>
+                </thead>
+                <tbody
+    class="invoice_tbody">
+                        <tr t-foreach="o.lab_test_criteria" t-as="l">
+                            <td
+    class="text-center">
+                            <strong><span t-field="l.sequence"/></strong>
+    </td>
+                            <td>
+                                <span t-field="l.name"/>
+    </td>
+                            <td class="text-center">
+                                <span
+    t-field="l.result"/>
+                            </td>
+                            <td
+    class="text-center">
+                                <span t-field="l.normal_range"/>
+                            </td>
+    <td class="text-left">
+                                <span t-field="l.units.name"/>
+                            </td>
+    </tr>
+                    </tbody>
+                </table>
+            </div>
+    </t>
+    </template> -->
+
+    <template id="external_layout_standard">
+
+        <t t-if="not o" t-set="o" t-value="doc" />
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id" />
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()" />
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company" />
+            </t>
+        </t>
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="row">
+                <div class="col-8 mb4" name="company_address">
+                    <div t-field="company.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                    />
+                </div>
+                <div class="col-4 mb4 text-right">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                        style="max-height: 45px;" alt="Logo" />
+                </div>
+            </div>
+            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                <div class="col-12">
+                    <div style="border-bottom: 1px dashed #0093FF; padding-bottom: 1rem;" />
+                </div>
+            </div>
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+            t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+            t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-raw="0" />
+        </div>
+
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+
+            <div class="row report-footer no-page-break"
+                style="border-top: 1px dashed #0093FF; padding-top: 1rem; justify-content: space-between; page-break-inside: avoid; font: 13px 'Open Sans';color: #405352;letter-spacing: 0.01em;">
+                <table>
+                    <tr t-if="company.phone">
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Phone</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span t-field="company.phone" />
+                        </td>
+                    </tr>
+                    <tr t-if="company.email">
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Email</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span t-field="company.email" />
+                        </td>
+                    </tr>
+                    <tr t-if="company.website">
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Web</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span t-field="company.website" />
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Account Name</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span>EHA CLINICS LIMITED</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Account No</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span>0341031429</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Bank</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span>Guaranty Trust Bank</span>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Sort code</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span>058123010</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Currency</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <span>NGN</span>
+                        </td>
+                    </tr>
+                    <tr t-if="company.vat">
+                        <td style="padding: 2px 20px 4px 0;">
+                            <label>Tax ID</label>
+                        </td>
+                        <td style="padding: 2px 20px 4px 0;">
+                            <t t-esc="company.country_id.vat_label or 'Tax ID'" /> : <span
+                                t-field="company.vat" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div t-if="report_type == 'pdf'" class="text-muted"> Page: <span class="page" /> / <span
+                        class="topage" />
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--new template-->
+    <template id="report_oeh_medical_patient_labtest">
+        <xpath expr="." position="inside">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600"
+                rel="stylesheet" />
+        </xpath>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="oehealth.external_layout_standard">
+                    <t t-set="o" t-value="o.with_context({'lang':o.patient.partner_id.lang})" />
+                    <t t-set="is_covid19" t-value="o.test_type.is_covid_19" />
+                    <t t-set="is_covid19_pcr" t-value="o.test_type.is_covid_pcr" />
+                    <t t-set="is_covid19_antigen" t-value="o.test_type.is_covid_antigen" />
+                    <t t-set="is_travel"
+                        t-value="o.cif_id and (o.cif_id.covid_19_inbound_tester or o.cif_id.is_outbound_tester) or False" />
+                    <style>
+                        .page {
+                        background: white;
+                        font: 13px "Open Sans";
+                        color: #405352;
+                        letter-spacing: 0.01em;
+                        max-width: 1000px;
+                        margin: 0 auto;
+                        }
+                        .report-page {
+                        padding: 0rem 0rem;
+                        }
+                        .fontsize-small {
+                        font-size: 11.5px;
+                        }
+                        .fontsize-big {
+                        font-size: 16px;
+                        }
+                        .report-header {
+                        border-bottom: 1px dashed #0093FF;
+                        padding-bottom: 1rem;
+                        }
+                        .report-footer {
+                        border-top: 1px dashed #0093FF;
+                        padding-top: 1rem;
+                        justify-content: space-between;
+                        }
+                        .report-footer td {
+                        padding: 2px 20px 4px 0;
+                        }
+                        .report-title {
+                        font-size: 34px;
+                        font-weight: 600;
+                        color: #405352;
+                        }
+                        .report-page .column {
+                        width: 50%;
+                        }
+                        .report-page .col {
+                        padding: 0;
+                        }
+                        .report-page .column.left {
+                        padding-right: 32px;
+                        }
+                        .report-page .column.right {
+                        padding-left: 32px;
+                        }
+                        .report-page .item {
+                        margin-top: 6px;
+                        margin-bottom: 6px;
+                        align-items: baseline;
+                        }
+                        .report-page .passport {
+                        align-items: flex-start;
+                        }
+                        .report-page label {
+                        font-weight: 600;
+                        font-size: 11.5px;
+                        margin: 0;
+                        }
+                        .report-page a {
+                        color: #0093FF;
+                        }
+                        .report-page b {
+                        font-weight:600;
+                        }
+                        .report-page li {
+                        margin-bottom: .5em;
+                        }
+                        .report-page h3 {
+                        font-size: 18px;
+                        }
+                        .report-page h5 {
+                        font-size: 13px;
+                        font-weight: 600;
+                        }
+                        .report-page .divider {
+                        border-top: 1px solid #405352;
+                        margin: 5px 0;
+                        width: 100%;
+                        }
+                        .report-page .divider.dotted {
+                        border-top: 1px dashed #0093FF;
+                        margin: 5px 0;
+                        }
+                        .report-page .grey {
+                        opacity: 0.3;
+                        }
+                        .report-page .test-results {
+                        border-top: 1px solid #405352;
+                        background: #F2FAFD;
+                        }
+                        .report-table {
+                        width: 100%;
+                        }
+                        .report-table td,
+                        .report-table th {
+                        padding: 0.5rem 2rem;
+                        }
+                        .report-table th{
+                        padding: 1.5rem 2rem;
+                        }
+                        .report-table tbody tr:nth-child(odd) {
+                        background: #F9FDFE;
+                        }
+                        .report-page .results-info {
+                        border-top: 1px dashed #0093FF;
+                        background: #F2FAFD;
+                        padding: 2rem;
+                        }
+                        .no-page-break {
+                        page-break-inside: avoid;
+                        }
+                    </style>
+                    <div class="page report-page">
+                        <div class="report-content">
+                            <div class="row mt48">
+                                <div class="column">
+                                    <!-- optional:  from here -->
+                                    <p class="mb16 pb16">
+                                        <div t-field="o.patient.partner_id"
+                                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                                    </p>
+                                    <!-- to here -->
+                                    <h2 class="report-title">Lab Test Report</h2>
+                                    <p>With Compliments from EHA Clinics.</p>
+                                </div>
+                                <div class="column text-right" t-if="o.test_type.is_covid_19">
+                                    <img
+                                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.labtest_url, 150, 160)" />
+                                    <!-- <img width="220" src="/oeheath/static/src/img/qrCode.png"
+                                    /> -->
+                                    <p class="fontsize-small pb8">
+                                        <a
+                                            href="https://www.eha.ng/services/check-test-results">
+                                            www.eha.ng/services/check-test-results</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row mt32">
+                                <div class="column left">
+                                    <label>Patient</label>
+                                    <div class="fontsize-big pt4">
+                                        <b t-field="o.patient.name" />
+                                    </div>
+                                    <hr class="divider" />
+                                    <div class="mt16 mb16">
+                                        <table class="table table-sm table-borderless">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Patient ID</td>
+                                                    <td>
+                                                        <span
+                                                            t-field="o.patient.identification_code" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Age</td>
+                                                    <td>
+                                                        <span t-field="o.patient.age" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date of Birth</td>
+                                                    <td>
+                                                        <span t-field="o.patient.dob"
+                                                            t-options='{"format": "MM/dd/yyyy"}' />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Phone Number</td>
+                                                    <td>
+                                                        <t t-if="o.patient.phone">
+                                                            <span t-field="o.patient.phone" />
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span t-field="o.patient.mobile" />
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr class="divider grey"
+                                        t-if="o.test_type.is_covid_19 and o.patient.passport_no" />
+                                    <div class="mt16 mb16">
+                                        <table class="table table-sm table-borderless">
+                                            <tbody>
+                                                <tr
+                                                    t-if="o.passport_attachment and o.test_type.is_covid_19">
+                                                    <td>Passport Picture</td>
+                                                    <td>
+                                                        <div class="passport">
+                                                            <img
+                                                                t-att-src="image_data_uri(o.passport_attachment.datas)"
+                                                                style="height:100px; width:100px" />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    t-if="o.patient.passport_no and o.test_type.is_covid_19">
+                                                    <td>Passport Number</td>
+                                                    <td>
+                                                        <span t-field="o.patient.passport_no" />
+                                                    </td>
+                                                </tr>
+                                                <t t-if="o.test_type.is_covid_19 and is_travel">
+                                                    <tr t-if="o.cif_id.flight">
+                                                        <td>Flight</td>
+                                                        <td>
+                                                            <span t-field="o.cif_id.flight" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr t-if="o.cif_id.flight_date">
+                                                        <td>Date</td>
+                                                        <td>
+                                                            <span t-field="o.cif_id.flight_date"
+                                                                t-options='{"format": "MM/dd/yyyy"}' />
+                                                        </td>
+                                                    </tr>
+                                                    <tr t-if="o.cif_id.destination">
+                                                        <td>Destination</td>
+                                                        <td>
+                                                            <span class="col-8"
+                                                                t-field="o.cif_id.destination" />
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="column right">
+                                    <label>Test Type</label>
+                                    <div class="fontsize-big pt4">
+                                        <b t-field="o.test_type.name" />
+                                    </div>
+                                    <hr class="divider" />
+                                    <div class="mt16 mb16">
+                                        <table class="table table-sm table-borderless">
+                                            <tbody class="test_info">
+                                                <tr t-if="o.test_type.is_covid_19">
+                                                    <td>NCDC Certificate Number</td>
+                                                    <td>
+                                                        <span t-field="o.ncdc_cert_number" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Lab Test No.</td>
+                                                    <td>
+                                                        <span t-field="o.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="o.sample_type">
+                                                    <td>Sample Type</td>
+                                                    <td>
+                                                        <span t-field="o.sample_type.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="o.sample_collection_date">
+                                                    <td>Sample Collection Date</td>
+                                                    <td>
+                                                        <span t-field="o.sample_collection_date" />
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="o.date_analysis">
+                                                    <td>Analysis Date</td>
+                                                    <td>
+                                                        <span t-field="o.date_analysis"
+                                                            t-options='{"format": "MM/dd/yyyy"}' />
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="o.pathologist">
+                                                    <td>Pathologist</td>
+                                                    <td>
+                                                        <span t-field="o.pathologist.name" />
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    t-if="o.test_type.is_covid_19 and o.patient.epid_number">
+                                                    <td>EPID No.</td>
+                                                    <td>
+                                                        <span t-field="o.patient.epid_number" />
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr t-if="o.test_type.is_covid_19 and not
+                                                is_travel">
+                                                    <div
+                                                class="mt8 pt16 pb16"
+                                                style="background-color:#F2FAFD">
+                                                        <b
+                                                style="margin-left:20px">NOT VALID FOR TRAVEL</b>
+                                                </div>
+                                                </tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix" />
+                            <hr class="divider dotted" t-if="o.test_type.is_covid_19" />
+                            <div class="row" t-if="o.test_type.is_covid_19">
+                                <div class="col-md-12">
+                                    <t t-set="criteria"
+                                        t-value="o.lab_test_criteria.filtered(lambda result: 'interpretation' in result.name.lower())" />
+                                    <div class="pt16 pb16" t-if="criteria">
+                                        <label>Result</label>
+                                        <div class="fontsize-big pt4">
+                                            <b t-esc="criteria[0].result" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row test-results mt8 pt8 pb24">
+                                <table class="report-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Sequence</th>
+                                            <th>Test</th>
+                                            <th>Result</th>
+                                            <th>Normal Range</th>
+                                            <th>Units</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.lab_test_criteria" t-as="l">
+                                            <td>
+                                                <b t-field="l.sequence" />
+                                            </td>
+                                            <td>
+                                                <span t-field="l.name" />
+                                            </td>
+                                            <td>
+                                                <b t-field="l.result" />
+                                            </td>
+                                            <td>
+                                                <b t-field="l.normal_range" />
+                                            </td>
+                                            <td>
+                                                <b t-field="l.units.name" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div t-if="o.test_type.is_covid_19" class="row results-info">
+                                <div class="pt4">
+                                    <h3 class="text-center">
+                                        Information about Test Interpretation
+                                    </h3>
+                                    <div class="row pt16">
+                                        <div class="col-6">
+                                            <ol>
+                                                <li>
+                                                    All results must be interpreted by a clinician
+                                                    or authorized health care
+                                                    professional with due consideration of contact
+                                                    exposure, clinical presentation and
+                                                    patient outcomes. Please contact EHA Clinics to
+                                                    schedule a medical consultation if
+                                                    needed.
+                                                </li>
+                                                <li>Due to the nature of the test, sample
+                                                    collection, storage and transportation will
+                                                    have an impact on the result.
+                                                </li>
+                                                <li>The test is a molecular-based assay (PCR). False
+                                                    positives and negatives may occur
+                                                    for various reasons.</li>
+                                                <li>COVID-19 is a notifiable condition in Nigeria
+                                                    and all test results are forwarded to
+                                                    the designated public health authorities in
+                                                    accordance with statutory provisions and
+                                                    governmental reporting protocols.</li>
+                                                <li> It is the responsibility of the patient to
+                                                    consult a doctor and you can do so by booking an
+                                                    appointment at <a
+                                                        href="https://www.eha.ng/appointment/abuja-asbadantata">
+                                                    www.eha.ng</a> . </li>
+                                                <li>As PCR assays may remain positive after the
+                                                    period of infectivity, repeat PCR
+                                                    testing is not required after an isolation
+                                                    period of approximately 10 days. </li>
+                                                <li>In patients previously infected with SARS-CoV-2,
+                                                    the PCR test may yield positive
+                                                    results for prolonged periods which is
+                                                    indicative of remnant RNA/DNA rather than
+                                                    infectious virus. In this scenario, if the PCR
+                                                    test is repeated in quick succession,
+                                                    these repeat tests may yield positive or
+                                                    negative results. Re-infection has also
+                                                    been reported and should be considered in cases
+                                                    where a subsequent PCR is positive 3
+                                                    months after the initial diagnosis.</li>
+                                            </ol>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5>Interpretation of a NEGATIVE result:</h5>
+                                            <t t-if="o.test_type.is_covid_pcr">
+                                                <p> A NEGATIVE result means that SARS-CoV-2
+                                                    (COVID-19) was not detected. Negative results do
+                                                    not necessarily exclude infection with
+                                                    SARS-CoV-2 (COVID-19) and should not be the sole
+                                                    basis of a patient management decision. <em
+                                                        class="text-highlight">Retesting is advised
+                                                    if clinically indicated.</em>
+                                                </p>
+                                            </t>
+                                            <t t-if="o.test_type.is_covid_antigen">
+                                                <p>The test provides preliminary test results.
+                                                    Negative results don’t preclude SARS-CoV-2
+                                                    infection
+                                                    and they cannot be used as the sole basis for
+                                                    treatment or other management decisions.
+                                                    Negative results must be combined with clinical
+                                                    observations, patient history, and
+                                                    epidemiological information.
+                                                </p>
+                                            </t>
+                                            <h5>Interpretation of a POSITIVE result:</h5>
+                                            <p>A POSITIVE result indicates the presence of SARS-
+                                                CoV-2 (COVID-19). Patients are advised
+                                                to contact their doctor immediately for clinical
+                                                guidance and management. </p>
+                                            <p>Self-isolation is necessary for at least 10 days
+                                                unless hospitalization is required. It
+                                                is further recommended that all close contacts also
+                                                undergo testing for SARS-CoV-2
+                                                (COVID-19).</p>
+                                            <h5>Interpretation of an INVALID result:</h5>
+                                            <em class="text-highlight">Please contact the laboratory
+                                                immediately.</em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt32 pb32 no-page-break">
+                                <div>
+                                    <p class="mb4">For EHA Clinics</p>
+                                    <img t-att-src="o.signature" style="width: 100px; height: 100px" alt="Logo"/>
+                                    <p class="mb4 mt8">Anthonia Hananiya</p>
+                                    <p class="fontsize-small">
+                                        <b>Chief Medical Officer</b>
+                                    </p>
+                                </div>
+                            </div>
+                            <div t-if="o.test_type.code=='HTG'" class="row mt48">
+                                <div class="column text-left">
+                                    <img
+                                        src="https://i.postimg.cc/xd3VHMch/eha-accreditation-logo.png"
+                                        style="width: 150px; height: 100px" />
+                                </div>
+                                <div class="column text-right">
+                                    <img src="https://i.postimg.cc/xdW8hPQr/eha-jci-logo.png"
+                                        style="width: 150px; height: 100px" alt="Logo"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+	<template id="two_factor_auth" name="2FA">
+		<t t-call="web.login_layout">
+			<form role="form" t-attf-action="/web/login/auth{{ '?debug' if debug else '' }}"
+				method="post">
+
+				<div class="form-group field-password">
+					<label for="2fa_code" class="control-label">Authentication Code</label>
+					<input type="text" name="2fa_code" id="2fa_code" class="form-control"
+						required="required" autofocus="1" maxlength="6" minlength="6" />
+					<t t-if="wrong_code">
+						<input type="text"  rows="2" readonly="1" 
+							style="background-color: transparent; border-color:transparent;color:red;width:100%"
+							name="wrong_code" t-att-value="'%s'%(wrong_code)"></input>
+					</t>
+					<br />
+				</div>
+
+				<!-- <input name="login_data" id="login_data" type="hidden"
+					t-att-value="data" />
+ -->
+				<input type="hidden" name="redirect" t-att-value="redirect" />
+				<div style="align:center">
+					<center>
+						<button type="submit" class="btn btn-primary">Verify</button>
+					</center>
+				</div>
+			</form>
+		</t>
+	</template>
+
+</odoo>

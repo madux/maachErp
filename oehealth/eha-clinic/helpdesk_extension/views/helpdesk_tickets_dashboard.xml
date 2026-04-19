@@ -1,0 +1,34 @@
+<odoo>
+    <!-- <template id="assets_frontend" name="todo_website_assets" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"/>
+            <link rel="stylesheet" href="/helpdesk_extension/static/src/css/eha_helpdesk_dashboard.scss"/>
+            <script src="/helpdesk_extension/static/src/js/eha_helpdesk_dashboard.js" type="text/javascript"></script>
+        </xpath>
+    </template> -->
+
+    <template id="helpdesk_ticket_dashboard">
+        <t t-name="EHA Helpdesk Dashboard">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty"/>
+                <div class="dashboard">
+                    <span class="label-top-left" t-esc="request.env.user.branch_id.name"/>
+                    <table class="dashboard-table">
+                        <thead>
+                            <th class="room">Room</th>
+                            <th class="name">Patient</th>
+                            <th class="status">Status</th>
+                            <th class="physician">Physician</th>
+                            <th class="prescription"><i class="fas fa-file-alt"></i></th>
+                            <th class="test"><i class="fas fa-vial"></i></th>
+                            <th class="time">In clinic</th>
+                        </thead>
+                        <tbody>
+                            <!--Ajax Generated table rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

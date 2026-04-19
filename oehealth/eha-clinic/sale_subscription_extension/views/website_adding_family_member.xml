@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Pages-->
+    <template id="t_thirddpage" name="Third Page of membership">
+        <t t-call="website.layout">
+            <div class="family_members_page">
+                <div id="wrap" class="oe_structure oe_empty"/>
+
+                <div class="section title bgLight">
+                    <div class="container pt-4 pb-3">
+                        <h4>Subscribe to Membership Family
+                            <span class="membership_type" t-esc="membership_type" style="text-transform: capitalize;"/>
+                        </h4>
+                    </div>
+                </div>
+                <div class="section header bgLight">
+                    <div class="container">
+                        <div class="tabs">
+                            <div class="step-tab pt-4 pb-4">
+                                <div>
+                                    <span class="badge badge-primary badge-m mr-2">1</span>
+                                    Family Principal
+                                </div>
+                            </div>
+                            <div class="step-tab pt-4 pb-4 active">
+                                <div>
+                                    <span class="badge badge-primary badge-m mr-2">2</span>
+                                    Family Members
+                                </div>
+                            </div>
+                            <div class="step-tab pt-4 pb-4">
+                                <div>
+                                    <span class="badge badge-primary badge-m mr-2">3</span>
+                                    Billing
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section family-body">
+                    <div class="container mt-6 mb-5">
+                        <div class="purchase-summary">
+                            <div class="summary-header">
+                                Family
+                                <span class="membership_type" t-esc="membership_type"
+                                      style="text-transform: capitalize;"/>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td class="position">1</td>
+                                    <td class="item">
+                                        <span data-toggle="modal">
+                                            <span>Beneficiary</span>
+                                            (Family Principal)
+                                            <span class="badge badge-white">
+                                                <span>Adult</span>
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td class="item-price">
+                                        NGN 0
+                                    </td>
+                                </tr>
+                                <t t-foreach="child_ids" t-as="child">
+                                    <tr>
+                                        <td class="position">
+                                            <t t-esc="child_index+2"/>
+                                        </td>
+                                        <td class="item">
+                                            <span data-toggle="modal">
+                                                <span t-esc="child.name"/>
+                                                <span class="badge badge-white">
+                                                    <span>Adult</span>
+                                                </span>
+                                            </span>
+                                        </td>
+                                        <td class="item-price">
+                                            NGN 0
+                                        </td>
+                                    </tr>
+                                </t>
+                                <tr class="summary-footer">
+                                    <td colspan="2">Total</td>
+                                    <td class="total-price">NGN
+                                        <t t-esc="total"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="section footer">
+                    <div class="container">
+                        <p>Add all Family Members you want to benefit from the Membership</p>
+                        <button href="#formModal" data-toggle="modal" maxlength="20" class="btn-primary btn-sm mt-2"
+                                type="button">Add Family Member
+                        </button>
+                        <div class="row actions mt-6 mb-6 pt-4 border-top-blue">
+                            <div class="col-8">
+                                <div class="btn btn-outline-primary mr-3 mb-2 cancel_membership_purchase">Cancel
+                                    Purchase
+                                </div>
+                                <!--<a href="/membership-step1/" class="back-button btn btn-outline-primary mb-2">Back</a>-->
+                            </div>
+                            <div class="col-4 text-right">
+                                <a href="/membership-step3/" class="btn btn-primary third-page-continue">
+                                    Continue
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Modal to add new member-->
+                    <div id="formModal" class="modal fade">
+                        <div class="modal-dialog big">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form action="" method="post" id="add_member_form">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <input type="hidden" name="parent_id" t-att-value="primary"/>
+                                        <input type="hidden" name="subscription_id" t-att-value="subscription_id"/>
+                                        <span type="button" class="close" data-dismiss="modal">×</span>
+                                        <h5>Family Member</h5>
+                                        <p>Please fill in the details for the Family Member.</p>
+                                        <small>
+                                            <i>All fields are mandatory</i>
+                                        </small>
+                                        <div class="mt-2">
+                                            <div class="radio-selector mt-3 is_already_patient">
+                                                <input class="checkbox" name="is_already_patient"
+                                                       type="checkbox"/>
+                                                <div class="selector-content">
+                                                    <label class="mb-2">Is already a patient of EHA Clinics?</label>
+
+                                                    <div class="d-none existing_patient mt-3">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <p>To match with the existing patient record, please
+                                                                    provide the Patient ID.
+                                                                </p>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+
+                                                                <label class="col-form-label" for="patientId">
+                                                                    Patient ID
+                                                                </label>
+                                                                <input type="text" maxlength="75"
+                                                                       placeholder="e.g. HP12345" name="patientId"
+                                                                       class="form-control patientId"/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="col-form-label" for="verify_dob">
+                                                                    Verify DOB
+                                                                </label>
+                                                                <div class="o_website_form_date input-group input-group-lg date">
+                                                                    <input name="verify_dob" type="text" autocomplete="off"
+                                                                           class="form-control o_website_form_input"/>
+                                                                    <div class="input-group-text">
+                                                                        <i class="fa fa-calendar"
+                                                                           data-original-title="Verify Date of birth"
+                                                                           title="Date of Birth"
+                                                                           aria-describedby="tooltip118921"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">Surname</label>
+                                                    <input type="text" maxlength="75" required="required"
+                                                           placeholder="Surname" name="lastname" class="form-control"/>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label class="col-form-label">First Name</label>
+                                                    <input type="text" maxlength="75" required="required"
+                                                           placeholder="First Name" name="firstname"
+                                                           class="form-control"/>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label class="col-form-label">Middle Name</label>
+                                                    <input type="text" maxlength="75"
+                                                           placeholder="Middle Name" name="middlename"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-row d-none">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="family_class">
+                                                        Family Class
+                                                    </label>
+                                                    <input name="family_class" required="required"
+                                                           class="form-control family_class"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="gender">
+                                                        Gender
+                                                    </label>
+                                                    <select name="gender" required="required" data-init="1"
+                                                            class="form-control">
+                                                        <option value="">Gender</option>
+                                                        <option value="Male">
+                                                            Male
+                                                        </option>
+                                                        <option value="Female">
+                                                            Female
+                                                        </option>
+                                                        <option value="Other">
+                                                            Other
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="dob">
+                                                        Date of Birth
+                                                    </label>
+                                                    <div class="o_website_form_date input-group input-group-lg date">
+                                                        <input name="dob" required="required" type="text" autocomplete="off"
+                                                               class="form-control o_website_form_input"/>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fa fa-calendar"
+                                                                   data-original-title="Date of Birth"
+                                                                   title="Date of Birth"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row mt-4 pt-4 border-top-blue">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">
+                                                        Email
+                                                    </label>
+                                                    <input type="email" maxlength="75" required="required"
+                                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
+                                                           name="email" class="form-control"/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">
+                                                        Phone Number
+                                                    </label>
+                                                    <input type="text" maxlength="75" required="required"
+                                                           placeholder="+234" name="phone" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-row mt-4">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">
+                                                        Street
+                                                    </label>
+                                                    <input type="text" maxlength="75" name="street" required="required"
+                                                           class="form-control"/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">
+                                                        City
+                                                    </label>
+                                                    <input type="text" maxlength="75" name="city" required="required"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">
+                                                        State
+                                                    </label>
+                                                    <select name="state" required="required" class="form-control">
+                                                        <option value="">Choose State</option>
+                                                        <t t-foreach="state_ids" t-as="s">
+                                                            <option t-att-value="s.id">
+                                                                <t t-esc="s.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label">
+                                                        LGA
+                                                    </label>
+                                                    <input type="text" name="lga" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row actions mt-5 pt-4 border-top-blue">
+                                            <div class="col-6">
+                                                <div class="btn btn-outline-primary" data-dismiss="modal">Cancel
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <input type="hidden" value="add" name="mode"/>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Modal to remove a member-->
+                    <div id="confirmModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h4>Remove
+                                        <span class="text-secondary rm-name">Name</span>
+                                        from Purchase List?
+                                    </h4>
+                                    <div class="row actions mt-4 pt-4 border-top-blue">
+                                        <div class="col-6">
+                                            <div data-dismiss="modal" class="btn btn-outline-primary">Cancel</div>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <button type="submit" id="remove-contact" class="btn btn-primary">Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

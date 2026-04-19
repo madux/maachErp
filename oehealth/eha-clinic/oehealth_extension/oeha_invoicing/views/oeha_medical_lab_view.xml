@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+    <odoo>
+        <record id="oeha_medical_lab_test_form_invoice" model="ir.ui.view">
+            <field name="name">Single Invoice Extensions to Lab test Form</field>
+            <field name="model">oeh.medical.lab.test</field>
+            <field name="inherit_id" ref="oehealth.oeh_medical_lab_test_form"/>
+            <field name="arch" type="xml">
+                <button name="action_lab_invoice_create" position="replace">
+                    <button  name="action_lab_invoice_create"
+                    attrs="{'invisible': [('state','in', ['Draft'] )]}" string="Access Sale Order" type="object" class="oe_highlight" 
+                    groups="oehealth.group_oeh_medical_physician,oehealth_extension.group_oeh_medical_lab_off,oehealth_extension.group_oeh_medical_chp_nurse"/>
+                </button>
+            </field>
+        </record>
+    </odoo>
+
+            

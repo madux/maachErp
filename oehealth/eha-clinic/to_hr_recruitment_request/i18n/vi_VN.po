@@ -1,0 +1,703 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* to_hr_recruitment_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-14 09:34+0000\n"
+"PO-Revision-Date: 2020-05-14 09:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__applicants_count
+msgid "# of Applications"
+msgstr "SL Ứng viên"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__employees_count
+msgid "# of Employees"
+msgstr "Đã tuyển được"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_needaction
+msgid "Action Needed"
+msgstr "Cần có Hành động"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_ids
+msgid "Activities"
+msgstr "Các hoạt động"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Hoạt động trang trí ngoại lệ"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_state
+msgid "Activity State"
+msgstr "Trạng thái Hoạt động"
+
+#. module: to_hr_recruitment_request
+#: code:addons/to_hr_recruitment_request/models/recruitment_request.py:0
+#, python-format
+msgid "An existing request for this job position already exists"
+msgstr "Có một yêu cầu tương tự cho vị trí này đã được tạo"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model,name:to_hr_recruitment_request.model_hr_applicant
+msgid "Applicant"
+msgstr "Ứng viên"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__applicant_ids
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Applicants"
+msgstr "Ứng viên"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Approve"
+msgstr "Duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields.selection,name:to_hr_recruitment_request.selection__hr_recruitment_request__state__accepted
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+#: model:mail.message.subtype,name:to_hr_recruitment_request.mt_recruitment_request_approved
+msgid "Approved"
+msgstr "Được phê duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__approver_id
+msgid "Approved By"
+msgstr "Được duyệt bởi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.ui.menu,name:to_hr_recruitment_request.to_recruitment_approved_requests_menu
+msgid "Approved Requests"
+msgstr "Đã Duyệt"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Approver"
+msgstr "Người duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_attachment_count
+msgid "Attachment Count"
+msgstr "Số đính kèm"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__company_id
+msgid "Company"
+msgstr "Công ty"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.actions.act_window,help:to_hr_recruitment_request.action_view_recruitment_request_from_job
+#: model_terms:ir.actions.act_window,help:to_hr_recruitment_request.recruitment_approved_request_action
+#: model_terms:ir.actions.act_window,help:to_hr_recruitment_request.recruitment_done_request_action
+#: model_terms:ir.actions.act_window,help:to_hr_recruitment_request.recruitment_request_action
+#: model_terms:ir.actions.act_window,help:to_hr_recruitment_request.recruitment_request_to_approve_action
+msgid "Create the first Recruitment Request"
+msgstr "Tạo một đề nghị tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__create_uid
+msgid "Created by"
+msgstr "Được tạo bởi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__create_date
+msgid "Created on"
+msgstr "Được tạo vào"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__date_accepted
+msgid "Date Approved"
+msgstr "Ngày được chấp thuận"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__date_confirmed
+msgid "Date Confirmed"
+msgstr "Ngày đề nghị"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__date_expected
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Date Expected"
+msgstr "Ngày cần nhân viên mới"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__date_refused
+msgid "Date Refused"
+msgstr "Ngày bị từ chối"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__date_accepted
+msgid ""
+"Date of the acceptance of the recruitment request. It's filled when the "
+"button Approve is pressed."
+msgstr ""
+"Ngày mà đề nghị tuyển dụng được duyệt. Chính là ngày mà người duyệt nhấn nút"
+" Duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__department_id
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Department"
+msgstr "Phòng ban"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields.selection,name:to_hr_recruitment_request.selection__hr_recruitment_request__state__done
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+#: model:mail.message.subtype,name:to_hr_recruitment_request.mt_recruitment_request_done
+msgid "Done"
+msgstr "Hoàn thành"
+
+#. module: to_hr_recruitment_request
+#: model:ir.actions.act_window,name:to_hr_recruitment_request.recruitment_done_request_action
+msgid "Done Recruitment Requests"
+msgstr "Đề nghị Tuyển dụng đã Hoàn thành"
+
+#. module: to_hr_recruitment_request
+#: model:ir.ui.menu,name:to_hr_recruitment_request.to_recruitment_done_requests_menu
+msgid "Done Requests"
+msgstr "Đề nghị đã Hoàn thành"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields.selection,name:to_hr_recruitment_request.selection__hr_recruitment_request__state__draft
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Draft"
+msgstr "Dự thảo"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Draft Recruitment requests"
+msgstr "Các đề nghị tuyển dụng ở trạng thái dự thảo"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model,name:to_hr_recruitment_request.model_hr_employee
+msgid "Employee"
+msgstr "Nhân viên"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__expected_employees
+msgid "Expected Employees"
+msgstr "Số Nhân viên cần tuyển"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.constraint,message:to_hr_recruitment_request.constraint_hr_recruitment_request_expected_employees_check
+msgid "Expected Employees must be greater than 0"
+msgstr "Số lượng nhân viên mong đợi phải lớn hơn không (0)"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_follower_ids
+msgid "Followers"
+msgstr "Người dõi theo"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Người theo dõi (Các kênh)"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Người theo dõi (Các đối tác)"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Group By"
+msgstr "Nhóm theo"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__no_of_hired_employee
+msgid "Hired Employees"
+msgstr "Nhân viên được tuyển"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__id
+msgid "ID"
+msgstr ""
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_exception_icon
+msgid "Icon"
+msgstr "Biểu tượng"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Biểu tượng để chỉ một hoạt động ngoại lệ."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_needaction
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Nếu đánh dấu kiểm, các thông điệp mới yêu cầu sự có mặt của bạn."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_has_error
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Nếu được chọn, một số thông điệp có lỗi gửi."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__job_tmp
+msgid ""
+"If you don't select the requested position in the field above, you must "
+"specify a Job Title here. Upon this request is approved, the system can "
+"automatically create a new Job position and attach it to this request."
+msgstr ""
+"Nếu bạn không chọn Vị trí cần tuyển ở trưởng bên trên, bạn phải điền tên Vị "
+"trí cần tuyển vào đây để hệ thống có thể tự động tạo mới một ví trí với tên "
+"mà bạn điền ở đây khi đề nghị này được duyệt."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields.selection,name:to_hr_recruitment_request.selection__hr_recruitment_request__state__recruiting
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+#: model:mail.message.subtype,description:to_hr_recruitment_request.mt_recruitment_request_recruiting
+#: model:mail.message.subtype,name:to_hr_recruitment_request.mt_recruitment_request_recruiting
+msgid "In Recruitment"
+msgstr "Đang tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Information"
+msgstr "Thông tin"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_is_follower
+msgid "Is Follower"
+msgstr "Là người theo dõi"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Job"
+msgstr "Chức vụ"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__description
+msgid "Job Description"
+msgstr "Mô tả công việc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model,name:to_hr_recruitment_request.model_hr_job
+msgid "Job Position"
+msgstr "Chức vụ"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__requirements
+msgid "Job Requirements"
+msgstr "Yêu cầu công việc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__job_tmp
+msgid "Job Title"
+msgstr "Chức danh Công việc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request____last_update
+msgid "Last Modified on"
+msgstr "Sửa lần cuối"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__write_uid
+msgid "Last Updated by"
+msgstr "Cập nhật lần cuối bởi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lần cuối"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Đính kèm chính"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_has_error
+msgid "Message Delivery error"
+msgstr "Lỗi gửi thông điệp"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_ids
+msgid "Messages"
+msgstr "Thông điệp"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__more_than_expected
+msgid "More than expected"
+msgstr "Tuyển nhiều hơn mong đợi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Hạn chót lần hành động kế tiếp"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_summary
+msgid "Next Activity Summary"
+msgstr "Tóm tắt hoạt động tiếp theo"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_type_id
+msgid "Next Activity Type"
+msgstr "Kiểu hành động kế tiếp"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Số lượng Hành động"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_has_error_counter
+msgid "Number of errors"
+msgstr "Số lượng lỗi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__expected_employees
+msgid ""
+"Number of extra new employees to be expected via the recruitment request."
+msgstr "Số lượng nhân viên mới được mong đợi thông qua yêu cầu tuyển dụng."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Số thông điệp cần có hành động"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Số lượng thông điệp có lỗi gửi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Số thông điệp chưa đọc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__description
+msgid "Please describe the job"
+msgstr "Vui lòng mô tả công việc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__reason
+msgid ""
+"Please explain why you request to recruit more employee(s) for your "
+"department"
+msgstr ""
+"Vui lòng cho biết lý do tại sao bạn muốn tuyển dụng thêm nhân sự cho vị trí "
+"này."
+
+#. module: to_hr_recruitment_request
+#: code:addons/to_hr_recruitment_request/models/recruitment_request.py:0
+#, python-format
+msgid ""
+"Please select an existing job or contact your administrator for further "
+"help."
+msgstr ""
+"Vui lòng chọn một vị trí công việc cần tuyển, hoặc liên hệ với quản trị hệ "
+"thống này để nhờ trợ giúp."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__requirements
+msgid "Please specify your requirements on new employees"
+msgstr "Vui lòng chi ra các yêu cầu của bạn đối với nhân viên mới cần tuyển"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__reason
+msgid "Reason"
+msgstr "Lý do"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.hr_job_survey
+msgid "Recruit. Request"
+msgstr "Đề nghị Tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__recruited_employees
+msgid "Recruited Employees Rate"
+msgstr "Tỷ lệ Nhân viên đã tuyển"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__employee_ids
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Recruited Employees"
+msgstr "Nhân viên đã tuyển"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Recruited More than Expected"
+msgstr "Đã tuyển nhiều hơn mong đợi"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_tree_view
+msgid "Recruited Percentage"
+msgstr "Phần trăm đã tuyển"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model,name:to_hr_recruitment_request.model_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_applicant__request_id
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_employee__request_id
+#: model:ir.module.category,name:to_hr_recruitment_request.module_category_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Recruitment Request"
+msgstr "Đề nghị Tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_calendar_view
+msgid "Recruitment Request Calendar"
+msgstr "Lịch đề nghị tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:res.groups,name:to_hr_recruitment_request.group_user
+msgid "Recruitment Request Users"
+msgstr "Đề nghị tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:mail.message.subtype,description:to_hr_recruitment_request.mt_recruitment_request_approved
+msgid "Recruitment Request approved"
+msgstr "Đề nghị tuyển dụng được duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:mail.message.subtype,description:to_hr_recruitment_request.mt_recruitment_request_confirmed
+msgid "Recruitment Request confirmed, waiting recruitment"
+msgstr "Đề nghị tuyển dụng đã được xác nhận, đang chờ tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:mail.message.subtype,description:to_hr_recruitment_request.mt_recruitment_request_done
+msgid "Recruitment Request reaches its goals or done"
+msgstr "Đề nghị tuyển dụng đã đạt chỉ tiêu hoặc đã hoàn thành"
+
+#. module: to_hr_recruitment_request
+#: model:mail.message.subtype,description:to_hr_recruitment_request.mt_recruitment_request_refused
+msgid "Recruitment Request refused"
+msgstr "Đề nghị tuyển dụng bị từ chối"
+
+#. module: to_hr_recruitment_request
+#: model:ir.actions.act_window,name:to_hr_recruitment_request.action_view_recruitment_request_from_job
+#: model:ir.actions.act_window,name:to_hr_recruitment_request.recruitment_approved_request_action
+#: model:ir.actions.act_window,name:to_hr_recruitment_request.recruitment_request_action
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_job__recuitment_request_ids
+#: model:ir.ui.menu,name:to_hr_recruitment_request.to_recruitment_request_menu
+#: model:ir.ui.menu,name:to_hr_recruitment_request.to_recruitment_request_root_menu
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_tree_view
+msgid "Recruitment Requests"
+msgstr "Đề nghị Tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_job_recuitment_requests_count
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_job__recuitment_requests_count
+msgid "Recruitment Requests Count"
+msgstr "SL Đề nghị Tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Recruitment requests awaiting approval"
+msgstr "Các đề nghị tuyển dụng đang chờ duyệt"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Recruitment requests in recruitment"
+msgstr "Các đề nghị tuyển dụng đang được thực hiện tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Refuse"
+msgstr "Từ chối"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields.selection,name:to_hr_recruitment_request.selection__hr_recruitment_request__state__refused
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+#: model:mail.message.subtype,name:to_hr_recruitment_request.mt_recruitment_request_refused
+msgid "Refused"
+msgstr "Bị từ chối"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_graph_view
+msgid "Request by Job"
+msgstr "Theo Vị trí"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__user_id
+msgid "Requested By"
+msgstr "Đề nghị bởi"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__job_id
+msgid "Requested Position"
+msgstr "Vị trí cần tuyển"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Requester"
+msgstr "Người đề nghị"
+
+#. module: to_hr_recruitment_request
+#: model:ir.ui.menu,name:to_hr_recruitment_request.to_recruitment_request_to_approve_menu
+msgid "Requests to Approve"
+msgstr "Đề nghị Chờ Duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__activity_user_id
+msgid "Responsible User"
+msgstr "Người chịu trách nhiệm"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Search Recruitment Requests"
+msgstr "Tìm kiếm Đề nghị tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Set to Done"
+msgstr "Đặt sang Hoàn thành"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Set to Draft"
+msgstr "Đặt về dự thảo"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__job_state
+msgid ""
+"Set whether the recruitment process is open or closed for this job position."
+msgstr "Thiết lập quy trình tuyển dụng mở hay đóng cho vị trí công việc này."
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Start Recruitment"
+msgstr "Khởi động Tuyển dụng"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__job_state
+msgid "Job Status"
+msgstr "Tình trạng Công việc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__state
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+msgid "Status"
+msgstr "Tình trạng"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Trạng thái dựa trên hoạt động\n"
+"Quá hạn: Ngày đến hạn đã trôi qua\n"
+"Hôm nay: Hôm nay là ngày phải thực hiện\n"
+"Đã hoạch định: Các hoạt động trong tương lai."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__name
+msgid "Subject"
+msgstr "Chủ đề"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_form_view
+msgid "Submit to Manager"
+msgstr "Trình cho Người Quản lý"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__job_id
+msgid "The Job Position you expected to get more hired."
+msgstr "Vị trí mà bạn muốn tuyển dụng thêm."
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__name
+msgid ""
+"The subject of the recruitment request. E.g. Two new salesmen are requested "
+"for a new sales strategy"
+msgstr ""
+"Tiêu đề cho Đề nghị tuyển dụng. Ví dụ: Cần tuyển thêm 2 nhân viên bán hàng"
+
+#. module: to_hr_recruitment_request
+#: model_terms:ir.ui.view,arch_db:to_hr_recruitment_request.recruitment_request_search_view
+#: model:mail.message.subtype,name:to_hr_recruitment_request.mt_recruitment_request_confirmed
+msgid "To Approve"
+msgstr "Chờ duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.actions.act_window,name:to_hr_recruitment_request.recruitment_request_to_approve_action
+msgid "To Approve Recruitment Requests"
+msgstr "Đề nghị Chờ Duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_unread
+msgid "Unread Messages"
+msgstr "Thông điệp chưa đọc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Bộ đếm Thông điệp chưa đọc"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields.selection,name:to_hr_recruitment_request.selection__hr_recruitment_request__state__confirmed
+msgid "Waiting Approval"
+msgstr "Đang chờ duyệt"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,field_description:to_hr_recruitment_request.field_hr_recruitment_request__website_message_ids
+msgid "Website Messages"
+msgstr "Thông điệp Website"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__website_message_ids
+msgid "Website communication history"
+msgstr "Lịch sử thông tin liên lạc website"
+
+#. module: to_hr_recruitment_request
+#: model:ir.model.fields,help:to_hr_recruitment_request.field_hr_recruitment_request__state
+msgid ""
+"When the recruitment request is created the status is 'Draft'.            \n"
+" It is confirmed by the user and request is sent to the Approver, the status is 'Waiting Approval'.            \n"
+" If the Approver accepts it, the status is 'Approved'.            \n"
+" If the associated job recruitment is started, the status is 'In Recruitment'.            \n"
+" If the number new employees created in association with the request, the status turns to 'Done' automatically. Or, it can manually be set to 'Done' whenever an authorized person press button Done"
+msgstr ""
+"Khi một đề nghị tuyển dụng được tạo, trạng thái của nó là 'Dự thảo'.            \n"
+" Khi Đề nghị được Đệ trình bởi người đề nghị, trạng thái Đề nghị được chuyển sang 'Chờ duyệt'.            \n"
+" Khi Người duyệt bấm vào nút Duyệt, trạng thái sẽ chuyển sang 'Đã duyệt'.            \n"
+" Khi việc tuyển dụng vị trí liên quan được khởi động, Đề nghị tuyển dụng tương ứng sẽ tự động chuyển sang trạng thái 'Đang tuyển dụng'.            \n"
+" Khi số lượng nhân viên mới được tạo từ đợt tuyển dụng bằng với số lượng được mong đợi theo Đề nghị, Đề nghị tự động chuyển sang trạng thái 'Hoàn thành'. Hoặc trạng thái này có thể được thiết lập thủ công thông qua nút 'Đặt sang Hoàn thành'"
+
+#. module: to_hr_recruitment_request
+#: model:res.groups,comment:to_hr_recruitment_request.group_user
+msgid ""
+"the user will be able to create recruitment\n"
+"\t\t\t\trequests and submit them to the approvers\n"
+"\t\t\t"
+msgstr ""
+"người dùng có thể tạo các đề nghị tuyển dụng\n"
+"\t\t\t\tvà trình đến người có thẩm quyền để chờ phê duyệt\n"
+"\t\t\t"

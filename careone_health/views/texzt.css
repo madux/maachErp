@@ -1,0 +1,391 @@
+// Override Bootstrap Primary Color
+$primary: #e83e8c;
+$o-brand-primary: #e83e8c;
+$o-brand-odoo: #e83e8c;
+
+:root {
+    --pink-main: #e83e8c;
+    --pink-soft: #f8d7e6;
+}
+
+
+// Form Sheet Card Style
+.o_form_view .o_form_sheet_bg {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(232, 62, 140, 0.08);
+}
+
+// Input Fields
+.o_form_view input,
+.o_form_view textarea,
+.o_form_view select {
+    border-radius: 10px !important;
+    border: 1px solid #f3c2d9 !important;
+    transition: 0.3s ease;
+}
+
+// Focus Effect
+.o_form_view input:focus,
+.o_form_view textarea:focus,
+.o_form_view select:focus {
+    border-color: var(--pink-main) !important;
+    box-shadow: 0 0 0 0.2rem rgba(232, 62, 140, 0.15) !important;
+}
+
+// Labels
+.o_form_view .o_form_label {
+    font-weight: 600;
+    color: #e83e8c;
+}
+
+
+// List Container
+// .o_list_view {
+//     border-radius: 14px;
+//     overflow: hidden;
+//     box-shadow: 0 6px 20px rgba(232, 62, 140, 0.06);
+// }
+
+// // Header
+// .o_list_view thead {
+//     background: linear-gradient(90deg, #e83e8c, #ff6fa5);
+//     color: white;
+// }
+
+// // Header cells
+// .o_list_view thead th {
+//     border: none !important;
+//     font-weight: 600;
+// }
+
+// // Rows
+// .o_list_view tbody tr {
+//     transition: 0.2s ease;
+// }
+
+// // Hover
+// .o_list_view tbody tr:hover {
+//     background-color: #fde6f1 !important;
+// }
+
+// // Zebra style
+// .o_list_view tbody tr:nth-child(even) {
+//     background-color: #fff7fb;
+// }
+
+// Additional modern enhancements
+.o_list_view .o_list_record_selector,
+.o_list_view .o_list_record_remove,
+.o_list_view .o_handle_cell {
+    width: 39px;
+    padding-left: 16px !important;
+    padding-right: 5px !important;
+}
+
+// Custom scrollbar styling
+.o_list_view::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.o_list_view::-webkit-scrollbar-track {
+    background: #f2d3e2;
+    border-radius: 4px;
+}
+
+.o_list_view::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00A09D, #f965aa);
+    border-radius: 4px;
+    
+    &:hover {
+        background: linear-gradient(180deg, #008784, #f965aa);
+    }
+}
+
+
+// Modern table headers
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: none;
+    padding-left: 3px;
+    font-weight: 600;
+    color: #421128;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+// Enhanced list view with gradient header
+.o_list_view thead {
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, #00A09D, #875A7B, #00A09D) 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+ 
+
+.o_list_view thead > tr > th {
+    border-left: 0px solid #fff;
+    padding: 16px 8px;
+    position: relative;
+    
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #f6bfd9, transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    &:hover:after {
+        opacity: 1;
+    }
+}
+
+.o_list_view .o_optional_columns_dropdown_toggle {
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background-color: #a43368;
+    }
+}
+
+.o_list_view {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    padding-top: 16px !important;
+    padding-left: 16px !important;
+}
+
+// Modern table rows
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    height: auto;
+    border-top: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.o_list_view tbody tr {
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: linear-gradient(90deg, #e83e8c, #f6bfd9);
+        transform: scale(1.001);
+    }
+}
+
+
+// Checkbox styling
+.custom-control {
+    position: relative;
+    display: block;
+    min-height: 1.625rem;
+    padding-left: 1.5rem;
+}
+
+.o_control_panel > .o_cp_right {
+    max-height: 60px;
+}
+
+
+.modal-content {
+    border-radius: 18px !important;
+    border: none !important;
+    box-shadow: 0 20px 40px rgba(232, 62, 140, 0.15);
+}
+
+// Modal header
+.modal-header {
+    background: linear-gradient(90deg, #e83e8c, #ff6fa5);
+    color: white;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+}
+
+// Modal buttons
+.modal-footer .btn-primary {
+    background: var(--pink-main);
+    border: none;
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #e83e8c, #ff6fa5);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(232, 62, 140, 0.25);
+}
+
+.badge {
+    border-radius: 20px !important;
+    padding: 6px 12px;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background-color: #f8d7e6;
+    color: #e83e8c;
+}
+
+
+.o_kanban_record {
+    border-radius: 14px !important;
+    box-shadow: 0 6px 15px rgba(232, 62, 140, 0.08);
+    transition: 0.3s ease;
+}
+
+.o_kanban_record:hover {
+    transform: translateY(-3px);
+}
+
+o-dropdown dropdown o-dropdown--no-caret
+
+
+.o-dropdown.dropdown.o-dropdown--no-caret {
+    background-color: #e83e8c !important;
+    box-shadow: 0 6px 18px rgba(232, 62, 140, 0.25);
+}
+
+.o-dropdown.dropdown.o-dropdown--no-caret:hover {
+    box-shadow: 0 6px 18px rgba(232, 62, 140, 0.25);
+}
+
+// .dropdown-item.o_nav_entry {
+//     color:#a4124c;
+// }
+
+
+
+.o_main_navbar {
+    background: linear-gradient(
+        180deg,
+        lighten(#e83e8c, 8%) 0%,
+        #e83e8c 45%,
+        darken(#e83e8c, 6%) 100%
+    ) !important;
+
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    // box-shadow:
+    //     inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    //     0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+.o_main_navbar .o_menu_sections .o_nav_entry, .o_main_navbar .o_menu_sections .dropdown-toggle {
+    background-color: #e83e8c !important;
+    // color: #ffffff !important;
+
+}
+
+
+
+
+.o_dropdown_toggler_btn {
+    padding: 8px 12px;
+    color: #e068a0;
+    text-transform: initial;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-group .o_dropdown {
+    border: none;
+}
+
+.o_dropdown_toggler_btn {
+    text-transform: none !important;
+    background-color: #e83e8c !important;
+    border: 1px solid #e2e8f0;
+    
+    &:hover, &:focus {
+        background: linear-gradient(135deg, #2080c1, #2b3b4b) !important;
+        border-color: #fcc3de;
+        box-shadow: 0 2px 8px rgba(0, 160, 157, 0.15);
+        transform: translateY(-1px);
+    }
+}
+
+.dropdown-item{
+    color: #950447 !important
+}
+
+.btn-icon, .o_graph_button {
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: linear-gradient(135deg, #e83e8c, #eb92bc) !important;
+        border-color: #f21d80 !important;
+    }
+}
+
+
+
+
+.o_main_navbar,
+    .o_main_navbar a,
+    .o_main_navbar .dropdown-toggle {
+        color: #ffffff !important;
+        background-color: #ea75ac !important;
+    }
+ 
+    .o_main_navbar .o_menu_toggle,
+    .o_main_navbar .o_nav_entry,
+    .o_main_navbar .o_user_menu {
+        color: #ffffff !important;
+    }
+    .o_main_navbar .o_nav_entry:hover,
+    .o_main_navbar .dropdown-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .o_main_navbar .o_nav_entry.active {
+        background-color: rgba(0, 0, 0, 0.15) !important;
+    }
+
+
+    .o_home_menu .container,
+        .o_home_menu .o_container_small {
+            background: linear-gradient(
+                180deg,
+                lighten(#e83e8c, 18%) 0%,
+                lighten(#e83e8c, 28%) 45%,
+                lighten(#e83e8c, 38%) 100%
+            ) !important;
+    }
+    .o_home_menu_background {
+            background: linear-gradient(
+                180deg,
+                lighten(#e83e8c, 18%) 0%,
+                lighten(#e83e8c, 28%) 45%,
+                lighten(#e83e8c, 38%) 100%
+            ) !important;
+    }
+
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #875A7B;
+    background: linear-gradient(180deg, white, rgba(135, 90, 123, 0.05));
+    border-bottom: 3px solid #875A7B;
+    box-shadow: 0 -2px 8px rgba(135, 90, 123, 0.1);
+}
+

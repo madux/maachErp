@@ -1,0 +1,24 @@
+
+Version 13.0.0.1 : (09-06-21)
+		- Update validation for lot product ,Now user can sold only avaialble quantity.
+
+Version 13.0.0.2 : (11-06-21)
+		- calculate lot quantity based on location,and show it in selection popup and also used it in validation.
+
+Version 13.0.0.3 : (30-09-21)
+		-1.) user have the option to remove the product when Lot/Serial Number Expired
+        -2.) user can Auto Disable product once its not is Stock
+
+Version 13.0.0.4 : (08-10-21)
+		-1.) user have the option to remove the product when Lot/Serial Number Expired
+        -2.) user can Auto Disable product once its not is Stock(product screen) on hand quantity zero ot is a Disable
+        -3.) Numpad widget without any orderline back button show in the popup so solve it.
+
+Version 13.0.0.5 : (21-01-22)
+         -1.) In Numpad widget without any orderline showing the validation message issue solve.
+
+Version 13.0.0.6 : (11-04-22)
+         -1.) Solved issue when removing the product  with num pad it gives a warning.
+         -2.) Able to take the product with an expired lot issue is solved and also update two more conditions.
+
+=> 13.0.0.7 : Improved an index as per latest improvements.
