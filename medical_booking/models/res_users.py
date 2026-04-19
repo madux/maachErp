@@ -14,7 +14,7 @@ class ResUsers(models.Model):
     )
     medical_speciality = fields.Char(string='Medical Speciality')
     branch_ids = fields.Many2many(
-        'booking.branch',
+        'multi.branch',
         'booking_branch_doctor_rel',
         'user_id',
         'branch_id',

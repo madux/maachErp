@@ -1,61 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="view_booking_branch_list" model="ir.ui.view">
-        <field name="name">booking.branch.list</field>
-        <field name="model">booking.branch</field>
+    <record id="view_multi_branch_inherit" model="ir.ui.view">
+        <field name="name">multi.branch.form.inherit</field>
+        <field name="model">multi.branch</field>
+        <field name="inherit_id" ref="ik_multi_branch.view_multi_branch_form"/>
         <field name="arch" type="xml">
-            <list string="Branches">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="phone"/>
-                <field name="email"/>
-                <field name="booking_count" string="Bookings"/>
-                <field name="active" invisible="1"/>
-            </list>
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <button class="oe_stat_button" type="object" name="action_view_api_tokens" icon="fa-key"/>
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field string="Total Bookings" name="booking_count" widget="statinfo"/>
+                </xpath>
+            </xpath>
         </field>
     </record>
-
-    <record id="view_booking_branch_form" model="ir.ui.view">
-        <field name="name">booking.branch.form</field>
-        <field name="model">booking.branch</field>
-        <field name="arch" type="xml">
-            <form string="Branch">
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_view_bookings" type="object"
-                                class="oe_stat_button" icon="fa-calendar">
-                            <field name="booking_count" widget="statinfo" string="Bookings"/>
-                        </button>
-                    </div>
-                    <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="code"/>
-                            <field name="phone"/>
-                            <field name="email"/>
-                        </group>
-                        <group>
-                            <field name="address"/>
-                            <field name="active"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page string="Assigned Doctors">
-                            <field name="doctor_ids" widget="many2many_tags"
-                                   domain="[('is_doctor','=',True)]"/>
-                        </page>
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
-
-    <record id="action_booking_branch" model="ir.actions.act_window">
-        <field name="name">Branches</field>
-        <field name="res_model">booking.branch</field>
-        <field name="view_mode">list,form</field>
-    </record>
-
 </odoo>

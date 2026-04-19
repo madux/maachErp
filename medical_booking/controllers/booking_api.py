@@ -123,9 +123,9 @@ class BookingAPIController(http.Controller):
         if not category.exists():
             return _error(f'booking.category id={body["category_id"]} not found.', 404)
 
-        branch = env['booking.branch'].sudo().browse(int(body['branch_id']))
+        branch = env['multi.branch'].sudo().browse(int(body['branch_id']))
         if not branch.exists():
-            return _error(f'booking.branch id={body["branch_id"]} not found.', 404)
+            return _error(f'booking branch id={body["branch_id"]} not found.', 404)
 
         time_slot = env['booking.time.slot'].sudo().browse(int(body['time_slot_id']))
         if not time_slot.exists():
@@ -303,7 +303,7 @@ class BookingAPIController(http.Controller):
         args = request.httprequest.args
         domain = [('is_doctor', '=', True), ('active', '=', True)]
         if args.get('branch_id'):
-            branch = request.env['booking.branch'].sudo().browse(int(args['branch_id']))
+            branch = request.env['multi.branch'].sudo().browse(int(args['branch_id']))
             if not branch.exists():
                 return _error('Branch not found.', 404)
             doctor_ids = branch.doctor_ids.ids
@@ -328,7 +328,7 @@ class BookingAPIController(http.Controller):
     @http.route('/api/v1/branches', type='http', auth='none', methods=['GET'], csrf=False)
     def list_branches(self, **kwargs):
         """List all active branches."""
-        branches = request.env['booking.branch'].sudo().search([('active', '=', True)])
+        branches = request.env['multi.branch'].sudo().search([('active', '=', True)])
         result = [
             {
                 'id': b.id,

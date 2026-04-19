@@ -51,7 +51,7 @@ class BookingRecord(models.Model):
         ondelete='restrict',
     )
     branch_id = fields.Many2one(
-        'booking.branch',
+        'multi.branch',
         string='Branch',
         required=True,
         tracking=True,

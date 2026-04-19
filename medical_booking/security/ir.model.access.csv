@@ -1,6 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_booking_branch_manager,booking.branch manager,medical_booking.model_booking_branch,medical_booking.group_booking_manager,1,1,1,1
-access_booking_branch_doctor,booking.branch doctor,medical_booking.model_booking_branch,medical_booking.group_booking_doctor,1,0,0,0
 access_booking_category_manager,booking.category manager,medical_booking.model_booking_category,medical_booking.group_booking_manager,1,1,1,1
 access_booking_category_doctor,booking.category doctor,medical_booking.model_booking_category,medical_booking.group_booking_doctor,1,0,0,0
 access_booking_category_weekday_manager,booking.category.weekday manager,medical_booking.model_booking_category_weekday,medical_booking.group_booking_manager,1,1,1,1
