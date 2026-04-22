@@ -1,0 +1,150 @@
+<odoo>
+    <record id="view_user_role_tree" model="ir.ui.view">
+        <field name="name">user.role.tree</field>
+        <field name="model">user.role</field>
+        <field name="arch" type="xml">
+            <tree string="User Roles">
+                <field name="name"/>
+                <field name="description" optional="hide"/>
+                <field name="is_request_approver" widget="boolean_toggle"/>
+                <field name="users_count" string="Active Users"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_user_role_form" model="ir.ui.view">
+        <field name="name">user.role.form</field>
+        <field name="model">user.role</field>
+        <field name="arch" type="xml">
+            <form string="User Role">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_users" type="object"
+                                class="oe_stat_button" icon="fa-users">
+                            <field name="users_count" widget="statinfo" string="Users"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Finance Manager"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description" placeholder="Describe the purpose of this role..."/>
+                            <field name="is_request_approver"/>
+                        </group>
+                        <group>
+                            <field name="limit_to_user_context" 
+                                invisible = "is_request_approver == False or limit_to_role_context == True"/>
+                            <field name="limit_to_role_context" 
+                                invisible ="is_request_approver == False or limit_to_user_context == True"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Permissions">
+                            <group>
+                                <field name="group_ids" widget="many2many_tags" 
+                                    options="{'no_create': True}" 
+                                    placeholder="Add security groups..."/>
+                            </group>
+                            <separator string="Location"/>
+                            <group string="Company Context">
+                                <field name="company_ids" widget="many2many_tags" 
+                                    options="{'no_create': True}" 
+                                    placeholder="Leave empty for all companies"/>
+                            </group>
+                            <group string="Branch Context">
+                                <field name="branch_ids" widget="many2many_tags" 
+                                    options="{'no_create': True}" 
+                                    placeholder="Leave empty for all branches"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Assigned Users">
+                            <field name="user_ids" options="{'no_create': True}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                    <field name="branch_id" string="District" column_invisible="parent.limit_to_role_context == True"/>
+                                    <field name="company_id" column_invisible = "parent.limit_to_role_context == True"/>
+                                    <field name="branch_ids" string="Districts" widget="many2many_tags" column_invisible="parent.limit_to_role_context == False"/>
+                                    <field name="company_ids" widget="many2many_tags" column_invisible ="parent.limit_to_role_context == False"/>
+                                </tree>
+
+                                <form string="User Details">
+                                    <sheet>
+                                        <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'avatar_128'}"/>
+                                        <div class="oe_title">
+                                            <label for="name" string="Name"/>
+                                            <h1><field name="name" placeholder="User's Name" required="1" readonly="1"/></h1>
+                                            <label for="login" string="Email Address"/>
+                                            <h2><field name="login" readonly="1"/></h2>
+                                        </div>
+                                        
+                                        <group>
+                                            <group>
+                                                <field name="company_id" options="{'no_create': True}"/>
+                                            </group>
+                                            <group>
+                                                <field name="branch_id" string="District" options="{'no_create': True}"/>
+                                            </group>
+                                        </group>
+                                        
+                                        <notebook>
+                                            <page string="Access Rights">
+                                                <group>
+                                                    <group string="Roles">
+                                                        <field name="role_ids" widget="many2many_tags" options="{'no_create': True, 'color_field': 'color'}"/>
+                                                    </group>
+                                                </group>
+                                                <group>
+                                                    <group string="Multi-Company">
+                                                        <field name="company_ids" widget="many2many_tags" string="Allowed Companies" options="{'no_create': True}"/>
+                                                    </group>
+                                                    <group string="Multi-Branch">
+                                                        <field name="branch_ids" widget="many2many_tags" string="Allowed Districts" options="{'no_create': True}"/>
+                                                    </group>
+                                                </group>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_user_role" model="ir.actions.act_window">
+        <field name="name">User Roles</field>
+        <field name="res_model">user.role</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new User Role
+            </p><p>
+                Define logical roles like "Accountant" or "Sales Manager" and assign a set of permissions. When you assign this role to a user, they will automatically get all the associated security groups and memo approvals.
+            </p>
+        </field>
+    </record>
+
+    <record id="ir_action_server_synchronize" model="ir.actions.server">
+        <field name="name">Synchronize Role Users</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="eedc_role_manager.model_user_role" />
+        <field name="binding_model_id" ref="eedc_role_manager.model_user_role" />
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(6, 0, [ref('eedc_role_manager.group_role_manager_admin')])]"/>
+        <field name="code">action=model.sudo().action_sync_role_users()</field>
+    </record>
+
+    <menuitem id="menu_user_role"
+              name="Roles"
+              parent="base.menu_users"
+              action="action_user_role"
+              sequence="15"/>
+</odoo>

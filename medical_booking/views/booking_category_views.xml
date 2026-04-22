@@ -5,7 +5,7 @@
         <field name="name">booking.category.list</field>
         <field name="model">booking.category</field>
         <field name="arch" type="xml">
-            <list string="Booking Categories">
+            <tree string="Booking Categories">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="category_type"/>
@@ -13,7 +13,7 @@
                 <field name="reminder_hours" string="Reminder (hrs)"/>
                 <field name="auto_assign_doctor"/>
                 <field name="booking_count" string="Bookings"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -23,15 +23,17 @@
         <field name="arch" type="xml">
             <form string="Booking Category">
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <!-- <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" icon="fa-calendar" type="object">
                             <field name="booking_count" widget="statinfo" string="Bookings"/>
                         </button>
-                    </div>
+                    </div> -->
                     <group>
                         <group string="General">
                             <field name="name"/>
                             <field name="code"/>
+                            <field name="booking_count" string="Bookings"/>
+
                             <field name="category_type"/>
                             <field name="description"/>
                             <field name="active"/>
@@ -42,6 +44,8 @@
                             <field name="max_bookings_per_slot"/>
                             <field name="reminder_hours"/>
                             <field name="auto_assign_doctor"/>
+                            <field name="branch_ids" widget="many2many_tags" options="{'no_create': true, 'no_open': true}"/>
+                            <field name="doctor_ids" widget="many2many_tags"/>
                         </group>
                     </group>
                     <group string="Mail Templates">
@@ -51,17 +55,30 @@
                     <notebook>
                         <page string="Weekly Schedule">
                             <field name="weekday_ids">
-                                <list editable="bottom">
+                                <form editable="bottom">
                                     <field name="weekday"/>
                                     <field name="is_available"/>
-                                    <field name="time_slot_ids" widget="one2many_list">
-                                        <list editable="bottom">
+                                    <field name="time_slot_ids" readonly="0" widget="one2many_list">
+                                        
+                                        <tree editable="bottom">
                                             <field name="start_time" widget="float_time"/>
                                             <field name="end_time" widget="float_time"/>
                                             <field name="name" readonly="1"/>
-                                        </list>
+                                        </tree>
+                                    </field> 
+                                </form>
+                                <tree>
+                                    <field name="weekday"/>
+                                    <field name="is_available"/>
+                                    <field name="time_slot_ids" readonly="0" widget="many2many_tags">
+                                        
+                                        <tree editable="bottom">
+                                            <field name="start_time" widget="float_time"/>
+                                            <field name="end_time" widget="float_time"/>
+                                            <field name="name" readonly="1"/>
+                                        </tree> 
                                     </field>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                     </notebook>
@@ -76,5 +93,4 @@
         <field name="res_model">booking.category</field>
         <field name="view_mode">list,form</field>
     </record>
-
 </odoo>

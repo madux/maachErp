@@ -12,7 +12,15 @@ class BookingCategory(models.Model):
     description = fields.Text(string='Description')
     active = fields.Boolean(default=True)
     color = fields.Integer(string='Color Index')
+    branch_ids = fields.Many2many(
+        'multi.branch',
+        string='Allowed Branches', 
+    )
 
+    doctor_ids = fields.Many2many(
+        'res.users',
+        string='Allowed doctors', 
+    )
     # Category type
     category_type = fields.Selection(
         [

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="ir_action_server_memo_config_assign_user" model="ir.actions.server">
+			<field name="name">Modify Employees to Stages</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="company_memo.model_memo_config"/>
+            <field name="binding_model_id" ref="company_memo.model_memo_config"/>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('base.group_system')
+			])]"/>
+            <field name="code">action=model.button_assign_employee()</field>
+        </record>
+    <record id="view_memo_memo_assign_stage_wizard_form" model="ir.ui.view">
+        <field name="name">memo.assign.stage.wizard.form</field>
+        <field name="model">memo.assign.stage.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assign Users to stage">
+                <group>
+                    <group>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                    </group>
+                </group>
+                <notebook>
+                    <page name="Config" string="Config">
+                        <field name="dummy_config_ids" nolabel="1" widget="one2many_list">
+                            <tree editable="top">
+                                <field name="memo_config_wizard_id"/>
+                                <field name="memo_config_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" invisible="1" column_invisible="1"/>
+                                <field name="include_intial_done"/>
+                                <field name="memo_stage_ids" domain="[('id', 'in', dummy_memo_stage_ids)]" widget="many2many_tags"
+                                 options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                <field name="dummy_memo_stage_ids" widget="many2many_tags" readonly="1" invisible="1" column_invisible="1"/>
+                            </tree>
+                        </field>    
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_add" string="Assign" type="object" class="btn-primary"/>
+                    <button name="action_remove" string="Remove" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="dummy_memo_stage_view_form" model="ir.ui.view">
+        <field name="name">dummy.memo.stage.view.form</field>
+        <field name="model">dummy.memo.stage</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/> 
+                            <field name="sequence" required="1"/> 
+                            <field name="active" default="1"/> 
+                        </group>
+                        <group>
+                            <field name="approver_ids" string="Approvers" required="0" widget="many2many_tags" options="{'no_create':True, 'no_open': False}"/> 
+                            <field name="is_approved_stage" default="0"/> 
+                        </group>   
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

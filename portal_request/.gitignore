@@ -1,0 +1,4 @@
+**/__pycache__/
+*.pyc
+ **/controllers/__pycache__/
+ **/__pycache__/*.pyc

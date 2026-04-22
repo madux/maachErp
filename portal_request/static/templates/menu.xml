@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="menu_portal_request_applications" model="website.menu">
+        <field name="name">EEDC Applications</field>
+        <field name="url">#</field>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="website_id" ref="website.default_website" />
+        <field name="sequence" type="int">1</field>
+    </record>
+
+    <record id="menu_portal_my_requests" model="website.menu">
+        <field name="name">My Requests</field>
+        <field name="url">/my/requests</field>
+        <!-- <field name="page_id" ref="sdf_registration_page"/> -->
+        <field name="parent_id" ref="menu_portal_request_applications" />
+        <field name="website_id" ref="website.default_website" />
+        <field name="sequence" type="int">0</field>
+    </record>
+
+    <record id="menu_all_portal_request_document" model="website.menu">
+        <field name="name">My Documents</field>
+        <field name="url">/my</field>
+        <field name="parent_id" ref="menu_portal_request_applications" />
+        <field name="website_id" ref="website.default_website" />
+        <field name="sequence" type="int">1</field>
+    </record>
+
+    <!-- <template id="menu_covid_extend" name="EHA Website header" inherit_id="portal.frontend_layout">
+        <xpath expr="//header//ul[@id='top_menu']//li[@class='nav-item divider']" position="before">
+            <li class="nav-item dropdown">
+                <a data-toggle="dropdown" href="#" class="nav-link dropdown-toggle">
+                    <span data-oe-model="website.menu" data-oe-id="799" data-oe-field="name" data-oe-type="char" data-oe-expression="submenu.name">COVID-19</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="/services/mobile-pharmacy" class="dropdown-item">Mobile Pharmacy</a>
+                    <a href="/services/covid-ambulance-medevac" class="dropdown-item">COVID-19 Ambulance Evacuation</a>
+                    <a href="/services/telehealth" class="dropdown-item">Telehealth</a>
+                    <a href="/services/home-care" class="dropdown-item">Home Care</a>
+                    <a href="https://www.eha.ng/faq/about-covid-19" class="dropdown-item">FAQ</a>
+                </div>
+            </li> 
+        </xpath>
+
+    </template> -->
+</odoo>

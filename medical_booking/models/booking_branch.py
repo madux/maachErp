@@ -1,10 +1,9 @@
 from odoo import models, fields, api
 
 
-class BookingBranch(models.Model):
+class MultiBranchInherit(models.Model):
     _inherit = 'multi.branch'
     _description = 'Clinic / Hospital Branch'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # name = fields.Char(string='Branch Name', required=True, tracking=True)
     # code = fields.Char(string='Branch Code', required=True, copy=False)

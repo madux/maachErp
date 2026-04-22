@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="accountview_account_payment_form_custom">
+            <field name="name">Account Payment Custom</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//button[@name='action_post']" position="replace">
+                    <button name="action_post" string="Confirm" type="object" class="oe_highlight" invisible="is_saved == False or state != 'draft'" data-hotkey="v"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_bank_id']" position="after">
+                    <field name="allow_bypass"/>
+                    <!-- <field name="is_saved" string="Confirm Entries"/> -->
+                </xpath>
+                        
+                <xpath expr="//sheet/group[last()]" position="after">
+                    <div class="alert alert-info text-center" role="alert">
+                        Please save the record first or tick the Confirm Entries option to confirm that your entries are good to go. <br/>
+                        Confirm Entries : <field name="is_saved" nolabel="1" string="Confirm Entries"/>
+                    </div>
+                    <field name="invoice_line_ids" readonly="state != 'draft'">
+                        <tree string="" editable="bottom">
+                             <field name="sequence" widget="handle"/>
+                             <field name="account_id" options="{'no_create': True}" domain="[('deprecated', '=', False), ('company_id', '=', parent.company_id)]"/>
+                             <field name="name"/>
+                             <field name="partner_id" invisible="0" options="{'no_create': True}" />
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="tax_ids" widget="many2many_tags" options="{'no_create': True}" />
+                            <field name="debit" invisible="0"/>
+                            <field name="credit" invisible="0"/>
+                        </tree>
+                    </field>
+                </xpath>
+<!-- V17 -->
+                <!-- <xpath expr="//sheet/group[last()]" position="after">
+                    <field name="line_ids" readonly="state != 'draft'" />
+                </xpath> -->
+            </field>
+        </record>
+
+        <record id="ir_action_server_reset_draft" model="ir.actions.server">
+			<field name="name">Reset to Draft</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="binding_model_id" ref="account.model_account_move" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+            <field name="code">action=model.sudo().button_set_draft()</field>
+        </record>
+
+        <record id="ir_action_server_set_cancel" model="ir.actions.server">
+			<field name="name">Cancel</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="binding_model_id" ref="account.model_account_move" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+            <field name="code">action=model.sudo().button_set_cancel()</field>
+        </record>
+
+    </data>
+</odoo>
+

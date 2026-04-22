@@ -1,0 +1,14 @@
+<odoo>
+	<data>
+		<template id="theme_frontend_footer" inherit_id="web.frontend_layout">
+            <xpath expr="//div[@id='footer']" position="replace">
+            </xpath>
+        </template>
+		<template name="Apps" t-name="website.homepage">
+			<t t-call="website.layout">
+				<t t-set="pageName" t-value="'homepage'"/>
+				<t t-call="portal_request.website_app_page"/>
+			</t>
+		</template>
+	</data>
+</odoo>

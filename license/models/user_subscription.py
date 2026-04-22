@@ -9,6 +9,8 @@ from odoo.service import db
 from odoo.service import db as odoo_db
 from odoo import api, SUPERUSER_ID
 from odoo.modules.registry import Registry
+import xmlrpc.client
+import logging
 _logger = logging.getLogger(__name__)
 
 class subscriptionUsers(models.Model):
@@ -32,6 +34,7 @@ class subscriptionModel(models.Model):
 
     name = fields.Char(string="Reference", required=True, copy=False, readonly=True, default='New')
     license_key = fields.Char(string="Licence key ", copy=False)
+    x_api_key = fields.Char(string="X API key ", copy=False)
     is_publish = fields.Boolean('Published?', default=False,)
     active = fields.Boolean('Active?', default=True, store=True)
 
@@ -180,7 +183,8 @@ class subscriptionModel(models.Model):
                 # 🔐 Master password from config
                 master_pwd = odoo.tools.config['admin_passwd']
                 # 🌍 Base URL (important for SaaS)
-                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                config_param = self.env['ir.config_parameter'].sudo()
+                base_url = config_param.get_param('web.base.url')
                 _logger.info("Creating database: %s", rec.database_name)
                 rec.contact_client = self.create_contact()
                 databasename = rec.database_name.replace(" ", "_").lower()
@@ -215,6 +219,18 @@ class subscriptionModel(models.Model):
                 rec.database_name = database_name
                 rec.database_name_created = True
                 _logger.info("Database %s created successfully", database_name)
+                
+                with registry(database_name).cursor() as cr:
+                    env_new = api.Environment(cr, SUPERUSER_ID, {})
+                    api_key = self._generate_token()
+                    # ✅ Set API Key
+                    env_new['ir.config_parameter'].sudo().set_param(
+                        'medical_booking.api_key',
+                        api_key
+                    )
+                    self.x_api_key = api_key
+
+                    cr.commit()
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
@@ -230,6 +246,21 @@ class subscriptionModel(models.Model):
                 _logger.exception("Database creation failed: %s", e)
                 raise UserError(_("Database creation failed: %s") % str(e))
      
+    # def _get_xmlrpc_uid(self, server_url, db, user, password):
+    #     """Authenticate against the licence Odoo and return uid."""
+    #     common = xmlrpc.client.ServerProxy(f"{server_url}/xmlrpc/2/common")
+    #     uid = common.authenticate(db, user, password, {})
+    #     return uid
+
+    # def update_api_key(self, LICENSE_SERVER_URL, LICENSE_DB, LICENSE_DB_USER, LICENSE_DB_PASSWORD):
+    #     uid = self._get_xmlrpc_uid(LICENSE_SERVER_URL, LICENSE_DB, LICENSE_DB_USER, LICENSE_DB_PASSWORD)
+    #     models_proxy = xmlrpc.client.ServerProxy(f"{LICENSE_SERVER_URL}/xmlrpc/2/object")
+    #     new_id = models_proxy.execute_kw(
+    #             LICENSE_DB, uid, LICENSE_DB_PASSWORD,
+    #             'hope.subscription.request', 'write', [values]
+    #         )
+
+    
     def update_licensed_users(self): 
         for rec in self:
             if not rec.database_name:

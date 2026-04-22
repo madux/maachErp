@@ -1,0 +1,68 @@
+parameter = {
+                "loginParams : {
+                            "host": login,
+                            "port": password,
+                            "db": db
+                            "login": login,
+                            "password": password,
+                            
+                        },
+                "modules": [{
+                            "name": : "lunch,
+                            },
+                            {
+                            "name": : "sale,
+                            },
+                        ],
+                        
+            }
+    
+    """
+
+    def authenticateRpc(self, host, port, db, login, passwd):
+        odoo = op.ODOO(host, port=port)
+        user = odoo.login(db, login, passwd)
+        return odoo
+         
+    # @http.route(['/api/v1/modules/','/api/v1/modules/<string:module_name'], type='json', auth="user", methods=['GET'], csrf=False)
+    @http.route('/api/v1/modules/', auth="none", type='json', csrf=False)#, type='json', auth="public", methods=['GET', 'POST'], csrf=False) 
+    def get_module_api(self, **post):
+        
+        # odoo = op.ODOO(host, port=port)
+        # user = odoo.login(db, login, passwd)
+        # IrmoduleObj = odoo.env['ir.module.module'].sudo()
+
+        try:
+            data = json.loads(request.httprequest.data.decode("utf8"))
+            host = data.get("loginParams")['host']
+            port = data.get("loginParams")['port']
+            db = data.get("loginParams")['db']
+            login = data.get("loginParams")['login']
+            passwd = data.get("loginParams")['password']
+            modules = data.get("modules")
+            
+            odoo = self.authenticateRpc(host, port, db, login, passwd)
+            IrmoduleObj = odoo.env['ir.module.module']
+            # return {"Status": "successfull", "result": odoo.db.list()}
+            module_values = {}
+            if modules:
+                for modul in modules:
+                    module_name = modul['name']
+                    module_to_return = IrmoduleObj.search([('name', '=', module_name)], limit=1)
+
+                    if module_to_return:
+                        mod_ref = IrmoduleObj.browse([module_to_return[0]])
+                        module_values['{}'.format(mod_ref.id)] = {
+                                    "module_display_name": mod_ref.display_name,
+                                    "modules_technical_name": mod_ref.name,
+                                    "module_id": mod_ref.id, 
+                                }
+                return {"status": "Successful",'module_lists': module_values, "message": "Successfully return list of modules"}
+
+                        
+            else:
+                return {"status": "Successful",'module_lists': module_values, 'message': 'Please ensure you provide list of modules'}
+
+        except Exception as e:
+            msg = "There was an issue, kindly see logs; \n {}".format(e.args[0])
+            return {"status": "Failed", "message": msg}

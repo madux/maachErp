@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data> 
+        <record model="ir.ui.view" id="account_asset_inherit_view_form">
+            <field name="name">account.asset</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[2]" position="replace">
+                    <div class="row alert-info">
+                        <h4>
+                            Download documentation: <a href='/company_memo/static/src/documentation/asset_documentation.txt' target="_blank"> Click to Download</a><br/>
+                            <!-- <a href="https://youtu.be/oSj1nknA4CA" target="_blank"> Watch Video</a> -->
+                        </h4>
+                    </div>
+                    <div class="oe_title">
+                        <label for="product_id" name="name_label1" string="Asset Name"/>
+                        <h1>
+                            <field name="product_id" required="1" string="Asset Name" placeholder="e.g Laptop-01" readonly="0" force_save="1" invisible="0"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='model_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="required">0</attribute>
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='model_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+               
+                <!-- <xpath expr="//div[@name='branch_id']" position="replace">
+                </xpath> -->
+                <div class="oe_title">
+                    <label for="name" name="name_label" string="Asset number" attrs="{'invisible': [('state', '=', 'model')]}"/>
+                    <label for="name" name="model_name_label" string="Asset Model number" attrs="{'invisible': [('state', '!=', 'model')]}"/>
+                    <h1>
+                        <field name="name" placeholder="e.g 1230043" string="Asset number" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </h1>
+                </div>
+                <xpath expr="//page[@name='main_page']/group/group[3]" position="after">
+                   
+                    <separator string="Identification Other Description"/>
+                    <group name="asset_info2">
+                        <field name="customer_id" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="state" invisible="1"/>
+                        <field name="branch_id" required="0" string="Business Unit" options="{'no_create':'True'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="asset_code" string="Asset Number" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="1" class="form-control"/>
+                        <field name="fleet_number" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="serial_number" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="product_desc" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="model_id" string="Parent Asset" domain="[('state', '=', 'model')]" options="{'no_quick_create': True}" context="{'default_state': 'model','default_account_asset_id': account_asset_id,'default_account_depreciation_id': account_depreciation_id, 'default_account_depreciation_expense_id': account_depreciation_expense_id}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="parent_number" required="0" readonly="1" force_save="1" invisible="0" class="form-control"/>
+                        <field name="transfer_status" readonly="1" />
+                    <field name="awaiting_transfer_location" readonly="1" attrs="{'invisible': [('transfer_status', '!=', 'Transfered &amp; Awaiting Receipt')]}" />
+                    <field name="modify_action" force_save="1" invisible="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="date_of_commission" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="acquisition_date" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" string="Date Acquired" class="form-control"/>
+                        <field name="disposed_date" attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('modify_action', '=', 'dispose')]}" force_save="1" invisible="0" string="Date Disposed"/>
+                        <!-- <field name="insurance_policy_id" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="insurance_policy_number" attrs="{'required': [('insurance_policy_id', '!=', False)], 'readonly': [('state', '!=', 'draft')], 'invisible': [('insurance_policy_id', '=',False)]}" force_save="1" class="form-control"/> -->
+                        <field name="product_age" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="responsible_employee_id" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="inventory_number" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="purchase_order" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="qty_received" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1" invisible="0" class="form-control"/>
+                        <field name="to_transfer_expense" required="0" readonly="1" force_save="1"/>
+                        <field name="date_received" required="0" readonly="1" force_save="1"/>
+                        <field name="is_asset_from_procurement" required="0" readonly="1" force_save="1" invisible="0" class="form-control"/>
+                        <field name="old_asset_value" required="0" readonly="1" force_save="1" invisible="0"/>
+                        <field name="new_asset_value" required="0" readonly="1" force_save="1" invisible="0"/>
+                    </group> 
+                </xpath>
+
+                
+                <xpath expr="//button[@name='compute_depreciation_board']" position="before">
+                    <button type="object" name="action_compute_next_month" string="Compute Next depreciation"/>
+                </xpath>
+
+                <xpath expr="//button[@name='compute_depreciation_board']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath> 
+
+                <xpath expr="//field[@name='depreciation_move_ids']//tree//field[@name='ref']" position="before">
+                    <field name="depreciation_percentage" readonly="1"/>
+                    <field name="is_asset_additional_period" readonly="1"/>
+                </xpath>
+            </field>
+        </record> 
+
+        <record model="ir.ui.view" id="memo_asset_model_tree_view">
+            <field name="name">Account Asset Register - list (override)</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_purchase_tree"/>
+            <field name="arch" type="xml">  
+                <xpath expr="/tree" position="attributes">
+                    <attribute name="editable">bottom</attribute>
+                    <attribute name="create">0</attribute> 
+                </xpath>
+                <xpath expr="/tree" position="inside">
+                    <header>
+                        <button name="generate_child_asset"
+                                type="object"
+                                class="oe_highlight btn-sm"
+                                string="Generate Asset"/>
+
+                         <button name="print_serial_number"
+                                type="object"
+                                class="oe_highlight btn-sm"
+                                string="Print Serial Number"/>
+
+                        <button name="reject_as_nonasset"
+                                type="object"
+                                class="oe_highlight btn-sm"
+                                string="Reject As Non Asset"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="product_desc" attrs="{'readonly': [('state', '=', 'close')]}" string="Asset Description"/>
+                    <field name="source_location_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+
+                    <field name="serial_number" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="model_id" string="Asset Model" domain="[('state','=', 'model')]" options="{'no_create':'True'}"/>
+                    <field name="category_id" options="{'no_create':'True'}" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="branch_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="customer_id" readonly="1"/>
+                    <field name="responsible_bu" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="previous_location" required="0" readonly="0" force_save="1" invisible="0" string="Previous Location" optional="show"/>
+                    <field name="prorata_date" attrs="{'readonly': [('state', '=', 'close')]}" string="Start Date"/>
+                    <field name="original_value" string="Purchase Value (VAT)"
+                        attrs="{'readonly': [('state', 'not in', ['draft','model'])]}" />
+
+                    <field name="purchase_value_without_tax" attrs="{'readonly': [('state', 'not in', ['draft','model'])]}" optional="hide"/>
+                    <field name="foreign_currency_amount" optional="hide"/> 
+                    
+                    <field name="inventory_number" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="account_asset_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="account_depreciation_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                    <field name="account_depreciation_expense_id"/>
+                    <field name="acquisition_date" optional="hide"/>
+                    <field name="method"
+                        attrs="{'readonly': [('state', 'not in', ['draft','model'])]}" />
+                    <field name="method_number" string="Life (Months)"
+                        attrs="{'readonly': [('state', 'not in', ['draft','model'])]}" />
+                    <field name="method_period" string="Period length"
+                        attrs="{'readonly': [('state', 'not in', ['draft','model'])]}" />
+                    <field name="company_id" invisible="True"
+                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="state" invisible="True"/>
+                    <field name="date_of_assignment" optional="hide"/>
+                    <field name="date_of_transfer" optional="hide"/>
+                    <field name="qty_received" optional="show"/>
+                    <field name="is_asset_from_procurement" optional="show" invisible="True"/>
+                    <field name="depreciation_months_done" optional="show"/>
+                    <field name="depreciation_months_remaining" optional="show"/>
+                    <field name="depreciation_amount_posted" optional="show"/>
+                    <field name="depreciation_amount_remaining" optional="show"/>
+                    <field name="depreciation_progress" widget="progressbar" optional="show"/>
+                    <button name="view_asset_line" type="object" class="btn-sm" string="View"/>
+                </xpath>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="memo_invisible_view_account_asset_model_tree">
+            <field name="name">account.asset</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="company_memo.memo_asset_model_tree_view"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='account_asset_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='account_depreciation_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='method']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="string">Asset number</attribute>
+                </xpath>
+            </field>
+        </record> 
+
+        <record id="action_new_assets_form" model="ir.actions.act_window">
+            <field name="name">Asset Transitory Data</field>
+            <field name="res_model">account.asset</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'draft')]</field> 
+            <field name="view_id" ref="company_memo.memo_asset_model_tree_view"/>
+        </record>
+
+
+        <record id="action_new_assets_register_form" model="ir.actions.act_window">
+            <field name="name">Asset Register</field>
+            <field name="res_model">account.asset</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'draft'), ('is_asset_from_procurement', '=', False)]</field> 
+            <field name="view_id" ref="company_memo.memo_asset_model_tree_view"/>
+        </record>
+
+        <menuitem id="menu_asset_register_root" name="Transitory Asset" sequence="11" web_icon="company_memo,static/description/asset_register.png"/>
+        <menuitem id="menu_asset_register_root2" name="Asset Register" sequence="12" web_icon="company_memo,static/description/asset_register.png"/>
+        <menuitem id="menu_asset_register_unconfirmed" name="Ungenerated Assets" parent="menu_asset_register_root" action="company_memo.action_new_assets_form" sequence="1"/>
+        <menuitem id="menu_asset_register_confirmed" name="Assets Register" parent="menu_asset_register_root2" action="company_memo.action_new_assets_register_form" sequence="1"/>
+
+
+        
+        <record id="view_account_asset_search_inherit" model="ir.ui.view">
+            <field name="name">account.asset.search.inherit.parent.number</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_search"/>
+
+            <field name="arch" type="xml">
+
+                <!-- Insert into the Filters section -->
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="parent_number"/>
+                </xpath>
+                <xpath expr="//search" position="inside">
+                    
+                    <!-- Normal Filter -->
+                    <filter name="filter_parent_number"
+                            string="Parent Number Set"
+                            domain="[('parent_number', '!=', False)]"/>
+
+                    <!-- Group By Section -->
+                    <group expand="0" string="Group By">
+                        <filter name="group_parent_number"
+                                string="Parent Number"
+                                context="{'group_by': 'parent_number'}"/>
+                    </group>
+
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="action_assets_with_parent_number" model="ir.actions.act_window">
+            <field name="name">Assets With Parent Number</field>
+            <field name="res_model">account.asset</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_group_parent_number': 1}</field>
+        </record>
+        <menuitem id="menu_asset_register_parent" name="Generated Assets" parent="menu_asset_register_root" action="company_memo.action_assets_with_parent_number" sequence="2"/>
+
+        <record model="ir.ui.view" id="account_asset_inherit_view_tree">
+            <field name="name">account.asset</field>
+            <field name="model">account.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_purchase_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree" position="inside">
+                    <header>
+                        <button name="compute_depreciation_board"
+                                type="object"
+                                class="oe_highlight btn-sm"
+                                string="Compute Depreciation"/>
+                    </header>
+                </xpath> 
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="string">Asset Number</attribute>
+                </xpath> 
+            </field>
+        </record>
+
+        <record id="view_account_move_asset_filter" model="ir.ui.view">
+			<field name="name">Account Asset Report</field>
+			<field name="model">account.move</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+                    <field name="date" string="Depreciation Date"/>
+                    <field name="ref"/>
+                    <field name="depreciation_value"/>
+                    <field name="name"/>
+                    <field name="asset_depreciated_value"/>
+                    <field name="asset_remaining_value"/>
+                    <filter string="Branch" name="add_filter" domain="[('branch_id','!=', False)]"/>
+                    <filter string="Draft" name="state_by_draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Post" name="state_by_post" domain="[('state', '=', 'post')]"/>
+                    <group expand='0' string='Group by...'>
+                        <filter name="group_by_ref_id" string='Asset' domain="[]" context="{'group_by' : 'ref'}"/>
+                        <filter name="group_by_asset_batch_number_id" string='Batch Number' domain="[]" context="{'group_by' : 'asset_batch_number'}"/>
+                        <filter name="group_by_asset_parent_id" string='Parent' domain="[]" context="{'group_by' : 'asset_parent_id'}"/>
+                        <filter name="group_by_branch_id" string='Branch' domain="[]" context="{'group_by' : 'branch_id'}"/>
+                        <filter name="group_by_journal_id" string='Journal' domain="[]" context="{'group_by' : 'journal_id'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+
+        <record id="view_account_move_asset_tree" model="ir.ui.view">
+			<field name="name">Account Asset Report - list</field>
+			<field name="model">account.move</field>
+			<field name="arch" type="xml">
+				<tree string="Depreciation Lines" decoration-info="state == 'draft'" create="0" edit="0" default_order="date asc, id asc" editable="top">
+                    <field name="date" string="Depreciation Date" attrs="{'readonly': [('state', 'in', ['cancel', 'posted'])]}"/>
+                    <field name="ref" invisible="0"/>
+                    <field name="asset_parent_id" invisible="0"/>
+                    <field name="reversal_move_id" widget="deprec_lines_reversed"/>
+                    <field name="depreciation_value" sum="Total" widget="monetary" string="Depreciation" options="{'currency_field': 'currency_id'}" attrs="{'readonly': [('state', 'in', ['posted'])]}"/>
+                    <field name="asset_depreciated_value" sum="Total" readonly="1" force_save="1" options="{'currency_field': 'currency_id'}"/>
+                    <field name="asset_remaining_value" sum="Total" readonly="1" widget="monetary" force_save="1" options="{'currency_field': 'currency_id'}"/>
+                    <field name="name" readonly="1" string="Entry #"/>
+                    <field name="currency_id" invisible="1" attrs="{'readonly': [('state', 'in', ['cancel', 'posted'])]}"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+			</field>
+		</record>
+
+        <!-- Main Action -->
+        <record id="menu_action_depreciation_report" model="ir.actions.act_window">
+            <field name="name">Depreciation Report</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="domain">[('asset_id', '!=', False),('state', 'in', ['posted'])]</field>
+            <field name="search_view_id" ref="company_memo.view_account_move_asset_filter"/>
+            <field name="context">{'search_default_group_by_asset_batch_number_id': 1, 'search_default_group_by_branch_id': 1, 'search_default_group_by_asset_parent_id': 1}</field>
+        </record>
+        <record id="view_depreciation_report_tree_action_bind" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="company_memo.menu_action_depreciation_report"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="company_memo.view_account_move_asset_tree"/>
+        </record>
+
+        <!-- Main Action move line-->
+        <record id="view_account_move_line_asset_filter" model="ir.ui.view">
+			<field name="name">Account Asset Line Report</field>
+			<field name="model">account.move.line</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+                    <field name="date" string="Depreciation Date"/>
+                    <field name="move_name"/>
+                    <field name="account_id"/>
+                    <field name="branch_id" string="Business Unit"/>
+                    <field name="name" string="Description"/>
+                    <field name="debit" string="Debit"/>
+                    <field name="credit" string="Credit"/>
+                    <field name="asset_id" string="Asset"/>
+                    <field name="asset_number" string="Asset #"/>
+                    <field name="responsible_bu"/>
+                    <field name="asset_batch_number" string="Batch #"/>
+                    <filter string="Branch" name="add_filter" domain="[('branch_id','!=', False)]"/>
+                    <filter string="Cost center" name="add_cost_center_filter" domain="[('responsible_bu','!=', False)]"/>
+                    <group expand='0' string='Group by...'>
+                        <filter name="group_by_ref_id" string='Asset' domain="[]" context="{'group_by' : 'ref'}"/>
+                        <filter name="group_by_asset_batch_number_id" string='Batch Number' domain="[]" context="{'group_by' : 'asset_batch_number'}"/>
+                        <filter name="group_by_branch_id" string='Branch' domain="[]" context="{'group_by' : 'branch_id'}"/>
+                        <filter name="group_by_responsible_bu" string='Cost Center' domain="[]" context="{'group_by' : 'responsible_bu'}"/>
+                        <filter name="group_by_journal_id" string='Journal' domain="[]" context="{'group_by' : 'journal_id'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+
+        <record id="view_account_move_line_asset_tree" model="ir.ui.view">
+			<field name="name">Account Asset Line - list</field>
+			<field name="model">account.move.line</field>
+			<field name="arch" type="xml">
+				<tree string="Depreciation Lines" decoration-info="parent_state == 'draft'" create="0" edit="0" default_order="date asc, id asc">
+                    <field name="date" string="Depreciation Date"/>
+                    <field name="move_name"/>
+                    <field name="asset_id" invisible="True"/>
+                    <field name="asset_number"/>
+                    <field name="asset_batch_number"/>
+                    <field name="account_id"/>
+                    <field name="branch_id" string="Business Unit"/>
+                    <field name="name" string="Description"/>
+                    <field name="debit" string="Debit"/>
+                    <field name="credit" string="Credit"/>
+                    <field name="asset_id" string="Asset"/>
+                    <field name="asset_number" string="Asset #"/>
+                    <field name="responsible_bu"/>
+                    <field name="parent_state" invisible="True"/>
+
+                </tree>
+			</field>
+		</record>
+        <record id="menu_action_depreciation_line_report" model="ir.actions.act_window">
+            <field name="name">Depreciation Move</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="domain">[('asset_id', '!=', False),('parent_state', 'in', ['posted'])]</field>
+            <field name="search_view_id" ref="company_memo.view_account_move_line_asset_filter"/>
+            <field name="context">{'search_default_group_by_asset_batch_number_id': 1, 'search_default_group_by_branch_id': 1}</field>
+        </record>
+        <record id="view_depreciation_line_report_tree_action_bind" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="company_memo.menu_action_depreciation_line_report"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="company_memo.view_account_move_line_asset_tree"/>
+        </record>
+
+        <menuitem id="menu_asset_depreciation_report"
+            name="Asset Move Report"
+            parent="asset_tracking_system.menu_asset_root"
+            sequence="25"
+            action="menu_action_depreciation_report"/>
+        <menuitem id="menu_posted_asset_depreciation_report"
+            name="Posted Depreciation Report"
+            parent="asset_tracking_system.menu_asset_root"
+            sequence="30"
+            action="menu_action_depreciation_line_report"/>
+ 
+    </data>
+</odoo>

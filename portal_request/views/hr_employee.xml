@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_view_employee_inherited_form_portal_request" >
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="arch" type="xml">
+                <!-- <field name="work_email" position="before">
+                    <field name="employee_number" required="1"/>
+                </field> -->
+                <field name="parent_id" position="after">
+                    <field name="administrative_supervisor_id" string="Administrative supervisor" invisible="1" options="{'no_create': True,'no_open': True}"/>
+                </field> 
+            </field>
+        </record>
+    </data>
+</odoo>

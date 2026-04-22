@@ -48,10 +48,10 @@
               action="action_booking_category"
               sequence="10"/>
 
-    <menuitem id="menu_booking_branch"
+    <menuitem id="menu_medical_booking_branch"
               name="Branches"
               parent="menu_medical_booking_config"
-              action="action_booking_branch"
+              action="ik_multi_branch.action_res_multi_branch_form"
               sequence="20"/>
 
 </odoo>

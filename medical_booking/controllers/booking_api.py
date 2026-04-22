@@ -62,7 +62,7 @@ class BookingAPIController(http.Controller):
     # ══════════════════════════════════════════════════════════════════════
     # ──  POST /api/v1/bookings  ──  Create a booking
     # ══════════════════════════════════════════════════════════════════════
-    @http.route('/api/v1/bookings', type='http', auth='none', methods=['POST'], csrf=False)
+    @http.route('/api/v1/create-booking', type='http', auth='none', methods=['POST'], csrf=False)
     def create_booking(self, **kwargs):
         """
         Create a new booking.
@@ -334,9 +334,8 @@ class BookingAPIController(http.Controller):
                 'id': b.id,
                 'name': b.name,
                 'code': b.code,
-                'address': b.address or '',
-                'phone': b.phone or '',
-                'email': b.email or '',
+                'address': b.street or '',
+                'phone': b.telephone_no or '',
                 'doctor_count': len(b.doctor_ids),
             }
             for b in branches

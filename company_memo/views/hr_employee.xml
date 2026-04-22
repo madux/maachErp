@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_view_employee_inherited_form_portal_request" >
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="arch" type="xml">
+                <!-- <field name="work_email" position="before">
+                    <field name="employee_number" required="1"/>
+                </field> -->
+                <field name="job_id" position="after">
+                    <field name="maximum_cash_advance_limit" groups="base.group_system,hr.group_hr_manager"/>
+                    <field name="leave_reliever_memo_stage_ids" readonly="1"/>
+                    <field name="leave_reliever" readonly="0"/>
+                    <button name="reset_leave_reliever" string="Reset Reliever" class="oe_highlight btn-sm" type="object" 
+					groups="base.group_system,hr.group_hr_manager"/>
+                    <button name="update_leave_reliever" string="Update Reliever" class="oe_highlight btn-sm" type="object" 
+					groups="base.group_system,hr.group_hr_manager"/>
+                </field> 
+            </field>
+        </record>
+
+        <!-- <record model="ir.ui.view" id="hr_kanban_view_employees_memo_inherited2">
+            <field name="name">hr.employee.memo.kanban</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees" />
+            <field name="arch" type="xml"> 
+                <xpath expr="//li[@id='last_login']" position="after">
+                    <li t-if="record.employee_number.raw_value" class="o_text_overflow"><b>ID: </b><field name="employee_number"/></li>
+                    <li t-if="record.grade_id.raw_value" class="o_force_ltr"><b>Grade: </b><field name="grade_id"/></li>
+                    <li t-if="record.level_id.raw_value" class="o_force_ltr"><b>Level: </b><field name="level_id"/></li><br/> 
+                </xpath>
+ 
+            </field>
+        </record> -->
+    </data>
+</odoo>

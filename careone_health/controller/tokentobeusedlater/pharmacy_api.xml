@@ -23,8 +23,8 @@
         <field name="arch" type="xml">
             <form string="API Token">
                 <header>
-                    <button name="action_regenerate_token" string="Regenerate Token" type="object" class="oe_highlight" attrs="{'invisible': [('active', '=', False)]}"/>
-                    <button name="action_deactivate" string="Deactivate" type="object" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <button name="action_regenerate_token" string="Regenerate Token" type="object" class="oe_highlight" invisible="active== False"/>
+                    <button name="action_deactivate" string="Deactivate" type="object" invisible ="active == False"/>
                     <field name="active" widget="boolean_button" options='{"terminology": "active"}'/>
                 </header>
                 <sheet>
@@ -33,8 +33,8 @@
                             <field string="Usage" name="usage_count" widget="statinfo"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Expired" bg_color="bg-danger" attrs="{'invisible': [('is_expired', '=', False)]}"/>
-                    <widget name="web_ribbon" title="Inactive" bg_color="bg-secondary" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Expired" bg_color="bg-danger" invisible ="is_expired == False"/>
+                    <widget name="web_ribbon" title="Inactive" bg_color="bg-secondary" invisible="active == True"/>
                     <group>
                         <group>
                             <field name="name"/>

@@ -1,0 +1,226 @@
+<odoo>
+	<data>
+		<!-- <template id="theme_frontend_footer" inherit_id="web.frontend_layout">
+			<xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
+			</xpath>
+		</template> -->
+		<template name="Employee Dashboard" id="portal_dashboard_template_id">
+			<t t-call="website.layout">
+				
+
+				<!-- on click, set all page-section to inactive 
+				and set apps screen to active.
+				-->
+                <section class="s_website_form pt2 pb2" id="portal-dashboard-form" data-vcss="001" style="background-image: none;">
+					<!-- <section id="website-app-section" class="page-section">   -->
+					<section id="website-app-section" class="page-section">  
+						<t t-call="portal_request.website_app_page"/>
+					</section>
+					<div class="body-emp page-section active" id="portal-dashboard-content">
+						<div class="main-container-emp">
+							<main class="content-emp">
+								<div id="app-icon" class="thumbnail-header">
+									<svg xmlns="http://www.w3.org/2000/svg" 
+										width="30" height="30" 
+										class="bi bi-grid-fill custom-icon" 
+										viewBox="0 0 16 16">
+									<path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5z"/>
+									</svg>
+								</div>
+								<div class="metrics-grid-emp">
+									<div class="metric-card-emp">
+										<div class="metric-number-emp" id="open_request">
+											<a href="/my/requests">
+												<t t-esc="open_request"/>
+											</a>
+										</div>
+										<div class="metric-label-emp">Open Requests</div>
+									</div>
+									<div class="metric-card-emp">
+										<!-- <div class="metric-number">1</div> -->
+										<div class="metric-number-emp" id="approved_request">
+											<a href="/my/requests">
+												<t t-esc="approved_request"/>
+											</a>
+										</div>
+										<div class="metric-label-emp">Approval Request</div>
+									</div>
+									<div class="metric-card-emp">
+										<div class="metric-number-emp" id="closed_request">
+											<a href="/my/requests">
+												<t t-esc="closed_request"/>
+											</a>
+										</div>
+										<div class="metric-label-emp">Closed Request</div>
+									</div>
+									<div class="metric-card-emp">
+										<div class="metric-number-emp" id="leave_remaining">
+											<a href="/my/requests">
+												<t t-esc="leave_remaining"/>
+											</a>
+										</div>
+										<div class="metric-label-emp">Leave Remaining</div>
+									</div>
+								</div>
+
+								<div class="content-emp-grid">
+									<div class="left-panel-emp">
+										<div class="card-emp">
+											<h2 class="card-emp-title">Employee Profile</h2>
+											<p class="text-sm">
+													<i class="fa fa-arrow-up text-success"></i>
+												<span class="font-weight-bold">Active </span> as at <t t-esc="datetime.datetime.now().strftime('%B %d, %Y')"/>
+											</p>
+											<p class="text-sm">
+												<i class="fa fa-arrow-up text-danger"></i>
+												<span class="font-weight-bold">Queries </span>: 0
+											</p>
+											<div class="employee-profile">
+												<!-- <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Profile" class="profile-image"> -->
+												<t t-if="image">
+													<img class="profile-image" t-att-src="image_data_uri(image)" alt="Avatar"/> 
+												</t>
+												<div class="profile-info">
+													<h3>Name: <t t-esc="user.employee_id.name"/></h3>
+													<p><strong>Department: </strong><t t-esc="user.employee_id.department_id.name or ''"/></p>
+													<p><strong>Role: </strong> <t t-esc="user.employee_id.job_id.name or ''"/></p>
+													<p><strong>Manager: </strong>: <t t-esc="user.employee_id.parent_id.name or ''"/></p>
+												</div>
+											</div>
+										</div>
+
+										<div class="card-emp">
+											<h2 class="card-emp-title">Performance Measure</h2>
+											<div class="chart-container-emp" id="barChartCanvasDiv">
+												<svg width="300" height="200" viewBox="0 0 300 200">
+													Bar chart 
+													<rect x="40" y="150" width="30" height="30" fill="#4a90e2" opacity="0.7"/>
+													<rect x="80" y="140" width="30" height="40" fill="#28a745" opacity="0.7"/>
+													<rect x="120" y="160" width="30" height="20" fill="#ffc107" opacity="0.7"/>
+													<rect x="160" y="130" width="30" height="50" fill="#6f42c1" opacity="0.7"/>
+													<rect x="200" y="155" width="30" height="25" fill="#dc3545" opacity="0.7"/>
+													<text x="20" y="195" font-size="10" fill="#666">Performance metrics visualization</text>
+												</svg>
+												<!-- <span class="d-none" id="performance_y_data_chart">
+													<t t-esc="performance_y_data_chart"/>
+												</span>
+												<span class="d-none" id="performance_x_data_chart">
+													<t t-esc="performance_x_data_chart"/>
+												</span>
+												<canvas id="doughnutCanvas"></canvas> -->
+												
+											</div>
+										</div>
+									</div>
+
+									<aside class="right-panel-emp">
+										<div class="panel-header" >
+											<h2 class="panel-title-emp">30</h2>
+											<div class="donut-chart" id="doughnutCanvasDiv"></div>
+											<!-- <span class="d-none" id="performance_y_data_chart">
+												<t t-esc="performance_y_data_chart"/>
+											</span>
+											<span class="d-none" id="performance_x_data_chart">
+												<t t-esc="performance_x_data_chart"/>
+											</span>
+											<canvas id="doughnutCanvas"></canvas> -->
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-green"></span>
+												<span>Done</span>
+											</div>
+											<span>16</span>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-blue"></span>
+												<span>Review</span>
+											</div>
+											<span>8</span>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-yellow"></span>
+												<span>Pending</span>
+											</div>
+											<span>6</span>
+										</div>
+
+										<div style="margin: 24px 0;">
+											<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+												<span style="font-weight: 600;">Previous</span>
+												<span style="font-size: 14px; color: #666;">6</span>
+											</div>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-blue"></span>
+												<span>Documentation</span>
+											</div>
+											<div style="display: flex; align-items: center; gap: 8px;">
+												<div class="percentage-bar">
+													<div class="percentage-fill p-80"></div>
+												</div>
+												<span style="font-size: 12px;">80%</span>
+											</div>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-green"></span>
+												<span>Recommendations</span>
+											</div>
+											<div style="display: flex; align-items: center; gap: 8px;">
+												<div class="percentage-bar">
+													<div class="percentage-fill p-90"></div>
+												</div>
+												<span style="font-size: 12px;">90%</span>
+											</div>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-yellow"></span>
+												<span>Planning</span>
+											</div>
+											<span>5</span>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-red"></span>
+												<span>Warnings</span>
+											</div>
+											<span>—</span>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-orange"></span>
+												<span>Backlog</span>
+											</div>
+											<span>29</span>
+										</div>
+
+										<div class="metric-item-emp">
+											<div class="metric-label-emp-left">
+												<span class="color-indicator color-orange"></span>
+												<span>Payslips</span>
+											</div>
+											<span>30</span>
+										</div>
+									</aside>
+								</div>
+							</main>
+						</div>
+					</div>
+				</section>
+			</t>
+		</template>
+	</data>
+</odoo>

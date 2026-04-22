@@ -1,0 +1,54 @@
+<!-- <odoo>
+    <record id="view_users_form_inherit_roles" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.roles</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="roles" string="Roles">
+                    <group>
+                        <field name="role_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Assign roles to this user..."/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[contains(@name,'groups')]" position="attributes">
+                <attribute name="groups">eedc_role_manager.group_role_manager_admin</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo> -->
+
+<odoo>
+    <record id="view_users_form_inherit_roles" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.roles</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="roles" string="Roles" groups="base.group_no_one,eedc_role_manager.group_role_manager_admin">
+                    <group>
+                        <group>
+                            <field name="role_ids" widget="many2many_tags" 
+                                   options="{'no_create': True, 'no_open': True, 'color_field': 'color'}" 
+                                   placeholder="Assign roles to this user..."
+                                   context="{'active_test': True}"/>
+                        </group>
+                    </group>
+                    
+                    <separator string="Role Management"/>
+                    <div class="oe_button_box">
+                        <button name="action_sync_roles_manually" 
+                                type="object" 
+                                string="Sync Roles" 
+                                class="btn btn-primary"
+                                groups="eedc_role_manager.group_role_manager_admin"/>
+                    </div>
+                </page>
+            </xpath>
+            
+            <xpath expr="//field[contains(@name,'groups')]" position="attributes">
+                <attribute name="groups">eedc_role_manager.group_role_manager_admin</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

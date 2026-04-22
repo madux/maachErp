@@ -56,6 +56,7 @@ class BookingRecord(models.Model):
         required=True,
         tracking=True,
         ondelete='restrict',
+        default=lambda self: self.env.user.branch_id.id,
     )
 
     # ── Date & Time ─────────────────────────────────────────────────────────
@@ -94,9 +95,46 @@ class BookingRecord(models.Model):
         'booking_id',
         'user_id',
         string='Available Doctors',
-        domain=[('is_doctor', '=', True)],
+        # domain=[('is_doctor', '=', True)],
         tracking=True,
     )
+
+    dummy_available_doctor_ids = fields.Many2many(
+        'res.users',
+        'dummy_booking_available_doctors_rel',
+        'booking_id',
+        'user_id',
+        string='Dummy Available Doctors',
+    )
+
+    def get_category_artifact(self, branch_id=None):
+        """branch_id.id"""
+        doctors = []
+        weekday_ids = []
+        
+        category_with_branches = self.env['booking.category'].sudo().search(
+            [('branch_ids.id', 'in', [branch_id])], limit=1)
+        if category_with_branches:
+            for ct in category_with_branches:
+                doctors += ct.doctor_ids.ids
+                weekday_ids += ct.weekday_ids.ids
+            self.dummy_available_doctor_ids = [(6, 0, doctors)]   
+        else:
+            self.dummy_available_doctor_ids = [(6, 0, self.env['booking.category'].sudo().search([]).ids)] 
+             
+    @api.depends("category_id")
+    def get_category_id_artifacts(self):
+        for rec in self:
+            if category_id:
+                self.get_category_artifact(rec.branch_id.id)
+
+    @api.onchange("category_id")
+    def onchange_category_artifacts(self):
+        if self.category_id:
+            category_with_branches = self.env['booking.category'].sudo().search(
+            [('branch_ids.id', 'in', [self.branch_id.id])], limit=1)
+            self.available_doctor_ids = [(6, 0, category_with_branches.doctor_ids.ids)]
+
     assign_doctor_id = fields.Many2one(
         'res.users',
         string='Assigned Doctor',

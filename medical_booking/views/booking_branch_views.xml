@@ -6,7 +6,10 @@
         <field name="inherit_id" ref="ik_multi_branch.view_multi_branch_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='parent_id']" position="after">
-                <button class="oe_stat_button" type="object" name="action_view_api_tokens" icon="fa-key"/>
+                 <button name="action_view_bookings" string="✓ View bookings"
+                            type="object" class="btn-sm btn-success"/>
+
+                <button class="btn-success" type="object" name="action_view_bookings" icon="fa-key"/>
                 <xpath expr="//field[@name='parent_id']" position="after">
                     <field string="Total Bookings" name="booking_count" widget="statinfo"/>
                 </xpath>

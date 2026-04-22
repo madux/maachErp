@@ -6,7 +6,7 @@
         <field name="name">booking.record.list</field>
         <field name="model">booking.record</field>
         <field name="arch" type="xml">
-            <list string="Bookings"
+            <tree string="Bookings"
                   decoration-danger="is_conflicting == True"
                   decoration-muted="state == 'cancelled'"
                   decoration-success="state == 'done'">
@@ -24,7 +24,7 @@
                        decoration-info="state == 'in_progress'"/>
                 <field name="is_conflicting" optional="hide"/>
                 <field name="reminder_sent" optional="hide"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -61,7 +61,8 @@
                             <field name="serial_number" readonly="1"/>
                             <field name="is_conflicting" readonly="1" widget="boolean_toggle"/>
                             <field name="reminder_sent" readonly="1"/>
-                            <field name="access_token" readonly="1" password="True"/>
+                            <!-- <field name="access_token" readonly="1" password="True"/> -->
+                            <field name="access_token" readonly="1"/>
                         </group>
                         <group string="Patient">
                             <field name="patient_id"/>
@@ -80,7 +81,8 @@
                             <field name="booking_end_time" widget="float_time" readonly="1"/>
                         </group>
                         <group string="Medical Staff">
-                            <field name="available_doctor_ids" widget="many2many_tags"/>
+                             <field name="dummy_available_doctor_ids" invisible="1"/>
+                            <field name="available_doctor_ids" widget="many2many_tags" domain="[('id', 'in', dummy_available_doctor_ids)]"/>
                             <field name="assign_doctor_id"
                                    domain="[('id','in',available_doctor_ids)]"/>
                         </group>

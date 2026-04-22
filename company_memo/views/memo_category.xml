@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="memo_category_form" model="ir.ui.view">
+            <field name="name">Memo category Setting</field>
+            <field name="model">memo.category</field>
+            <field name="arch" type="xml">
+                <form string="Request category Setting">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/> 
+                            </group>
+                            <group>
+                                <field name="category_type" required="1"/> 
+                            </group>
+                            <notebook>
+                                <page string="Request Configs" name="mc">
+                                    <field name="memo_config_ids" required="1">
+                                        <tree string="Request Configs">
+                                            <field name="name" required="1"/> 
+                                            <field name="memo_type" required="1"/> 
+                                            <field name="memo_key" required="1"/> 
+                                            <field name="active" default="1" readonly="0"/> 
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="memo_category_action">
+            <field name="name">Memo Category</field>
+            <field name="res_model">memo.category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field> 
+        </record>
+
+        <menuitem id="memo_category_configuration" name="Category"
+            parent="memo_configuration" action="memo_category_action" sequence="11" groups="base.group_system,company_memo.mainmemo_manager"/>
+
+    </data>
+</odoo>

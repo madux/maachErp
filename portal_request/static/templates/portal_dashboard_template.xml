@@ -1,0 +1,251 @@
+<odoo>
+	<data>
+		<template id="theme_frontend_footer" inherit_id="web.frontend_layout">
+			<xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
+			</xpath>
+		</template>
+		<template name="Dashboard" id="portal_dashboard_template_id">
+			<t t-call="website.layout">
+				<div class="office-ds-nav g-sidenav-show" id="portal-dashboard-content">
+						<div class="topbar">
+							<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+								<div class="container-fluid py-1 px-3">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+											<i id="opennavbtn" class="opennavbtn fa fa-bars text-lg opacity-10" aria-hidden="true"></i> 
+											<i id="closenavbtn" class="closenavbtn closeSb fa fa-bars text-lg opacity-10 d-none" aria-hidden="true"></i> 
+										</ol>
+									</nav>
+									<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-2" id="navbar">
+										<div class="ms-md-auto pe-md-3 d-flex align-items-left ">
+											<div class="input-group">
+												<span class="input-group-text text-body searchdashboardbtn"><i class="fa fa-search" aria-hidden="true"></i></span>
+												<input type="text" id="searchdashboard_val" class="form-control" placeholder="Search here..."/>
+											</div> 
+										</div>
+										<ul class="navbar-nav justify-content-end">
+											<li class="nav-item d-flex align-items-center">
+												<a class="btn btn-sm mb-0 me-3 clickApply">Apps</a>
+											</li>
+											<li class="nav-item dropdown pe-2 d-flex align-items-center">
+												<a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+													<i class="fa fa-bell cursor-pointer"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</nav>
+						</div>
+						<div class="container-fluid py-4">
+							<div class="sidebar" id="mysidebar">
+								<ul>
+									<li class="li_overview_dashboard">
+										<a href="/my/portal/dashboard">
+											<i class="fa fa-th-large"></i>
+											<div>Dashboards</div>
+											
+										</a>
+									</li>
+									<li class="li_mmr">
+										<a href="/portal/attendance">
+											<i class="fa fa-money"></i>
+											<div>Attendance</div>
+										</a>
+									</li>
+									<li class="li_frame_agreement">
+										<a href="/my/requests">
+											<i class="fa fa-snowflake-o"></i>
+											<div>Requests</div>
+										</a>
+									</li>
+									<li>
+										<a href="/my/requests/leave_request">
+											<i class="fa fa-users"></i>
+											<div>Leaves</div>
+										</a>
+									</li>
+									<li>
+										<a href="/web">
+											<i class="fa fa-cog"></i>
+											<div>Setting</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<i class="fa fa-bars"></i>
+											<div>Help</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div id="generalOverviewCard">
+								<div class="cardo closeSb"> 
+									<div class="office-card">
+										<div class="card-content">
+											<div class="number" id="open_request"><t t-esc="open_request"/></div>
+											<div class="card-name">Open Requests</div>
+										</div> 
+										<div class="col-4 text-end">
+											<div class="icon-box">
+												<a href="/my/requests"><i class="fa fa-print"></i></a>
+											</div>
+										</div>
+									</div>
+									<div class="office-card">
+										<div class="card-content">
+											<div class="number" id="approved_request"><t t-esc="approved_request"/></div>
+											<div class="card-name">Approved Request</div>
+										</div> 
+										<div class="col-4 text-end">
+											<div class="icon-box">
+												<a href="/my/requests"><i class="fa fa-bars"></i></a>
+											</div>
+										</div>
+									</div>
+									<div class="office-card">
+										<div class="card-content">
+											<div class="number" id="closed_request"><t t-esc="closed_request"/></div>
+											<a href="/my/requests"><div class="card-name">Closed Request</div></a>
+										</div> 
+										<div class="col-4 text-end"> 
+											<div class="icon-box">
+												<i class="fa fa-book"></i>
+											</div>
+										</div>
+									</div>
+									<div class="office-card">
+										<div class="card-content">
+											<div class="number" id="leave_remaining"><t t-esc="leave_remaining"/></div>
+											<div class="card-name">Leave Remaining</div>
+										</div> 
+										<div class="col-4 text-end">
+											<div class="icon-box">
+												<i class="fa fa-times"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row mt-4 closeSb">
+									<div class="col-chart col-lg-7 h-80">
+										<div class="card-header pb-0 closeSb">
+											<h6>Employee Profile</h6>
+											<p class="text-sm">
+												<i class="fa fa-arrow-up text-success"></i>
+												<span class="font-weight-bold">Active </span> as at <t t-esc="datetime.datetime.now().strftime('%B %d, %Y')"/>
+											</p>
+											<p class="text-sm">
+												<i class="fa fa-arrow-up text-danger"></i>
+												<span class="font-weight-bold">Queries </span>: 0
+											</p>
+										</div>
+										<div class="card-header pb-0 mb-2">
+											<div class="row">
+												<div class="col-lg-6 col-7 mb-2">
+													<t t-if="image">
+														<img class="emp_img" t-att-src="image_data_uri(image)" alt="Avatar"/> 
+													</t>
+												</div>
+												<div class="col-lg-5 col-5 text-end align-items-center">
+													<p><h6>Name : <t t-esc="user.employee_id.name"/></h6></p>
+													<p class="text-sm">
+														<i class="fa fa-university text-success"></i>
+														<span class="font-weight-bold">Department: </span> <t t-esc="user.employee_id.department_id.name or ''"/>
+													</p>
+													<p class="text-sm">
+														<i class="fa fa-life-ring text-success"></i>
+														<span class="font-weight-bold">Role: </span> <t t-esc="user.employee_id.job_id.name or ''"/>
+													</p>
+													<p class="text-sm">
+														<i class="fa fa-user text-success"></i>
+														<span class="font-weight-bold">Manager: </span> <t t-esc="user.employee_id.parent_id.name or ''"/>
+													</p>  
+												</div>
+											</div>
+										</div>
+										<!--<div class="card z-index-2 h-80">
+											 <div class="card-header pb-0 closeSb">
+												<h6>Employee Profile</h6>
+												<p class="text-sm">
+													<i class="fa fa-arrow-up text-success"></i>
+													<span class="font-weight-bold">Active </span> as at <t t-esc="datetime.datetime.now().strftime('%B %d, %Y')"/>
+												</p>
+												<p class="text-sm">
+													<i class="fa fa-arrow-up text-danger"></i>
+													<span class="font-weight-bold">Queries </span>: 0
+												</p>
+											</div>
+											
+											<img class="emp_img" t-att-src="image_data_uri(image)" alt="Avatar"/> 
+											<p><h6>Name : <t t-esc="user.employee_id.name"/></h6></p>
+											<p class="text-sm">
+												<i class="fa fa-university text-success"></i>
+												<span class="font-weight-bold">Department: </span> <t t-esc="user.employee_id.department_id.name or ''"/>
+											</p>
+											<p class="text-sm">
+												<i class="fa fa-life-ring text-success"></i>
+												<span class="font-weight-bold">Role: </span> <t t-esc="user.employee_id.job_id.name or ''"/>
+											</p>
+											<p class="text-sm">
+												<i class="fa fa-user text-success"></i>
+												<span class="font-weight-bold">Manager: </span> <t t-esc="user.employee_id.parent_id.name or ''"/>
+											</p>  
+										</div>-->
+									</div>
+									<div class="col-chart col-lg-5">
+										<div class="card h-80 p-3">
+											<div id="doughnutCanvasDiv" class="border-radius-lg bg-cover h-80 p-3 py-2">
+												<p class="text-black">Performance Measure</p>
+												<span class="d-none" id="performance_y_data_chart"><t t-esc="performance_y_data_chart"/></span>
+												<span class="d-none" id="performance_x_data_chart"><t t-esc="performance_x_data_chart"/></span>
+												<canvas id="doughnutCanvas"></canvas> 
+												<a class="text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="/web">
+												    More
+												<i class="fa fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<hr></hr>
+							<footer class="footer pt-3 closeSb">
+								<div class="container-fluid">
+									<div class="row align-items-center justify-content-lg-between">
+										<div class="col-lg-6 mb-lg-0 mb-4">
+											<div class="copyright text-center text-sm text-muted text-lg-start">
+												© <script>
+												document.write(new Date().getFullYear())
+												</script>,
+												made with <i class="fa fa-heart"></i> by
+												<a href="/" class="font-weight-bold" target="_blank">GS</a>
+												for a better Analysis.
+											</div>
+										</div>
+										<div class="col-lg-6">
+											<ul class="nav nav-footer justify-content-center justify-content-lg-end">
+												<li class="nav-item">
+												<a href="#" class="nav-link text-muted" target="_blank">Growth Stack</a>
+												</li>
+												<li class="nav-item">
+												<a href="/" class="nav-link text-muted" target="_blank">About Us</a>
+												</li>
+												<li class="nav-item">
+												<a href="/" class="nav-link text-muted" target="_blank">Team</a>
+												</li>
+												<li class="nav-item">
+												<a href="/" class="nav-link pe-0 text-muted" target="_blank">License</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</footer>
+						</div>
+					<!-- </main>  -->
+				</div>
+			</t>
+		</template>
+	</data>
+</odoo>

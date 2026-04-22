@@ -1,0 +1,42 @@
+1. Procurement is generated via procurement process (SEE Procurment documentation)
+
+2. Inventory Receives (Please ensure the products procured has asset model set in the product category)
+
+3. System Generates a transitory asset once inventory receives and validate goods
+
+4. Go to Transitory asset module --> under ungenerated / Parent assets, Then select any parent asset record,
+
+5. Click on Generate Asset button that appears, (you will also see an option to print serial number)
+
+6. Under generated Assets you can locate all the generated asset records
+
+7. Every month you may wish to run assets both the ones missed, 
+
+To do that, go to Compute depreciation module, 
+
+On the page, simply click on Run and post depreciation button
+
+To generate asset model or run single asset please use this guide.. 
+
+Go to Asset and tracking module--> Assets 
+1. Create an asset
+2. Enter the original value 
+3. Fill in the other required details
+Set the Depreciation methods as follows
+a. Method as straight line
+b. Duration e.g 5 Years / months 
+c. Computation : No Prorata 
+d. Prorata date 
+
+Note based on the requirement, the computation is done as follows 
+if computation is set as No prorata: 
+here is our derived formula: 100 / Duration / custom_period if this is set in years otherwise 
+percentagevalue = 100 / Duration / custom_period
+
+depreciation value = original_value = percentagevalue / 100
+
+if computation is set as Constant period: 
+here is our derived formula: 100 / Duration / custom_period if this is set in years otherwise 
+percentagevalue = 100 / Duration / custom_period
+
+depreciation value = original_value = percentagevalue / 100

@@ -5,7 +5,7 @@
     'description': 'Full-featured booking module for clinics with doctor assignment, branch management, reminders, and REST API.',
     'author': 'Custom Dev',
     'category': 'Healthcare',
-    'depends': ['base', 'mail', 'contacts'],
+    'depends': ['base', 'mail', 'contacts', 'ik_multi_branch'],
     'data': [
         'security/booking_security.xml',
         'security/ir.model.access.csv',

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_role_admin,user.role admin access,model_user_role,group_role_manager_admin,1,1,1,1
+access_user_role_user,user.role user access,model_user_role,,1,1,1,1
+access_user_role_ownership_admin,user.role.group.ownership admin access,model_user_role_group_ownership,group_role_manager_admin,1,1,1,1
+access_user_role_ownership_user,user.role.group.ownership user access,model_user_role_group_ownership,,1,1,1,1
+access_user_role_approval_ownership_auto,user.role.approval.ownership.auto,model_user_role_approval_ownership,,1,1,1,1

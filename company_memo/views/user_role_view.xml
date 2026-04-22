@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <record id="view_res_group_role_form" model="ir.ui.view">
+        <field name="name">res.group.role.form</field>
+        <field name="model">res.group.role</field>
+        <field name="arch" type="xml">
+            <form string="Group Role">
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                    </group>
+                </group>
+                <notebook>
+                    <page name="group_ids_page" string="Group page">
+                        <field name="group_ids" options="{'no_create':True, 'no_quick_create':True}">
+                            <tree string="Groups">
+                                <field name="name" string="Name"/>
+                                <field name="share" string="Share group"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="res_group_role_action">
+        <field name="name">User roles</field>
+        <field name="res_model">res.group.role</field>
+        <field name="type">ir.actions.act_window</field>
+       <field name="domain">[]</field>
+         <field name="view_mode">tree,form</field>
+    </record>
+ 
+
+    <!-- <menuitem
+            id="res_group_role_menu_memo"
+            name="User role"
+            action="company_memo.res_group_role_action"
+            parent="company_memo.memo_configuration"
+            sequence="15"/> -->
+
+    <!-- <menuitem
+            id="res_group_role_menu_users"
+            name="User role"
+            action="company_memo.res_group_role_action"
+            parent="base.menu_users"
+            sequence="4"/> -->
+
+
+    
+</odoo>

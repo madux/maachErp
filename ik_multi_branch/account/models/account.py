@@ -417,8 +417,8 @@ class AccountPaymentRegister(models.TransientModel):
                 if set(branch_ids).intersection(set(journal_branches)):
                     journal_ids.append(journal.id)
                 
-                if journal.for_public_use:
-                    journal_ids.append(journal.id)
+                # if journal.for_public_use:
+                #     journal_ids.append(journal.id)
             if account_major_user:
                 domain = domain
 

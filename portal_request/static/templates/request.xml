@@ -1,0 +1,1063 @@
+<odoo>
+    <data>
+        <!-- request form template -->
+        <!-- <template id="incident_mgt_template" name="Request Form"> -->
+        <template name="Request Successful" id="portal_request_success_template">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty h-100">
+                    <div class="container d-flex flex-column justify-content-center h-100">
+                        <div class="oe_structure" id="oe_structure_portal_request_thanks_you"/>
+                            <div class="row justify-content-center">
+                                <!-- <t t-if="request.session.get('form_builder_model_model', '') == 'helpdesk.ticket'">
+                                    <t t-set="ticket" t-value="request.website._website_form_last_record()"/>
+                                </t> -->
+                                <h1 class="text-center">
+                                    <i class="fa fa-check-circle fa-1x text-success me-2" role="img" aria-label="Success" title="Success"/>
+                                    <span>Your request Number is <br/># <span t-esc="memo_number"/></span>
+                                </h1>
+                                <h1 class="text-center">Thank you for submitting your request. You will get Notification on approval processes</h1>
+                            </div>
+                            <div class="oe_structure" id="oe_go_back"/>
+                            <div class="mb-5 py-2 justify-content-center col-12 s_website_form_submit button_go_back" data-name="Submit Button">
+                                <div style="width: 200px;" class="s_website_form_label"/>
+                                <a t-att-href="'/my/request/view/%s'% memo_id" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">View Requests</a>
+                                <a href="/" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text oe_right">Go Back</a>
+                                <!-- <span id="s_website_form_result"/> -->
+                            </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="portal_request_template" name="Request Form">
+            <t t-name="portal_request.portal_request_template">
+                <t t-call="website.layout">
+                    <t t-set="pageName" t-value="'homepage'"/>
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_process_steps pt24 pb24 s_process_steps_connector_line o_colored_level" data-vcss="001" data-snippet="s_process_steps" data-name="Steps" style="background-image: none;">
+                            <svg class="s_process_step_svg_defs position-absolute">
+                                <defs>
+                                    <marker class="s_process_steps_arrow_head" markerwidth="15" markerheight="10" refx="6" refy="6" orient="auto">
+                                        <path d="M 2,2 L10,6 L2,10 L6,6 L2,2" vector-effect="non-scaling-size"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <div class="container">
+                                <div class="row g-0">
+                                    <div class="col-lg-3 s_process_step pt24 pb24 o_colored_level">
+                                        <svg class="s_process_step_connector" viewbox="0 0 152.5 80" preserveaspectratio="none" style="left: calc(50% + 40px); height: 80px; width: calc(100% - 80px);">
+                                            <path d="M 0 40 L 152.5 40" vector-effect="non-scaling-stroke"/>
+                                        </svg>
+                                        <div class="s_process_step_icon">
+                                            <!-- <i class="fa fa-shopping-basket fa-2x mx-auto rounded-circle bg-primary"/> -->
+                                            <i class="fa fa-pencil fa-2x mx-auto rounded-circle bg-primary"/>
+                                        </div>
+                                        <div class="s_process_step_content">
+                                            <h2 class="o_default_snippet_text">Draft</h2>
+                                            <p class="o_default_snippet_text">Add Your Request <br/>and follow the process.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 s_process_step pt24 pb24 o_colored_level">
+                                        <svg class="s_process_step_connector" viewbox="0 0 152.5 80" preserveaspectratio="none" style="left: calc(50% + 40px); height: 80px; width: calc(100% - 80px);">
+                                            <path d="M 0 40 L 152.5 40" vector-effect="non-scaling-stroke"/>
+                                        </svg>
+                                        <div class="s_process_step_icon">
+                                            <i class="fa fa-unlock-alt fa-2x mx-auto rounded-circle bg-o-color-5"/>
+                                        </div>
+                                        <div class="s_process_step_content">
+                                            <h2 class="o_default_snippet_text">Submit</h2>
+                                            <p class="o_default_snippet_text">Once your submit. <br/>Manager recieves your request</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 s_process_step pt24 pb24 o_colored_level">
+                                        <svg class="s_process_step_connector" viewbox="0 0 152.5 80" preserveaspectratio="none" style="left: calc(50% + 40px); height: 80px; width: calc(100% - 80px);">
+                                            <path d="M 0 40 L 152.5 40" vector-effect="non-scaling-stroke"/>
+                                        </svg>
+                                        <div class="s_process_step_icon">
+                                            <i class="fa fa-hourglass-start fa-2x mx-auto rounded-circle bg-secondary"/>
+                                        </div>
+                                        <div class="s_process_step_content">
+                                            <h2 class="o_default_snippet_text">Awaiting Approval</h2>
+                                            <p class="o_default_snippet_text">If submitted <br/>Approval Process takes place.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 s_process_step pt24 pb24 o_colored_level">
+                                        <svg class="s_process_step_connector" viewbox="0 0 100 20" preserveaspectratio="none">
+                                            <path d="M 0 10 L 100 10" vector-effect="non-scaling-stroke"/>
+                                        </svg>
+                                        <div class="s_process_step_icon">
+                                            <i class="fa fa-plane fa-2x mx-auto rounded-circle bg-o-color-3"/>
+                                        </div>
+                                        <div class="s_process_step_content">
+                                            <h2 class="o_default_snippet_text">Complete</h2>
+                                            <p class="o_default_snippet_text">Manager Approves this, <br/>You get Notified.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="s_website_form pt16 pb16 o_colored_level portal-request" id="portal-request" t-att-data-request-branch-id="user_branch.id if user_branch else False" data-vcss="001" data-snippet="s_website_form" data-name="Form" style="background-image: none;">
+                            <div class="container">
+                             <!-- action="/portal/form/" -->
+                                <!-- <form id="msform" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-model_name="mail.mail"> -->
+                                <div class="modal" tabindex="-1" role="dialog" id="portal_request_alert_modal">
+                                    <div class="modal-dialog mt-5" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p id="display_modal_message">...</p>
+                                            </div>
+                                            <div class="modal-header">
+                                                <!-- <h5 class="modal-title">Cancel Request</h5> -->
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="msform" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-pre-fill="true">
+                                    <div class="navbar-light  py-0 mb-2">
+                                        <a id="myrequest" href="/" class="btn btn-secondary btn-sm">
+                                            My Apps
+                                        </a>
+                                        <a id="myrequest" href="/my/requests" class="btn btn-secondary btn-sm">
+                                            My requests
+                                        </a>
+                                        <a id="relieveBtn" class="btn btn-secondary btn-sm relieveBtn d-none" tooltip="Use this option to indicate that you are back from leave">
+                                            I Am Now Available
+                                        </a>
+                                    </div>
+
+                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_dnone" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px">
+                                                    <span class="s_website_form_label_content"/>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="hidden" class="form-control s_website_form_input" name="email_to" value="info@yourcompany.example.com"/>
+                                                    <div class="s_website_form_field_description small form-text text-muted">
+                                                        Separate email addresses with a comma.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="staff_id">
+                                                    <span class="s_website_form_label_content">Staff ID</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" class="form-control s_website_form_input" name="staff_id" required="1" id="staff_id" labelfor="Staff ID:"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- new field added -->
+                                         <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="selectRequestType">
+                                                    <span class="s_website_form_label_content">Request Type</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                <input type="hidden" name="memo_id" id="memo_id" class="memo_id"/>
+                                                    <input type="number" class="d-none form-control s_website_form_input" 
+                                                        name="selectedRequestTypeId" id="selectedRequestTypeId"/>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <select name="selectRequestType" id="selectRequestType" required="required" class="form-control" labelfor="Request Type">
+                                                        <option disabled="true" value="" t-att-selected="'selected' if not selected_memo_type_id else None">
+                                                            .. Select Request Type ..
+                                                        </option>
+                                                        <t t-foreach="memo_type_ids" t-as="mt">
+                                                            <option t-att-value="mt.id" 
+                                                                    t-att-id="mt.id" 
+                                                                    t-att-memo_key="mt.memo_key"
+                                                                    t-att-selected="'selected' if selected_memo_type_id and mt.id == selected_memo_type_id else None">
+                                                                <span t-esc="mt.name"/>
+                                                            </option>
+                                                        </t> 
+                                                    </select>
+                                                </div>
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="selectRequestDistrict" t-if="show_branch_selector">
+                                                    <span class="s_website_form_label_content">Request District</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm" t-if="show_branch_selector">
+                                                    <select name="selectRequestDistrict" id="selectRequestDistrict" required="required" class="form-control" labelfor="Request District">
+                                                        <t t-foreach="allowed_branches" t-as="branch">
+                                                            <option t-att-value="branch.id" 
+                                                                    t-att-id="branch.id"
+                                                                    t-att-selected="'selected' if branch.id == user_branch.id else None">
+                                                                <span t-esc="branch.name"/>
+                                                            </option>
+                                                        </t> 
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="selectRequestDistrict" id="selectRequestDistrict" t-if="not show_branch_selector" t-att-value="user_branch.id"/>
+                                            </div>
+                                        </div>
+                                        <!-- end of new field -->
+
+                                        <!-- <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="selectRequestOption">
+                                                    <span class="s_website_form_label_content">Request Option </span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                    <input type="number" class="d-none form-control s_website_form_input" 
+                                                        name="selectedRequestOptionId" id="selectedRequestOptionId"/>
+                                                    <input type="number" class="d-none form-control s_website_form_input" 
+                                                        name="selectConfigOptionId" id="selectConfigOptionId"/>
+                                                    <input type="text" class="d-none form-control s_website_form_input" 
+                                                        name="selectRequestOption" id="selectRequestOption" placeholder="request option eg soe"/>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <select name="selectConfigOption" id="selectConfigOption" required="required" class="form-control" labelfor="Request Option">
+                                                        <option disabled="true" selected="true" value="">.. Select ..</option>
+                                                        <t t-foreach="config_type_ids" t-as="ct">
+                                                            <option t-att-value="ct.id" 
+                                                                    t-att-id="ct.id" 
+                                                                    t-att-memo_key_id="str(ct.memo_type.id)"
+                                                                    t-att-memo_type_key="ct.memo_key"
+                                                                    class="config-option"
+                                                                    style="display: none;">
+                                                                <span t-esc="ct.name"/>
+                                                            </option>
+                                                        </t> 
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required d-none" id="div_inter_district_process" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="isInterDistrictProcess">
+                                                    <span class="s_website_form_label_content">Inter-District/Company Process</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="isInterDistrictProcess" id="isInterDistrictProcess" class="isInterDistrictProcess"/>
+                                                        <label for="isInterDistrictProcess">
+                                                            <i class="fa fa-exchange mr-1"></i>
+                                                            Inter-District/Company requests
+                                                        </label>
+                                                        <small class="form-text text-muted">
+                                                            Check this if you want to process requests across different districts or companies
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="selectConfigOption">
+                                                    <span class="s_website_form_label_content">Request Option </span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                    <input type="number" class="d-none form-control s_website_form_input" 
+                                                        name="selectedRequestOptionId" id="selectedRequestOptionId"/>
+                                                    <input type="number" class="d-none form-control s_website_form_input" 
+                                                        name="selectConfigOptionId" id="selectConfigOptionId"/>
+                                                    <input type="text" class="d-none form-control s_website_form_input" 
+                                                        name="selectRequestOption" id="selectRequestOption" placeholder="request option eg soe"/>
+                                                    <input type="checkbox" name="is_inter_district_transfer_config" id="is_inter_district_transfer_config" class="d-none"/>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <select name="selectConfigOption" id="selectConfigOption" required="required" data-init="" class="form-control" labelfor="Request Option">
+                                                        <option disabled="true" selected="true" value="">.. Select ..</option>
+                                                        <t t-foreach="config_type_ids" t-as="ct">
+                                                            <option t-att-value="ct.id" 
+                                                                    t-att-id="ct.id" 
+                                                                    t-att-memo_key_id="ct.memo_type.id"
+                                                                    t-att-memo_type_key="ct.memo_key"  
+                                                                    t-att-inter_district="'True' if ct.inter_district else 'False'"
+                                                                    t-att-branch_id="ct.branch_id.id if ct.branch_id else ''"
+                                                                    t-att-processing_branch="ct.processing_branch_id.id if ct.processing_branch_id else ''"
+                                                                    t-att-requires_district="'true' if ct.requires_processing_district else 'false'">
+                                                                <span t-esc="ct.name"/>
+                                                                <t t-if="ct.inter_district"> (Inter-District)</t>
+                                                            </option>
+                                                        </t> 
+                                                    </select>
+                                                </div>
+
+                                                <!-- Type of Request (Hidden - for existing request functionality) -->
+                                                <label class="col-form-label col-sm-auto s_website_form_label d-none" style="width: 200px" for="selectTypeRequest">
+                                                    <span class="s_website_form_label_content">Type of Request</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm d-none" id="selectTypeRequestDiv">
+                                                    <select name="selectTypeRequest" id="selectTypeRequest" required="required" data-init="new" class="form-control" labelfor="Request Type">
+                                                        <option disabled="true" selected="true" value=""></option>
+                                                        <option value="new" selected="true">New</option>
+                                                        <option value="existing">Existing Request</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Payment Reference -->
+                                                <label class="col-form-label col-sm-auto s_website_form_label d-none" style="width: 200px" id="PaymentcashAdvanceLabel" for="PaymentcashAdvance">
+                                                    <span class="s_website_form_label_content">Payment Ref</span>
+                                                </label>
+                                                <div class="col-sm d-none" id="PaymentcashAdvanceDiv">
+                                                    <input type="text" class="form-control s_website_form_input" name="PaymentcashAdvance" id="PaymentcashAdvance" labelfor="Payment Reference"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Processing District -->
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom d-none" 
+                                            id="processing_district_div" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="processing_branch_id">
+                                                    <span class="s_website_form_label_content">Processing District</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <select name="processing_branch_id" id="processing_branch_id" class="form-control" labelfor="Processing District">
+                                                        <option value="" selected="true" disabled="true">.. Select Processing District ..</option>
+                                                    </select>
+                                                    <small class="text-muted">Select the district responsible for fulfilling this request.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Material Request Location Fields (Shown AFTER Processing District) -->
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom d-none" id="material_request_locations" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px">
+                                                    <span class="s_website_form_label_content">Stock Locations</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="source_location_id">
+                                                                Source Location <span class="text-danger">*</span>
+                                                            </label>
+                                                            <input id="TargetSourceLocation" class="form-control d-none" name="TargetSourceLocation"/>
+                                                            <input id="source_location_id" name="source_location_id" labelfor="Source Location" class="form-control Sourcelocation-cls"/>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="destination_location_id">
+                                                                Destination Location <span class="text-danger">*</span>
+                                                            </label>
+                                                            <input id="destination_location_id" name="destination_location_id" labelfor="Destination Location" class="form-control destinationlocation-cls"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- new ended-->
+                                        <input type="hidden" id="preselected_memo_key" t-att-value="preselected_memo_key or ''"/>
+
+                                        <div id ="divEmployeeData" class="d-none s_website_form_field mb-3 col-6 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="divEmployeeData">
+                                                    <span class="s_website_form_label_content">Option for employee request</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm col-3" id="selectdivEmployeeData">
+                                                    <select name="selectEmployeedata" id="selectEmployeedata" required="required" data-init="new" class="form-control" labelfor="Employee update type">
+                                                        <option disabled="true" selected="true" value=""></option>
+                                                        <option value="transfer" selected="true">Transfer</option>
+                                                        <option value="promotion">Promotion</option>
+                                                        <option value="query">Query</option>
+                                                        <option value="warning">Warning</option>
+                                                        <option value="warning">Due for Retirement</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom d-none" 
+                                            id="div_existing_order" data-type="char" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" 
+                                                    style="width: 200px" for="existing_order">
+                                                    <span class="s_website_form_label_content" id="existing_ref_label">
+                                                        Cash Advance Ref #
+                                                    </span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" 
+                                                        class="form-control s_website_form_input" 
+                                                        name="existing_order" 
+                                                        placeholder="Search cash advance reference..." 
+                                                        required="0" 
+                                                        id="existing_order" 
+                                                        labelfor="Cash Advance Reference"/>
+                                                </div>
+                                                <label class="col-form-label col-sm-auto s_website_form_label" 
+                                                    style="width: 200px" for="request_status">
+                                                    <span class="s_website_form_label_content">Request Status</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" 
+                                                        class="form-control s_website_form_input" 
+                                                        name="request_status" 
+                                                        required="false" 
+                                                        readonly="1" 
+                                                        id="request_status" 
+                                                        labelfor="Request Status"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="employed_id">
+                                                    <span class="s_website_form_label_content">Employee Name</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" class="form-control s_website_form_input" name="employed_id" required="1" data-fill-with="name" id="employed_id"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom" data-type="tel" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="phone_number">
+                                                    <span class="s_website_form_label_content">Phone Number</span>
+                                                </label>
+                                                <div class="col-sm">    
+                                                    <input type="tel" class="form-control s_website_form_input" name="phone" data-fill-with="phone" id="phone_number" labelfor="Phone"/>
+                                                </div>
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="email_from">
+                                                    <span class="s_website_form_label_content">Your Email</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="email" class="form-control s_website_form_input" name="email_from" required="true" data-fill-with="email" id="email_from" labelfor="Email"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="s_website_form_field mb-3 col-12  s_website_form_model_required" data-type="char" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="subject">
+                                                    <span class="s_website_form_label_content">Subject</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" class="form-control s_website_form_input" name="subject" required="true" id="subject" labelfor="Subject"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="description">
+                                                    <span class="s_website_form_label_content" id="labelDescription">Description</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <textarea class="form-control s_website_form_input" name="description" required="1" id="description" rows="3" labelfor="Description"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="s_website_form_field mb-3 col-8 s_website_form_custom s_website_form_required d-none" id="amount_section" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="amount_fig">
+                                                    <span class="s_website_form_label_content">Payment Amount</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="number" class="form-control s_website_form_input" id="amount_fig" name="amount_fig" required="false" labelfor="Payment Amount"/>
+                                                    <input type="text" class="d-none s_website_form_input" id="allAmount" name="allAmount" required="false"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="div_system_requirement" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required d-none" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="systemRequirement">
+                                                    <span class="s_website_form_label_content">System Requirements</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="applicationChange" id="applicationChange"/>
+                                                        <label for="applicationChangeLabel">Application Change</label>
+                                                    </div>
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="enhancement" id="enhancement" checked="true"/>
+                                                        <label for="applicationChangeLabel">Enhancement</label>
+                                                    </div>
+                                                    
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="datapatch" id="datapatch"/>
+                                                        <label for="datapatchLabel">Data Patch</label>
+                                                    </div>
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="databaseChange" id="databaseChange"/>
+                                                        <label for="databaseChangeLabel">Database Change</label>
+                                                    </div>
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="osChange" id="osChange"/>
+                                                        <label for="osChangeLabel">OS Change</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="ids_on_os_and_db" id="ids_on_os_and_db"/>
+                                                        <label for="ids_on_os_and_dbLabel">IDs on OS and DB</label>
+                                                    </div>
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="versionUpgrade" id="versionUpgrade"/>
+                                                        <label for="versionUpgradeLabel">Version Upgrade</label>
+                                                    </div>
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" name="hardwareOption" id="hardwareOption"/>
+                                                        <label for="hardwareLabel">Hardware</label>
+                                                    </div>
+                                                    <div class="mb-2 mt-2 text-muted">
+                                                        <input type="checkbox" class="otherChangeOption" name="otherChangeOption" id="otherChangeOption"/>
+                                                        <label for="otherChangeOptionLabel">Other Change</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div id="div_other_system_details" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required d-none" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="other_system_details_desc">
+                                                    <span class="s_website_form_label_content" id="other_system_details_desc">Specify Other Changes</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input placeholder="Start typing" class="form-control s_website_form_input" name="other_system_details" required="0" id="other_system_details" rows="3" labelfor="other_system_details_desc"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="div_justification_reason" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required d-none" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="justification_reason">
+                                                    <span class="s_website_form_label_content" id="justification_reason_desc">Specify reason for Access /justification</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input placeholder="Start typing" style="width=800px;" class="form-control s_website_form_input" name="justification_reason" required="0" id="justification_reason" rows="3" labelfor="Specify reason for Access /justification"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="request_date">
+                                                    <span class="s_website_form_label_content">Request Date</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm col-md-4">
+                                                    <input type="text" class="form-control datepicker s_website_form_input" id="request_date" name="request_date" required="true" labelfor="Request Date"/>
+                                                </div>
+                                                <label id="vendor_label" class="col-form-label col-sm-auto s_website_form_label" style="width: 100px" for="vendor">
+                                                    <span class="s_website_form_label_content">Partner</span>
+                                                    <span class="s_website_form_mark"> </span>
+                                                </label>
+                                                <div class="col-sm col-md-4" id="vendor_div">
+                                                    <input id="vendor_id" class="form-control" name="vendor_id" labelfor="vendor_id"/>
+                                                </div>
+                                                <!-- <div class="col-sm col-md-4" id="vendor_div">
+                                                    <input id="currency_id" class="form-control" name="currency_id" labelfor="currency_id"/>
+                                                </div> -->
+
+
+                                                <label class="col-form-label col-sm-auto s_website_form_label d-none" id="label_end_date" style="width: 200px" for="request_end_date">
+                                                    <span class="s_website_form_label_content">End Date</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" class="form-control datepicker s_website_form_input d-none" id="request_end_date" name="request_end_date" required="false" labelfor="End Date"/>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <!-- doform -->
+                                        <div id="currency_div" class="d-none s_website_form_field mb-3 col-12 s_website_form_custom" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <!-- Currency --> 
+                                                <label class="col-form-label s_website_form_label" style="width: 200px" Labelfor="Currency">
+                                                    <span class="s_website_form_label_content">Currency</span>
+                                                </label>
+                                                <div class="col-sm col-md-4">
+                                                    <select id="currency_id" name="currency_id" class="form-control form-control-sm" Labelfor="Currency">
+                                                        <t t-if="user_id.company_id.currency_id">
+                                                            <option selected="selected" t-att-value="user_id.company_id.currency_id.id">
+                                                                <span t-esc="user_id.company_id.currency_id.name"/>
+                                                            </option>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <option selected="selected" value=""> Select currency </option>
+                                                        </t>
+
+                                                        <t t-foreach="currency_ids" t-as="curr">
+                                                            <option t-att-value="curr.id">
+                                                                <span t-esc="curr.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select> 
+                                                </div>
+
+                                                <!-- Conversion Rate --> 
+                                                <label class="col-form-label s_website_form_label" style="width: 150px">
+                                                    <span class="s_website_form_label_content">Conversion Rate</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm col-md-4">
+                                                    <input type="number" class="form-control s_website_form_input"
+                                                        name="currency_rate" id="currency_rate" Labelfor="Currency rate"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- doform -->
+
+
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <!-- <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="selectDistrict">
+                                                    <span class="s_website_form_label_content">District</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <select id="selectDistrict" name="selectDistrict" required="required" class="form-control form-control-sm" labelfor="District">
+                                                        <option selected="selected" value="">.- Select District ..</option>
+                                                        <t t-foreach="district_ids" t-as="dis">
+                                                            <option t-att-value="dis.id">
+                                                                <span t-esc="dis.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div> -->
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="other_docs">
+                                                    <span class="s_website_form_label_content">Documents</span>
+                                                    <!-- <span class="s_website_form_mark"> *</span> -->
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="file" class="form-control s_website_form_input" name="other_docs" id="other_docs" multiple="1" placeholder="Hold shift / Ctrl to select multiple files"/>
+                                                </div> 
+                                            </div>
+                                        </div> 
+                                         
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label for="inputFollowers" class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" labelfor="inputFollowers">
+                                                    <span class="s_website_form_label_content">Choose Followers</span>
+                                                </label>
+                                                 <div class="col-sm col-md-8">
+                                                    <input id="inputFollowers" class="form-control s_website_form_input" field_name="inputFollowers" name="inputFollowers"/>
+                                                </div> 
+                                            </div>
+                                        </div> 
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required d-none" id="leave_section" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="leave_type_id">
+                                                    <span class="s_website_form_label_content">Leave Type</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm col-md-3">
+                                                    <select id="leave_type_id" name="leave_type_id" class="form-control form-control-sm" labelfor="Leave Type">
+                                                        <option selected="selected" value="">-- Select leave type --</option>
+                                                        <t t-foreach="leave_type_ids" t-as="lv">
+                                                            <option t-att-value="lv.id">
+                                                                <span t-esc="lv.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100px" for="leave_start_date">
+                                                    <span class="s_website_form_label_content">Start Date</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="hidden" class="form-control s_website_form_input" name="leave_remaining" id="leave_remaining"/>
+                                                    <input type="text" class="form-control datepicker s_website_form_input" id="leave_start_date" name="leave_start_datex" required="false" labelfor="Leave start date"/>
+                                                </div>
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100px" for="leave_end_datex">
+                                                    <span class="s_website_form_label_content">End Date</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input type="text" class="form-control datepicker s_website_form_input" id="leave_end_datex" name="leave_end_datex" required="false" labelfor="Leave End date"/>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row s_col_no_resize s_col_no_bgcolor" id="leave_section2">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="leave_taken">
+                                                    <span class="s_website_form_label_content">Taken Leave</span>
+                                                    <span class="s_website_form_mark"> </span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <span id="leave_taken" class="s_website_form_mark" style="font-size: 2em; font-weight: bold; white-space:nowrap;">0</span> Days
+                                                </div> 
+                                            </div>
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="leave_remain">
+                                                    <span class="s_website_form_label_content">Remaining Leave</span>
+                                                    <span class="s_website_form_mark"> </span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <span id="leave_remain" class="s_website_form_mark" style="font-size: 2em; font-weight: bold; white-space:nowrap;">0</span> Days
+                                                </div> 
+                                            </div> -->
+                                            <div class="row s_col_no_resize s_col_no_bgcolor mt-4" id="leave_section2">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="leave_taken">
+                                                    <span class="s_website_form_label_content">Taken Leave</span>
+                                                    <span class="s_website_form_mark"> </span>
+                                                </label>
+                                                <div class="col-sm col-md-1">
+                                                    <span id="leave_taken" class="s_website_form_mark" style="font-size: 2em; font-weight: bold; white-space:nowrap;">0</span> Days
+                                                </div> 
+                                            
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 170px" for="leave_remain">
+                                                    <span class="s_website_form_label_content">Remaining Leave</span>
+                                                    <span class="s_website_form_mark"> </span>
+                                                </label>
+                                                <div class="col-sm col-md-1">
+                                                    <span id="leave_remain" class="s_website_form_mark" style="font-size: 2em; font-weight: bold; white-space:nowrap;">0</span> Days
+                                                </div> 
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 100px" for="leave_reliever">
+                                                    <span class="s_website_form_label_content">Reliever</span>
+                                                    <span class="s_website_form_mark"> </span>
+                                                </label>
+                                                <div class="col-sm col-md-4">
+                                                    <input id="leave_reliever" class="form-control" name="leave_reliever" labelfor="leave_reliever"/>
+                                                </div> 
+                                            </div>
+                                        </div> 
+                                        <div class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required product_section d-none" id="product_section" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="product_ids">
+                                                    <span class="s_website_form_label_content">Available Products</span>
+                                                    <span class="s_website_form_mark"> *</span>
+                                                </label>
+                                                <div class="col-sm">
+                                                    <input id="product_ids" class="form-control d-none" required="false" name="product_ids" multiple="true" labelfor="Products"/>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <!-- <t t-if="req.memo_type not in ['employee_update']"> -->
+                                <div class="form-row d-none" id="employee_item_form_div">
+                                    <h3 class="fs-title">Employee transfer</h3>
+                                    <div class="tableclass table-responsive" id="employee_table_div">
+                                        <table width="100%" border="1" bordercolor="#FFFFFF" border-collapse="collapse" align="center"
+                                        id="employee_table" class="table table-bordered"
+                                        style="height: 200px !important;overflow-y: scroll !important;display: block;">
+                                            <thead>
+                                                <tr class="heading">
+                                                    <th width="5%">
+                                                        <label></label>
+                                                    </th>
+                                                    <th width="35%">
+                                                        Employee Name
+                                                    </th>
+                                                    <th width="20%">
+                                                        <label>New Department</label>
+                                                    </th>
+                                                    <th width="20%">
+                                                        <label>New Role</label>
+                                                    </th>
+                                                    <th width="20%">
+                                                        <label>New District</label>
+                                                    </th>
+                                                    
+                                                    <th width="5%">
+                                                        <label>X</label>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_employee" name="tbody_employee">
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                    <div class="mb-0 py-2 col-12 add_item justify-content-center">
+                                        <div style="width: 200px;" class="s_website_form_label"/>
+                                        <a id="add_item_btn" name="add_item_btn" href="#" class="add_item_btn btn btn-secondary btn-sm"> Add item </a>
+                                        <!-- <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">Submit</a> -->
+                                        <span id="s_website_form_result_addxx"/>
+                                    </div>
+                                </div>
+                            <!-- </t>
+                            <t t-else="">
+                            </t> -->
+                                        <div class="form-row d-none" id="product_form_div">
+                                            <h2 class="fs-title">Request Items</h2>
+                                            <div class="tableclass table-responsive" id="product_table_div">
+                                                <table width="100%" border="1" bordercolor="#999999"
+                                                bgcolor="#F7F7EF" border-collapse="collapse" align="center"
+                                                id="attachment_table" class="table table-bordered"
+                                                style="height: 250px !important; width: 1400px !important; overflow: scroll !important;display: block;">
+                                                    <thead>
+                                                        <tr class="heading">
+                                                            <!-- 1 -->
+                                                            <th width="5%">
+                                                                <label></label>
+                                                            </th>
+                                                            <!-- 2 -->
+                                                            <th width="20%">
+                                                                Product Name
+                                                            </th>
+                                                            <!-- 3 -->
+                                                            <th id="description_line" width="10%">
+                                                                Description
+                                                            </th>
+                                                            <!-- 4 -->
+                                                            <th id="req_qty_label" width="5%">
+                                                                <label>Request Qty</label>
+                                                            </th>
+                                                            <!-- 5 -->
+                                                            <th id="unit_price_label" width="10%">
+                                                                <label>Unit Price</label>
+                                                            </th>
+                                                            <th id="unit_sub_total" width="15%">
+                                                                <label>SubTotal</label>
+                                                            </th>
+                                                            <!-- 6 -->
+                                                            <th id="used_qty_for_soe" width="5%">
+                                                                <label>Used Qty</label>
+                                                            </th>
+                                                            <!-- 7 -->
+                                                            <th id="used_amount_for_soe" width="10%">
+                                                                <label>Unit Amount Used</label>
+                                                            </th>
+                                                            <!-- 8 -->
+                                                            <th id="retirement_sub_total" width="10%">
+                                                                <label>Used Subtotal</label>
+                                                            </th>
+                                                            <!-- 9 -->
+                                                            <th id="note_label" width="20%">
+                                                                <label>Enter More Details</label>
+                                                            </th>
+                                                            <!-- 10 -->
+                                                            <th class="d-none" id="distance_from" width="20%">
+                                                                <label>Distance From</label>
+                                                            </th>
+                                                            <!-- 11 -->
+                                                            <th class="d-none" id="distance_to" width="20%">
+                                                                <label>Distance to</label>
+                                                            </th>
+                                                            <!-- 12 -->
+                                                            <th id="delete_label" width="5%">
+                                                                <label>X</label>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!-- <tbody id="attachment2_table_body" name="attachment2_table_body"> -->
+                                                    <tbody id="tbody_product" name="tbody_product">
+                                                    </tbody>
+                                                </table>
+                                            </div> 
+                                            <div class="mb-0 py-2 col-12 add_item justify-content-center">
+                                                <div style="width: 200px;" class="s_website_form_label"/>
+                                                <a id="add_item_btn" name="add_item_btn" href="#" class="add_item_btn portal_button btn-sm"> Add item </a>
+                                                <!-- <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">Submit</a> -->
+                                                <span id="s_website_form_result_addxx"/>
+                                            </div>
+                                            <div class="tableclass table-responsive" id="div_all_total_amount">
+                                                <table width="100%" border="1" bordercolor="#FFFFFF"
+                                                bgcolor="#FFFFFF" border-collapse="collapse" align="center"
+                                                id="all_total_amount_table" class="table"
+                                                style="height: 100px !important; width: 1000px !important; display: block;">
+                                                    <thead>
+                                                        <tr class="heading">
+                                                            <th width="25%">
+                                                            </th>
+                                                            <th width="10%">
+                                                            </th>
+                                                            <th width="5%">
+                                                            </th>
+                                                            <th width="5%">
+                                                            </th>
+                                                            <th width="5%">
+                                                            </th>
+                                                            <th width="10%">
+                                                            </th>
+                                                            
+                                                            <th width="20%">
+                                                            </th>
+                                                            
+                                                            <th width="5%">
+                                                            </th>
+                                                            <th width="5%">
+                                                            </th>
+                                                            <th width="5%">
+                                                            </th>
+                                                            <th width="5%">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="all_total_amount_tbody" name="all_total_amount_tbody">
+                                                        <tr>
+                                                            <td width="25%">
+                                                            </td>
+                                                            <td width="10%">
+                                                            </td>
+                                                            <td width="5%">
+                                                            </td>
+                                                            <td width="10%">
+                                                            </td>
+                                                            
+                                                            <td width="10%">
+                                                            </td>
+                                                            <td width="10%">
+                                                                Total: 
+                                                            </td>
+                                                            <td width="20%">
+                                                                <span name="all_total_amount" id="all_total_amount" style="font-size: 2em; font-weight: bold; white-space:nowrap;">0.00</span>
+                                                            </td>
+                                                            <td width="20%">
+                                                                <span name="retire_all_total_amount" id="retire_all_total_amount" style="font-size: 2em; font-weight: bold; white-space:nowrap;">0.00</span>
+                                                            </td>
+                                                            <td width="5%">
+                                                            </td>
+                                                            <td width="5%">
+                                                            </td>
+                                                            <td width="5%">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- FILE ATTACHMENT -->
+                                        <div class="attach_container">
+                                            <div class="attach_header">
+                                                <h1 class="attach_title">Multiple Attachment</h1>
+                                                <div class="button-group">
+                                                    <a href="#" role="button" class="btn btn-info btn-lg o_default_snippet_text button_req_submit" save_btn="false">Submit</a>
+                                                    <a href="#" role="button" id="save-btn" class="btn btn-success btn-lg o_default_snippet_text button_req_save" save_btn="true">Save</a>
+                                                    <!-- <a href="#" class="attach-btn btn btn-info" id="attachBtn"> -->
+                                                    <a href="#" class="btn btn-danger" id="attachBtn">
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                                                        </svg>
+                                                        Attach Files
+                                                    </a>
+                                                    <button class="save-btn d-none" id="saveBtn">
+                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                                            <polyline points="17 21 17 13 7 13 7 21"/>
+                                                            <polyline points="7 3 7 8 15 8"/>
+                                                        </svg>
+                                                        Save Attachment
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <input type="file" id="fileInput" class="d-none" multiple="1" accept=".pdf,.txt,.xls,.xlsx,.csv"/>
+
+                                            <div class="files-section">
+                                                <h2 class="section-title">Files</h2>
+                                                <div class="files-grid" id="filesGrid">
+                                                    <div class="empty-state">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                                            <polyline points="13 2 13 9 20 9"/>
+                                                        </svg>
+                                                        <p>No files attached yet</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="fileModal" class="modal">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <span class="modal-title" id="modalTitle">File Viewer</span>
+                                                    <span class="close">x</span>
+                                                </div>
+                                                <div class="modal-body" id="modalBody">
+                                                    <iframe id="fileViewer"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- ATTACHMENT ENDS -->
+                                        <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                                            <div style="width: 200px;" class="s_website_form_label"/>
+                                            <!-- <a href="#" role="button" class="btn btn-info btn-lg o_default_snippet_text button_req_submit" save_btn="false">Submit</a>
+                                            <a href="#" role="button" id="save-btn" class="btn btn-success btn-lg o_default_snippet_text button_req_save" save_btn="true">Save</a> -->
+                                            <span id="s_website_form_result"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="toast-wrap" id="toast-wrap"></div>
+                        </section>
+                        <section class="s_faq_collapse pt32 pb32 o_colored_level" data-snippet="s_faq_collapse" data-name="Accordion" style="background-image: none;">
+                            <div class="container">
+                                <div id="myCollapse" class="accordion" role="tablist">
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="#" role="tab" data-bs-toggle="collapse" aria-expanded="true" class="card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_1">Material request</a>
+                                        <div class="collapse show" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_1">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="request_body">This displays the list of all material request you have initiated as a portal User</p>
+                                                <a id="material_request_view " href="/my/requests/material_request" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="#" role="tab" data-bs-toggle="collapse" aria-expanded="false" class="collapsed card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_2">Procurement Request</a>
+                                        <div class="collapse" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_2">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="request_comments">This displays the list of all Procurement request you have initiated as a portal User.</p>
+                                                <a id="procurement_view" href="/my/requests/procurement_request" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="#" role="tab" data-bs-toggle="collapse" aria-expanded="false" class="collapsed card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_3">Payment Request</a>
+                                        <div class="collapse" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_3">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="payment_request">This displays the list of all payment request you have initiated as a portal User.</p>
+                                                <a id="payment_view" href="/my/requests/Payment" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="#" role="tab" data-bs-toggle="collapse" aria-expanded="false" class="collapsed card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_4">Vehicle Request</a>
+                                        <div class="collapse" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_4">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="vehicle_request">This displays the list of all vehicle request you have initiated as a portal User.</p>
+                                                <a id="vehicle_view" href="/my/requests/vehicle_request" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="#" role="tab" data-bs-toggle="collapse" aria-expanded="false" class="collapsed card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_5">Leave Request</a>
+                                        <div class="collapse" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_5">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="leave_request">This displays the list of all leave request you have initiated as a portal User.</p>
+                                                <a id="leave_view" href="/my/requests/leave_request" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="/my/requests/cash_advance" role="tab" data-bs-toggle="collapse" aria-expanded="false" class="collapsed card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_6">Cash Advance</a>
+                                        <div class="collapse" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_6">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="cash_advance">This displays the list of all cash advance request you have initiated as a portal User.</p>
+                                                <a id="cash_advance_view" href="/my/requests/cash_advance" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-white" data-name="Item">
+                                        <a href="/my/requests/soe" role="tab" data-bs-toggle="collapse" aria-expanded="false" class="collapsed card-header o_default_snippet_text" data-bs-target="#myCollapseTab488915_7">Retirement of Expense</a>
+                                        <div class="collapse" data-bs-parent="#myCollapse" role="tabpanel" id="myCollapseTab488915_7">
+                                            <div class="card-body">
+                                                <p class="card-text o_default_snippet_text" id="soe">This displays the list of all Retirement of Expense request you have initiated as a portal User.</p>
+                                                <a id="soe_view" href="/my/requests/soe" class="btn btn-secondary btn-sm">View Requests</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        
+
+    </data>
+</odoo>

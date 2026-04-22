@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+    <record id="memo_company_form_view_form" model="ir.ui.view">
+        <field name="name">res Company form_view inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="account_default_debit_account_id" domain="[('account_type', 'in', ['expense']), ('company_id', '=', id)]"/>
+                <field name="default_cash_advance_account_id" domain="[('account_type', 'in', ['asset_non_current', 'asset_current']),('company_id', '=', id)]"/>
+                <field name="default_bank_cash_account_id" domain="[('account_type', 'in', ['asset_cash']),('company_id', '=', id)]"/>
+                <field name="default_revenue_account_id" domain="[('account_type', 'in', ['income', 'other_income']),('company_id', '=', id)]"/>
+            </xpath> 
+        </field>
+    </record>
+ 
+  </data>
+</odoo>

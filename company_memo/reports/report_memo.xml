@@ -1,0 +1,312 @@
+<odoo>
+  <data> 
+    <!-- <report
+        id = "print_memo_model_report"
+        model= "memo.model"
+        string="Print Request"
+        report_type = "qweb-pdf"
+        name ="company_memo.memomodel_print_template"
+        file ="company_memo.memomodel_print_template"
+        attachment_use="True"
+    /> -->
+
+    <record id="print_memo_model_report" model="ir.actions.report">
+        <field name="name">Print Request</field>
+        <field name="model">memo.model</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">company_memo.memomodel_print_template</field>
+        <field name="report_file">company_memo.memomodel_print_template</field>
+        <field name="print_report_name">'Print Request - %s' % (object.code)</field>
+        <field name="binding_model_id" ref="company_memo.model_memo_model"/>
+        <field name="binding_type">report</field>
+    </record>
+    
+    <template id="memomodel_print_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="company_memo.memomodel_print_template_id"/>
+            </t>
+        </t>
+    </template>
+    
+    <!-- <template id="memomodel_print_template_id">
+      <t t-call="web.external_layout">
+        <t t-foreach="docs" t-as="o">
+          <div class="page" style="padding-top: 10px;">
+            <style>
+              table {
+                border-collapse: collapse;
+                margin-bottom: 40px;
+              }
+
+              th {
+                background-color: #333;
+                color: #fff;
+              }
+
+              table, th, tr, td {
+                border:1px solid #999;
+                font-family: Trebuchet MS
+              }
+
+              tr:nth-child(odd){
+                background-color: #ccc;
+              }
+
+              th, td{
+                padding: 5px;
+              }
+
+              td:nth-child(4) {
+                color: green;
+              }
+
+              .outstanding {
+                color: red;
+              }
+            </style>
+              <p style="text-align: right; font-weight: bold; font-size: 16px;"><t t-esc="datetime.datetime.now().strftime('%B %d, %Y')"/></p>
+            <p style="text-align: right; font-weight: bold; font-size: 16px;">Memo Number: <t t-esc="o.code"/></p>
+            
+            <p style="text-align: left; font-weight: bold; font-size: 16px;"><b>Dear, </b> <span t-field="o.set_staff.name"/></p>
+            <br/>
+            <h4 style="font-weight: bold; text-align: center;font-size: 16px;"><u>Notification For <span t-field="o.memo_type.name"/> </u></h4>
+            <strong style="text-align: justify; font-family: 'Times New Roman', Times, serif; font-size: 16px;">Memo Subject:  </strong><span style="text-align: justify; font-family: 'Times New Roman', Times, serif; font-size:16px;" t-field="o.name"/><br/>
+
+            <t t-if="o.memo_type.memo_key=='Payment'">
+              <table style="width: 100%; text-align: left;">
+                  <tr>
+                      <th>VENDOR</th>
+                      <th>INVOICE REF</th>
+                      <th>DATE</th>
+                      <th>AMOUNT</th>
+                  </tr>
+                  <tr>
+                      <td><t t-esc="o.vendor_id.name"/></td>
+                      <td><t t-esc="o.invoice_id.name"/></td>
+                      <td><t t-esc="o.date"/></td>
+                      <td>NGN<t t-esc="'{0:,}'.format(float(o.amountfig))"/></td>
+                  </tr>
+              </table>  
+            </t>
+            
+            <t t-if="o.description"> 
+              
+              <strong style="text-align: justify; font-family: 'Times New Roman', Times, serif; font-size: 16px;">Description:  </strong><span style="text-align: justify; font-family: 'Times New Roman', Times, serif; font-size:16px;" t-raw="o.description"/>
+              
+            </t>
+            
+            <br/><br/>
+            <div class="row">
+              <div class="col-3 oe_right">
+                  <img t-if="user.user_signature" t-att-src="image_data_uri(user.user_signature)" style="max-height: 65px;max-width: 200px;" alt="Logo"/>
+              </div>
+            </div>
+          </div>
+        </t>
+      </t>
+
+    </template> -->
+
+    <template id="memomodel_print_template_id">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="padding: 15px; font-family: Arial, sans-serif; font-size: 12px;">
+                    <style>
+                        .info-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                        .info-table td { padding: 6px 10px; border: 1px solid #ddd; font-size: 11px; }
+                        .info-table td.label { background: #f5f5f5; font-weight: bold; width: 28%; }
+                        .items-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11px; }
+                        .items-table th { background: #2C5F7C; color: #fff; padding: 8px; border: 1px solid #1e4a62; }
+                        .items-table td { padding: 6px; border: 1px solid #ddd; }
+                        .items-table tr:nth-child(even) { background: #f9f9f9; }
+                        .total-box { background: #2C5F7C; color: #fff; padding: 12px 25px; display: inline-block; margin: 10px 0; }
+                        .total-amount { font-size: 24px; font-weight: bold; }
+                    </style>
+                    
+                    <!-- Header -->
+                    <div style="text-align: right; margin-bottom: 15px;">
+                        <div style="font-weight: bold; font-size: 14px;">
+                            Request Number: <t t-esc="o.code or 'N/A'"/>
+                        </div>
+                        <div style="color: #666;">Date: <t t-esc="datetime.datetime.now().strftime('%B %d, %Y')"/></div>
+                    </div>
+                    
+                    <h2 style="text-align: center; color: #2C5F7C; margin: 15px 0; text-transform: uppercase;">
+                        <t t-esc="o.memo_type.name or 'REQUEST'"/>
+                    </h2>
+                    
+                    <!-- Subject -->
+                    <div style="background: #f9f9f9; padding: 12px; border-left: 4px solid #2C5F7C; margin: 15px 0;">
+                        <strong style="color: #2C5F7C;">SUBJECT:</strong><br/>
+                        <span style="font-size: 14px;"><t t-esc="o.name or 'N/A'"/></span>
+                    </div>
+                    
+                    <!-- Basic Info -->
+                    <table class="info-table">
+                        <tr><td class="label">Request Type</td><td><t t-esc="o.memo_type.name"/></td></tr>
+                        <tr><td class="label">Status / Stage</td><td><t t-esc="o.stage_id.name or 'Draft'"/></td></tr>
+                        <tr t-if="o.payment_reference"><td class="label">Reference</td><td><t t-esc="o.payment_reference"/></td></tr>
+                        <tr><td class="label">Request Date</td><td><t t-esc="o.date.strftime('%B %d, %Y %H:%M') if o.date else ''"/></td></tr>
+                        <tr><td class="label">Employee</td><td><t t-esc="o.employee_id.name"/></td></tr>
+                        <tr t-if="o.phone"><td class="label">Phone</td><td><t t-esc="o.phone"/></td></tr>
+                        <tr t-if="o.email"><td class="label">Email</td><td><t t-esc="o.email"/></td></tr>
+                        <tr><td class="label">Department</td><td><t t-esc="o.dept_ids.name or 'N/A'"/></td></tr>
+                        <tr><td class="label">Company</td><td><t t-esc="o.company_id.name"/></td></tr>
+                        <tr t-if="o.vendor_id"><td class="label">Vendor</td><td><t t-esc="o.vendor_id.name"/></td></tr>
+                        <tr t-if="o.customer_id"><td class="label">Customer</td><td><t t-esc="o.customer_id.name"/></td></tr>
+                    </table>
+                    
+                    <!-- Description -->
+                    <t t-if="o.description">
+                        <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0;">
+                            <strong style="color: #2C5F7C;">Description:</strong><br/>
+                            <t t-raw="o.description"/>
+                        </div>
+                    </t>
+                    
+                    <!-- Items for Payment/Cash Advance/Procurement/Sale -->
+                    <t t-if="o.product_ids and o.memo_type_key in ['Payment','cash_advance','procurement_request','sale_request']">
+                        <h3 style="color: #2C5F7C; margin: 20px 0 10px;">Request Items</h3>
+                        <table class="items-table">
+                            <tr>
+                                <th style="width:5%;">#</th>
+                                <th style="width:35%;">Description</th>
+                                <th style="width:12%; text-align:center;">Unit</th>
+                                <th style="width:18%; text-align:right;">Unit Price</th>
+                                <th style="width:18%; text-align:right;">Subtotal</th>
+                            </tr>
+                            <t t-set="idx" t-value="0"/>
+                            <t t-foreach="o.product_ids.filtered(lambda x: not x.omit_record)" t-as="ln">
+                                <t t-set="idx" t-value="idx+1"/>
+                                <tr>
+                                    <td style="text-align:center;"><t t-esc="idx"/></td>
+                                    <td><t t-esc="ln.description or ln.product_id.name"/></td>
+                                    <td style="text-align:center;"><t t-esc="'{:.2f}'.format(ln.quantity_available)"/></td>
+                                    <td style="text-align:right;"><t t-esc="'{:,.2f}'.format(ln.amount_total)"/> <t t-esc="o.currency_id.symbol"/></td>
+                                    <td style="text-align:right;"><strong><t t-esc="'{:,.2f}'.format(ln.sub_total_amount)"/> <t t-esc="o.currency_id.symbol"/></strong></td>
+                                </tr>
+                            </t>
+                        </table>
+                        <div style="text-align:right;">
+                            <div class="total-box">
+                                <div>TOTAL AMOUNT</div>
+                                <div class="total-amount"><t t-esc="'{:,.2f}'.format(o.request_total_amount)"/> <t t-esc="o.currency_id.symbol"/></div>
+                            </div>
+                        </div>
+                    </t>
+                    
+                    <!-- Items for SOE -->
+                    <t t-if="o.product_ids and o.memo_type_key == 'soe'">
+                        <h3 style="color: #2C5F7C; margin: 20px 0 10px;">Statement of Expenditure</h3>
+                        <table class="items-table">
+                            <tr>
+                                <th style="width:5%;">#</th>
+                                <th style="width:25%;">Description</th>
+                                <th style="width:8%;">Req Qty</th>
+                                <th style="width:12%;">Unit Price</th>
+                                <th style="width:12%;">Advance</th>
+                                <th style="width:8%;">Used Qty</th>
+                                <th style="width:12%;">Used Amt</th>
+                                <th style="width:12%;">Total Used</th>
+                            </tr>
+                            <t t-set="idx" t-value="0"/>
+                            <t t-foreach="o.product_ids" t-as="ln">
+                                <t t-set="idx" t-value="idx+1"/>
+                                <tr>
+                                    <td style="text-align:center;"><t t-esc="idx"/></td>
+                                    <td><t t-esc="ln.description or ln.product_id.name"/></td>
+                                    <td style="text-align:center;"><t t-esc="'{:.2f}'.format(ln.quantity_available)"/></td>
+                                    <td style="text-align:right;"><t t-esc="'{:,.2f}'.format(ln.amount_total)"/></td>
+                                    <td style="text-align:right;"><t t-esc="'{:,.2f}'.format(ln.sub_total_amount)"/></td>
+                                    <td style="text-align:center;"><t t-esc="'{:.2f}'.format(ln.used_qty)"/></td>
+                                    <td style="text-align:right;"><t t-esc="'{:,.2f}'.format(ln.used_amount)"/></td>
+                                    <td style="text-align:right;"><strong><t t-esc="'{:,.2f}'.format(ln.retire_sub_total_amount)"/></strong></td>
+                                </tr>
+                            </t>
+                        </table>
+                        <div style="text-align:right;">
+                            <div class="total-box">
+                                <div>TOTAL RETIRED</div>
+                                <div class="total-amount"><t t-esc="'{:,.2f}'.format(o.request_total_soe_amount)"/> <t t-esc="o.currency_id.symbol"/></div>
+                            </div>
+                        </div>
+                    </t>
+                    
+                    <!-- Items for Material Request -->
+                    <t t-if="o.product_ids and o.memo_type_key == 'material_request'">
+                        <h3 style="color: #2C5F7C; margin: 20px 0 10px;">Material Request Items</h3>
+                        <table class="items-table">
+                            <tr>
+                                <th style="width:5%;">#</th>
+                                <th style="width:25%;">Item</th>
+                                <th style="width:30%;">Description</th>
+                                <th style="width:12%;">Qty</th>
+                                <th style="width:14%;">Source</th>
+                                <th style="width:14%;">Destination</th>
+                            </tr>
+                            <t t-set="idx" t-value="0"/>
+                            <t t-foreach="o.product_ids.filtered(lambda x: not x.omit_record)" t-as="ln">
+                                <t t-set="idx" t-value="idx+1"/>
+                                <tr>
+                                    <td style="text-align:center;"><t t-esc="idx"/></td>
+                                    <td><t t-esc="ln.product_id.name"/></td>
+                                    <td><t t-esc="ln.description or '-'"/></td>
+                                    <td style="text-align:center;"><t t-esc="'{:.2f}'.format(ln.quantity_available)"/></td>
+                                    <td><t t-esc="ln.source_location_id.name or '-'"/></td>
+                                    <td><t t-esc="ln.dest_location_id.name or '-'"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </t>
+                    
+                    <!-- Items for Vehicle Request -->
+                    <t t-if="o.product_ids and o.memo_type_key == 'vehicle_request'">
+                        <h3 style="color: #2C5F7C; margin: 20px 0 10px;">Vehicle Request</h3>
+                        <table class="items-table">
+                            <tr>
+                                <th>#</th>
+                                <th>Vehicle</th>
+                                <th>Driver</th>
+                                <th>From</th>
+                                <th>To</th>
+                            </tr>
+                            <t t-set="idx" t-value="0"/>
+                            <t t-foreach="o.product_ids.filtered(lambda x: not x.omit_record)" t-as="ln">
+                                <t t-set="idx" t-value="idx+1"/>
+                                <tr>
+                                    <td style="text-align:center;"><t t-esc="idx"/></td>
+                                    <td><t t-esc="ln.product_id.name"/></td>
+                                    <td><t t-esc="ln.driver_assigned.name or '-'"/></td>
+                                    <td><t t-esc="ln.distance_from or '-'"/></td>
+                                    <td><t t-esc="ln.distance_to or '-'"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </t>
+                    
+                    <!-- Footer -->
+                    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <div style="float:left; width:45%; text-align:center;">
+                            <div style="margin-top: 60px; padding-top: 5px;">
+                                <strong><t t-esc="o.employee_id.name"/></strong>
+                            </div>
+                            <div style="border-top: 2px solid #333; margin: 5px 20px 0 20px; padding-top: 5px;">
+                                <strong>Requester</strong>
+                            </div>
+                        </div>
+                        <div style="float:right; width:45%; text-align:center;">
+                            <div style="border-top: 1px solid #333; margin-top: 60px; padding-top: 5px;">
+                                <strong>Approver</strong>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+ 
+  </data>
+</odoo>

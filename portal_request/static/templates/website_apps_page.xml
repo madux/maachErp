@@ -1,0 +1,342 @@
+<odoo>
+	<data>
+		<template name="Homepage" t-name="website.apppage" id="website_app_page">
+			<!-- <t t-call="website.layout">  -->
+			<div class="dashboard">
+				 
+				<!-- ERP Applications Section -->
+				<div class="section"> 
+					<div class="row">
+						<div id="password_reset_successful_alert" role="dialog" class="modal col-sm-6 mt-32">
+							<div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+								<i class="fa fa-check" aria-hidden="true"/>
+								<strong class="font__weight-semibold">Well done!</strong> <span id="reset_message"></span>
+								<button type="button" id="close-success-btn" class="text-end reset-btn-close-success" data-bs-dismiss="modal" aria-label="Close"/>
+							</div>
+						</div>
+					</div>
+					<div class="modal" tabindex="-1" role="dialog" id="reset_password_dialog">
+						<div class="modal-dialog mt-5" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<input type="hidden" class="form-control s_website_form_input" id="cancel_input" name="cancel_input" value="" labelfor="Cancel"/>
+									<h5 class="modal-title">Reset password</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+								</div>
+								<div class="modal-body">
+									<p>Are you sure you wish to reset? </p>
+									<div id="div_reset_comment_message" class="div_reset_comment_message o_portal_chatter_composer_body mb32 mt32">
+										<div class="o_portal_messages_container mt32" data-anchor="true">
+											<h4><strong>Employee Email</strong></h4>
+											<input type="text" name="employee_email" id="employee_email" required="true" class="form-control" placeholder="Email Employee..." labelfor="Email"/>
+										</div>
+										<div class="o_portal_messages_container mt32" data-anchor="true">
+											<h4><strong>Staff ID</strong></h4>
+											<input type="text" name="employee_staff_id" id="employee_staff_id" required="true" class="form-control" placeholder="Staff ID..." labelfor="Staff Id"/>
+										</div>
+										<div class="mt8">
+											<!-- <button id="refuse_comment_button" class="o_portal_chatter_composer_btn refuse_comment_button btn btn-primary" type="button">Refuse With Comment</button> -->
+											<button id="reset_password_button" class="o_portal_chatter_composer_btn refuse_comment_button btn btn-primary" type="button">Reset Password</button>
+											<button type="button" class="btn btn-light" data-bs-dismiss="modal">Discard</button>
+										</div>
+									</div>
+								</div>
+								
+								<div class="modal-footer" id="modalfooter4cancel">
+									<!-- <a role="button" class="o_portal_chatter_composer_btn btn btn-primary" id="cancel_modal_btn" t-att-href="'/update/data/%s/%s' % (req.id, 'cancel')">Cancel the request</a> -->
+									<a role="button" class="o_portal_chatter_composer_btn btn btn-primary cancel_modal_btn" id="cancel_modal_btn">Cancel the request</a>
+									<button type="button" class="btn btn-light" data-bs-dismiss="modal">Discard</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="header-content-emp">
+						<div class="header-left-emp glass-hover" id="navigateBack">
+							<!-- <t t-if="request.env.user.active in [True, true, 'True', 'true']"> -->
+							<t t-if="request.session.uid">
+								<div class="header-icon-emp back-icon">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" id="back-icon" height="24" fill="white" viewBox="0 0 24 24">
+									<path d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z"/>
+									</svg>
+								</div>
+								<span class="header-text">Back</span>
+							</t>
+							<t t-else="">
+							</t>
+						</div>
+						<div class="header-right-emp">
+							<div class="header-left-emp glass-hover" id="core-user-div">
+								<a id="core-user-btn" href="/web" class="ms-2 text-white">
+                                    
+                                    <span class="header-text" id="switch-user-text">Switch As Core User</span>
+
+                                </a> 
+							</div>
+							<div class="header-left-emp glass-hover" id="reset-password-div">
+								<a id="reset_password_btn" class="ms-2 text-white reset_password_btn" data-bs-target="#reset_password_dialog" data-bs-toggle="modal">
+                                    <span class="header-text" id="reset_password_txt">Reset Password</span>
+                                </a> 
+							</div>
+							<div class="header-left-emp glass-hover" id="myProfile">
+								<a t-att-href="'/my/portal/dashboard/%s' % request.env.user.id if not request.env.user._is_public() else '/web/login'" class="ms-2 text-white">
+									<span class="header-text" id="myprofile">My Profile</span>
+								</a> 
+							</div>
+							<div class="header-left-emp switch_mode_btn glass-hover" id="switchModeBtn">
+								<div class="header-icon-emp mode-icon switch_mode_btn" id="switchModeBtn2">
+									<svg viewBox="0 0 24 24" id="switchModeBtn1" fill="white">
+										<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+									</svg>
+								</div>
+								<span class="header-text-emp" id="switchModeBtn3">Switch to Dark mode</span>
+							</div>
+						</div>
+					</div>
+					<div class="section-header">
+						<h2 class="section-title">ERP Applications</h2>
+					</div>
+					<div class="apps-grid">
+						<div class="app-item">
+							<a href="/my/requests/leave_request?memo_type=leave_request">
+								<div class="app-icon leave-icon">📅</div>
+								<div class="app-label">Leave</div>
+							</a>
+						</div>
+						<!-- <div class="app-item">
+							<a href="/my/requests/material_request">
+								<div class="app-icon material-icon">📦</div>
+								<div class="app-label">Material Request</div>
+							</a>
+						</div> -->
+						<div class="app-item" name="material">
+							<a href="/my/requests/material_request?memo_type=material_request" >
+							<!-- <a href="/my/requests/material_request"> -->
+								<div class="app-icon material-icon">📊</div>
+								<div class="app-label">Material Request</div>
+								
+							</a>
+						</div>
+						<div class="app-item">
+							<a href="/my/requests/procurement_request?memo_type=procurement_request">
+								<div class="app-icon procurement-icon">🛒</div>
+								<div class="app-label">Procurement</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<a href="/my/requests/Payment?memo_type=Payment">
+								<div class="app-icon payment-icon">💳</div>
+								<div class="app-label">Payment</div>
+							</a>
+
+						</div>
+						<div class="app-item">
+							<a href="/my/requests/cash_advance?memo_type=cash_advance">
+								<div class="app-icon cash-advance-icon">💰</div>
+								<div class="app-label">Cash Advance</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<a t-att-href="'/my/portal/dashboard/%s' % request.env.user.id if not request.env.user._is_public() else '/web/login'">
+								<div class="app-icon employee-dir-icon">👥</div>
+								<div class="app-label">Employee</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<a href="/my/requests/vehicle_request?memo_type=vehicle_request">
+								<div class="app-icon vehicle-icon">🚗</div>
+								<div class="app-label">Vehicle Request</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<a t-att-href="'/get-menu-url/%s' % 'account' if not request.env.user._is_public() else '/web/login'">
+							<!-- <a href="/my/requests/material_request"> -->
+								<div class="app-icon accounting-icon">📊</div>
+								<div class="app-label">Accounting</div>
+								
+							</a>
+						</div>
+						<div class="app-item">
+							<a href="/my/requests/soe?memo_type=soe">
+							<!-- <a t-att-href="'/get-menu-url/%s' % 'soe' if not request.env.user._is_public() else '/my/requests/soe'"> -->
+								<div class="app-icon expense-icon">📝</div>
+								<div class="app-label">Retirement</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<!-- <a t-att-href="'/get-menu-url/%s' % 'payroll' if not request.env.user._is_public() else '/web/login'"> -->
+							<a t-att-href="'/web/login'">
+								<div class="app-icon payroll-icon">💼</div>
+								<div class="app-label">Payroll</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<a href="/my/requests">
+								<div class="app-icon portal-icon">🌐</div>
+								<div class="app-label">Portal Request</div>
+							</a>
+						</div>
+						<div class="app-item">
+							<a href="/my/requests/sale_request?memo_type=sale_request">
+								<div class="app-icon procurement-icon">🛒</div>
+								<div class="app-label">Sales / CRM</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Performance System Section -->
+				<div class="section">
+				<div class="section-header">
+					<h2 class="section-title">Performance System</h2>
+				</div>
+				<div class="performance-grid">
+					<div class="app-item">
+					<a t-att-href="'/my/portal/dashboard/%s' % request.env.user.id if not request.env.user._is_public() else '/web/login'">
+					<!-- <a href="/my/requests/material_request" target="_blank"> -->
+						<div class="app-icon employee-dir-icon">👥</div>
+						<div class="app-label">Employee</div>
+					</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://hrpms.myeedc.com/" target="_blank">
+							<div class="app-icon hr-pms-icon">🎯</div>
+							<div class="app-label">HR PMS</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://hrpms.myeedc.com" target="_blank">
+							<div class="app-icon feedback-icon">📋</div>
+							<div class="app-label">360 Feedback</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a t-att-href="
+							'/admin-taskboard' 
+							if (request.env.user.has_group('base.group_system') 
+								or request.env.user.has_group('task_manager.group_tm_manager')) 
+							else '/taskboard'">
+							<div class="app-icon taskboard-icon">📝</div>
+							<div class="app-label">Taskboard</div>
+						</a>
+					</div>
+				</div>
+				</div>
+
+				<!-- Other Applications Section -->
+				<div class="section">
+				<div class="section-header">
+					<h2 class="section-title">Other Applications</h2>
+				</div>
+				<div class="apps-grid">
+					<div class="app-item">
+						<a href="https://ictsupport.eedc.online/" target="_blank">
+							<div class="app-icon ict-icon">🖥️</div>
+							<div class="app-label">ICT Support</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="http://cdap.myeedc.com:4005/" target="_blank">
+							<div class="app-icon attendance-icon">⏰</div>
+							<div class="app-label">Attendance</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="/portal-helpdesk">
+							<div class="app-icon helpdesk-icon">❓</div>
+							<div class="app-label">Help Desk</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://meterseal.eedc.online/" target="_blank">
+							<div class="app-icon meter-seal-icon">🔒</div>
+							<div class="app-label">Meter Seal</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="#">
+							<div class="app-icon enye-icon">🤖</div>
+							<div class="app-label">Enye'm aka</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://engage.eedc.online/" target="_blank">
+							<div class="app-icon cms-icon">📄</div>
+							<div class="app-label">CMS</div>
+						</a>
+					</div>
+
+					<div class="app-item">
+						<a href="https://lor.myeedc.com/login" target="_blank">
+							<div class="app-icon lor-icon">📈</div>
+							<div class="app-label">LOR</div>
+						</a>
+					</div>
+					<div class="app-item">
+						<a href="https://meterinstall.eedc.on" target="_blank">
+							<div class="app-icon metering-icon">📱</div>
+							<div class="app-label">Metering App</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://superedge.myeedc.com/amber2" target="_blank">
+							<div class="app-icon super-edge-icon">⭐</div>
+							<div class="app-label">Super Edge</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://meterrequest.eedc.online/admin" target="_blank">
+							<div class="app-icon map-icon">🗺️</div>
+							<div class="app-label">MAP</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="#">
+							<div class="app-icon eedc-family-icon">👨‍👩‍👧‍👦</div>
+							<div class="app-label">EEDC Family</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="https://customerapp.myeedc.com" target="_blank">
+							<div class="app-icon eedc-connect-icon">🔗</div>
+							<div class="app-label">EEDC Connect</div>
+						</a>
+					</div>
+					<div class="app-item">
+						<a href="https://cashcollection.myeedc.com" target="_blank">
+							<div class="app-icon cash-collection-icon">💵</div>
+							<div class="app-label">Cash Collection</div>
+						</a>
+						
+					</div>
+					<div class="app-item">
+						<a href="/kyc.eedc.online" target="_blank">
+							<div class="app-icon kyc-icon">🎭</div>
+							<div class="app-label">KYC</div>
+						</a>
+
+					</div>
+					<div class="app-item">
+						<a href="#">
+							<div class="app-icon settings-icon">⚙️</div>
+							<div class="app-label">Settings</div>
+						</a>
+					</div>
+				</div>
+				</div>
+			</div>
+			<!-- </t> -->
+		</template>
+	</data>
+</odoo>

@@ -1,0 +1,86 @@
+/* =============== STAGE FLOW BAR =============== */
+.status-flow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 8px 0;
+}
+
+.stage-step {
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 13px;
+}
+
+/* Default (upcoming) */
+.stage-box {
+    background-color: #dcdcdc;
+    color: #555;
+    border-radius: 2px 0 0 2px;
+    position: relative;
+    min-width: 130px;
+    text-align: center;
+    padding: 8px 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* 🟢 Completed stage */
+.stage-box.completed {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    color: #fff;
+}
+.stage-box.completed::after {
+    content: "✔";
+    font-size: 12px;
+    position: absolute;
+    right: 8px;
+    top: 5px;
+}
+
+/* 🟣 Active stage */
+.stage-box.active {
+    background: linear-gradient(90deg, #5a3e7a, #7d5ca5);
+    color: #fff;
+    box-shadow: 0 0 5px rgba(90, 62, 122, 0.6);
+    transform: scale(1.03);
+}
+
+/* ⚪ Upcoming (default) */
+.stage-box:not(.active):not(.completed) {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* Arrows */
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #dcdcdc;
+    margin-left: -1px;
+}
+
+.stage-box.completed + .arrow-right {
+    border-left-color: #4caf50;
+}
+
+.stage-box.active + .arrow-right {
+    border-left-color: #5a3e7a;
+}
+
+/* Optional: smooth animation */
+.stage-box,
+.arrow-right {
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* Hide Save button */
+#button_save_submit {
+        display: none !important;
+}

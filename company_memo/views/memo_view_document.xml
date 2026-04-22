@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<record id ="memo_model_document_request_line_form_view" model ="ir.ui.view">
+			<field name="name">document.request.line</field>
+			<field name="model">document.request.line</field>
+			<field eval="1" name="priority"/>
+			<field name ="arch" type="xml">
+				<form string="">
+					<div class="alert alert-info text-center" role="alert">
+                        Your Target folders only shows the folders in your Allowed Branch / District
+                    </div>
+					<group>
+						<group>
+							<field name="memo_document_request_id" invisible="1"/> 
+							<field name="memo_state" invisible="0"/> 
+							<field name="dummy_request_from_document_folder_ids" invisible="1"/> 
+							<field name="dummy_request_to_document_folder_ids" invisible="1"/> 
+							<field name="name" required="1" widget="text" placeholder="Enter of document(s)..."/> 
+						</group>
+						<group>
+							<field name="request_to_document_folder" string="Your target folder" domain="[('id', 'in', dummy_request_to_document_folder_ids)]" required="1"/> 
+							<field name="request_from_document_folder" invisible="1" required="0"/>
+						</group>
+					</group>
+					<notebook> 
+						<page string="Upload from Computer">
+							<field name="attachment_ids" string="Attachment" domain="[('id', '=', None)]" 
+							context="{'default_res_model': 'memo.model', 'default_res_id': active_id, 'default_public': False, 'default_memo_id': memo_document_request_id}"
+							readonly = "memo_state not in ['Approve', 'Approve2']"
+							>
+								<tree string="Attachment">
+									<field name="name" string="Document Name"/> 
+									<field name="datas" filename="name" string="File"/>
+									<field name="public" string="Is public"/> 
+								</tree>
+							</field>
+						</page>
+						<page name='document_request_id' string='Upload From Repository'>
+							<field name="document_documents_ids" string = "Document Lines" force_save="1"
+							kanban_view_ref="%(documents.document_view_kanban)s" attrs="{'readonly': [('memo_state', 'not in', ['Approve', 'Approve2'])]}">
+								<tree create="false" edit="false" sample="1">
+									<field name="id" optional="hide"/>
+									<field name="name" string="Document" required="True"/>
+									<field name="url" optional="hide"/>
+									<!-- <field name="tag_ids" widget="documents_many2many_tags" optional="show"/> -->
+									<field name="partner_id" optional="show"/>
+									<field name="owner_id" widget="many2one_avatar_user" optional="show"/>
+									<field name="lock_uid" optional="hide"/>
+									<field name="type" optional="show"/>
+									<field name="create_date" widget="date" optional="show"/>
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id ="document_memo_model_inherit_form_view" model ="ir.ui.view">
+			<field name="name">Memo Record inherit for document</field>
+			<field name="model">memo.model</field>
+			<field name="inherit_id" ref="company_memo.memo_model_form_view_3"/>
+			<field name ="arch" type="xml">
+				<xpath expr="//button[@name='forward_memo']" position="after">
+                     <button name="confirm_document_to_repo" string="Approve" type="object" class="oe_highlight" 
+					attrs="{'invisible': ['|', '|', ('to_create_document','=', False), ('state','in',['submit','Done','Refuse']), ('user_is_approver','!=',True)]}"/>
+                </xpath>
+			</field>
+		</record>
+		
+		<record id ="memo_model_document_form_view" model ="ir.ui.view">
+			<field name="name">Memo Record</field>
+			<field name="model">memo.model</field>
+			<field eval="1" name="priority"/>
+			<field name ="arch" type="xml">
+				<form string="Request Record">
+				<header>
+					<button name="forward_memo" id="forward_memo" string="Forward / Approve" icon="fa-forward" attrs="{'invisible':['|', ('state','in',['Done','Refuse']),('user_is_approver','=',True)]}" type="object" class="oe_highlight fwm"/>
+					<button name="confirm_document_to_repo" string="Approve" type="object" class="oe_highlight" 
+					attrs="{'invisible': ['|', '|', ('to_create_document','=', False), ('state','in',['submit','Done','Refuse']), ('user_is_approver','!=',True)]}"/>
+					<button name="set_draft" states="Refuse" string="Reset &amp; Forward" type="object"/>
+                    <button name="return_memo" id="return_id" string="Return Memo" icon="fa-redo" attrs="{'invisible': [('state','not in',['Sent', 'Approve','Approve2', 'Refuse'])]}" type="object"/>
+					<button name="Cancel" states="Sent" string="Cancel" type="object" attrs="{'invisible':[('state','!=',['sent'])]}" />
+					<button name="print_memo" string="Print Request" icon="fa-print" attrs="{'invisible':[('state','in',['Sent', 'Refuse'])]}" type="object" class="oe_highlight"/>
+					<field name="computed_stage_ids" invisible="1" />
+					<field name="stage_id" widget="statusbar" force_save="1" readonly="1" domain="[('id', 'in', computed_stage_ids)]" />
+				</header>
+					<sheet>
+						<div class="oe_button_box oe_right">
+							<button name="action_get_attachment_view"
+								class="oe_highlight"
+								icon="fa-book" 
+								type="object">
+								<field name="attachment_number" widget="statinfo" string=" - Documents"/>
+							</button>
+							<button name="view_related_record"
+								class="btn-primary oe_highlight"
+								attrs="{
+									'invisible': [('state','in',['Sent', 'submit', 'Refuse'])]}"
+								type="object" string="View Related Record"/>
+								 
+						</div>
+                        <widget name="web_ribbon" title="In progress" bg_color="bg-danger" attrs="{'invisible': [('memo_bagde_undone', '=', False)]}"/>
+                        <widget name="web_ribbon" title="Completed" bg_color="bg-danger" attrs="{'invisible': [('memo_bagde_status', '=', False)]}"/>
+						<div class="oe_title">
+						<label for="name"/>
+							<h1 style="color:Tomato;">
+								<field name="name" required="1" placeholder="e.g. Description" attrs="{'readonly':[('state','not in',['submit', 'Refuse'])]}"/>
+							</h1>
+							<label for="code" string="Request Number"/>
+							<h1>
+								<field name="code" placeholder="Request Number"/>
+							</h1>
+						</div>
+						<group>
+							<group> 
+								<label for="memo_type"/>
+								<div>
+									<field name="memo_type" domain="[('is_document', '=', True)]" required="1" attrs="{'readonly':[('state','not in',['submit'])]}" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+								</div>
+							</group> 
+							<group>
+							</group>
+							<group name="normal_memo_group1"> 
+								<field name="document_memo_config_id" string="Requesting from?" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
+								required="1" attrs="{'readonly':[('state','in',['Done', 'Approve'])]}"/>
+								<field name="employee_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" readonly="1"/>
+								<field name="phone" readonly="1"/>
+								<field name="email" readonly="1"/>
+								<field name="direct_employee_id" required="0" invisible="1" string= "Through" attrs="{'readonly':[('state','in',['Done', 'Approve'])]}"/>
+								<field name="set_staff" string = "Request With" readonly="1" invisible="1"/>
+								<field name="demo_staff" invisible="1"/>
+								<field name="dept_ids" widget="selection" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" readonly="1"/>
+								<field name="start_date" attrs="{'invisible':[('memo_type_key','!=', 'loan')],'required':[('memo_type_key','=','loan')]}"/>
+								<field name="users_followers" widget="many2many_tags" required="0" invisible="0" attrs="{'readonly':[('state','in',['Done', 'Approve'])]}" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+							</group> 
+							<group name="normal_memo_group2"> 
+								<field name="date" attrs="{'readonly':[('state','not in',['submit','Refuse'])]}" options='{"datepicker": {"daysOfWeekDisabled": [5,6]}}'/>
+                                <field name="date_deadline" attrs="{'readonly':[('state','not in',['submit','Refuse'])], 'invisible':[('memo_type_key','not in',[['material_request','procurement_request']])]}"/>
+								<field name="user_ids" readonly="1" invisible="1" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" />
+								<field name="status_progress" widget="progressbar" string="Progress(%)"/>
+								<field name = "res_users" widget="many2many_tags" required="0" readonly="1"/>   
+							</group> 
+						</group>
+						<notebook>
+							<page name='document_request_id' string='Attachment Lines' attrs="{'invisible':[('to_create_document','=', False)]}">
+								<field name="document_request_ids" string = "Document Lines" readonly="0" force_save="1"
+								context="{'default_memo_document_request_id': active_id}">
+									<tree string="">
+										<field name="memo_document_request_id" invisible="1" column_invisible="1"/> 
+										<field name="request_from_document_folder" invisible="1"/> 
+										<field name="request_to_document_folder" required="1"/> 
+										<field name="attachment_ids" widget="many2many_tags" required="1"/>
+										<field name="memo_state" invisible="1"/> 
+										<button name="view_related_file_system" type="object" class="oe_highlight btn-sm" 
+										string="View files" attrs="{'invisible': [('memo_state', 'not in', ['Done'])]}"/>
+									</tree>
+								</field>
+								
+							</page> 
+							
+							<page name="sub_stages" string="Sub Tasks" attrs="{'invisible': [('memo_type_key','in', ['leave_request'])]}">
+								<field name="memo_sub_stage_ids">
+									<tree string="Sub tasks">
+										<field name="name"/>
+										<field name="description" invisible="0"/>
+										<field name="approver_ids" widget="many2many_tags" readonly="1"/>
+										<field name="memo_id" invisible="1" column_invisible="1"/>
+										<!-- <field name="sub_stage_id" invisible="0"/> -->
+										<field name="sub_stage_done" invisible="0" readonly="1"/>
+										<button name="confirm_sub_stage_done" string="Confirm" class="oe_highlight btn-sm" type="object"/>
+									</tree>
+									<form string="Sub tasks">
+										<group>
+											<group>
+												<field name="name"/>
+												<field name="memo_id" invisible="1" />
+											</group>
+											<group>
+												<field name="sub_stage_done" invisible="0" readonly="1"/>
+												<field name="sub_stage_id" invisible="1"/>
+											</group>
+											<notebook>
+												<page name="Invoices" string="Finances">
+													<field name="invoice_ids" context="{'default_move_type': 'in_invoice', 'default_memo_id': active_id, 'form_view_ref': 'account.view_move_form'}">
+														<tree string="Invoices">
+															<field name="memo_id" string="Request" invisible="1" column_invisible="1"/>  
+															<field name="memo_state" string="Request state" invisible="1" column_invisible="1"/>  
+															<field name="name" string="#" invisible="0"/>  
+															<field name="partner_id" string="Beneficiary" invisible="0"/> 
+															<field name="move_type" string="Type" invisible="1" column_invisible="1"/> 
+															<field name="ref" string="Ref" invisible="1" column_invisible="1"/>  
+															<field name="date" string="Date" invisible="1" column_invisible="1"/> 
+															<field name="journal_id" string="Payment journal" required="0"/>  
+															<field name="amount_total" string="Amount" invisible="0"/> 
+															<field name="state" string="Status" invisible="1" column_invisible="1"/> 
+															<field name="stage_invoice_name" invisible="1" column_invisible="1"/> 
+															<button name="action_post" string="Post" class="oe_highlight btn-sm" type="object" attrs="{'invisible':[('memo_state','!=', 'Approve')]}" groups="account.group_account_invoice,base.group_system,company_memo.mainmemo_account,account.group_account_manager"/>
+															<field name="payment_state" string="Payment Status" invisible="0"/>  
+															<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight btn-sm" attrs="{'invisible':['|','|', ('memo_state','!=', 'Approve'),('state','!=', 'posted'), ('payment_state','!=', 'not_paid'),  ('move_type','not in', ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'])]}"
+															string="Register Payment" groups="account.group_account_invoice,base.group_system,company_memo.mainmemo_account,account.group_account_manager"/>
+														</tree>
+													</field>
+												</page>
+												<page name="attachment" string="Attachments">
+													<field name="attachment_ids" string="Attachment" domain="[('id', '=', None)]" context="{'default_res_model': 'memo.model', 'default_res_id': active_id, 'default_public': True}">
+														<tree string="Attachment">
+															<field name="stage_document_name" string="Required Documents"/> 
+															<field name="name" string="Document Name"/> 
+															<field name="datas" filename="name" string="File"/>
+															<field name="stage_document_required" string="Is Compulsory"/>
+															<field name="is_locked" string="Locked?" invisible="0" />
+														</tree>
+														<form string="Attachment">
+															<group>
+																<group>
+																	<field name="stage_document_name" string="Required Documents" readonly="1" force_save="1"/> 
+																	<field name="name" string="Document Name" attrs="{'readonly': [('is_locked', '=', True)]}"/> 
+																</group>
+																<group>
+																	<field name="datas" filename="name" string="File" attrs="{'readonly': [('is_locked', '=', True)]}"/>
+																	<field name="stage_document_required" string="Is Compulsory" readonly="1" force_save="1"/> 
+																	<field name="is_locked" string="Locked?" invisible="1"/> 
+																</group>
+															</group>
+														</form>
+													</field>
+												</page>
+											</notebook>
+										</group>
+									</form>
+								</field>
+							</page>
+							<page name="attachment" string="Attachments">
+								<field name="attachment_ids" string="Attachment" domain="[('id', '=', None)]" 
+								context="{'default_res_model': 'memo.model', 'default_res_id': active_id, 'default_public': True}">
+									<tree string="Attachment">
+										<field name="stage_document_name" string="Required Documents"/> 
+										<field name="name" string="Document Name"/> 
+										<field name="datas" filename="name" string="File"/>
+										<field name="stage_document_required" string="Is Compulsory"/>
+										<field name="is_locked" string="Locked?" invisible="1"/>
+									</tree>
+									<form string="Attachment">
+										<group>
+											<group>
+												<field name="stage_document_name" string="Required Documents" readonly="1" force_save="1"/> 
+												<field name="name" string="Document Name"/> 
+											</group>
+											<group>
+												<field name="datas" filename="name" string="File"/>
+												<field name="stage_document_required" string="Is Compulsory" readonly="1" force_save="1"/> 
+												<field name="is_locked" string="Locked?" invisible="1"/> 
+											</group>
+										</group>
+									</form>
+								</field>
+							</page>
+							<page name='comments' string='Comments'>
+								<field name="comments" readonly="1" string = "Comments" placeholder="Notes..." widget="html" attrs="{'readonly':[('state','in',['Done', 'Approve'])]}"/>
+							</page>
+							<page name='supervisor_comments' string="Supervisor's Comments" invisible="1">
+								<field name="is_supervior" readonly="0" invisible="1"/>
+								<field name="supervisor_comment" string = "Supervisor Comments" placeholder="Notes..." widget="html" attrs="{'readonly':[('is_supervior','=',False)]}"/>
+							</page>
+							<page name='manager_comment' string="Manager's Comments">
+								<field name="is_manager" readonly="0" invisible="1"/>
+								<field name="manager_comment" readonly="0" string = "Manager Comments" placeholder="Notes..." widget="html" attrs="{'readonly':[('is_manager','=',False)]}"/>
+							</page>
+- 
+							<page name='reason_backs' string='Return Reason'>
+								<field name="reason_back" readonly = "0" string = "Add Notes" placeholder="Notes..." widget="html" attrs="{'readonly':[('state','in',['Done', 'Approve'])]}"/>
+							</page>
+							<page invisible="1" string="Admin Setting Overview">
+								<group>
+									<group>
+										<field name="computed_stage_ids" invisible="0"/>
+										<field name="user_is_approver" invisible="0" readonly="0"/>
+										<field name="approver_id" invisible="0" readonly="0" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" groups="base.group_system"/>
+										<field name="approver_ids" invisible="0" widget="many2many_tags" readonly="0" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" groups="base.group_system"/>
+									</group>
+									<group>
+										<field name="active" invisible="0" groups="base.group_system"/>
+										<field name="memo_setting_id" invisible="0" force_save="1" 
+										options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+										<field name="memo_type_key" string="Request key" invisible="0" force_save="1"/> 
+										<field name="to_create_document" invisible="0"/> 
+										<field name="has_sub_stage" invisible="0"/>
+										<field name="state" invisible="0" force_save="1" readonly="0"/>
+										<field name="is_request_completed" readonly="1" invisible="0"/>
+										<field name="memo_bagde_status" invisible="1"/>
+										<field name="memo_bagde_undone" invisible="1"/>
+									</group>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="memo_model_document_tree_view">
+			<field name="name">Office memo tree</field>
+			<field name="model">memo.model</field>
+			<field name="arch" type="xml">
+				<tree string="ERP Requests">
+					<field name="date"/> 
+					<field name="name"/>
+					<field name="code"/> 
+					<field name="employee_id"/>
+					<field name="memo_type" string="Request type"/>
+					<field name="set_staff" string = "Request With?"/>
+					<field name="stage_id"/>
+					<field name="status_progress" widget="progressbar" string="Progress(%)"/>
+				</tree>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="memo_model_document_search_view">
+			<field name="name">ERP Requests Search</field>
+			<field name="model">memo.model</field>
+			<field name="arch" type="xml">
+				<search string="Filter"> 
+					<field name="name"/>
+					<field name="code"/>
+					<field name="dept_ids"/>
+					<field name="employee_id"/>
+					<field name="project_id"/>
+					<field name="code"/> 
+					<field name="date" /> 
+					<group expand="0" string="Group By">
+						<filter name="name" string="Name" icon="terp-personal" domain="[]" context="{'group by':'name'}" />
+						<filter name="Approve" string="Approve" icon="terp-personel" domain="[('state','=', 'Approve')]" context="{'group by':'state'}" />
+						<filter name="Sent" string="Sent" icon="terp-personel" domain="[('state','=', 'Sent')]" context="{'group by':'state'}" />
+						<filter name="Done" string="Done" icon="terp-personel" domain="[('state','=', 'Done')]" context="{'group by':'state'}" />
+						<filter name="group_to_create_document" string="Status" domain="[]" context="{'group_by' : 'stage_id'}"/>
+						<filter name="Date" string="Date" icon="terp-personal" domain="[]" context="{'group by':'date'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+  
+		<record model="ir.actions.act_window" id="memo_filesystem_request_action">
+			<field name="name">FileSystem / Documents Request</field>
+			<field name="res_model">memo.model</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_id" ref="company_memo.memo_model_document_tree_view"/>
+			<field name="search_view_id" ref="company_memo.memo_model_document_search_view"/>
+		   <field name="domain">[('to_create_document','=',True)]</field>
+			<field name="context">{'form_view_ref': 'company_memo.memo_model_document_form_view', 'search_default_group_to_create_document': 1, 'default_to_create_document': True}</field>
+			 <field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="internal_memo_filesystem_request" sequence= "7" name="FileSystem /Document Management"
+			parent="company_memo.internal_memo_document_menu_model" action="company_memo.memo_filesystem_request_action"/>
+
+	</data>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_portal_request" name="Portal Request Settings" sequence="5" parent="base.menu_administration" groups="base.group_user"/>
+
+        <record model="ir.actions.act_url" id="action_open_my_portal_request_icon_url">
+            <field name="name">Open URL for the</field>
+            <field name="url">/my/requests</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="my_portal_request_menu_icon" name="Portal Request(s)" action="action_open_my_portal_request_icon_url" sequence="5" web_icon="portal_request,static/img/link.png"/>
+    </data>
+</odoo> 
