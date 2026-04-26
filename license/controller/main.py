@@ -95,7 +95,7 @@ def _fetch_available_modules():
 
 class LicensePortal(http.Controller): 
 
-    @http.route(['/'], type='http', auth='public', website=True, csrf=False)
+    @http.route(['/erp'], type='http', auth='public', website=True, csrf=False)
     def erp_gateway(self, **kwargs):
 
         # 🔥 STEP 1: get full host

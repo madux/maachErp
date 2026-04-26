@@ -1,25 +1,15 @@
-// import publicWidget from "web.public.widget";
-// import { qweb } from "web.core";
-// import { utils } from "web.utils";
-// import { ajax } from "web.ajax";
+/** @odoo-module */
 
-odoo.define('portal_request.portal_request', function (require) {
-    "use strict";
-
-    require('web.dom_ready');
-    var utils = require('web.utils');
-    var ajax = require('web.ajax');
-    var publicWidget = require('web.public.widget');
-    var core = require('web.core');
-    var qweb = core.qweb;
-    var _t = core._t;
+import PublicWidget from "@web/legacy/js/public/public_widget";
+import { jsonrpc } from "@web/core/network/rpc_service"; 
+$(document).ready(function () {
     let setProductdata = [];
     let setEmployeedata = [];
     let alert_modal = $('#portal_request_alert_modal');
     let modal_message = $('#display_modal_message');
-    if ($("#msform")[0] !== undefined) {
-        $("#msform")[0].reset();
-    }
+    // if ($("#msform")[0] !== undefined) {
+    //     $("#msform")[0].reset();
+    // }
 
     const AppData = {
         user: {name: '', employee_id: null },
@@ -75,25 +65,26 @@ odoo.define('portal_request.portal_request', function (require) {
         }
     }
 
-    function setRecordStatus(targetElementId, setStatus) {
+    async function setRecordStatus(targetElementId, setStatus) {
         if (targetElementId !== '') {
             let setState = setStatus
-            this._rpc({
-                route: `/my/request-state`,
-                params: {
+            await jsonrpc(
+                `/my/request-state`,
+                {
                     'type': setState,
                     'id': targetElementId
                 },
-            }).then(function (data) {
+            ).then(function (data) {
                 if (!data.status) {
                     alert(`Validation Error! ${data.message}`)
                 } else {
                     console.log('updating record to draft => ' + JSON.stringify(data))
                 }
-            }).guardedCatch(function (error) {
-                let msg = error.message.message
-                alert(`Unknown Error! ${msg}`)
-            });
+            })
+            // .guardedCatch(function (error) {
+            //     let msg = error.message.message
+            //     alert(`Unknown Error! ${msg}`)
+            // });
         }
     }
 
@@ -152,132 +143,75 @@ odoo.define('portal_request.portal_request', function (require) {
         console.log(`is the fiel required,  ${value} type ${memotype}`)
         return value;
     }
+ 
+    function getOrAssignRowNumber(memo_type = false) {
+        let lastRow_count = 0;
 
-    function displaytableProps(memo_type) {
-        // Hiding labels of the product row
-        if (memo_type == 'vehicle_request') {
-            $('#distance_from').removeClass('d-none');
-            $('#distance_to').removeClass('d-none');
-            $('#distance_from_th').removeClass('d-none');
-            $('#distance_to_th').removeClass('d-none');
-
-            $('#req_qty_label').addClass('d-none');
-            $('#unit_price_label').addClass('d-none');
-            $('#unit_sub_total').addClass('d-none');
-            $('#sub_total_line').addClass('d-none');
-
-            $('#used_qty_for_soe').addClass('d-none');
-            $('#used_amount_for_soe').addClass('d-none');
-            $('#retirement_sub_total').addClass('d-none');
-            $('#note_label').addClass('d-none');
-
-            $('#req_qty_label_th').addClass('d-none');
-            $('#unit_price_label_th').addClass('d-none');
-            $('#sub_total_amount_th').addClass('d-none');
-            $('#used_qty_for_soe_th').addClass('d-none');
-            $('#used_amount_for_soe_th').addClass('d-none');
-            $('#retirement_sub_total_th').addClass('d-none');
-            $('#note_label_th').addClass('d-none');
-        }
-        else if ($.inArray(memo_type, ['soe']) !== -1) {
-            $('#used_qty_for_soe_th').removeClass('d-none');
-            $('#used_amount_for_soe_th').removeClass('d-none');
-            $('#retirement_sub_total_th').removeClass('d-none');
-            $('#distance_from').addClass('d-none');
-            $('#distance_to').addClass('d-none');
-            $('#distance_from_th').addClass('d-none');
-            $('#distance_to_th').addClass('d-none');
-            $('#req_qty_label').removeClass('d-none');
-            $('#unit_price_label').removeClass('d-none');
-            $('#unit_sub_total').removeClass('d-none');
-            $('#sub_total_line').removeClass('d-none');
-
-            $('#used_qty_for_soe').removeClass('d-none');
-            $('#used_amount_for_soe').removeClass('d-none');
-            $('#retirement_sub_total').removeClass('d-none');
-
-            $('#req_qty_label_th').removeClass('d-none');
-            $('#unit_price_label_th').removeClass('d-none');
-            $('#sub_total_amount_th').removeClass('d-none');
-
-            $('#note_label_th').removeClass('d-none');
-        }
-        else if ($.inArray(memo_type, ['cash_advance']) !== -1) {
-            $('#used_qty_for_soe_th').addClass('d-none');
-            $('#used_amount_for_soe_th').addClass('d-none');
-            $('#retirement_sub_total_th').addClass('d-none');
-
-            $('#distance_from').addClass('d-none');
-            $('#distance_to').addClass('d-none');
-            $('#distance_from_th').addClass('d-none');
-            $('#distance_to_th').addClass('d-none');
-            $('#req_qty_label').removeClass('d-none');
-            $('#unit_price_label').removeClass('d-none');
-            $('#unit_sub_total').removeClass('d-none');
-            $('#sub_total_line').removeClass('d-none');
-
-            $('#used_qty_for_soe').addClass('d-none');
-            $('#used_amount_for_soe').addClass('d-none');
-            $('#retirement_sub_total').addClass('d-none');
-
-            $('#req_qty_label_th').removeClass('d-none');
-            $('#unit_price_label_th').removeClass('d-none');
-            $('#sub_total_amount_th').removeClass('d-none');
-
-            $('#note_label_th').removeClass('d-none');
-        }
-        else if ($.inArray(memo_type, ['material_request']) !== -1) {
-            $('#used_qty_for_soe_th').addClass('d-none');
-            $('#used_amount_for_soe_th').addClass('d-none');
-            $('#retirement_sub_total_th').addClass('d-none');
-
-            $('#distance_from').addClass('d-none');
-            $('#distance_from_th').addClass('d-none');
-            $('#distance_to').addClass('d-none');
-            $('#distance_to_th').addClass('d-none');
-            $('#req_qty_label').removeClass('d-none');
-            $('#req_qty_label_th').removeClass('d-none');
-            $('#used_qty_for_soe').addClass('d-none');
-            $('#used_amount_for_soe').addClass('d-none');
-            $('#retirement_sub_total').addClass('d-none');
-
-            $('#unit_price_label').addClass('d-none');
-            $('#unit_sub_total').addClass('d-none');
-            $('#sub_total_line').addClass('d-none');
-
-            $('#unit_price_label_th').addClass('d-none');
-            $('#sub_total_amount_th').addClass('d-none');
-
-            $('#note_label_th').removeClass('d-none');
+        // Fixed: td (not th) to match the corrected buildProductRow structure
+        const rowElements = $(`#tbody_product > tr.prod_row`);
+        $.each(rowElements, function(index, element) {
+            console.log($(element).attr('row_count')); 
+        })
+        let lastElement = rowElements.last().attr('row_count');
+         console.log('LAST ELEMENT IS ', lastElement)
+        if (lastElement) {
+            const attr_number = lastElement;
+            lastRow_count = parseInt(attr_number) + 1;
+            console.log("Latest element is ", lastRow_count)
         } else {
-            $('#distance_from').addClass('d-none');
-            $('#distance_to').addClass('d-none');
-            $('#distance_from_th').addClass('d-none');
-            $('#distance_to_th').addClass('d-none');
-            $('#req_qty_label').removeClass('d-none');
-            $('#unit_price_label').removeClass('d-none');
-            $('#unit_sub_total').removeClass('d-none');
-            $('#sub_total_line').removeClass('d-none');
-            $('#used_qty_for_soe').addClass('d-none');
-            $('#used_amount_for_soe').addClass('d-none');
-            $('#retirement_sub_total').addClass('d-none');
-            $('#used_qty_for_soe_th').addClass('d-none');
-            $('#used_amount_for_soe_th').addClass('d-none');
-            $('#retirement_sub_total_th').addClass('d-none');
+            // No existing rows — start at 1
+            lastRow_count = 1;  // was: lastRow_count + 1 (not assigned, always 0)
+            console.log("existing element is ", lastRow_count)
+        }
 
-            $('#note_label').removeClass('d-none');
-            $('#req_qty_label_th').removeClass('d-none');
-            $('#unit_price_label_th').removeClass('d-none');
-            $('#sub_total_amount_th').removeClass('d-none');
-            $('#note_label_th').removeClass('d-none');
+        return lastRow_count;
+    }
+
+    function onchangeloanType(loanTypeSelected=false){
+        if (loanTypeSelected){
+            console.log("running loan")
+            $('#loan-div').removeClass('d-none');
+            $('#loan_start_date').val('');
+            $('#loan_start_date').attr('required', true);
+            // $('#loan_start_date').removeClass('d-none');
+
+            // loan amount onchange
+            $('#loan_amount').val('');
+            $('#loan_amount').attr('required', true);
+            // $('#loan_amount').removeClass('d-none');
+
+            // loan duration onchange
+            $('#loan_duration').val('');
+            $('#loan_duration').attr('required', true);
+            // $('#loan_duration').removeClass('d-none');
+        }
+        else{
+            console.log("not running loan")
+            $('#loan-div').addClass('d-none');
+            $('#loan_start_date').val('');
+            $('#loan_start_date').attr('required', false);
+            // $('#loan_start_date').addClass('d-none');
+
+            // loan amount onchange
+            $('#loan_amount').val('');
+            $('#loan_amount').attr('required', false);
+            // $('#loan_amount').addClass('d-none');
+
+            // loan duration onchange
+            $('#loan_duration').val('');
+            $('#loan_duration').attr('required', false);
+            // $('#loan_duration').addClass('d-none');
+
         }
     }
+
 
     function buildProductTable(data, memo_type, require = '', hidden = 'd-none', readon = '') {
         $(`#tbody_product`).empty()
         $.each(data, function (k, elm) {
             if (elm) {
                 var lastRow_count = getOrAssignRowNumber()
+
                 console.log(`Building product table ${k} ${elm}`)
                 $(`#tbody_product`).append(
                     `<tr class="heading prod_row" data-lid="" id="${elm.id}" name="prod_row" row_count=${lastRow_count}>
@@ -331,60 +265,190 @@ odoo.define('portal_request.portal_request', function (require) {
         });
     }
 
-    function buildProductRow(memo_type) {
-        // for new request: building each line of item 
-        let default_source_location = $('#source_location_id').val() || $('#TargetSourceLocation').val() || 0
-        let lastRow_count = getOrAssignRowNumber()
-        $(`#tbody_product`).append(
-            `<tr class="heading prod_row" name="prod_row" row_count=${lastRow_count} data-lid="">
-                <th width="5%">
-                    <span>
-                        <input type="checkbox" class="productchecked" code=""/>
-                    </span>
-                </th>
-                <th width="25%">
-                    <span>
-                        <input special_id="${lastRow_count}" row_identity="identity_${lastRow_count}" class="form-control productitemrow" name="product_item_id" required="${setRequiredFields(memo_type, productRequiredItems)}" labelfor="Product Name"/>
-                    </span>
-                </th>
-                <th width="20%">
-                    <textarea placeholder="Start typing" name="description" id="${lastRow_count}" row_identity="identity_${lastRow_count}" desc_elm="" required="${memo_type == 'cash_advance' ? 'required' : ''}" class="DescFor form-control" labelfor="Description"/> 
-                </th>
-                <th width="10%" id="req_qty_label_th" class="${$.inArray(memo_type, ['vehicle_request']) !== -1 ? 'd-none' : ''}">
-                    <input type="number" pattern="[0-9\s]" productinput="productreqQty" row_identity="identity_${lastRow_count}" class="productinput form-control ${$.inArray(memo_type, ['vehicle_request']) !== -1 ? 'd-none' : ''} QTY${lastRow_count}" location_id="${default_source_location}" required="${$.inArray(memo_type, productRequiredItems) == 1 ? 'required' : ''}" labelfor="Requested Quantity" min="1" row_count="${lastRow_count}"/>
-                </th>
-                <th width="15%" id="unit_price_label_th" class="${$.inArray(memo_type, ['soe', 'material_request', 'vehicle_request']) !== -1 ? 'd-none' : ''}">
-                    <input type="number" value="1" name="amount_total" id="amount_totalx-${lastRow_count}-id" row_identity="identity_${lastRow_count}" required="${$.inArray(memo_type, ['soe', 'material_request', 'vehicle_request']) !== -1 ? '' : 'required'}" class="productAmt form-control ${$.inArray(memo_type, ['soe', 'material_request', 'vehicle_request']) !== -1 ? 'd-none' : ''} AmounTotal${lastRow_count}" labelfor="Unit Price" row_count="${lastRow_count}"/> 
-                </th>
-                <th width="15%" id="sub_total_amount_th" class="sub_total_amount ${$.inArray(memo_type, ['soe', 'material_request', 'vehicle_request']) !== -1 ? 'd-none' : ''}">
-                    <input type="number" value="0" name="sub_total_amount" id="sub_amount_totalx-${lastRow_count}-id" row_identity="identity_${lastRow_count}" main_name = "sub_total_amount" required="${$.inArray(memo_type, ['soe', 'material_request', 'vehicle_request']) !== -1 ? '' : 'required'}" class="sub_total_amount form-control ${$.inArray(memo_type, ['soe', 'material_request', 'vehicle_request']) !== -1 ? 'd-none' : ''} SUBTOTAL${lastRow_count}" labelfor="Subtotal" readonly="true" disabled="true"/> 
-                </th>
-                <th width="5%" id="used_qty_for_soe_th" class="${memo_type == 'soe' ? '' : 'd-none'}"> 
-                    <input type="text" name="usedQty-${lastRow_count}" id="usedQty-${lastRow_count}-id" row_identity="identity_${lastRow_count}" required="${memo_type == 'soe' ? 'required' : ''}" readonly="${memo_type == 'soe' ? '' : 'readonly'}" class="productUsedQty form-control ${memo_type == 'soe' ? '' : 'd-none'}" labelfor="Used Quantity"/> 
-                </th>
-                <th width="10%" id="used_amount_for_soe_th" class="${memo_type == 'soe' ? '' : 'd-none'}">
-                    <input type="number" name="UsedAmount" id="amounttUsed-${lastRow_count}" used_amount="UsedAmount-${lastRow_count}" row_identity="identity_${lastRow_count}" required="${memo_type == 'soe' ? 'required' : ''}" readonly="${memo_type == 'soe' ? '' : 'readonly'}" class="productSoe form-control ${memo_type == 'soe' ? '' : 'd-none'}" labelfor="Used Amount"/> 
-                </th>
-                
-                <th width="10%" id="note_label_th" class="${$.inArray(memo_type, ['vehicle_request']) !== -1 ? 'd-none' : ''}">
-                    <textarea rows="2" name="note_area" id="${lastRow_count}" row_identity="identity_${lastRow_count}" note_elm="" class="Notefor form-control ${$.inArray(memo_type, ['vehicle_request']) !== -1 ? 'd-none' : ''}" labelfor="Note"/> 
-                </th>
-                 
-                <th width="10%" id="distance_from_th" class="${$.inArray(memo_type, ['vehicle_request']) !== -1 ? '' : 'd-none'}">
-                    <textarea placeholder="Start typing" name="distance_from" id="${lastRow_count}" row_identity="identity_${lastRow_count}" desc_elm="" required="${memo_type == 'vehicle_request' ? 'required' : ''}" class="DistanceFrom form-control ${$.inArray(memo_type, ['vehicle_request']) !== -1 ? '' : 'd-none'}" labelfor="Distance From"/> 
-                </th>
-                <th width="10%" id="distance_to_th" class="${$.inArray(memo_type, ['vehicle_request']) !== -1 ? '' : 'd-none'}">
-                    <textarea placeholder="Start typing" name="distance_to" id="${lastRow_count}" row_identity="identity_${lastRow_count}" desc_elm="" required="${memo_type == 'vehicle_request' ? 'required' : ''}" class="Distanceto form-control ${$.inArray(memo_type, ['vehicle_request']) !== -1 ? '' : 'd-none'}" labelfor="Distance To"/> 
-                </th>
+    function displaytableProps(memo_type) {
+        const isVehicle  = memo_type === 'vehicle_request';
+        const isSoe      = memo_type === 'soe';
+        const hidePricing = ['soe', 'material_request', 'vehicle_request'].includes(memo_type);
 
-                <th width="5%">
+        // Header columns — these IDs exist only once in the <thead>, so this is safe
+        $('#req_qty_label_th').toggleClass('d-none', isVehicle);
+        $('#unit_price_label_th').toggleClass('d-none', hidePricing);
+        $('#sub_total_amount_th').toggleClass('d-none', hidePricing);
+        $('#used_qty_for_soe_th').toggleClass('d-none', !isSoe);
+        $('#used_amount_for_soe_th').toggleClass('d-none', !isSoe);
+        $('#retirement_sub_total_th').toggleClass('d-none', !isSoe);
+        $('#note_label_th').toggleClass('d-none', isVehicle);
+        $('#distance_from_th').toggleClass('d-none', !isVehicle);
+        $('#distance_to_th').toggleClass('d-none', !isVehicle);
+
+        // Legacy label rows (if still used in the form body above the table)
+        $('#req_qty_label').toggleClass('d-none', isVehicle);
+        $('#unit_price_label').toggleClass('d-none', hidePricing);
+        $('#unit_sub_total').toggleClass('d-none', hidePricing);
+        $('#sub_total_line').toggleClass('d-none', hidePricing);
+        $('#used_qty_for_soe').toggleClass('d-none', !isSoe);
+        $('#used_amount_for_soe').toggleClass('d-none', !isSoe);
+        $('#retirement_sub_total').toggleClass('d-none', !isSoe);
+        $('#distance_from').toggleClass('d-none', !isVehicle);
+        $('#distance_to').toggleClass('d-none', !isVehicle);
+        $('#note_label').toggleClass('d-none', isVehicle);
+    }
+
+    function buildProductRow(memo_type) {
+        let default_source_location = $('#source_location_id').val() || $('#TargetSourceLocation').val() || 0;
+        let lastRow_count = getOrAssignRowNumber();
+        // Compute visibility classes once, cleanly
+        const isVehicle     = memo_type === 'vehicle_request';
+        const isSoe         = memo_type === 'soe';
+        const isMaterial    = memo_type === 'material_request';
+        const hidePricing   = ['soe', 'material_request', 'vehicle_request'].includes(memo_type);
+        const hideQty       = isVehicle;
+        const hideNote      = isVehicle;
+        const hideSoe       = !isSoe;
+        const hideDistance  = !isVehicle;
+        const reqCashAdv    = memo_type === 'cash_advance' ? 'required' : '';
+        const reqSoe        = isSoe ? 'required' : '';
+        const reqVehicle    = isVehicle ? 'required' : '';
+        const reqProduct    = setRequiredFields(memo_type, productRequiredItems);
+        const reqPricing    = hidePricing ? '' : 'required';
+
+        $(`#tbody_product`).append(`
+            <tr class="heading prod_row" name="prod_row" row_count="${lastRow_count}" data-lid="">
+                <td width="5%">
+                    <input type="checkbox" class="productchecked" code=""/>
+                </td>
+
+                <td width="25%">
+                    <input
+                        special_id="${lastRow_count}"
+                        row_identity="identity_${lastRow_count}"
+                        class="form-control productitemrow"
+                        name="product_item_id"
+                        required="${reqProduct}"
+                        labelfor="Product Name"/>
+                </td>
+
+                <td width="20%">
+                    <textarea
+                        placeholder="Start typing"
+                        name="description"
+                        id="desc_${lastRow_count}"
+                        row_identity="identity_${lastRow_count}"
+                        desc_elm=""
+                        required="${reqCashAdv}"
+                        class="DescFor form-control"
+                        labelfor="Description"></textarea>
+                </td>
+
+                <td width="10%" class="col-req-qty ${hideQty ? 'd-none' : ''}">
+                    <input
+                        type="number"
+                        pattern="[0-9\s]"
+                        productinput="productreqQty"
+                        row_identity="identity_${lastRow_count}"
+                        class="productinput form-control QTY${lastRow_count}"
+                        location_id="${default_source_location}"
+                        required="${hideQty ? '' : 'required'}"
+                        labelfor="Requested Quantity"
+                        min="1"
+                        row_count="${lastRow_count}"/>
+                </td>
+
+                <td width="15%" class="col-unit-price ${hidePricing ? 'd-none' : ''}">
+                    <input
+                        type="number"
+                        value="1"
+                        name="amount_total"
+                        id="amount_totalx-${lastRow_count}-id"
+                        row_identity="identity_${lastRow_count}"
+                        required="${reqPricing}"
+                        class="productAmt form-control AmounTotal${lastRow_count}"
+                        labelfor="Unit Price"
+                        row_count="${lastRow_count}"/>
+                </td>
+
+                <td width="15%" class="col-subtotal ${hidePricing ? 'd-none' : ''}">
+                    <input
+                        type="number"
+                        value="0"
+                        name="sub_total_amount"
+                        id="sub_amount_totalx-${lastRow_count}-id"
+                        row_identity="identity_${lastRow_count}"
+                        main_name="sub_total_amount"
+                        required="${reqPricing}"
+                        class="sub_total_amount form-control SUBTOTAL${lastRow_count}"
+                        labelfor="Subtotal"
+                        readonly="true"
+                        disabled="true"/>
+                </td>
+
+                <td width="5%" class="col-used-qty ${hideSoe ? 'd-none' : ''}">
+                    <input
+                        type="text"
+                        name="usedQty-${lastRow_count}"
+                        id="usedQty-${lastRow_count}-id"
+                        row_identity="identity_${lastRow_count}"
+                        required="${reqSoe}"
+                        class="productUsedQty form-control"
+                        labelfor="Used Quantity"/>
+                </td>
+
+                <td width="10%" class="col-used-amount ${hideSoe ? 'd-none' : ''}">
+                    <input
+                        type="number"
+                        name="UsedAmount"
+                        id="amounttUsed-${lastRow_count}"
+                        used_amount="UsedAmount-${lastRow_count}"
+                        row_identity="identity_${lastRow_count}"
+                        required="${reqSoe}"
+                        class="productSoe form-control"
+                        labelfor="Used Amount"/>
+                </td>
+
+                <td width="10%" class="col-note ${hideNote ? 'd-none' : ''}">
+                    <textarea
+                        rows="2"
+                        name="note_area"
+                        id="${lastRow_count}"
+                        row_identity="identity_${lastRow_count}"
+                        note_elm=""
+                        class="Notefor form-control"
+                        labelfor="Note"></textarea>
+                </td>
+
+                <td width="10%" class="col-dist-from ${hideDistance ? 'd-none' : ''}">
+                    <textarea
+                        placeholder="Start typing"
+                        name="distance_from"
+                        id="${lastRow_count}"
+                        row_identity="identity_${lastRow_count}"
+                        desc_elm=""
+                        required="${reqVehicle}"
+                        class="DistanceFrom form-control"
+                        labelfor="Distance From"></textarea>
+                </td>
+
+                <td width="10%" class="col-dist-to ${hideDistance ? 'd-none' : ''}">
+                    <textarea
+                        placeholder="Start typing"
+                        name="distance_to"
+                        id="${lastRow_count}"
+                        row_identity="identity_${lastRow_count}"
+                        desc_elm=""
+                        required="${reqVehicle}"
+                        class="Distanceto form-control"
+                        labelfor="Distance To"></textarea>
+                </td>
+
+                <td width="5%">
                     <a id="${lastRow_count}" remove_id="${lastRow_count}" href="#" class="remove_field fa fa-trash-o p-3"></a>
-                </th>
-            </tr>`
-        )
-        TriggerProductField(lastRow_count)
+                </td>
+            </tr>
+        `);
+
+        TriggerProductField(lastRow_count);
         $('textarea').autoResize();
-        scrollTable(); // used to scroll to the next level when add a line
+        scrollTable();
     }
 
     function buildEmployeeRow(memo_type) {
@@ -436,14 +500,7 @@ odoo.define('portal_request.portal_request', function (require) {
         let products = JSON.parse(localStorage.getItem('SelectedProductItems'));
         // console.log("Products store is ", products)
         return products
-    }
-
-    // var formatCurrency = function(value) {
-    //     if (value) {
-    //         return value.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-    //     }
-    // }
+    } 
     var formatCurrency = function (value) {
         if (!value && value !== 0) return '0.00';
 
@@ -458,12 +515,8 @@ odoo.define('portal_request.portal_request', function (require) {
 
     function getAmountQtyProcess(objVal, attrs, targetEv) {
         let result = 0
-        // console.log(`val res ${objVal}`)
-
         if (attrs == targetEv) {
-            // console.log(`element attributes ${attrs}`)
             result = Number(objVal)
-            // console.log(`what is result ${result}`)
             return result;
         }
         return result;
@@ -542,20 +595,6 @@ odoo.define('portal_request.portal_request', function (require) {
             $(this).val('')
             update_attribute_of_fields($(this))
         })
-    }
-
-    function getOrAssignRowNumber(memo_type = false) {
-        var lastRow_count = 0
-        // $(`#tbody_product > tr.prod_row > th > input.productitemrow`)[0].each(
-        var lastElement = memo_type !== 'employee_update' ? $(`#tbody_product > tr.prod_row > th > span > input.productitemrow`) : $(`#tbody_employee > tr.employee_row > th > span > input.employeeitemrow`)
-        if (lastElement) {
-            let special_id = memo_type !== 'employee_update' ? lastElement.last().attr('special_id') : lastElement.last().attr('employee_special_id');
-            lastRow_count = special_id ? parseInt(special_id) + 1 : lastRow_count + 1
-        } else {
-            lastRow_count + 1
-        }
-
-        return lastRow_count
     }
 
     $.fn.autoResize = function () {
@@ -698,38 +737,6 @@ odoo.define('portal_request.portal_request', function (require) {
         });
     }
 
-    // function TriggerProductField(lastRow_count){
-    //     // PRODUCTSEARCH
-    //     $(`input[special_id='${lastRow_count}']`).select2({
-    //         ajax: {
-    //           url: '/portal-request-product',
-    //           dataType: 'json',
-    //           delay: 30,
-    //           data: function (term, page) {
-    //             return {
-    //               q: term, //search term
-    //               productItems: JSON.stringify(setProductdata), //getSelectedProductItems(),
-    //               request_type: $('#selectRequestOption').val(), //getSelectedProductItems(),
-    //               source_locationId: $('#source_location_id').val(), //getSelectedProductItems(),
-    //               page_limit: 10, // page size
-    //               page: page, // page number
-    //             };
-    //           },
-    //           results: function (data, page) {
-    //             var more = (page * 30) < data.total;
-    //             // console.log(data);
-    //             // localStorage.setItem('productStorage', JSON.stringify(data.results))
-    //             return {results: data.results, more: more};
-    //           },
-    //           cache: true
-    //         },
-    //         minimumInputLength: 1,
-    //         multiple: false,
-    //         placeholder: 'Search for a Products',
-    //         allowClear: true,
-    //       });
-    // }
-
     function TriggerProductField(lastRow_count) {
         // PRODUCTSEARCH
         $(`input[special_id='${lastRow_count}']`).select2({
@@ -764,7 +771,7 @@ odoo.define('portal_request.portal_request', function (require) {
             placeholder: 'Search for a Products',
             allowClear: true,
         });
-    }
+    } 
 
     $('#existing_order').select2({
         ajax: {
@@ -973,21 +980,20 @@ odoo.define('portal_request.portal_request', function (require) {
     let source_location_id = $('#source_location_id')
     let destination_location_id = $('#destination_location_id')
 
-    let checkOverlappingLeaveDate = function (thiis) {
+    let checkOverlappingLeaveDate = async function (thiis) {
         var message = ""
         if ($('#selectRequestOption').val() === "leave_request") {
             var staff_num = $('#staff_id').val();
             if (staff_num !== "" && $('#leave_start_date').val() !== '' && $('#leave_end_datex').val() !== "") {
-                thiis._rpc({
-                    route: `/check-overlapping-leave`,
-                    params: {
+                await jsonrpc(`/check-overlapping-leave`,
+                    {
                         'data': {
                             'staff_num': staff_num,
                             'start_date': $('#leave_start_date').val(),
                             'end_date': $('#leave_end_datex').val(),
                         }
                     },
-                }).then(function (data) {
+                ).then(function (data) {
                     if (!data.status) {
                         $("#leave_start_date").val('')
                         $("#leave_end_datex").val('') //.trigger('change')
@@ -999,15 +1005,16 @@ odoo.define('portal_request.portal_request', function (require) {
                     } else {
                         console.log("--")
                     }
-                }).guardedCatch(function (error) {
-                    let msg = error.message.message
-                    console.log(msg)
-                    $("#leave_end_datex").val('')
-                    message = `Unknown Error! ${msg}`
-                    modal_message.text(message)
-                    alert_modal.modal('show');
-                    return false;
-                });
+                })
+                // .guardedCatch(function (error) {
+                //     let msg = error.message.message
+                //     console.log(msg)
+                //     $("#leave_end_datex").val('')
+                //     message = `Unknown Error! ${msg}`
+                //     modal_message.text(message)
+                //     alert_modal.modal('show');
+                //     return false;
+                // });
             }
         }
     }
@@ -1056,29 +1063,6 @@ odoo.define('portal_request.portal_request', function (require) {
         return String($opt.val());
     }
 
-    // function collectRequestLines(){
-    //     const lines=[];
-    //     $('#tbody_product tr').each(function(){
-    //         const $r=$(this); 
-    //         const lid = $r.data('lid');
-    //         lines.push({
-    //             id:parseInt(lid),
-    //             product_id: $r.find('.productitemrow').length ? parseInt($r.find('.productitemrow').select2('data')) : null,
-    //             description: $r.find('.DescFor').val().trim(),
-    //             qty:parseFloat($r.find('.productinput').val())||0,
-    //             amount_total: $r.find('.productAmt').val(),
-    //             subtotal: $r.find('.sub_total_amount').val(),
-    //             used_qty: $r.find('.productUsedQty').val(),
-    //             used_amount: $r.find('.productSoe').val(),
-    //             distanceFrom: $r.find('.DistanceFrom').val(),
-    //             distanceTo: $r.find('.Distanceto').val(),
-    //             note: $r.find('.Notefor').val().trim(),
-    //             line_checked: $r.find('.productchecked').val(),
-    //             request_line_id: parseInt(lid),
-    //         });
-    //     });
-    //     return lines;
-    //     }
 
     function collectRequestLines(){
         const lines=[];
@@ -1094,9 +1078,6 @@ odoo.define('portal_request.portal_request', function (require) {
             lines.push({
                 id:parseInt(lid),
                 product_id: $r.find('.productitemrow').length && $r.find('.productitemrow').select2('data') ? parseInt($r.find('.productitemrow').select2('data').id) : null,
-    //             product_id: (selectData && selectData.length)
-    // ? parseInt(selectData.id)
-    // : null,
                 description: $r.find('.DescFor').val().trim(),
                 qty: parseFloat($r.find('.productinput').val())||0,
                 amount_total: $r.find('.productAmt').val(),
@@ -1228,8 +1209,8 @@ odoo.define('portal_request.portal_request', function (require) {
 
             alert('Successfully saved', r.request_id);
             console.log('Saved request id:', r.request_id);
-            AttachmentsModule.setMemoId(r.request_id || $('#memo_id').val() || AppData.currentId);
-            AttachmentsModule.getAttachmentsForSave()
+            // AttachmentsModule.setMemoId(r.request_id || $('#memo_id').val() || AppData.currentId);
+            // AttachmentsModule.getAttachmentsForSave()
             assignRequestId(r.request_id);
             if (toSubmit){
                 // let targetElementid = parseInt(r.request_id);
@@ -1328,7 +1309,7 @@ odoo.define('portal_request.portal_request', function (require) {
         return r.result;
     });
     }
-    publicWidget.registry.PortalRequestWidgets = publicWidget.Widget.extend({
+    PublicWidget.registry.PortalRequestWidgets = PublicWidget.Widget.extend({
         selector: '#portal-request',
         start: function () {
             var self = this;
@@ -1353,6 +1334,18 @@ odoo.define('portal_request.portal_request', function (require) {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '2022:2050',
+                    maxDate: null,
+                    minDate: new Date()
+                });
+
+                $('#loan_start_date').datepicker('destroy').datepicker({
+                    onSelect: function (ev) {
+                        $('#loan_start_date').trigger('blur')
+                    },
+                    dateFormat: 'mm/dd/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '2026:2050',
                     maxDate: null,
                     minDate: new Date()
                 });
@@ -1513,7 +1506,7 @@ odoo.define('portal_request.portal_request', function (require) {
                         $('#isInterDistrictProcess').prop('checked', false);
                     }
                 }
-                console.log('=== END INITIAL POPULATION ===');
+                console.log('=== END INITIAL POPULATION ===', $('#div_inter_district_process'));
             });
 
         },
@@ -1698,7 +1691,7 @@ odoo.define('portal_request.portal_request', function (require) {
                 }
             },
 
-            'change .productinput': function (ev) {
+            'change .productinput': async function (ev) {
                 // assigning the property: name of quantity field as the quantity selected
                 let qty_elm = $(ev.target);
                 let productinput_rowcount = qty_elm.attr('row_count');
@@ -1711,9 +1704,8 @@ odoo.define('portal_request.portal_request', function (require) {
                 // console.log('THE REQUEST TYPE IS ==> ', request_type)
                 if ($.inArray(request_type, productRequiredItems) !== -1) {
                     // console.log('THE REQUEST TYPE IS 2222 ==> ', request_type)
-                    this._rpc({
-                        route: `/check-quantity`,
-                        params: {
+                    await jsonrpc(`/check-quantity`,
+                        {
                             'product_id': qty_elm.attr('id'),
                             'qty': selectedproductQty,
                             'district': $("#selectDistrict").val(),
@@ -1721,7 +1713,7 @@ odoo.define('portal_request.portal_request', function (require) {
                             'sourceLocationId': $("#source_location_id").val() || $("#TargetSourceLocation").val(),
                             'is_interdistrict': $("#source_location_id").val() || $("#TargetSourceLocation").val(),
                         }
-                    }).then(function (data) {
+                    ).then(function (data) {
                         if (!data.status) {
                             qty_elm.attr('required', true);
                             qty_elm.val("");
@@ -1743,17 +1735,15 @@ odoo.define('portal_request.portal_request', function (require) {
                 }
             },
 
-            'blur input[name=staff_id]': function (ev) {
+            'blur input[name=staff_id]': async function (ev) {
                 let staff_num = $(ev.target).val();
                 if (staff_num !== '') {
                     var self = this;
-                    this._rpc({
-                        route: `/check_staffid`, ///${staff_num}`,
-                        params: {
-                            //'type': type
+                    await jsonrpc(`/check_staffid`, ///${staff_num}`,
+                        {
                             'staff_num': staff_num
                         },
-                    }).then(function (data) {
+                    ).then(function (data) {
                         console.log('retrieved staff data => ' + JSON.stringify(data))
                         if (!data.status) {
                             $(ev.target).val('')
@@ -1780,25 +1770,25 @@ odoo.define('portal_request.portal_request', function (require) {
                                 self.populateConfigOptionsForType(curType, interState ? true : false, currentDistrict);
                             }
                         }
-                    }).guardedCatch(function (error) {
-                        let msg = error.message.message
-                        console.log(msg)
-                        alert(`Unknown Error! ${msg}`)
-                    });
+                    })
+                    // .guardedCatch(function (error) {
+                    //     let msg = error.message.message
+                    //     console.log(msg)
+                    //     alert(`Unknown Error! ${msg}`)
+                    // });
                 }
             },
-            'change select[name=leave_type_id]': function (ev) {
+            'change select[name=leave_type_id]': async function (ev) {
                 let leave_id = $(ev.target).val();
                 let staff_num = $('#staff_id').val();
                 if (staff_num !== '' && leave_id !== '') {
                     var self = this;
-                    this._rpc({
-                        route: `/get/leave-allocation`, ///${leave_id}/${staff_num}`,
-                        params: {
+                    await jsonrpc(`/get/leave-allocation`, ///${leave_id}/${staff_num}`,
+                        {
                             'staff_num': staff_num.trim(),
                             'leave_id': leave_id
-                        },
-                    }).then(function (data) {
+                        }
+                    ).then(function (data) {
                         console.log('retrieved staff leave data => ' + JSON.stringify(data))
                         if (!data.status) {
                             $(ev.target).val('')
@@ -1812,11 +1802,12 @@ odoo.define('portal_request.portal_request', function (require) {
                             $("#leave_remaining").val(number_of_days_display)
                             $("#leave_remain").text(number_of_days_display)
                         }
-                    }).guardedCatch(function (error) {
-                        let msg = error.message.message
-                        console.log(msg)
-                        alert(`Unknown Error! ${msg}`)
-                    });
+                    })
+                    // .guardedCatch(function (error) {
+                    //     let msg = error.message.message
+                    //     console.log(msg)
+                    //     alert(`Unknown Error! ${msg}`)
+                    // });
                 }
             },
 
@@ -1842,11 +1833,6 @@ odoo.define('portal_request.portal_request', function (require) {
                 var join2 = prefixmaxDate.length == 1 ? `0${prefixmaxDate}` : prefixmaxDate;
                 var st = `${join1}/${new Date(endDate).getDate()}/${new Date(endDate).getFullYear()}`
                 var end = `${join2}/${new Date(maxDate).getDate()}/${new Date(maxDate).getFullYear()}`
-
-                // we added 0 prefix for jan - september 
-
-                // var st = `${new Date(endDate).getMonth() + 1}/${new Date(endDate).getDate()}/${new Date(endDate).getFullYear()}`
-                // var end = `${new Date(maxDate).getMonth() + 1}/${new Date(maxDate).getDate()}/${new Date(maxDate).getFullYear()}`
                 triggerEndDate(st, end)
             },
             'blur input[name=leave_end_datex]': function (ev) {
@@ -1856,17 +1842,6 @@ odoo.define('portal_request.portal_request', function (require) {
                 let endDate = $(ev.target);
                 var date1 = new Date(start_date.val());
                 var date2 = new Date(endDate.val());
-                // var Difference_In_Time = date2.getTime() - date1.getTime();
-                // var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-                // console.log(`Difference_In_Days IS : ${Difference_In_Days}`)
-                // if (Difference_In_Days > parseInt(leaveRemaining)){
-                //     $('#leave_end_datex').val("");
-                //     $('#leave_end_datex').attr('required', true);
-                //     alert(`You only have ${leaveRemaining} number of leave remaining 
-                //         for this leave type. Please Ensure the date range is within the available 
-                //         day allocated for you.`)
-                //     return true
-                // }
                 let workingDays = workingDaysBetweenDates(date1, date2);
                 console.log(`leaveRemaining IS : ${leaveRemaining} workingDays ${workingDays}`)
 
@@ -1885,7 +1860,7 @@ odoo.define('portal_request.portal_request', function (require) {
                 checkOverlappingLeaveDate(this)
             },
 
-            'change #leave_reliever': function (ev) {
+            'change #leave_reliever': async function (ev) {
                 // 'blur input[name=leave_reliever]': function(ev){
                 let leave_reliever = $('#leave_reliever');
                 let start_date = $('#leave_start_date');
@@ -1898,14 +1873,13 @@ odoo.define('portal_request.portal_request', function (require) {
                 else {
                     console.log("THE TODLE POL")
                     if ($('#selectRequestOption').val() == "leave_request" && leave_reliever.val() !== "") {
-                        this._rpc({
-                            route: `/check-employee-still-onleave`,
-                            params: {
+                        await jsonrpc(`/check-employee-still-onleave`,
+                            {
                                 'employee_id': leave_reliever.val(),
                                 'start_date': $('#leave_start_date').val(),
                                 'end_date': $('#leave_end_datex').val(),
                             },
-                        }).then(function (data) {
+                        ).then(function (data) {
                             if (!data.status) {
                                 $('#leave_reliever').val('0').trigger('change');
                                 leave_reliever.addClass('is-invalid', true);
@@ -1916,20 +1890,21 @@ odoo.define('portal_request.portal_request', function (require) {
                             } else {
                                 console.log("---")
                             }
-                        }).guardedCatch(function (error) {
-                            let msg = error.message.message
-                            console.log(msg)
-                            leave_reliever.val('')
-                            let message = `Unknown Error! ${msg}`
-                            modal_message.text(message)
-                            alert_modal.modal('show');
-                            return false;
-                        });
+                        })
+                        // .guardedCatch(function (error) {
+                        //     let msg = error.message.message
+                        //     console.log(msg)
+                        //     leave_reliever.val('')
+                        //     let message = `Unknown Error! ${msg}`
+                        //     modal_message.text(message)
+                        //     alert_modal.modal('show');
+                        //     return false;
+                        // });
                     }
                 }
             },
 
-            'change select[name=selectRequestOption]': function (ev) {
+            'change select[name=selectRequestOption]': async function (ev) {
                 let selectedTarget = $(ev.target).val();
                 $('#existing_ref_label').text("Existing Ref #");
                 $('#div_existing_order').addClass('d-none');
@@ -1937,13 +1912,13 @@ odoo.define('portal_request.portal_request', function (require) {
                 let self = this;
                 // checkConfiguredStages(this, selectedTarget);
                 let staff_num = $('#staff_id').val();
-                this._rpc({
-                    route: `/check-configured-stage`,
-                    params: {
+                await jsonrpc(
+                    `/check-configured-stage`,
+                    {
                         'staff_num': staff_num,
                         'request_option': selectedTarget,
                     },
-                }).then(function (data) {
+                ).then(function (data) {
                     console.log('checking if stage is configured => ' + JSON.stringify(data))
                     if (!data.status) {
                         $('#selectRequestOption').val('')
@@ -1971,6 +1946,7 @@ odoo.define('portal_request.portal_request', function (require) {
                             let main = $('#leave_reliever').prop('required');
                             console.log('WHAT IS LEAVE RELIEVER', main)
                             display_material_request_location(false);
+                            onchangeloanType(false);
                         }
                         else if (selectedTarget == "server_access") {
                             $('#amount_section').addClass('d-none');
@@ -1988,6 +1964,7 @@ odoo.define('portal_request.portal_request', function (require) {
                             console.log("server request selected == ", selectedTarget);
                             displayNonLeaveElement()
                             display_material_request_location(false);
+                            onchangeloanType(false);
                         }
                         else if (selectedTarget == 'employee_update') {
                             $('#amount_section').addClass('d-none');
@@ -2012,6 +1989,7 @@ odoo.define('portal_request.portal_request', function (require) {
                             console.log("request selected== ", selectedTarget);
                             displayNonLeaveElement()
                             display_material_request_location(false);
+                            onchangeloanType(false);
                         }
 
                         else if (selectedTarget == "material_request") {
@@ -2019,19 +1997,21 @@ odoo.define('portal_request.portal_request', function (require) {
                             $('#interdistrict-checkbox-div').removeClass('d-none');
                             display_material_request_location(true);
                             $('#product_form_div').removeClass('d-none');
+                            onchangeloanType(false);
                         }
                         // else if(selectedTarget == "cash_advance" || selectedTarget == "soe"){
                         else if (selectedTarget == "cash_advance") {
                             display_material_request_location(false);
+                            onchangeloanType(false);
 
                             var staff_num = $('#staff_id').val();
-                            self._rpc({
-                                route: `/check-cash-retirement`,
-                                params: {
+                            jsonrpc(
+                                `/check-cash-retirement`,
+                                {
                                     'staff_num': staff_num,
                                     'request_type': selectedTarget,
                                 },
-                            }).then(function (data) {
+                            ).then(function (data) {
                                 console.log('retrieved cash advance data => ' + JSON.stringify(data))
                                 if (!data.status) {
                                     $(ev.target).val('');
@@ -2048,18 +2028,18 @@ odoo.define('portal_request.portal_request', function (require) {
                                     $('#product_form_div').removeClass('d-none');
                                     $('.add_item').removeClass('d-none');
                                 }
-                            }).guardedCatch(function (error) {
-                                let msg = error.message.message
-                                console.log(msg)
-                                $("#amount_fig").val('')
-                                $('#amount_section').addClass('d-none');
-                                $('#product_form_div').addClass('d-none');
-                                alert(`Unknown Error! ${msg}`)
-                            });
+                            })
+                            // .guardedCatch(function (error) {
+                            //     let msg = error.message.message
+                            //     console.log(msg)
+                            //     $("#amount_fig").val('')
+                            //     $('#amount_section').addClass('d-none');
+                            //     $('#product_form_div').addClass('d-none');
+                            //     alert(`Unknown Error! ${msg}`)
+                            // });
                         }
                         else if (selectedTarget == "soe") {
-                            // $('#amount_section').removeClass('d-none');
-                            // $('#amount_fig').attr("required", true); 
+                            onchangeloanType(false); 
                             displayNonLeaveElement()
                             display_material_request_location(false);
                             $('.add_item').addClass('d-none')
@@ -2077,7 +2057,27 @@ odoo.define('portal_request.portal_request', function (require) {
                             }
                         }
 
+                        else if (selectedTarget == "loan") { 
+                            displayNonLeaveElement()
+                            display_material_request_location(false);
+                            $('.add_item').addClass('d-none')
+                            $('#product_form_div').addClass('d-none');
+                            onchangeloanType(true);
+                            if ($('#selectTypeRequest').val() == "new") {
+                                if ($('#staff_id').val() == "") {
+                                    selectedTarget.val('').trigger('change')
+                                    alert("Please enter staff ID");
+                                }
+                                else {
+                                    $('#existing_order').attr('required', true);
+                                    $('#div_existing_order').removeClass('d-none');
+                                    $('#existing_ref_label').text("Cash Advance Ref #");
+                                }
+                            }
+                        }
+
                         else {
+                            onchangeloanType(false);
                             $('#amount_section').addClass('d-none');
                             $('#amount_fig').attr("required", false);
                             console.log("request selected");
@@ -2086,12 +2086,13 @@ odoo.define('portal_request.portal_request', function (require) {
                             $('#product_form_div').removeClass('d-none');
                         }
                     }
-                }).guardedCatch(function (error) {
-                    let msg = error.message.message
-                    console.log(msg)
-                    $("#selectRequestOption").val('')
-                    alert(`Unknown Error! ${msg}`)
-                });
+                })
+                // .guardedCatch(function (error) {
+                //     let msg = error.message.message
+                //     console.log(msg)
+                //     $("#selectRequestOption").val('')
+                //     alert(`Unknown Error! ${msg}`)
+                // });
             },
 
             // Request Type
@@ -2355,7 +2356,7 @@ odoo.define('portal_request.portal_request', function (require) {
                 }
             },
 
-            'change select[name=selectConfigOption]': function (ev) {
+            'change select[name=selectConfigOption]': async function (ev) {
                 let selectedTarget = $(ev.target);
                 let selectedValue = selectedTarget.val();
 
@@ -2384,13 +2385,12 @@ odoo.define('portal_request.portal_request', function (require) {
                 let self = this;
                 let staff_num = $('#staff_id').val();
 
-                this._rpc({
-                    route: `/check-configured-stage`,
-                    params: {
+                await jsonrpc(`/check-configured-stage`,
+                    {
                         'staff_num': staff_num,
                         'request_config_option': selectedValue,
                     },
-                }).then(function (data) {
+                ).then(function (data) {
                     console.log('checking if stage is configured => ' + JSON.stringify(data));
 
                     if (!data.status) {
@@ -2715,13 +2715,12 @@ odoo.define('portal_request.portal_request', function (require) {
                         }
                         else if (memo_type_key == "cash_advance") {
                             var staff_num = $('#staff_id').val();
-                            self._rpc({
-                                route: `/check-cash-retirement`,
-                                params: {
+                            jsonrpc(`/check-cash-retirement`,
+                                {
                                     'staff_num': staff_num,
                                     'request_type': memo_type_key,
                                 },
-                            }).then(function (data) {
+                            ).then(function (data) {
                                 if (!data.status) {
                                     $(ev.target).val('');
                                     $("#amount_fig").val('');
@@ -2734,13 +2733,14 @@ odoo.define('portal_request.portal_request', function (require) {
                                     $('#product_form_div').removeClass('d-none');
                                     $('.add_item').removeClass('d-none');
                                 }
-                            }).guardedCatch(function (error) {
-                                let msg = error.message.message;
-                                $("#amount_fig").val('');
-                                $('#amount_section').addClass('d-none');
-                                $('#product_form_div').addClass('d-none');
-                                alert(`Unknown Error! ${msg}`);
-                            });
+                            })
+                            // .guardedCatch(function (error) {
+                            //     let msg = error.message.message;
+                            //     $("#amount_fig").val('');
+                            //     $('#amount_section').addClass('d-none');
+                            //     $('#product_form_div').addClass('d-none');
+                            //     alert(`Unknown Error! ${msg}`);
+                            // });
                         }
                         else if (memo_type_key == "soe") {
                             displayNonLeaveElement();
@@ -2778,16 +2778,17 @@ odoo.define('portal_request.portal_request', function (require) {
                             }
                         }
                     }
-                }).guardedCatch(function (error) {
-                    let msg = error.message.message;
-                    $("#selectConfigOptionId").val('');
-                    $("#selectedRequestOptionId").val('');
-                    $("#selectRequestOption").val('');
-                    alert(`Unknown Error! ${msg}`);
-                });
+                })
+                // .guardedCatch(function (error) {
+                //     let msg = error.message.message;
+                //     $("#selectConfigOptionId").val('');
+                //     $("#selectedRequestOptionId").val('');
+                //     $("#selectRequestOption").val('');
+                //     alert(`Unknown Error! ${msg}`);
+                // });
             },
  
-            'change #existing_order': function (ev) {
+            'change #existing_order': async function (ev) {
                 let existing_order_id = $(ev.target).val();
                 var selectRequestOption = $('#selectRequestOption');
                 var selectConfigOptionId = $('#selectConfigOptionId');
@@ -2804,14 +2805,13 @@ odoo.define('portal_request.portal_request', function (require) {
 
                     console.log(`Fetching cash advance: ${existing_order_id} for staff ${staff_num}`);
 
-                    this._rpc({
-                        route: `/check_order`,
-                        params: {
+                    await jsonrpc(`/check_order`,
+                        {
                             'staff_num': staff_num,
                             'existing_order_id': existing_order_id, // Send ID instead of code
                             'request_type': selectRequestOption.val(),
                         },
-                    }).then(function (data) {
+                    ).then(function (data) {
                         console.log('Retrieved existing_order data => ' + JSON.stringify(data));
 
                         if (!data.status) {
@@ -2868,18 +2868,19 @@ odoo.define('portal_request.portal_request', function (require) {
                                 buildProductTable(product_ids, "cash_advance", "", "", "readonly");
                             }
                         }
-                    }).guardedCatch(function (error) {
-                        let msg = error.message.message;
-                        console.log(msg);
-                        $("#existing_order").val('').trigger('change');
-                        alert(`Unknown Error! ${msg}`);
-                    });
+                    })
+                    // .guardedCatch(function (error) {
+                    //     let msg = error.message.message;
+                    //     console.log(msg);
+                    //     $("#existing_order").val('').trigger('change');
+                    //     alert(`Unknown Error! ${msg}`);
+                    // });
                 } else {
                     alert("[Staff ID, Request option, Existing Ref # ] Must all be provided");
                 }
             },
 
-            'click .relieveBtn': function (ev) {
+            'click .relieveBtn': async function (ev) {
                 let targetElement = $(ev.target).attr('id');
                 let $btn = $('.relieveBtn');
                 let $btnHtml = $btn.html()
@@ -2888,12 +2889,11 @@ odoo.define('portal_request.portal_request', function (require) {
                 $.blockUI({
                     'message': '<h2 class="card-name">Resetting ...</h2>'
                 });
-                this._rpc({
-                    route: `/relieve/reliever`,
-                    params: {
+                await jsonrpc(`/relieve/reliever`,
+                    {
                         'user_id': 0, ///$('.record_id').attr('id'),
                     },
-                }).then(function (data) {
+                ).then(function (data) {
                     $btn.attr('disabled', false);
                     $btn.html($btnHtml)
                     $.unblockUI()
@@ -2906,13 +2906,14 @@ odoo.define('portal_request.portal_request', function (require) {
                         $('#relieveBtn').addClass('d-none')
                         console.log('reliever reset')
                     }
-                }).guardedCatch(function (error) {
-                    $btn.attr('disabled', false);
-                    $btn.html($btnHtml)
-                    $.unblockUI()
-                    let msg = error.message.message
-                    alert(`Unknown Error! ${msg}`)
-                });
+                })
+                // .guardedCatch(function (error) {
+                //     $btn.attr('disabled', false);
+                //     $btn.html($btnHtml)
+                //     $.unblockUI()
+                //     let msg = error.message.message
+                //     alert(`Unknown Error! ${msg}`)
+                // });
             },
             'change select[name=selectTypeRequest]': function () {
                 // if new request type; hide existing order else reveal it
@@ -2944,26 +2945,22 @@ odoo.define('portal_request.portal_request', function (require) {
                     console.log("IT IS NOT PART OF ITEM REQUEST")
                     $('#product_form_div').addClass('d-none');
                 }
-            },
-
+            }, 
             'click .add_item_btn': function (ev) {
                 ev.preventDefault();
-                $(ev.target).val()
                 var selectRequestOption = $('#selectRequestOption');
-                if (selectRequestOption.val() !== "employee_update") {
-                    console.log("Building product row with form data=> ", setProductdata)
-                    buildProductRow(selectRequestOption.val());
-                    displaytableProps(selectRequestOption.val()); // hide some artifacts before building products lines
+                var memo_type = selectRequestOption.val();
+                if (memo_type !== "employee_update") {
+                    displaytableProps(memo_type);       // headers first
+                    buildProductRow(memo_type);         // then build row (already self-styled)
+                } else {
+                    buildEmployeeRow(memo_type);
                 }
-                else {
-                    console.log("Building Employee row with form data=> ", setEmployeedata)
-                    buildEmployeeRow(selectRequestOption.val())
-                }
-                
-                // focus the last generated row input
+
+                // Focus first input of last added row
                 setTimeout(function () {
-                    $('table tbody_product tr:last').find('input, select, textarea').first().focus();
-                }, 1);
+                    $('#tbody_product tr:last').find('input, select, textarea').first().focus();
+                }, 100);
             },
             'click .search_panel_btn': function (ev) {
                 console.log("the search")
@@ -3196,8 +3193,8 @@ odoo.define('portal_request.portal_request', function (require) {
                                     else{
                                         data = data
                                     }
-                                    AttachmentsModule.setMemoId(data.request_id);
-                                    AttachmentsModule.getAttachmentsForSave()
+                                    // AttachmentsModule.setMemoId(data.request_id);
+                                    // AttachmentsModule.getAttachmentsForSave()
                                     $("#msform")[0].reset();
                                     $("#tbody_product").empty()
                                     $("#tbody_employee").empty()
@@ -3290,9 +3287,9 @@ odoo.define('portal_request.portal_request', function (require) {
 
     });
 
-
-
     function clearAllElement() {
+        // loan clearing
+        onchangeloanType(false);
         $('#subject').val('')
         $('#description').val('')
         $('#amount_fig').val('');
@@ -3357,7 +3354,7 @@ odoo.define('portal_request.portal_request', function (require) {
 
         $('#destination_location_id').removeClass('is-invalid is-valid');
         $('#source_location_id').removeClass('is-invalid is-valid');
-
+         
         $('#leave_type_id').val('');
         $('#leave_start_date').val('');
         $('#leave_end_datex').val('');

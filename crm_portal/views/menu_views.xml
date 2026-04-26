@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Dashboard Action -->
+        <record id="action_crm_portal_dashboard" model="ir.actions.act_url">
+            <field name="name">CRM Dashboard</field>
+            <field name="url">/crm-portal</field>
+            <field name="target">self</field>
+        </record>
+        <!-- CRM Portal Top Menu -->
+        <menuitem
+            id="menu_crm_portal_root"
+            name="CRM Portal"
+            sequence="50"
+            web_icon="crm_portal,static/description/icon.png"
+            action="crm_portal.action_crm_portal_dashboard"/>
+
+        
+
+        <!-- Sub Menus -->
+        <record id="action_crm_portal_leads" model="ir.actions.act_url">
+            <field name="name">Leads</field>
+            <field name="url">/crm-portal/leads</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="action_crm_portal_opps" model="ir.actions.act_url">
+            <field name="name">Opportunities</field>
+            <field name="url">/crm-portal/opportunities</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="action_crm_portal_sales" model="ir.actions.act_url">
+            <field name="name">Sales</field>
+            <field name="url">/crm-portal/sales</field>
+            <field name="target">self</field>
+        </record>
+
+        <record id="action_crm_portal_pipeline" model="ir.actions.act_url">
+            <field name="name">Pipeline</field>
+            <field name="url">/crm-portal/pipeline</field>
+            <field name="target">self</field>
+        </record>
+
+        <menuitem id="menu_crm_portal_dashboard" name="Dashboard"   parent="menu_crm_portal_root" action="action_crm_portal_dashboard" sequence="1"/>
+        <menuitem id="menu_crm_portal_leads"     name="Leads"        parent="menu_crm_portal_root" action="action_crm_portal_leads"     sequence="2"/>
+        <menuitem id="menu_crm_portal_opps"      name="Opportunities" parent="menu_crm_portal_root" action="action_crm_portal_opps"     sequence="3"/>
+        <menuitem id="menu_crm_portal_sales"     name="Sales"        parent="menu_crm_portal_root" action="action_crm_portal_sales"    sequence="4"/>
+        <menuitem id="menu_crm_portal_pipeline"  name="Pipeline"     parent="menu_crm_portal_root" action="action_crm_portal_pipeline" sequence="5"/>
+
+        <record id="crm.crm_menu_leads" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('ik_multi_branch.account_major_user'))]"/>
+        </record>
+    </data>
+</odoo>

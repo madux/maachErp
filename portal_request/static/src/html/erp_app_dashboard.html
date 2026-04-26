@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ERP Portal — Applications</title>
+
+<!-- CDN Dependencies -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<!-- Your stylesheet — served by Odoo static route -->
+    <link href="/portal_request/static/src/css/erp_app_dashboard.css" rel="stylesheet" crossorigin="anonymous">
+
+
+<!-- jQuery first, then Bootstrap JS -->s
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     TOPBAR
+══════════════════════════════════════ -->
+<header id="topbar">
+
+  <div class="topbar-left">
+
+    <!-- Back button with slide animation -->
+    <button class="tb-btn back-btn" id="back-btn" title="Go back">
+      <i class="fa fa-arrow-left"></i>
+      <span class="btn-label">Back</span>
+    </button>
+
+    <div class="logo-wrap">
+      <div class="logo-mark">E</div>
+      <div class="logo-text">
+        <strong>ERP Portal</strong>
+        <span>Maach Enterprise Suite</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <i class="fa fa-search"></i>
+    <input type="text" id="app-search" placeholder="Search applications… (Ctrl+K)" autocomplete="off"/>
+    <button class="search-clear" title="Clear">&times;</button>
+  </div>
+
+  <div class="topbar-right">
+
+    <!-- Dark / Light mode toggle -->
+    <button class="tb-btn" id="theme-toggle" title="Toggle theme">
+      <i class="fa fa-moon"></i>
+      <span class="btn-label">Dark mode</span>
+    </button>
+
+    <!-- Switch to Odoo backend core apps -->
+    <button class="tb-btn tb-accent" id="switch-core-btn" title="Switch to Core Apps">
+      <i class="fa fa-th"></i>
+      <span class="btn-label">Core Apps</span>
+    </button>
+
+    <!-- Reset Password -->
+    <button class="tb-btn" id="reset-pwd-btn" title="Reset Password">
+      <i class="fa fa-key"></i>
+      <span class="btn-label">Reset Password</span>
+    </button>
+
+    <!-- Profile chip — data-uid filled by Odoo template -->
+    <div class="user-chip" id="profile-chip" data-uid="" title="My Profile">
+      <div class="user-avatar" id="user-avatar">U</div>
+      <span class="user-name" id="user-display-name">My Profile</span>
+    </div>
+
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     PAGE BODY
+══════════════════════════════════════ -->
+<div id="main">
+<div class="page-wrap">
+
+  <!-- ── ERP APPLICATIONS ── -->
+  <div class="section-group" id="group-erp">
+    <div class="section-label">
+      <h2>ERP Applications</h2>
+      <span class="section-count" id="count-erp">12</span>
+    </div>
+    <div class="apps-grid">
+
+      <a class="app-card" href="/my/requests/leave_request?memo_type=leave_request">
+        <div class="app-icon ic-cyan"><i class="fa fa-calendar-alt"></i></div>
+        <span class="app-name">Leave</span>
+      </a>
+
+      <a class="app-card" href="/my/requests/material_request?memo_type=material_request">
+        <div class="app-icon ic-amber"><i class="fa fa-boxes"></i></div>
+        <span class="app-name">Material Request</span>
+      </a>
+
+      <a class="app-card" href="/my/requests/procurement_request?memo_type=procurement_request">
+        <div class="app-icon ic-orange"><i class="fa fa-shopping-cart"></i></div>
+        <span class="app-name">Procurement</span>
+      </a>
+
+      <a class="app-card" href="/my/requests/Payment?memo_type=Payment">
+        <div class="app-icon ic-violet"><i class="fa fa-credit-card"></i></div>
+        <span class="app-name">Payment</span>
+      </a>
+
+      <a class="app-card" href="/my/requests/cash_advance?memo_type=cash_advance">
+        <div class="app-icon ic-green"><i class="fa fa-money-bill-wave"></i></div>
+        <span class="app-name">Cash Advance</span>
+      </a>
+
+      <a class="app-card" href="/my/portal/dashboard">
+        <div class="app-icon ic-blue"><i class="fa fa-users"></i></div>
+        <span class="app-name">Employee</span>
+      </a>
+
+      <a class="app-card" href="/my/requests/vehicle_request?memo_type=vehicle_request">
+        <div class="app-icon ic-rose"><i class="fa fa-car"></i></div>
+        <span class="app-name">Vehicle Request</span>
+      </a>
+
+      <a class="app-card" href="/get-menu-url/account">
+        <div class="app-icon ic-teal"><i class="fa fa-chart-bar"></i></div>
+        <span class="app-name">Accounting</span>
+      </a>
+
+      <a class="app-card" href="/my/requests/soe?memo_type=soe">
+        <div class="app-icon ic-indigo"><i class="fa fa-file-invoice"></i></div>
+        <span class="app-name">Retirement</span>
+      </a>
+
+      <a class="app-card" href="/web/login">
+        <div class="app-icon ic-pink"><i class="fa fa-briefcase"></i></div>
+        <span class="app-name">Payroll</span>
+      </a>
+
+      <a class="app-card" href="/my/requests">
+        <div class="app-icon ic-slate"><i class="fa fa-globe"></i></div>
+        <span class="app-name">Portal Request</span>
+      </a>
+
+      <a class="app-card" href="/crm-portal">
+        <div class="app-icon ic-lime"><i class="fa fa-handshake"></i></div>
+        <span class="app-name">Sales / CRM</span>
+      </a>
+
+      <!-- No-results placeholder -->
+      <div class="no-results">
+        <i class="fa fa-search"></i>
+        <p>No matching apps</p>
+      </div>
+
+    </div>
+  </div><!-- /group-erp -->
+
+
+  <!-- ── PERFORMANCE SYSTEM ── -->
+  <div class="section-group" id="group-perf">
+    <div class="section-label">
+      <h2>Performance System</h2>
+      <span class="section-count" id="count-perf">4</span>
+    </div>
+    <div class="perf-grid">
+
+      <a class="app-card" href="/my/portal/dashboard">
+        <div class="app-icon ic-blue"><i class="fa fa-id-badge"></i></div>
+        <span class="app-name">Employee</span>
+      </a>
+
+      <a class="app-card" href="/pms-portal" target="_blank">
+        <div class="app-icon ic-violet"><i class="fa fa-bullseye"></i></div>
+        <span class="app-name">HR PMS</span>
+        <div class="live-dot"></div>
+      </a>
+
+      <a class="app-card" href="/pms-portal" target="_blank">
+        <div class="app-icon ic-cyan"><i class="fa fa-comments"></i></div>
+        <span class="app-name">360 Feedback</span>
+      </a>
+
+      <a class="app-card" href="/apps">
+        <div class="app-icon ic-amber"><i class="fa fa-tasks"></i></div>
+        <span class="app-name">Taskboard</span>
+      </a>
+
+      <div class="no-results">
+        <i class="fa fa-search"></i>
+        <p>No matching apps</p>
+      </div>
+
+    </div>
+  </div><!-- /group-perf -->
+
+
+  <!-- ── OTHER APPLICATIONS ── -->
+  <div class="section-group" id="group-other">
+    <div class="section-label">
+      <h2>Other Applications</h2>
+      <span class="section-count" id="count-other">15</span>
+    </div>
+    <div class="apps-grid">
+
+      <a class="app-card" href="#" target="_blank">
+        <div class="app-icon ic-blue"><i class="fa fa-desktop"></i></div>
+        <span class="app-name">ICT Support</span>
+      </a>
+
+      <a class="app-card" href="#" target="_blank">
+        <div class="app-icon ic-teal"><i class="fa fa-clock"></i></div>
+        <span class="app-name">Attendance</span>
+      </a>
+
+      <a class="app-card" href="/portal-helpdesk">
+        <div class="app-icon ic-rose"><i class="fa fa-question-circle"></i></div>
+        <span class="app-name">Help Desk</span>
+      </a> 
+
+      <a class="app-card" href="#">
+        <div class="app-icon ic-slate"><i class="fa fa-cog"></i></div>
+        <span class="app-name">Settings</span>
+      </a>
+
+      <div class="no-results">
+        <i class="fa fa-search"></i>
+        <p>No matching apps</p>
+      </div>
+
+    </div>
+  </div><!-- /group-other -->
+
+</div><!-- /page-wrap -->
+</div><!-- /main -->
+
+
+<!-- ══════════════════════════════════════
+     RESET PASSWORD MODAL
+══════════════════════════════════════ -->
+<div class="modal-backdrop-custom" id="reset-modal">
+  <div class="modal-box">
+    <div class="modal-header-row">
+      <h3><i class="fa fa-key me-2" style="color:var(--accent)"></i>Reset Password</h3>
+      <button class="modal-close" aria-label="Close"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="field-group">
+      <label for="employee-email">Employee Email</label>
+      <input type="email" id="employee-email" placeholder="employee@eedc.com" autocomplete="off"/>
+    </div>
+
+    <div class="field-group">
+      <label for="employee-staff-id">Staff ID</label>
+      <input type="text" id="employee-staff-id" placeholder="EEDC-00000" autocomplete="off"/>
+    </div>
+
+    <div class="modal-footer-btns">
+      <button class="mbtn mbtn-ghost" id="cancel-reset-btn">Discard</button>
+      <button class="mbtn mbtn-primary" id="confirm-reset-btn">
+        <i class="fa fa-paper-plane me-1"></i> Reset Password
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     TOAST CONTAINER
+══════════════════════════════════════ -->
+<div id="toast"></div>
+
+
+<!-- Your JS — served by Odoo static route -->
+<script src="/portal_request/static/src/js/erp_app_dashboard.js"></script>
+
+</body>
+</html>

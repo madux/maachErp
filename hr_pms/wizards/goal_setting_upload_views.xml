@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pms_goal_setting_form_view" model="ir.ui.view">
+        <field name="name">pms.goal_setting.wizard.form</field>
+        <field name="model">pms.goal_setting.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Upload ">
+                <header>
+                    Upload 
+                </header>
+                <group>
+                        
+                    <field name="data_file" filename="name"/>
+                    <field name="filename" invisible="1"/> 
+                    <field name="index"/> 
+                </group>
+                <group invisible="data_file == False">
+                         
+                    <field name="staffno"/>
+                    <field name="staff_name"/>
+                    <field name="dept"/>
+                    <field name="dummy_goal_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="weightage"/>
+                            <field name="pms_uom"/>
+                            <field name="target"/>
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="weightage"/>
+                                    <field name="pms_uom"/>
+                                    <field name="target"/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                    
+                </group>
+                <footer>
+                    <button name="button_generate_goal_line" 
+                    string="Import Goals" 
+                    type="object"  
+                    class="oe_highlight btn-sm"
+                    confirm="Are you sure you want to import? Any goal lines added previously will be erased."
+                    />
+                    or
+                    <button string="Cancel" 
+                    class="oe_link" 
+                    special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>  
+
+    <!-- <record id="pms_post_normalisation_confirm_dialog_view" model="ir.ui.view">
+        <field name="name">pms.post_normalisation.confirm.dialog</field>
+        <field name="model">pms.post_normalisation.confirm.dialog</field>
+        <field name="arch" type="xml">
+            <form string="Message">
+                <field name="name"/>
+                
+                <footer>
+                    <button string="OK" class="btn-primary" special="cancel" />
+                </footer>				
+            </form>
+        </field>	
+	</record> -->
+
+
+</odoo>

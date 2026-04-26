@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="pms_hr_employee_public_view_form" model="ir.ui.view">
+            <field name="name">hr.employee.public.form</field>
+            <field name="model">hr.employee.public</field>
+            <field name="inherit_id" ref="hr.hr_employee_public_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="replace">
+                    <field name="parent_id" string="Functional Manager" options="{'no_create': True,'no_open': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='coach_id']" position="replace">
+                    <field name="coach_id" invisible="1" groups="base.group_user" options="{'no_create': True,'no_open': True}"/>
+                </xpath>
+                <field name="parent_id" position="after">
+                    <field name="administrative_supervisor_id" string="Administrative supervisor" groups="base.group_user"/>
+                    <field name="reviewer_id" string="Reviewer" required="1" groups="base.group_user" options="{'no_create': True,'no_open': True}"/>
+                    <field name="unit_id" required="0" groups="base.group_user" options="{'no_create': True,'no_open': True}"/>
+                    <field name="work_unit_id" groups="base.group_user" required="0" options="{'no_create': True,'no_open': True}"/>
+                    <field name="ps_district_id" groups="base.group_user" required="0" options="{'no_create': True,'no_open': True}"/>
+                    <field name="hr_region_id" required="0" groups="base.group_user" options="{'no_create': True,'no_open': True}"/>
+                    <field name="employee_number" required="0" groups="base.group_user"/>
+                </field>
+                 
+            </field>
+        </record>
+    </data>
+</odoo> 

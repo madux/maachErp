@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PMS Employee Portal</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+    <link href="/pms_portal/static/css/pms.css" rel="stylesheet" crossorigin="anonymous">
+
+  </head>
+  <body>
+      <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+       
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <div class="sb-brand-title"><a class="sb-username" href='/pms-portal' style="color:#FFFFFF;"><i class="fas fa-chart-line" style="color:#FFFFFF;margin-right:7px;opacity:.8"></i>PMS Portal </a></div>
+    <div class="sb-brand-sub"><a class="sb-username" href='/pms-portal' style="color:#FFFFFF;">Performance Management System</a></div>
+   
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-item active" data-page="dashboard"><i class="fas fa-th-large"></i> Dashboard</div>
+    <div class="nav-item" data-page="appraisals"><i class="fas fa-clipboard-list"></i> My Appraisals</div>
+    <div class="nav-item" data-page="pending-approvals" id="nav-pending"><i class="fas fa-tasks"></i> Managers' Ratings</div>
+    <div class="nav-item" data-page="reporting"><i class="fas fa-chart-bar"></i> Reporting</div>
+    <!-- <div class="nav-item d-none" data-page="workforce" ><i class="fas fa-users"></i> Workforce Planning</div> -->
+    <div class="nav-item" data-page="workforce2" id="workforce2"><i class="fas fa-users"></i> Workforce Planning</div>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-username" id="sb-username">Loading…</div>
+    <div style="margin-top:3px"><a class="sb-username" href='/web/login'>Log out</a></div>
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="btn-icon" id="sb-toggle" style="display:none"><i class="fas fa-bars"></i></button>
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-icon" id="refresh-btn" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+      <div style="margin-top:3px"><a style="color:#000000;" href='/web/session/logout'>Log out</a></div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="page active" id="page-dashboard">
+      <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:4px">Welcome, <span id="dash-username">…</span></h2>
+      <p style="color:var(--muted);margin-bottom:20px;font-size:.87rem">Your performance management overview.</p>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="sn" id="st-total">–</div><div class="sl">Total Appraisals</div></div>
+        <div class="stat-card ac"><div class="sn" id="st-gs">–</div><div class="sl">Goal Setting</div></div>
+        <div class="stat-card in"><div class="sn" id="st-hyr">–</div><div class="sl">Mid Year Review</div></div>
+        <div class="stat-card dg"><div class="sn" id="st-done">–</div><div class="sl">Completed</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><h3>Recent Appraisals</h3><div class="card-sub">Click to open</div></div>
+          <button class="btn btn-secondary btn-sm" onclick="showPage('appraisals')">View All</button>
+        </div>
+        <div class="tw" id="dash-table"><div class="loader-wrap"><div class="loader"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ APPRAISALS LIST ═══ -->
+    <div class="page" id="page-appraisals">
+      <div class="card">
+        <div class="card-header"><div><h3>My Appraisals</h3><div class="card-sub">Select an appraisal to work on</div></div></div>
+        <div class="tw" id="appraisals-table"><div class="loader-wrap"><div class="loader"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ APPRAISAL DETAIL ═══ -->
+    <div class="page" id="page-detail">
+      <button class="back-btn" id="back-detail"><i class="fas fa-arrow-left"></i> Back to Appraisals</button>
+
+      <div class="stage-bar" id="stage-bar"></div>
+
+      <!-- Header info card -->
+      <div class="card" id="detail-header"></div>
+
+      <!-- Section navigation shortcuts -->
+      <div class="section-nav" id="section-nav" style="display:none"></div>
+
+      <!-- ── GOAL SETTINGS SECTION ── -->
+      <div class="card" id="sec-goal-settings" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-bullseye" style="color:var(--primary);margin-right:6px"></i>Goal Settings</h3>
+            <!-- <input id="goal_saved" name="goal_saved" value="false"> -->
+            <div class="card-sub">Define KRAs, weightage and targets</div></div>
+        </div>
+        <div class="notice"><i class="fas fa-info-circle"></i>
+          Only Employee and Functional managers fill at this stage. FA should discuss with AA at this stage.</div>
+        <div class="tw">
+          <table class="sec-table" id="goal-table">
+            <thead><tr><th style="width:36%">KRA / Description</th><th style="width:11%">Weightage (%)</th>
+              <th style="width:18%">Unit of Measure</th><th style="width:25%">Target</th><th style="width:10%"></th></tr></thead>
+            <tbody id="goal-body"></tbody>
+          </table>
+        </div>
+        <button class="add-line-btn" id="goal-add-line"><i class="fas fa-plus"></i> Add a Line</button>
+        <div class="wbar-wrap">
+          <div class="wbar-lbl"><span>Total Weightage</span><span id="wbar-lbl">0 / 100</span></div>
+          <div class="wbar-track"><div class="wbar-fill" id="wbar" style="width:0%"></div></div>
+        </div>
+        <div class="btn-group" id="goal-btn-group"></div>
+      </div>
+
+      <!-- ── MID YEAR REVIEW (HYR) SECTION ── -->
+      <div class="card" id="sec-hyr" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-calendar-alt" style="color:var(--info);margin-right:6px"></i>Mid Year KRA / Achievement(s)</h3>
+            <!-- <input id="mid_year_saved" name="mid_year_saved" value="false"> -->
+            <div class="card-sub">Mid Year Review — revise targets and provide progress ratings</div></div>
+        </div>
+        <div class="notice warn"><i class="fas fa-exclamation-triangle"></i>
+          At this stage, kindly add the target weightage. No score rating is done at this point. Only Administrative or Functional managers are expected to fill at this stage.</div>
+        <div class="tw">
+          <table class="sec-table" id="hyr-table">
+            <thead><tr>
+              <th style="width:22%">KRA</th><th style="width:8%">Weight</th><th style="width:8%">Target</th>
+              <th style="width:9%">Rev.Weight</th><th style="width:11%">Unit of Measure</th>
+              <th style="width:10%">Rev.Target</th><th style="width:10%">Acceptance</th>
+              <th style="width:11%">Progress Status</th><th style="width:11%">Comment(s)</th>
+            </tr></thead>
+            <tbody id="hyr-body"></tbody>
+            <tfoot><tr>
+              <td colspan="2"></td><td id="hyr-tot-wt" style="font-weight:700"></td>
+              <td id="hyr-tot-rw" style="font-weight:700"></td><td colspan="5"></td>
+            </tr></tfoot>
+          </table>
+        </div>
+        <div class="btn-group" id="hyr-btn-group"></div>
+      </div>
+
+      <!-- ── FULL YEAR REVIEW — KRA SECTION ── -->
+      <div class="card" id="sec-kra" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-star" style="color:var(--warning);margin-right:6px"></i>Section A — KRA / Achievement(s)</h3>
+            <!-- <input id="kra_saved" name="kra_saved" value="false"> -->
+            <div class="card-sub">Rating scale 1 (Lowest) to 4 (Highest). Min 5 lines, Max 7 lines.</div></div>
+        </div>
+        <div class="notice red"><i class="fas fa-exclamation-circle"></i>
+          Instructions: Rating scale is 1 (Lowest rate) to 4 scale, where 4 is the HIGHEST rating. KRA Lines should be Minimum of 5 lines and Maximum of 7 Lines.</div>
+        <div class="tw">
+          <table class="sec-table" id="kra-table">
+            <thead><tr id="kra-thead-row"></tr></thead>
+            <tbody id="kra-body"></tbody>
+            <tfoot><tr id="kra-tfoot-row"></tr></tfoot>
+          </table>
+        </div>
+        <button class="add-line-btn" id="kra-add-line" style="display:none"><i class="fas fa-plus d-none"></i> Add a Line</button>
+
+        <div class="btn-group" id="kra-btn-group"></div>
+      </div>
+
+      <!-- ── FUNCTIONAL COMPETENCY ── -->
+      <div class="card" id="sec-fc" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-cogs" style="color:var(--accent);margin-right:6px"></i>Functional Competency Sections</h3>
+            <div class="card-sub">Rating scale 1 (Lowest) to 5 (Highest)</div></div>
+            <!-- <input id="fc_saved" name="fc_saved" value="false"> -->
+        </div>
+        <div class="notice warn"><i class="fas fa-info-circle"></i>Rating scale is 1 (Lowest rate) to 5 (Highest) scale.</div>
+        <div class="tw">
+          <table class="sec-table" id="fc-table">
+            <thead><tr id="fc-thead-row"></tr></thead>
+            <tbody id="fc-body"></tbody>
+            <tfoot><tr id="fc-tfoot-row"></tr></tfoot>
+          </table>
+        </div>
+        <div class="btn-group" id="fc-btn-group"></div>
+      </div>
+
+      <!-- ── LEADERSHIP COMPETENCY ── -->
+      <div class="card" id="sec-lc" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-users-cog" style="color:var(--primary);margin-right:6px"></i>Leadership Competency Sections</h3>
+            <!-- <input id="leader_saved" name="leader_saved" value="false"> -->
+            <div class="card-sub">Rating scale 1 (Lowest) to 5 (Highest)</div></div>
+        </div>
+        <div class="notice warn"><i class="fas fa-info-circle"></i>Rating scale is 1 (Lowest rate) to 5 (Highest) scale.</div>
+        <div class="tw">
+          <table class="sec-table" id="lc-table">
+            <thead><tr id="lc-thead-row"></tr></thead>
+            <tbody id="lc-body"></tbody>
+            <tfoot><tr id="lc-tfoot-row"></tr></tfoot>
+          </table>
+        </div>
+        <div class="btn-group" id="lc-btn-group"></div>
+      </div>
+
+      <!-- ── TRAINING NEEDS ── -->
+      <div class="card" id="sec-training" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-graduation-cap" style="color:var(--info);margin-right:6px"></i>Training Need Identification</h3>
+            <!-- <input id="training_saved" name="training_saved" value="false"> -->
+            <div class="card-sub">To be filled by the current appraiser</div></div>
+        </div>
+        <div class="notice"><i class="fas fa-info-circle"></i>
+          At least 1 should be related to functional competency and 1 should be related to general topic or leadership competency.</div>
+        <div class="tw">
+          <table class="sec-table" id="training-table">
+            <thead><tr>
+              <th style="width:35%">Training Description</th>
+              <th style="width:40%">Comments</th>
+              <th style="width:25%">Requested By</th>
+            </tr></thead>
+            <tbody id="training-body"></tbody>
+          </table>
+        </div>
+        <button class="add-line-btn" id="training-add-line" style="display:none"><i class="fas fa-plus"></i> Add Training Line</button>
+        <div class="btn-group" id="training-btn-group"></div>
+      </div>
+
+      <!-- ── CURRENT ASSESSMENT ── -->
+      <div class="card" id="sec-current-assess" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-clipboard-check" style="color:var(--primary);margin-right:6px"></i>Overall Current Assessment</h3>
+            <!-- <input id="current_saved" name="current_saved" value="false"> -->
+            <div class="card-sub">Use the scale below for rating</div></div>
+        </div>
+        <table class="assess-scale">
+          <thead><tr>
+            <th class="col-ord">ORDINARY</th><th class="col-dil">DILIGENT</th>
+            <th class="col-fan">FANTASTIC</th><th class="col-sup">SUPERB</th>
+          </tr></thead>
+          <tbody><tr>
+            <td>Performance is well below standard. Whether the person can improve to meet the minimum standard is questionable.</td>
+            <td>Performance &amp; Competence is below the expected standards. However, potential to improve within a reasonable time frame is evident. Not someone, whose attrition bothers company.</td>
+            <td>Performance &amp; Competence is largely meeting expected standards. This level is what satisfies the bosses / company to retain the talent even if it needs extra walking in normal circumstances.</td>
+            <td>The person is so successful at his/her job &amp; competencies criteria that special note should be made, and performance ranks in the top percentile. A top talent, someone to be retained at any cost!</td>
+          </tr></tbody>
+        </table>
+        <div class="tw">
+          <table class="sec-table" id="curr-assess-table">
+            <thead><tr>
+              <th style="width:30%">Assessment By</th>
+              <th style="width:70%">Choose</th>
+            </tr></thead>
+            <tbody id="curr-assess-body"></tbody>
+          </table>
+        </div>
+        <div class="btn-group" id="curr-assess-btn-group"></div>
+      </div>
+
+      <!-- ── POTENTIAL ASSESSMENT ── -->
+      <div class="card" id="sec-potential-assess" style="display:none">
+        <div class="card-header">
+          <div><h3><i class="fas fa-rocket" style="color:var(--accent);margin-right:6px"></i>Potential Assessment</h3>
+            <!-- <input id="potential_saved" name="potential_saved" value="false"> -->
+            <div class="card-sub">Majorly about the future, not past performance</div></div>
+        </div>
+        <table class="assess-scale">
+          <thead><tr style="background:#111">
+            <th style="background:#333">LOW POTENTIAL</th><th style="background:#555">MEDIUM POTENTIAL</th>
+            <th style="background:#27AE60">HIGH POTENTIAL</th><th style="background:#1A5C38">READY TO GO</th>
+          </tr></thead>
+          <tbody><tr>
+            <td>Potential in current job is below expectation; needs more development &amp; dedication.</td>
+            <td>Shows good potential in current job, but needs more development &amp; grooming for future / higher roles.</td>
+            <td>Shows high proficiency in current job(s); and is capable of handling higher/future role with guidance.</td>
+            <td>Has overgrown current role, and is fully potent to take up higher role.</td>
+          </tr></tbody>
+        </table>
+        <div class="tw">
+          <table class="sec-table" id="pot-assess-table">
+            <thead><tr>
+              <th style="width:30%">Assessment By</th>
+              <th style="width:70%">Choose</th>
+            </tr></thead>
+            <tbody id="pot-assess-body"></tbody>
+          </table>
+        </div>
+        <div class="btn-group" id="pot-assess-btn-group"></div>
+      </div>
+
+    </div><!-- /page-detail -->
+
+    <!-- ═══ PENDING ACTIONS ═══ -->
+    <div class="page" id="page-pending-approvals">
+      <div class="card">
+        <div class="card-header"><div><h3>Pending Actions</h3><div class="card-sub">Items requiring your attention</div></div></div>
+        <div class="tw" id="pending-table"><div class="loader-wrap"><div class="loader"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ REPORTING PAGE ═══ -->
+    <div class="page" id="page-reporting">
+
+      <!-- Filter Bar -->
+      <div class="rpt-filter-bar">
+        <div class="rpt-filter-group">
+          <label><i class="fas fa-calendar-alt"></i> PMS Year</label>
+          <select id="rpt-filter-year"><option value="">All Years</option></select>
+        </div>
+        <div class="rpt-filter-group">
+          <label><i class="fas fa-layer-group"></i> Type</label>
+          <select id="rpt-filter-type">
+            <option value="">All Types</option>
+            <option value="gs">Goal Setting</option>
+            <option value="hyr">Mid Year Review</option>
+            <option value="fyr">Full Appraisal</option>
+          </select>
+        </div>
+        <div class="rpt-filter-group">
+          <label><i class="fas fa-info-circle"></i> Status</label>
+          <select id="rpt-filter-state">
+            <option value="">All Statuses</option>
+            <option value="goal_setting_draft">Goal Setting</option>
+            <option value="gs_fa">Pending FA Approval</option>
+            <option value="hyr_draft">Mid Year Review</option>
+            <option value="hyr_functional_rating">HYR FA Rating</option>
+            <option value="draft">Full Appraisal</option>
+            <option value="admin_rating">AA Rating</option>
+            <option value="functional_rating">FA Rating</option>
+            <option value="reviewer_rating">Reviewer</option>
+            <option value="wating_approval">HR Approval</option>
+            <option value="done">Completed</option>
+          </select>
+        </div>
+        <div class="rpt-filter-group">
+          <label><i class="fas fa-user-tie"></i> Manager</label>
+          <select id="rpt-filter-manager"><option value="">All Managers</option></select>
+        </div>
+        <div class="rpt-filter-group">
+          <label><i class="fas fa-user"></i> Employee</label>
+          <select id="rpt-filter-employee"><option value="">All Employees</option></select>
+        </div>
+        <div class="rpt-filter-group">
+          <label><i class="fas fa-building"></i> Department</label>
+          <select id="rpt-filter-dept"><option value="">All Departments</option></select>
+        </div>
+        <div class="rpt-filter-actions">
+          <button class="btn btn-primary btn-sm" id="rpt-apply-btn"><i class="fas fa-filter"></i> Apply</button>
+          <button class="btn btn-secondary btn-sm" id="rpt-clear-btn"><i class="fas fa-times"></i> Clear</button>
+        </div>
+      </div>
+
+      <!-- Summary Strip -->
+      <div class="rpt-summary-strip">
+        <div class="rpt-sum-card a1"><div class="rsv" id="rsum-total">–</div><div class="rsl">Total Records</div></div>
+        <div class="rpt-sum-card a2"><div class="rsv" id="rsum-avg-kra">–</div><div class="rsl">Avg KRA Score</div></div>
+        <div class="rpt-sum-card a3"><div class="rsv" id="rsum-avg-lc">–</div><div class="rsl">Avg LC Score</div></div>
+        <div class="rpt-sum-card a4"><div class="rsv" id="rsum-avg-fc">–</div><div class="rsl">Avg FC Score</div></div>
+        <div class="rpt-sum-card a5"><div class="rsv" id="rsum-avg-overall">–</div><div class="rsl">Avg Overall Score</div></div>
+      </div>
+
+      <!-- Header + View Toggle -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-size:1rem;font-weight:700" id="rpt-result-label">Appraisal Report</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-top:2px" id="rpt-result-count"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="view-toggle">
+            <button class="vt-btn active" data-view="cards" id="vt-cards"><i class="fas fa-th-large"></i> Cards</button>
+            <button class="vt-btn" data-view="list" id="vt-list"><i class="fas fa-list"></i> List</button>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="rpt-export-btn"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Cards View -->
+      <div id="rpt-cards-view">
+        <div class="appr-cards-grid" id="rpt-cards-grid">
+          <div class="loader-wrap" style="grid-column:1/-1"><div class="loader"></div></div>
+        </div>
+      </div>
+
+      <!-- List View -->
+      <div id="rpt-list-view" style="display:none">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="tw">
+            <table class="rpt-list-table">
+              <thead><tr>
+                <th>Employee</th><th>Department</th><th>Period</th><th>Type</th><th>Status</th>
+                <th># KRAs</th><th># LC</th>
+                <th>KRA Score</th><th>LC Score</th><th>FC Score</th>
+                <th>Curr.Assess</th><th>Potential</th><th>Overall</th><th></th>
+              </tr></thead>
+              <tbody id="rpt-list-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+    </div><!-- /page-reporting -->
+
+    <!-- ═══════════════════════════════════════════════════════
+         WORKFORCE PLANNING PAGE
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-workforce">
+
+      <!-- Page header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:3px"><i class="fas fa-users" style="color:var(--primary);margin-right:8px"></i>Workforce Planning</h2>
+          <p style="font-size:.82rem;color:var(--muted)">Strategic workforce intelligence — analytics, planning and forecasting</p>
+        </div>
+        <div style="display:flex;gap:9px;align-items:center">
+          <button class="btn btn-secondary btn-sm" id="wfp-refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+          <button class="btn btn-primary" id="wfp-create-btn"><i class="fas fa-plus"></i> Create Record</button>
+        </div>
+      </div>
+
+      <!-- ── Tab Navigation ── -->
+      <div class="wfp-tabs" id="wfp-tabs">
+        <div class="wfp-tab active" data-tab="wfp-overview"><i class="fas fa-th-large"></i> Overview</div>
+        <div class="wfp-tab" data-tab="wfp-demand"><i class="fas fa-chart-line"></i> Demand Forecast</div>
+        <div class="wfp-tab" data-tab="wfp-supply"><i class="fas fa-user-check"></i> Supply Analysis</div>
+        <div class="wfp-tab" data-tab="wfp-gap"><i class="fas fa-search-minus"></i> Gap Analysis</div>
+        <div class="wfp-tab" data-tab="wfp-recruitment"><i class="fas fa-user-plus"></i> Recruitment</div>
+        <div class="wfp-tab" data-tab="wfp-succession"><i class="fas fa-crown"></i> Succession</div>
+        <div class="wfp-tab" data-tab="wfp-budget"><i class="fas fa-coins"></i> Budget</div>
+        <div class="wfp-tab" data-tab="wfp-risk"><i class="fas fa-exclamation-triangle"></i> Risk</div>
+        <div class="wfp-tab" data-tab="wfp-records"><i class="fas fa-list-alt"></i> Records</div>
+      </div>
+
+      <!-- ══════════════════════════ OVERVIEW TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel active" id="wfp-overview">
+
+        <!-- KPI Strip -->
+        <div class="wfp-kpi-grid" id="wfp-kpi-strip">
+          <div class="wfp-kpi c1"><div class="wfp-kpi-icon"><i class="fas fa-users"></i></div><div class="wfp-kpi-val" id="kpi-headcount">–</div><div class="wfp-kpi-lbl">Total Headcount</div><div class="wfp-kpi-delta neu" id="kpi-headcount-d"></div></div>
+          <div class="wfp-kpi c2"><div class="wfp-kpi-icon"><i class="fas fa-percentage"></i></div><div class="wfp-kpi-val" id="kpi-attrition">–</div><div class="wfp-kpi-lbl">Attrition Rate</div><div class="wfp-kpi-delta" id="kpi-attrition-d"></div></div>
+          <div class="wfp-kpi c3"><div class="wfp-kpi-icon"><i class="fas fa-money-bill-wave"></i></div><div class="wfp-kpi-val" id="kpi-cost-hire">–</div><div class="wfp-kpi-lbl">Avg Cost per Hire</div><div class="wfp-kpi-delta neu" id="kpi-cost-d"></div></div>
+          <div class="wfp-kpi c4"><div class="wfp-kpi-icon"><i class="fas fa-calendar-times"></i></div><div class="wfp-kpi-val" id="kpi-absenteeism">–</div><div class="wfp-kpi-lbl">Absenteeism Rate</div><div class="wfp-kpi-delta" id="kpi-abs-d"></div></div>
+          <div class="wfp-kpi c5"><div class="wfp-kpi-icon"><i class="fas fa-exclamation-circle"></i></div><div class="wfp-kpi-val" id="kpi-vacancies">–</div><div class="wfp-kpi-lbl">Open Vacancies</div><div class="wfp-kpi-delta neu" id="kpi-vac-d"></div></div>
+          <div class="wfp-kpi c6"><div class="wfp-kpi-icon"><i class="fas fa-tachometer-alt"></i></div><div class="wfp-kpi-val" id="kpi-utilization">–</div><div class="wfp-kpi-lbl">Workforce Utilization</div><div class="wfp-kpi-delta" id="kpi-util-d"></div></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px">
+          <!-- Demographics -->
+          <div class="wfp-panel">
+            <div class="wfp-panel-title"><i class="fas fa-chart-pie" style="color:var(--accent)"></i> Workforce Demographics</div>
+            <div class="wfp-panel-sub">Age distribution &amp; gender breakdown</div>
+            <div class="demo-grid" id="wfp-demo-grid">
+              <div class="demo-card"><div class="dc-val" id="demo-u30">–</div><div class="dc-lbl">Under 30</div></div>
+              <div class="demo-card"><div class="dc-val" id="demo-3040">–</div><div class="dc-lbl">30 – 40</div></div>
+              <div class="demo-card"><div class="dc-val" id="demo-4050">–</div><div class="dc-lbl">40 – 50</div></div>
+              <div class="demo-card"><div class="dc-val" id="demo-o50">–</div><div class="dc-lbl">Over 50</div></div>
+              <div class="demo-card"><div class="dc-val" id="demo-male">–</div><div class="dc-lbl">Male</div></div>
+              <div class="demo-card"><div class="dc-val" id="demo-female">–</div><div class="dc-lbl">Female</div></div>
+            </div>
+          </div>
+          <!-- Productivity -->
+          <div class="wfp-panel">
+            <div class="wfp-panel-title"><i class="fas fa-tachometer-alt" style="color:var(--info)"></i> Performance &amp; Productivity</div>
+            <div class="wfp-panel-sub">Output efficiency &amp; utilization tracking</div>
+            <div class="hbar-list" id="wfp-productivity-bars"></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+          <!-- Payroll Budget -->
+          <div class="wfp-panel">
+            <div class="wfp-panel-title"><i class="fas fa-wallet" style="color:var(--primary)"></i> Payroll &amp; Budget</div>
+            <div class="wfp-panel-sub">Budget utilization vs actual spend</div>
+            <div class="hbar-list" id="wfp-budget-bars"></div>
+          </div>
+          <!-- Risk Summary -->
+          <div class="wfp-panel">
+            <div class="wfp-panel-title"><i class="fas fa-shield-alt" style="color:var(--danger)"></i> Risk Summary</div>
+            <div class="wfp-panel-sub">Critical workforce risks identified</div>
+            <div id="wfp-risk-summary-list"></div>
+          </div>
+        </div>
+      </div><!-- /overview -->
+
+      <!-- ══════════════════════════ DEMAND FORECAST TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-demand">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-chart-line" style="color:var(--primary-lt)"></i> Demand Forecasting</div>
+          <div class="wfp-panel-sub">Predicted future workforce needs based on business growth, budget, projects and technology changes</div>
+          <div id="wfp-demand-list"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('demand')"><i class="fas fa-plus"></i> Add Forecast Entry</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ SUPPLY ANALYSIS TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-supply">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-user-check" style="color:var(--info)"></i> Workforce Supply Analysis</div>
+          <div class="wfp-panel-sub">Current workforce capacity — headcount, skills, experience, age distribution and performance levels</div>
+          <div id="wfp-supply-content"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('supply')"><i class="fas fa-plus"></i> Add Supply Record</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ GAP ANALYSIS TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-gap">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-search-minus" style="color:var(--warning)"></i> Gap Analysis</div>
+          <div class="wfp-panel-sub">Comparing future demand vs current supply — skill shortages, overstaffing and critical risk roles</div>
+          <div id="wfp-gap-content"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('gap')"><i class="fas fa-plus"></i> Add Gap Record</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ RECRUITMENT TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-recruitment">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-user-plus" style="color:var(--primary-lt)"></i> Recruitment &amp; Talent Acquisition Planning</div>
+          <div class="wfp-panel-sub">Strategies to fill identified gaps — hiring, internal promotions, graduate recruitment, contract staff</div>
+          <div id="wfp-recruitment-content"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('recruitment')"><i class="fas fa-plus"></i> Add Recruitment Plan</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ SUCCESSION TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-succession">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-crown" style="color:var(--warning)"></i> Succession Planning</div>
+          <div class="wfp-panel-sub">Identifying and preparing future leaders for critical, executive and hard-to-fill roles</div>
+          <div id="wfp-succession-content"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('succession')"><i class="fas fa-plus"></i> Add Succession Plan</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ BUDGET TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-budget">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-coins" style="color:var(--accent)"></i> Workforce Budgeting &amp; Cost Planning</div>
+          <div class="wfp-panel-sub">Payroll budget, benefits cost, training budget, overtime planning</div>
+          <div id="wfp-budget-content"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('budget')"><i class="fas fa-plus"></i> Add Budget Entry</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ RISK TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-risk">
+        <div class="wfp-panel">
+          <div class="wfp-panel-title"><i class="fas fa-exclamation-triangle" style="color:var(--danger)"></i> Risk Management</div>
+          <div class="wfp-panel-sub">Retirement waves, high turnover roles, critical skill dependency, legal/compliance risks</div>
+          <div id="wfp-risk-content"></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openWfpForm('risk')"><i class="fas fa-plus"></i> Add Risk Record</button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════ RECORDS TAB ══════════════════════════ -->
+      <div class="wfp-tab-panel" id="wfp-records">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-size:.95rem;font-weight:700">All Workforce Planning Records</div>
+            <div style="font-size:.76rem;color:var(--muted)" id="wfp-rec-count"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <select id="wfp-rec-filter-type" style="border:1px solid var(--border);border-radius:var(--r);padding:6px 10px;font-size:.82rem;font-family:inherit">
+              <option value="">All Types</option>
+              <option value="demand">Demand Forecast</option>
+              <option value="supply">Supply Analysis</option>
+              <option value="gap">Gap Analysis</option>
+              <option value="recruitment">Recruitment Plan</option>
+              <option value="succession">Succession Plan</option>
+              <option value="budget">Budget Planning</option>
+              <option value="risk">Risk Management</option>
+            </select>
+            <button class="btn btn-primary btn-sm" id="wfp-rec-filter-btn"><i class="fas fa-filter"></i> Filter</button>
+            <button class="btn btn-secondary btn-sm" id="wfp-export-csv-btn"><i class="fas fa-download"></i> Export</button>
+          </div>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="tw">
+            <table class="wfp-rec-table">
+              <thead><tr>
+                <th>Type</th><th>Title / Description</th><th>Department</th><th>Period</th>
+                <th>Status</th><th>Priority</th><th>Created By</th><th>Date</th><th></th>
+              </tr></thead>
+              <tbody id="wfp-records-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-workforce -->
+
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ═══ MODAL: Return Reason ═══ -->
+<div class="modal-ov" id="modal-return">
+  <div class="modal">
+    <div class="modal-header"><h4><i class="fas fa-undo" style="color:var(--warning);margin-right:7px"></i>Return Goal Setting</h4>
+      <button class="modal-close" data-dismiss="modal-return">&times;</button></div>
+    <div class="modal-body">
+      <p style="font-size:.84rem;color:var(--muted);margin-bottom:14px">Provide a reason for returning this appraisal to the employee.</p>
+      <div class="fg"><label>Reason / Comment</label><textarea id="return-reason" rows="4" placeholder="Enter reason…"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-dismiss="modal-return">Cancel</button>
+      <button class="btn btn-warning" id="confirm-return-btn"><i class="fas fa-undo"></i> Return to Employee</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ MODAL: Workforce Planning — Create / Edit ═══ -->
+<div class="modal-ov" id="modal-workforce">
+  <div class="modal" style="max-width:860px;max-height:90vh;display:flex;flex-direction:column">
+    <div class="modal-header" style="flex-shrink:0">
+      <div>
+        <h4 id="wfp-modal-title"><i class="fas fa-plus-circle" style="color:var(--primary);margin-right:8px"></i>Create Workforce Planning Record</h4>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:2px" id="wfp-modal-sub">Fill in all required fields</div>
+      </div>
+      <button class="modal-close" data-dismiss="modal-workforce">&times;</button>
+    </div>
+    <div class="modal-body" style="overflow-y:auto;flex:1;padding:22px">
+
+      <!-- Record type selector -->
+      <div class="wfp-form-grid" style="margin-bottom:18px">
+        <div class="wfp-form-group">
+          <label>Record Type *</label>
+          <select id="wfp-f-type">
+            <option value="">— Select type —</option>
+            <option value="demand">Demand Forecasting</option>
+            <option value="supply">Supply Analysis</option>
+            <option value="gap">Gap Analysis</option>
+            <option value="recruitment">Recruitment Plan</option>
+            <option value="training">Training &amp; Development</option>
+            <option value="succession">Succession Planning</option>
+            <option value="budget">Workforce Budgeting</option>
+            <option value="performance">Performance &amp; Productivity</option>
+            <option value="risk">Risk Management</option>
+          </select>
+        </div>
+        <div class="wfp-form-group">
+          <label>Title / Name *</label>
+          <input type="text" id="wfp-f-title" placeholder="e.g. IT Expansion 2026"/>
+        </div>
+        <div class="wfp-form-group">
+          <label>Department</label>
+          <input type="text" id="wfp-f-dept" placeholder="e.g. Information Technology"/>
+        </div>
+        <div class="wfp-form-group">
+          <label>Period / Year *</label>
+          <input type="text" id="wfp-f-period" placeholder="e.g. 2026 or Q1 2026"/>
+        </div>
+        <div class="wfp-form-group">
+          <label>Priority</label>
+          <select id="wfp-f-priority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </div>
+        <div class="wfp-form-group">
+          <label>Status</label>
+          <select id="wfp-f-status">
+            <option value="draft">Draft</option>
+            <option value="in_progress">In Progress</option>
+            <option value="approved">Approved</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- DEMAND FORECASTING fields -->
+      <div id="wfp-fields-demand" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Demand Forecasting Details</div>
+          <div class="wfp-form-group"><label>Business Growth Driver</label><input type="text" id="wfp-d-growth" placeholder="e.g. Digital services expansion"/></div>
+          <div class="wfp-form-group"><label>Projected Headcount Needed</label><input type="number" id="wfp-d-headcount" placeholder="0" min="0"/></div>
+          <div class="wfp-form-group"><label>Current Headcount</label><input type="number" id="wfp-d-current" placeholder="0" min="0"/></div>
+          <div class="wfp-form-group"><label>Budget Projection (₦)</label><input type="number" id="wfp-d-budget" placeholder="0" min="0"/></div>
+          <div class="wfp-form-group"><label>Key Projects / Programs</label><input type="text" id="wfp-d-projects" placeholder="e.g. e-Government Portal"/></div>
+          <div class="wfp-form-group"><label>Technology Change Factor</label><input type="text" id="wfp-d-tech" placeholder="e.g. AI/automation adoption"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Forecast Rationale / Notes</label><textarea id="wfp-d-notes" placeholder="Detailed reasoning for this forecast…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- SUPPLY ANALYSIS fields -->
+      <div id="wfp-fields-supply" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Supply Analysis Details</div>
+          <div class="wfp-form-group"><label>Total Headcount</label><input type="number" id="wfp-s-headcount" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Key Skills Available</label><input type="text" id="wfp-s-skills" placeholder="e.g. Python, Project Mgmt"/></div>
+          <div class="wfp-form-group"><label>Avg Experience (Years)</label><input type="number" id="wfp-s-exp" placeholder="0" step="0.1"/></div>
+          <div class="wfp-form-group"><label>Avg Age</label><input type="number" id="wfp-s-age" placeholder="0" step="0.1"/></div>
+          <div class="wfp-form-group"><label>Under 30 (%)</label><input type="number" id="wfp-s-u30" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group"><label>30–50 (%)</label><input type="number" id="wfp-s-3050" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group"><label>Over 50 (%)</label><input type="number" id="wfp-s-o50" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group"><label>High Performers (%)</label><input type="number" id="wfp-s-perf" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Skills Inventory Notes</label><textarea id="wfp-s-notes" placeholder="Detailed skills inventory summary…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- GAP ANALYSIS fields -->
+      <div id="wfp-fields-gap" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Gap Analysis Details</div>
+          <div class="wfp-form-group"><label>Role / Position</label><input type="text" id="wfp-g-role" placeholder="e.g. Senior Data Engineer"/></div>
+          <div class="wfp-form-group"><label>Demand (Required)</label><input type="number" id="wfp-g-demand" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Supply (Available)</label><input type="number" id="wfp-g-supply" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Gap Type</label>
+            <select id="wfp-g-gaptype">
+              <option value="shortage">Skill Shortage</option>
+              <option value="overstaffed">Overstaffing</option>
+              <option value="critical_risk">Critical Risk Role</option>
+            </select>
+          </div>
+          <div class="wfp-form-group"><label>Skill Shortages Identified</label><input type="text" id="wfp-g-skills" placeholder="e.g. Cloud architecture, GIS"/></div>
+          <div class="wfp-form-group"><label>Criticality Level</label>
+            <select id="wfp-g-crit">
+              <option value="low">Low</option><option value="medium">Medium</option>
+              <option value="high">High</option><option value="critical">Critical</option>
+            </select>
+          </div>
+          <div class="wfp-form-group wfp-form-full"><label>Gap Analysis Summary</label><textarea id="wfp-g-notes" placeholder="Describe the gap and its business impact…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- RECRUITMENT fields -->
+      <div id="wfp-fields-recruitment" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Recruitment Plan Details</div>
+          <div class="wfp-form-group"><label>Position / Role</label><input type="text" id="wfp-r-role" placeholder="e.g. IT Manager"/></div>
+          <div class="wfp-form-group"><label>Number of Positions</label><input type="number" id="wfp-r-count" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Hiring Strategy</label>
+            <select id="wfp-r-strategy">
+              <option value="external">External Hire</option><option value="internal">Internal Promotion</option>
+              <option value="graduate">Graduate Recruitment</option><option value="contract">Contract/Temporary</option>
+              <option value="mixed">Mixed Strategy</option>
+            </select>
+          </div>
+          <div class="wfp-form-group"><label>Target Start Date</label><input type="date" id="wfp-r-date"/></div>
+          <div class="wfp-form-group"><label>Estimated Cost per Hire (₦)</label><input type="number" id="wfp-r-cost" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Total Budget (₦)</label><input type="number" id="wfp-r-budget" placeholder="0"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Recruitment Plan Notes</label><textarea id="wfp-r-notes" placeholder="Describe sourcing strategy, qualifications required…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- TRAINING fields -->
+      <div id="wfp-fields-training" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Training &amp; Development Details</div>
+          <div class="wfp-form-group"><label>Training Program</label><input type="text" id="wfp-t-program" placeholder="e.g. Data Analytics Bootcamp"/></div>
+          <div class="wfp-form-group"><label>Target Competency</label><input type="text" id="wfp-t-competency" placeholder="e.g. Python, Leadership"/></div>
+          <div class="wfp-form-group"><label>Number of Employees</label><input type="number" id="wfp-t-count" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Training Type</label>
+            <select id="wfp-t-type">
+              <option value="upskill">Upskilling</option><option value="reskill">Reskilling</option>
+              <option value="leadership">Leadership Development</option><option value="technical">Technical</option>
+              <option value="compliance">Compliance</option>
+            </select>
+          </div>
+          <div class="wfp-form-group"><label>Training Budget (₦)</label><input type="number" id="wfp-t-budget" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Target Completion Date</label><input type="date" id="wfp-t-date"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Training Objectives</label><textarea id="wfp-t-notes" placeholder="Describe learning outcomes and how this supports succession planning…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- SUCCESSION fields -->
+      <div id="wfp-fields-succession" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Succession Planning Details</div>
+          <div class="wfp-form-group"><label>Critical Role / Position</label><input type="text" id="wfp-su-role" placeholder="e.g. Director of Finance"/></div>
+          <div class="wfp-form-group"><label>Current Incumbent</label><input type="text" id="wfp-su-current" placeholder="Name of current holder"/></div>
+          <div class="wfp-form-group"><label>Successor (Primary)</label><input type="text" id="wfp-su-p1" placeholder="Identified successor name"/></div>
+          <div class="wfp-form-group"><label>Successor (Secondary)</label><input type="text" id="wfp-su-p2" placeholder="Backup successor name"/></div>
+          <div class="wfp-form-group"><label>Readiness Level</label>
+            <select id="wfp-su-ready">
+              <option value="ready_now">Ready Now</option><option value="1_2_years">1–2 Years</option>
+              <option value="3_5_years">3–5 Years</option><option value="needs_dev">Needs Development</option>
+            </select>
+          </div>
+          <div class="wfp-form-group"><label>Role Criticality</label>
+            <select id="wfp-su-crit">
+              <option value="executive">Executive</option><option value="critical">Critical</option>
+              <option value="hard_to_fill">Hard-to-Fill Technical</option><option value="operational">Operational</option>
+            </select>
+          </div>
+          <div class="wfp-form-group wfp-form-full"><label>Development Plan</label><textarea id="wfp-su-notes" placeholder="Describe the development actions needed to prepare the successor…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- BUDGET fields -->
+      <div id="wfp-fields-budget" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Workforce Budget &amp; Cost Planning</div>
+          <div class="wfp-form-group"><label>Payroll Budget (₦)</label><input type="number" id="wfp-b-payroll" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Actual Payroll Spend (₦)</label><input type="number" id="wfp-b-payroll-act" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Benefits Budget (₦)</label><input type="number" id="wfp-b-benefits" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Actual Benefits Spend (₦)</label><input type="number" id="wfp-b-benefits-act" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Training Budget (₦)</label><input type="number" id="wfp-b-training" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Actual Training Spend (₦)</label><input type="number" id="wfp-b-training-act" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Overtime Budget (₦)</label><input type="number" id="wfp-b-overtime" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Actual Overtime Spend (₦)</label><input type="number" id="wfp-b-overtime-act" placeholder="0"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Budget Notes / Justification</label><textarea id="wfp-b-notes" placeholder="Describe budget drivers and justification for government recurrent expenditure…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE fields -->
+      <div id="wfp-fields-performance" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Performance &amp; Productivity Details</div>
+          <div class="wfp-form-group"><label>Workforce Utilization (%)</label><input type="number" id="wfp-p-util" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group"><label>Absenteeism Rate (%)</label><input type="number" id="wfp-p-abs" placeholder="0" max="100" step="0.1"/></div>
+          <div class="wfp-form-group"><label>Attrition Rate (%)</label><input type="number" id="wfp-p-attrition" placeholder="0" max="100" step="0.1"/></div>
+          <div class="wfp-form-group"><label>Avg Employee Output Score</label><input type="number" id="wfp-p-output" placeholder="0" max="100" step="0.1"/></div>
+          <div class="wfp-form-group"><label>Efficiency Index (%)</label><input type="number" id="wfp-p-eff" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group"><label>Overtime Hours (Monthly)</label><input type="number" id="wfp-p-ot" placeholder="0"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Productivity Notes</label><textarea id="wfp-p-notes" placeholder="Describe productivity trends and key observations…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- RISK fields -->
+      <div id="wfp-fields-risk" class="wfp-type-fields" style="display:none">
+        <div class="wfp-form-grid">
+          <div class="wfp-form-section-title">Risk Management Details</div>
+          <div class="wfp-form-group"><label>Risk Type</label>
+            <select id="wfp-ri-type">
+              <option value="retirement">Retirement Wave</option><option value="turnover">High Turnover</option>
+              <option value="skill_dep">Critical Skill Dependency</option><option value="compliance">Legal/Compliance</option>
+              <option value="succession">Succession Gap</option><option value="other">Other</option>
+            </select>
+          </div>
+          <div class="wfp-form-group"><label>Affected Role / Unit</label><input type="text" id="wfp-ri-role" placeholder="e.g. Senior Engineers"/></div>
+          <div class="wfp-form-group"><label>Risk Level</label>
+            <select id="wfp-ri-level">
+              <option value="low">Low</option><option value="medium">Medium</option>
+              <option value="high">High</option><option value="critical">Critical</option>
+            </select>
+          </div>
+          <div class="wfp-form-group"><label>Employees at Risk</label><input type="number" id="wfp-ri-count" placeholder="0"/></div>
+          <div class="wfp-form-group"><label>Probability (%)</label><input type="number" id="wfp-ri-prob" placeholder="0" max="100"/></div>
+          <div class="wfp-form-group"><label>Estimated Impact (₦)</label><input type="number" id="wfp-ri-impact" placeholder="0"/></div>
+          <div class="wfp-form-group wfp-form-full"><label>Mitigation Plan</label><textarea id="wfp-ri-notes" placeholder="Describe the mitigation strategy and timeline…"></textarea></div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+    <div class="modal-footer" style="flex-shrink:0">
+      <button class="btn btn-secondary" data-dismiss="modal-workforce">Cancel</button>
+      <button class="btn btn-primary" id="wfp-save-btn"><i class="fas fa-save"></i> Save Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: Workforce Planning — View Record ═══ -->
+<div class="modal-ov" id="modal-wfp-view">
+  <div class="modal" style="max-width:720px;max-height:88vh;display:flex;flex-direction:column">
+    <div class="modal-header" style="flex-shrink:0">
+      <div>
+        <h4 id="wfp-view-title">Workforce Planning Record</h4>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:2px" id="wfp-view-sub"></div>
+      </div>
+      <button class="modal-close" data-dismiss="modal-wfp-view">&times;</button>
+    </div>
+    <div class="modal-body" id="wfp-view-body" style="overflow-y:auto;flex:1"></div>
+    <div class="modal-footer" style="flex-shrink:0">
+      <button class="btn btn-secondary" data-dismiss="modal-wfp-view">Close</button>
+      <button class="btn btn-warning" id="wfp-edit-from-view-btn"><i class="fas fa-edit"></i> Edit</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+
+    <!-- ═══════════════════════ SCRIPTS ═══════════════════════════ -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/pms_portal/static/js/pms.js?v=25"></script>
+  </body>
+</html>

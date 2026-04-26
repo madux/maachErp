@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_post_normalisation_form_view" model="ir.ui.view">
+        <field name="name">pms_post_normalisation_wizard</field>
+        <field name="model">pms.post_normalisation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Upload ">
+                <header>
+                    Upload 
+                </header>
+                <group>
+                        
+                    <field name="filename" invisible="1"/> 
+                    <field name="index"/> 
+                </group>
+                <group>
+                         
+                    <field name="data_file" filename="name"/>
+                    <field name="appraisal_ids" widget="many2many_tags"/>
+                    
+                </group>
+                <footer>
+                    <button name="post_normalisation_action" string="Upload Employee Scores" type="object"  class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>  
+
+    <record id="pms_post_normalisation_confirm_dialog_view" model="ir.ui.view">
+        <field name="name">pms.post_normalisation.confirm.dialog</field>
+        <field name="model">pms.post_normalisation.confirm.dialog</field>
+        <field name="arch" type="xml">
+            <form string="Message">
+                <field name="name"/>
+                
+                <footer>
+                    <button string="OK" class="btn-primary" special="cancel" />
+                </footer>				
+            </form>
+        </field>	
+	</record>
+
+
+</odoo>

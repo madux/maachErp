@@ -22,19 +22,19 @@ const AttachmentsModule = (function() {
      */
     function setupEventListeners() {
         // Attach button click
-        $('#attachBtn').on('click', function() {
-            console.log("Molessssssss")
-            $('#fileInput').click();
-        });
+        // $('#attachBtn').on('click', function() {
+        //     console.log("Molessssssss")
+        //     $('#fileInput').click();
+        // });
 
-        // File input change
-        $('#fileInput').on('change', function(e) {
-            const files = e.target.files;
-            for (let i = 0; i < files.length; i++) {
-                addFile(files[i]);
-            }
-            $(this).val(''); // Clear input
-        });
+        // // File input change
+        // $('#fileInput').on('change', function(e) {
+        //     const files = e.target.files;
+        //     for (let i = 0; i < files.length; i++) {
+        //         addFile(files[i]);
+        //     }
+        //     $(this).val(''); // Clear input
+        // });
 
         // Modal close
         $('.close').on('click', function() {
@@ -622,11 +622,13 @@ const AttachmentsModule = (function() {
 
 // Initialize when DOM is ready
 $(document).ready(function() {
+        console.log('AttachmentsModule initialized 2');
+
     // Check if required elements exist before initializing
-    if ($('#attachBtn').length && $('#fileInput').length && $('#filesGrid').length) {
-        AttachmentsModule.init();
-        console.log('AttachmentsModule initialized');
-    } else {
-        console.warn('AttachmentsModule: Required elements not found');
-    }
+    // if ($('#attachBtn').length && $('#fileInput').length && $('#filesGrid').length) {
+    //     AttachmentsModule.init();
+    //     console.log('AttachmentsModule initialized');
+    // } else {
+    //     console.warn('AttachmentsModule: Required elements not found');
+    // }
 });

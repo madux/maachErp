@@ -21,6 +21,9 @@ class HrEmployeeBase(models.AbstractModel):
         string="Maximum Limit Cash Advance", 
         default=5
         )
+    employee_number = fields.Char(
+        string="Staff Number", 
+        )
     leave_reliever = fields.Many2one(
         'hr.employee', 
         string="Leave Reliever",  

@@ -118,7 +118,7 @@ class OperationController(http.Controller):
                                     'product_id': tl.product_id.id, 
                                     'product_name': tl.product_id.name,
                                     'product_uom_qty': tl.product_uom_qty,
-                                    'quantity_done': tl.quantity,
+                                    'quantity': tl.quantity,
                                     'unit': tl.product_uom.name,
                                     } for tl in dv.move_ids_without_package]
                         } for dv in prd.picking_ids]
@@ -214,7 +214,7 @@ class OperationController(http.Controller):
                                     'product_id': tl.product_id.id, 
                                     'product_name': tl.product_id.name,
                                     'product_uom_qty': tl.product_uom_qty,
-                                    'quantity_done': tl.quantity,
+                                    'quantity': tl.quantity,
                                     'unit': tl.product_uom.name,
                                     } for tl in dv.move_ids_without_package]
                         } for dv in prd.picking_ids]

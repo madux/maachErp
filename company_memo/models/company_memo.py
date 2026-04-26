@@ -449,6 +449,10 @@ class Memo_Model(models.Model):
         readonly=True,
         states={"submit": [("readonly", False)]},
     )
+    loan_status = fields.Selection([
+        ('unpaid', 'Unpaid'),
+        ('Paid', 'Paid'),
+    ])
     company_id = fields.Many2one(
         'res.company',
         string="Company",
@@ -2286,9 +2290,12 @@ class Memo_Model(models.Model):
             
     def update_final_state_and_approver(self, from_website=False, default_stage=False, assigned_to=False):
         if from_website:
+            _logger.info(f"what is self stage {self.stage_id.id}")
+
             # if from website args: prevents the update of stages and approvers 
-            manager_id = self.sudo().employee_id.parent_id.id or self.sudo().employee_id.administrative_supervisor_id.id
-            self.set_staff=manager_id if manager_id else self.sudo().stage_id.approver_ids[0].id  
+            manager_id = self.sudo().employee_id.parent_id.id or self.sudo().employee_id.department_id.parent_id.id or self.sudo().employee_id.administrative_supervisor_id.id
+            self.set_staff = manager_id if manager_id else self.sudo().stage_id.approver_ids and self.sudo().stage_id.approver_ids[0].id if self.sudo().stage_id.approver_ids else False 
+
         else:
             # updating the next stage
             approver_ids = self.get_next_stage_artifact(self.stage_id)[0] 
@@ -2685,7 +2692,7 @@ class Memo_Model(models.Model):
                                 'product_id': mm.sudo().product_id.id,
                                 # 'product_id': mm.sudo().product_id.id,
                                 'product_uom_qty': mm.quantity_available,
-                                'quantity_done': mm.quantity_available,
+                                'quantity': mm.quantity_available,
                                 'date_deadline': self.date_deadline,
                                 'company_id': self.company_id.id or self.source_location_id.company_id.id,
                 }) for mm in self.mapped('product_ids').filtered(lambda s: not s.omit_record)]
@@ -2765,7 +2772,7 @@ class Memo_Model(models.Model):
                                 'product_id': self.generate_inter_move_product(mm.sudo().product_id, company_id),
                                 # 'product_id': mm.sudo().product_id.id,
                                 'product_uom_qty': mm.quantity_available,
-                                'quantity_done': mm.quantity_available,
+                                'quantity': mm.quantity_available,
                                 'date_deadline': self.date_deadline,
                                 'company_id': company_id.id,
                 }) for mm in self.mapped('product_ids').filtered(lambda s: not s.omit_record)]
@@ -2931,7 +2938,7 @@ class Memo_Model(models.Model):
                                     'location_dest_id': dest_location.id,
                                     'product_id': self.generate_inter_move_product(mm.sudo().product_id, company_id),
                                     'product_uom_qty': mm.quantity_available,
-                                    'quantity_done': mm.quantity_available,
+                                    'quantity': mm.quantity_available,
                                     'date_deadline': self.date_deadline,
                                     'company_id': company_id.id,
                                     
@@ -2978,7 +2985,7 @@ class Memo_Model(models.Model):
                                     'location_dest_id': customer_destination_loc_id.id,
                                     'product_id': self.generate_inter_move_product(mm.sudo().product_id, company_id),
                                     'product_uom_qty': mm.quantity_available,
-                                    'quantity_done': mm.quantity_available,
+                                    'quantity': mm.quantity_available,
                                     'date_deadline': self.date_deadline,
                                     'company_id': company_id.id,
                                     
@@ -3014,13 +3021,13 @@ class Memo_Model(models.Model):
                     raise ValidationError("Your picking type company must be the same as source & destination location company ")
                  
             else:
-                if self.sudo().picking_type_id.code not in ['internal']:
+                if self.sudo().picking_type_id.code not in ['internal', 'outgoing']:
                     raise ValidationError("Your picking type must be set as internal transfer ")
-                if self.sudo().source_location_id.usage != 'internal' or dest_location.usage != 'internal':
-                    '''ensure source and destination type is set as internal for internal transfer.'''
-                    raise ValidationError("""
-                        Source and destination must be internal location.
-                        """)
+                # if self.sudo().source_location_id.usage != 'internal' or dest_location.usage != 'internal':
+                #     '''ensure source and destination type is set as internal for internal transfer.'''
+                #     raise ValidationError("""
+                #         Source and destination must be internal location.
+                #         """)
                     
             '''checks if an external move has be created earlier, if found and state is in draft and cancel, delete it and recreate'''
             existing_picking = False
@@ -3049,7 +3056,7 @@ class Memo_Model(models.Model):
                                     'location_dest_id': dest_location.id,
                                     'product_id': self.generate_inter_move_product(mm.sudo().product_id, company_id),
                                     'product_uom_qty': mm.quantity_available,
-                                    'quantity_done': mm.quantity_available,
+                                    'quantity': mm.quantity_available,
                                     'date_deadline': self.date_deadline,
                                     'company_id': company_id.id,
                                     
@@ -3305,7 +3312,7 @@ class Memo_Model(models.Model):
                         leave_skip_state_check=True
                     ).create(vals)
         
-        leave_id._compute_number_of_days()
+        leave_id._compute_number_of_days_display()
         
         leave_id.action_approve()
         leave_id.action_validate()
@@ -3719,6 +3726,8 @@ class Memo_Model(models.Model):
                             'ref': f'{self.code}: {pr.product_id.name or pr.description}',
                             'account_id': self.get_soe_expense_account(pr, journal_id).id, # or journal_id.default_account_id.id,
                             'debit': pr.retire_sub_total_amount,
+                            'price_unit': pr.used_amount,
+                            'quantity': pr.used_qty,
                             'code': pr.code,
                     }) for pr in self.product_ids] + [(0, 0, {
                                                             'name': 'Cash Advance to Debit',
@@ -4164,11 +4173,16 @@ class Memo_Model(models.Model):
         return vals
 
     def generate_loan_entries(self):
-        if self.loan_reference:
-            raise ValidationError("You have generated a loan already for this record")
         view_id = self.env.ref('account_loan.account_loan_form')
         if (self.memo_type.memo_key != "loan") or (self.loan_amount < 1):
-            raise ValidationError("Check validation: \n (1) Memo type must be 'loan request'\n (2) Loan Amount must be greater than one to proceed with loan request")
+            raise ValidationError(
+                "Check validation: \n (1) Memo type must be 'loan request'\n (2) Loan Amount must be greater than one to proceed with loan request")
+        loan_reference = self.env['account.loan'].search([
+            '|', 
+            ('name', '=', self.code),
+            ('memo_reference', '=', self.code)
+            ], limit=1)
+            # self.env['account.loan'].browse([self.loan_reference]) or  
         ret = {
             'name':'Generate loan request',
             'view_mode': 'form',
@@ -4177,18 +4191,28 @@ class Memo_Model(models.Model):
             'res_model': 'account.loan',
             'type': 'ir.actions.act_window',
             'domain': [],
-            'context': {
+            'target': 'current',
+        }
+        if not loan_reference:  
+            ret.update({
+                'context': {
                     'default_loan_type': self.loan_type,
                     'default_loan_amount': self.loan_amount,
                     'default_periods':self.periods or 12,  
                     'default_partner_id':self.employee_id.user_id.partner_id.id,  
+                    'default_employee_id':self.employee_id.id,  
                     'default_method_period':self.method_period,  
                     'default_rate': 15, 
                     'default_start_date':self.start_date, 
                     'default_name': self.code,
-            },
-            'target': 'current'
-            }
+                    'default_memo_reference': self.code,
+                },
+            })
+        else:
+            ret.update({
+                'res_id': loan_reference.id,
+            })
+
         return ret
 
     def migrate_records(self):

@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- SECTION STARTS -->
+        <record model="pms.instruction" id="pms_instruction_1">
+            <field name="name">Instruction 1</field>
+            <field name="description">
+                <!-- <br style="font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; line-height: normal; text-align: -webkit-auto; text-size-adjust: auto;">
+                    <p>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <font style="font-size: 14px;">
+                                            <b>Novice(1)</b>
+                                        </font>
+                                    </td>
+                                    <td>
+                                        <font style="font-size: 14px;">
+                                            <b>Basic(2)</b>
+                                        </font>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 14px; font-weight: bolder;">
+                                            Intermidate(3)
+                                        </span>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 14px; font-weight: bolder;">
+                                            Advance(4)
+                                        </span>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 14px; font-weight: bolder;">
+                                            Expert(5)
+                                        </span>
+                                        <br/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="text-align: justify;">
+                                            <span class="fontstyle0" style="font-family: inherit; font-style: inherit; font-variant-caps: inherit; font-variant-ligatures: inherit; font-weight: inherit; text-align: inherit;">
+                                                <p>Demonstrate only a few of the behavior now and there<br/>
+                                                </p>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: left;">
+                                        <br/>
+                                    </td>
+                                    <td style="text-align: justify;">
+                                    </td>
+                                    <td><br/>
+                                    </td>
+                                    <td><br/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <br/>
+                                    </td>
+                                    <td>
+                                        <br/>
+                                    </td>
+                                    <td><br/>
+                                    </td>
+                                    <td>
+                                        <br/>
+                                    </td>
+                                    <td><br/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                </br> -->
+            </field>
+        </record>
+        <record model="pms.section" id="pms_kra_section_1">
+            <field name="name">SECTION A: KRAs &amp; Achivements</field>
+            <field name="min_line_number">5</field>
+            <field name="max_line_number">7</field>
+            <field name="weighted_score">1</field>
+            <field name="type_of_section">KRA</field>
+            <field name="section_avg_scale">4</field>
+            <field name="input_weightage">100</field>
+        </record>
+
+        <record model="pms.section" id="pms_functional_competency_section_1">
+            <field name="name">SECTION B: Functional Competency</field>
+            <field name="max_line_number">5</field>
+            <field name="weighted_score">1</field>
+            <field name="type_of_section">FC</field>
+            <field name="section_avg_scale">5</field>
+            <field name="input_weightage">50</field>
+        </record>
+        <record model="pms.section" id="pms_leadership_section_1">
+            <field name="name">SECTION C: Leadership Competency</field>
+            <field name="max_line_number">5</field>
+            <field name="weighted_score">20</field>
+            <field name="type_of_section">LC</field>
+            <field name="section_avg_scale">5</field>
+            <field name="input_weightage">50</field>
+        </record>
+        <!-- PMS YEAR -->
+        
+
+        <record model="pms.year" id="pms_year_2026_gs">
+            <field name="name">Goal Setting 2026</field>
+            <field name="date_from">2026-01-10</field>
+            <field name="date_end">2026-04-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2026_md">
+            <field name="name">Mid year Review 2026</field>
+            <field name="date_from">2026-05-01</field>
+            <field name="date_end">2026-08-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2026_ap">
+            <field name="name">Annual Appraisal 2026</field>
+            <field name="date_from">2026-09-01</field>
+            <field name="date_end">2026-12-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2025_qrt2">
+            <field name="name">Annual Appraisal 2025</field>
+            <field name="date_from">2025-09-01</field>
+            <field name="date_end">2025-12-30</field>
+        </record>
+
+        <record model="hr.level" id="hr_level_jm">
+            <field name="name">JM</field>
+        </record>
+        <record model="hr.level" id="hr_level_mm">
+            <field name="name">MM</field>
+        </record>
+        <record model="hr.level" id="hr_level_sm">
+            <field name="name">SM</field>
+        </record>
+
+        <record model="hr.level.category" id="hr_level_jcategory_jm">
+            <field name="category" eval="'Junior Management'"/>
+        </record>
+        <record model="hr.level.category" id="hr_level_jcategory_mm">
+            <field name="category" eval="'Middle Management'"/>
+        </record>
+        <record model="hr.level.category" id="hr_level_jcategory_sm">
+            <field name="category" eval="'Senior Management'"/>
+        </record>
+        
+        
+        <!-- <record model="pms.year" id="pms_year_2026_qrt3">
+            <field name="name">July - Sept 2026 [3rd Quarterly]</field>
+            <field name="date_from">2026-07-01</field>
+            <field name="date_end">2026-09-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2026_qrt4">
+            <field name="name">Annual Appraisal Cycle 2026</field>
+            <field name="date_from">2026-10-01</field>
+            <field name="date_end">2026-12-31</field>
+        </record> -->
+
+        <!-- <record model="pms.year" id="pms_year_2024_qrt1">
+            <field name="name">April 2024 [Quarterly]</field>
+            <field name="date_from">2024-04-01</field>
+            <field name="date_end">2024-04-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2024_qrt2">
+            <field name="name">July 2024 [Quarterly]</field>
+            <field name="date_from">2024-07-01</field>
+            <field name="date_end">2024-07-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2024_qrt3">
+            <field name="name">Oct 2024 [Quarterly]</field>
+            <field name="date_from">2024-10-01</field>
+            <field name="date_end">2024-10-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2024_qrt4">
+            <field name="name">Dec 2024 [End of year appraisal]</field>
+            <field name="date_from">2024-12-01</field>
+            <field name="date_end">2024-12-31</field>
+        </record>
+
+        <record model="pms.year" id="pms_year_2025_qrt1">
+            <field name="name">April 2025 [Quarterly]</field>
+            <field name="date_from">2025-04-01</field>
+            <field name="date_end">2025-04-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2025_qrt2">
+            <field name="name">July 2025 [Quarterly]</field>
+            <field name="date_from">2025-07-01</field>
+            <field name="date_end">2025-07-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2025_qrt3">
+            <field name="name">Oct 2025 [Quarterly]</field>
+            <field name="date_from">2025-10-01</field>
+            <field name="date_end">2025-10-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2025_qrt4">
+            <field name="name">Dec 2025 [End of year appraisal]</field>
+            <field name="date_from">2025-12-01</field>
+            <field name="date_end">2025-12-31</field>
+        </record>
+
+        <record model="pms.year" id="pms_year_2026_qrt1">
+            <field name="name">April 2026 [Quarterly]</field>
+            <field name="date_from">2026-04-01</field>
+            <field name="date_end">2026-04-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2026_qrt2">
+            <field name="name">July 2026 [Quarterly]</field>
+            <field name="date_from">2026-07-01</field>
+            <field name="date_end">2026-07-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2026_qrt3">
+            <field name="name">Oct 2026 [Quarterly]</field>
+            <field name="date_from">2026-10-01</field>
+            <field name="date_end">2026-10-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2026_qrt4">
+            <field name="name">Dec 2026 [End of year appraisal]</field>
+            <field name="date_from">2026-12-01</field>
+            <field name="date_end">2026-12-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2027_qrt1">
+            <field name="name">April 2027 [Quarterly]</field>
+            <field name="date_from">2027-04-01</field>
+            <field name="date_end">2027-04-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2027_qrt2">
+            <field name="name">July 2027 [Quarterly]</field>
+            <field name="date_from">2027-07-01</field>
+            <field name="date_end">2027-07-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2027_qrt3">
+            <field name="name">Oct 2027 [Quarterly]</field>
+            <field name="date_from">2027-10-01</field>
+            <field name="date_end">2027-10-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2027_qrt4">
+            <field name="name">Dec 2027 [End of year appraisal]</field>
+            <field name="date_from">2027-12-01</field>
+            <field name="date_end">2027-12-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2028_qrt1">
+            <field name="name">April 2028 [Quarterly]</field>
+            <field name="date_from">2028-04-01</field>
+            <field name="date_end">2028-04-30</field>
+        </record>
+        <record model="pms.year" id="pms_year_2028_qrt2">
+            <field name="name">July 2028 [Quarterly]</field>
+            <field name="date_from">2028-07-01</field>
+            <field name="date_end">2028-07-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2028_qrt3">
+            <field name="name">Oct 2028 [Quarterly]</field>
+            <field name="date_from">2028-10-01</field>
+            <field name="date_end">2028-10-31</field>
+        </record>
+        <record model="pms.year" id="pms_year_2028_qrt4">
+            <field name="name">Dec 2028 [End of year appraisal]</field>
+            <field name="date_from">2028-12-01</field>
+            <field name="date_end">2028-12-31</field>
+        </record> -->
+        <!-- PMS YEAR ENDS  -->
+        <!-- JOB CATEGORY -->
+        <record model="pms.category" id="pms_snr_mgt">
+            <field name="name">SENIOR MANAGEMENT LEVEL</field>
+            <field name="sequence">SN000001</field>
+            <field name="loaded_via_data">True</field>
+            <field name="kra_weighted_score">35</field>
+            <field name="fc_weighted_score">20</field>
+            <field name="lc_weighted_score">45</field>
+            <field name="pms_year_id" ref="hr_pms.pms_year_2026_gs"/>
+            <field name="category" ref="hr_pms.hr_level_jcategory_sm"/>
+
+            <field name="section_ids" eval="[
+            (6, 0, [
+            ref('hr_pms.pms_kra_section_1'),
+            ref('hr_pms.pms_functional_competency_section_1'),
+            ref('hr_pms.pms_leadership_section_1'),
+            ])
+            ]"/>
+        </record>
+        <record model="pms.category" id="pms_middle_mgt">
+            <field name="name">MIDDLE MANAGEMENT LEVEL</field>
+            <field name="sequence">MID000001</field>
+            <field name="loaded_via_data">True</field>
+            <field name="kra_weighted_score">50</field>
+            <field name="fc_weighted_score">25</field>
+            <field name="lc_weighted_score">25</field>
+            <field name="category" ref="hr_pms.hr_level_jcategory_mm"/>
+            <field name="pms_year_id" ref="hr_pms.pms_year_2026_gs"/>
+
+            <field name="section_ids" eval="[
+            (6, 0, [
+            ref('hr_pms.pms_kra_section_1'),
+            ref('hr_pms.pms_functional_competency_section_1'),
+            ref('hr_pms.pms_leadership_section_1'),
+            ])
+            ]"/>
+        </record>
+        <record model="pms.category" id="pms_jr_mgt">
+            <field name="name">JUNIOR MANAGEMENT LEVEL</field>
+            <field name="sequence">JR000001</field>
+            <field name="loaded_via_data">True</field>
+            <field name="kra_weighted_score">60</field>
+            <field name="fc_weighted_score">25</field>
+            <field name="lc_weighted_score">15</field>
+            <field name="pms_year_id" ref="hr_pms.pms_year_2026_gs"/>
+            <field name="category" ref="hr_pms.hr_level_jcategory_jm"/>
+            <field name="section_ids" eval="[
+            (6, 0, [
+            ref('hr_pms.pms_kra_section_1'),
+            ref('hr_pms.pms_functional_competency_section_1'),
+            ref('hr_pms.pms_leadership_section_1'),
+            ])
+            ]"/>
+        </record>
+
+        <!-- JOB CATEGORY ENDS --> 
+
+        <!-- Asessment config data -->
+        <!-- <record model="assessment.description" id="assessment_description_1">
+            <field name="name">ORDINARY</field>
+            <field name="desc">Performance is well below standard.
+            Whether the person can improve to 
+            meet the minimum standard is questionable
+            </field>
+            <field name="type">current</field>
+        </record>
+        <record model="assessment.description" id="assessment_description_2">
+            <field name="name">DILIGENT</field>
+            <field name="desc">Performance is well below standard.
+            Whether the person can improve to 
+            meet the minimum standard is questionable
+            </field>
+            <field name="type">current</field>
+        </record>
+        <record model="assessment.description" id="assessment_description_3">
+            <field name="name">FANTASTIC</field>
+            <field name="desc">Performance &amp; Competence is
+            largely meeting expected
+            standards. This level is what
+            satisfies the bosses / company
+            to retain the talent even if it
+            needs extra walking in normal
+            circumstances
+            </field>
+            <field name="type">current</field>
+        </record>
+        <record model="assessment.description" id="assessment_description_4">
+            <field name="name">SUPERB</field>
+            <field name="desc">The person is so successful at
+            his/her job &amp; competencies
+            criteria that special note should
+            be made, and performance ranks
+            in the top percentile. A top talent,
+            someone to be retained at any
+            cost!
+            </field>
+            <field name="type">current</field>
+        </record>
+
+        <record model="assessment.description" id="assessment_description_potential_1">
+            <field name="name">LOW POTENTIAL</field>
+            <field name="desc">Potential in current job is
+            below expectation; needs
+            more development &amp;
+            dedication
+            </field>
+            <field name="type">potential</field>
+        </record>
+
+        <record model="assessment.description" id="assessment_description_potential_2">
+            <field name="name">MEDIUM POTENTIAL</field>
+            <field name="desc">Shows good potential in
+            current job, but needs more
+            development &amp; grooming
+            for future / higher roles.
+            </field>
+            <field name="type">potential</field>
+        </record>
+        <record model="assessment.description" id="assessment_description_potential_3">
+            <field name="name">HIGH POTENTIAL</field>
+            <field name="desc">Shows high proficiency in
+            current job(s); and is capable
+            of handling higher/future
+            role with guidance
+            </field>
+            <field name="type">potential</field>
+        </record>
+        <record model="assessment.description" id="assessment_description_potential_4">
+            <field name="name">READY TO GO</field>
+            <field name="desc">Has overgrown
+            current role, and is
+            fully potent to take up
+            higher/future role
+            </field>
+            <field name="type">potential</field>
+        </record> -->
+
+    </data>
+</odoo>

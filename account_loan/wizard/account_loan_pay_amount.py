@@ -62,7 +62,7 @@ class AccountLoan(models.TransientModel):
         sequence = min(lines.mapped("sequence")) 
         for line in lines:
             line.sequence += 1
-            line.flush()
+            line._flush()
         old_line = lines.filtered(lambda r: r.sequence == sequence + 1)
         pending = old_line.pending_principal_amount
         if self.loan_id.currency_id.compare_amounts(self.amount, pending) == 1:

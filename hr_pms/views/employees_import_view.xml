@@ -1,0 +1,41 @@
+
+<odoo>
+    <record id="view_employees_import_form" model="ir.ui.view">
+        <field name="name">employees.import.form</field>
+        <field name="model">employees.import</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--                    <button name="your_button_function" type="object" string="Pop up"-->
+                    <!--                            class="oe_action_button" style="background:rgba(46, 210, 162,0.2);"/>-->
+                    <field name="state" widget="statusbar" statusbar_visible="new,loaded,imported"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="description"/>
+                    </h1>
+                    <group>
+                        <div>
+                            <field name="file"/>
+                        </div>
+                        <div>
+                            <button name="action_import_employees" type="object" string="Import Employees"
+                                    class="oe_action_button" style="background:rgba(46, 210, 162,0.2);"/>
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="employees_import_action" model="ir.actions.act_window">
+        <field name="name">Employees Import</field>
+        <field name="res_model">employees.import</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="employees_import_menu_form" name="Import Employees" parent="hr_pms.view_hr_pms_menu"
+              sequence="32" action="employees_import_action" groups="base.group_system"/>
+    <menuitem id="menu_hr_import" name="Import Employees"
+              parent="hr.menu_hr_root" action="employees_import_action" sequence="40" groups="base.group_system"/>
+</odoo>

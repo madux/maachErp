@@ -413,7 +413,14 @@
     $(document).ready(function () {
         HMO.build();
         HMO.hijack();
-
+        
+        // Auto-open if portal dashboard triggered it
+        if (localStorage.getItem('erp-open-home-menu') === '1') {
+            localStorage.removeItem('erp-open-home-menu');
+            setTimeout(function () {
+                HMO.open();
+            }, 800); // wait for Odoo UI to finish rendering
+        }
         /* Pre-load apps after 1.5 s so the first click is instant */
         setTimeout(function () {
             HMO.load();

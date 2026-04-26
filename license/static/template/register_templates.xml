@@ -288,7 +288,7 @@
                         Your subscription request has been received and is under review.<br/>
                         We will contact you via email once it is approved.
                     </p>
-                    <a href="/" class="hc-btn hc-btn-outline mt-4">
+                    <a href="/web" class="hc-btn hc-btn-outline mt-4">
                         <i class="fa fa-arrow-left me-2"/> Back to Portal
                     </a>
                 </div>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+		<record id="view_hr_pms_section_line_form" model="ir.ui.view">
+			<field name="name">PMS section Line form</field>
+			<field name="model">pms.section.line</field>
+			<field name="arch" type="xml">
+				<form string="Section Line" create="0" edit="0">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" required="1"/>
+                        </h1>
+                    </div>  
+                    <notebook>
+                        <page name="kba_description_ids" string="KBA description_ids" invisible="0">
+                            <field name="kba_description_ids" 
+                                required="1" options="{'no_create':True, 'no_open': True}">
+                                <tree string="" delete="false">
+                                    <field name="name" readonly="1"/>  
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+			</field>
+		</record>
+ 
+ 
+		<record id="action_pms_section_line_view" model="ir.actions.act_window">
+			<field name="name">Section line</field>
+			<field name="res_model">pms.section.line</field>
+			<field name="view_mode">tree,form</field>
+             <field name="domain">[]</field>
+             <field name="context">{'default_state': 'draft'}</field> 
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+</odoo>

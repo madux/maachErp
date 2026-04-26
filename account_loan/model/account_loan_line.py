@@ -7,10 +7,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
-try:
-    import numpy_financial
-except (ImportError, IOError) as err:
-    _logger.error(err)
+# try:
+#     import numpy_financial
+# except (ImportError, IOError) as err:
+#     _logger.error(err)
 
 
 class AccountLoanLine(models.Model):
@@ -144,26 +144,29 @@ class AccountLoanLine(models.Model):
         if self.loan_type == "fixed-annuity" and self.loan_id.round_on_end:
             return self.loan_id.fixed_amount
         if self.loan_type == "fixed-annuity":
-            return self.currency_id.round(
-                numpy_financial.pmt(
-                    self.loan_id.loan_rate() / 100,
-                    self.loan_id.periods - self.sequence + 1,
-                    self.pending_principal_amount,
-                    -self.loan_id.residual_amount,
-                )
-            )
+            return False
+            # return self.currency_id.round(
+            #     numpy_financial.pmt(
+            #         self.loan_id.loan_rate() / 100,
+            #         self.loan_id.periods - self.sequence + 1,
+            #         self.pending_principal_amount,
+            #         -self.loan_id.residual_amount,
+            #     )
+            # )
         if self.loan_type == "fixed-annuity-begin" and self.loan_id.round_on_end:
             return self.loan_id.fixed_amount
         if self.loan_type == "fixed-annuity-begin":
-            return self.currency_id.round(
-                numpy_financial.pmt(
-                    self.loan_id.loan_rate() / 100,
-                    self.loan_id.periods - self.sequence + 1,
-                    self.pending_principal_amount,
-                    -self.loan_id.residual_amount,
-                    when="begin",
-                )
-            )
+            return False
+ 
+            # return self.currency_id.round(
+            #     numpy_financial.pmt(
+            #         self.loan_id.loan_rate() / 100,
+            #         self.loan_id.periods - self.sequence + 1,
+            #         self.pending_principal_amount,
+            #         -self.loan_id.residual_amount,
+            #         when="begin",
+            #     )
+            # )
 
     def check_amount(self):
         """Recompute amounts if the annuity has not been processed"""
@@ -191,14 +194,15 @@ class AccountLoanLine(models.Model):
 
     def compute_interest(self):
         if self.loan_type == "fixed-annuity-begin":
-            return -numpy_financial.ipmt(
-                self.loan_id.loan_rate() / 100,
-                2,
-                self.loan_id.periods - self.sequence + 1,
-                self.pending_principal_amount,
-                -self.loan_id.residual_amount,
-                when="begin",
-            )
+            return 0
+            #  -numpy_financial.ipmt(
+            #     self.loan_id.loan_rate() / 100,
+            #     2,
+            #     self.loan_id.periods - self.sequence + 1,
+            #     self.pending_principal_amount,
+            #     -self.loan_id.residual_amount,
+            #     when="begin",
+            # )
         return self.pending_principal_amount * self.loan_id.loan_rate() / 100
 
     def check_move_amount(self):
@@ -329,7 +333,7 @@ class AccountLoanLine(models.Model):
                 ):
                     raise UserError(_("Some moves must be created first"))
                 move = self.env["account.move"].create(record.move_vals())
-                move.post()
+                move.action_post()
                 res.append(move.id)
         return res
 

@@ -37,5 +37,18 @@
             </field>
         </field>
     </record>
+
+    <record id="view_branch_location_form" model="ir.ui.view">
+        <field name="name">stock.location.form</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form" />
+        <field name="arch" type="xml">
+            <field name="usage" position="after">
+                 <field name="company_id" readonly="0"/>
+                  <field name="warehouse_id" readonly="0"/>
+                <field name="branch_id" string="Branch"/>
+            </field>
+        </field>
+    </record>
   </data>
 </odoo>

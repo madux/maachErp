@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+		<record id="view_hr_level_category_form" model="ir.ui.view">
+			<field name="name">hr.level.category</field>
+			<field name="model">hr.level.category</field>
+			<field name="arch" type="xml">
+				<form string="Level Category" create="1">
+                    <header>
+						<button 
+                            name="action_set_job_role" 
+                            string="Migrate data" 
+                            class="oe_highlight" 
+                            type="object"
+                            comfirm="Are you sure you want to migrate" 
+                            groups="hr_pms.group_pms_supervisor,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                        />
+					</header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                        		<field name="category" required="1"/>
+                            </h1>
+                        </div>
+						<notebook>
+							<page name="job_role_ids" string="Job Functions / Positions" invisible="0">
+								<field name="job_role_ids" 
+								    required="1" options="{'no_quick_create':True}">
+									<form string="Job Functions / Positions">
+										<group>
+											<group>
+												<field name="name" required="1"/> 
+												<field name="department_id" required="1"/> 
+											</group>
+											<group>
+												<field name="description" string="Job description"/>
+                                                <field name="company_id" invisible="1" force_save="1"/>
+											</group>
+										</group>
+										</form>
+										<tree string="Job Functions / Position" delete="true" create="true">
+                                            <field name="name" required="1" string="Job Position"/>   
+											<field name="department_id" required="1"/> 
+											<field name="description" string="Job description"/>
+										</tree>
+								</field>
+							</page>
+						</notebook>
+                    </sheet>
+                </form>
+			</field>
+		</record>
+
+		<record id="view_hr_level_category_tree" model="ir.ui.view">
+			<field name="name">view.hr.level.category</field>
+			<field name="model">hr.level.category</field>
+			<field name="arch" type="xml">
+				<tree string="level category" create="1">
+                    <field name="category"/> 
+                </tree>
+			</field>
+		</record>
+
+		<record id="action_hr_level_category_id" model="ir.actions.act_window">
+			<field name="name">Level category</field>
+			<field name="res_model">hr.level.category</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+        <menuitem id="view_hr_level_category_id_menu" name="Level Category" sequence="24" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_hr_level_category_id"
+    groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor"/>
+</odoo>

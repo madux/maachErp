@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mail_template_pms_notification" model="mail.template">
+            <field name="name">Login credential Notification  </field>
+            <field name="name">Login credential Notification  </field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="email_from">help@kachelan.com</field>
+            <field name="email_to">${object.work_email}</field>
+            <field name="subject">Login credential Notification</field>
+            <field name="reply_to">""</field>
+            <field name="body_html" type="html">
+            <table border="0" cellpadding="0" cellspacing="0" style="background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                    <tbody>
+                        <!-- CONTENT -->
+                        <tr>
+                            <td align="center" style="min-width: 590px;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+
+                                    <tr><td valign="top" style="font-size: 15px;">
+                                        <div>
+                                            Dear <t t-out="object.name"/>,<br/> <br/>
+                                            A User Account has been generated for you. <br/>
+                                            Kindly use the following credentials for accessing the system.
+                                            <ul>
+                                                <li>URL: <a href='/web'>Click the link</a> </li>
+                                                
+                                                <li>URL: <a>https://kachelan.odoo.com/odoo/login</a> </li>
+                                                <li>Username: <t t-out="object.user_id.login"/></li>
+                                                <li>Password: <t t-out="object.migrated_password or ''"/></li>
+                                            </ul>
+
+                                            Should you require any additional information, please contact ICT support for help.<br/>
+                                            <a href='https://kachelan.odoo.com'>Click ICT Support link</a>
+                                            <br /><br/>
+                                            Regards,<br />
+                                            --<br/>HR Administrator
+                                        </div>
+                                    </td></tr>
+                                    <tr><td style="text-align:center;">
+                                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                    </td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td></tr>
+            </table>
+        </field>
+        <field name="lang">${object.user_id.partner_id.lang}</field>
+        <field name="auto_delete" eval="False"/>
+        </record>
+
+        <record id="mail_template_non_email_subordinates_pms_notification" model="mail.template">
+            <field name="name">Login credential Notification for Subordinates</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="email_from">erpsupport@enugudisco.com</field>
+            <field name="email_to">${object.parent_id.work_email}</field>
+            <field name="subject">Login credential Notification for Subordinates</field>
+            <field name="body_html" type="html">
+            <field name="reply_to">""</field>
+            <table border="0" cellpadding="0" cellspacing="0" style="background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                    <tbody>
+                        <!-- CONTENT -->
+                        <tr>
+                            <td align="center" style="min-width: 590px;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+
+                                    <tr><td valign="top" style="font-size: 13px;">
+                                        <div>
+                                            Dear,<br/> <br/>
+                                            A User Account has been generated for your Subordinate because he/she has no organizational or private email for him/ her to access their Performance Appraisal System. <br/>
+                                            Kindly pass the following credentials to him/her to access the system.
+                                            <ul>
+                                                <li>URL: <a href='https://kachelan.odoo.com/odoo/login'>Click the link</a> or Copy the URL: <a>https://kachelan.odoo.com/odoo/login</a> </li>
+                                                <li>Username: <t t-out="object.user_id.login"/></li>
+                                                <li>Password: <t t-out="object.migrated_password or ''"/></li>
+                                            </ul>
+                                            Should you require any additional information, please contact ICT support for help.<br/>
+                                            <a href='https://kachelan.odoo.com'>Click ICT Support link</a>
+                                            <br /><br/>
+                                            Regards,<br />
+                                            --<br/>HR Administrator
+                                        </div>
+                                    </td></tr>
+                                    <tr><td style="text-align:center;">
+                                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                    </td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td></tr>
+            </table>
+        </field>
+        <field name="lang">${object.user_id.partner_id.lang}</field>
+        <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -11,10 +11,10 @@ from odoo.exceptions import ValidationError
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
-try:
-    import numpy_financial
-except (ImportError, IOError) as err:
-    _logger.debug(err)
+# try:
+#     import numpy_financial
+# except (ImportError, IOError) as err:
+#     _logger.debug(err)
 
 
 class AccountLoan(models.Model):
@@ -36,6 +36,10 @@ class AccountLoan(models.Model):
         default="/",
         states={"draft": [("readonly", False)]},
     )
+    memo_reference = fields.Char(
+        copy=False,
+        readonly=True,
+    )
     partner_id = fields.Many2one(
         "res.partner",
         required=True,
@@ -43,6 +47,10 @@ class AccountLoan(models.Model):
         # help="Company or individual that lends the money at an interest rate.",
         readonly=True,
         states={"draft": [("readonly", False)]},
+    )
+    employee_id = fields.Many2one(
+        "hr.employee",
+        string="Employee",
     )
     company_id = fields.Many2one(
         "res.company",

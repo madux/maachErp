@@ -31,7 +31,7 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).button_validate()
         # self.update_memo_status('Done')
         # for mv in self.move_ids_without_package:
-        #     self.location_check_available_qty(mv.product_id,mv.location_id, mv.quantity_done)
+        #     self.location_check_available_qty(mv.product_id,mv.location_id, mv.quantity)
          
         if self.sudo().memo_id and self.sudo().memo_id.code == self.origin:
             memo_id = self.sudo().memo_id
@@ -47,7 +47,7 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).action_confirm()
         self.state = "confirmed"
         # for mv in self.move_ids_without_package:
-        #     self.location_check_available_qty(mv.product_id,mv.location_id, mv.quantity_done)
+        #     self.location_check_available_qty(mv.product_id,mv.location_id, mv.quantity)
         return res 
     
     

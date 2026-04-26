@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_view_employee_inherited_form_for_pms" >
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="arch" type="xml"> 
+
+                <div name="button_box" class="oe_button_box">
+                    <!-- <button name="action_open_versions" class="oe_stat_button" icon="fa-address-book" type="object" groups="hr.group_hr_user">
+                        <div class="o_stat_info">
+                            Versions
+                            <span class="o_stat_value">
+                                <field name="versions_count"/>
+                            </span>
+                        </div>
+                    </button> -->
+                </div>
+                <xpath expr="//field[@name='parent_id']" position="replace">
+                    <field name="parent_id" string="Functional Manager" required="0" options="{'no_create': True,'no_open': True}"/>
+                </xpath>
+                <!-- <xpath expr="//field[@name='coach_id']" position="replace">
+                    <field name="coach_id" string="Coach" invisible="1" required="0" options="{'no_create': True,'no_open': True}"/>
+                </xpath> --> 
+                <field name="parent_id" position="after">
+                    <field name="administrative_supervisor_id" invisible="0" string="Administrative supervisor" options="{'no_create': True,'no_open': True}"/>
+                    <field name="reviewer_id" string="Reviewer" required ="administrative_supervisor_id != False" options="{'no_create': True,'no_open': True}"/>
+                    <!-- <button name="auto_update_employee_appraisers_role" type="object" string="Update Appraisers Role" required="0" groups="base.group_system,hr.group_hr_manager"/> -->
+                </field> 
+                <field name="job_id" position="replace">
+                    <field name="employee_number" required="1"/>
+                    <field name="job_id" string="Designation" required="0" options="{'no_create': True,'no_open': True}"/>
+                    <field name="grade_id" required="0" options="{'no_create': True,'no_open': False}"/>
+                    <field name="level_id" required="1" options="{'no_create': True,'no_open': True}"/>
+                    <field name="unit_id" required="0" options="{'no_create': True,'no_open': False}"/>
+                    <field name="employment_date" required="0"/>
+                </field>
+
+                <xpath expr="//notebook/page[last()]" position="before">
+                    <page string="Work Location  / Levels &amp; Grade" name="Office_Info">
+                        <group> 
+                            <group>
+                                
+                                <field name="migrated_password" required="0" groups="base.group_system" string="Ps" invisible="0"/>
+                                <field name="login_username" required="0" groups="base.group_system" string="User Login"/>
+                                <button name="reset_employee_user_password" type="object" string="Reset user login" required="0" groups="base.group_system,hr.group_hr_manager"/>
+                            </group> 
+                            <group> 
+                                <field name="work_unit_id" required="0" options="{'no_create': True,'no_open': False}"/>
+                                <field name="ps_district_id" required="0" options="{'no_create': True,'no_open': False}"/>
+                                <field name="hr_region_id" required="0" options="{'no_create': True,'no_open': False}" groups="base.group_user"/>
+                            </group> 
+                        </group> 
+                    </page>
+                </xpath>
+
+                <div name="button_box" position="inside">
+                    <button name="open_employee_appraisals" class="oe_stat_button" groups="hr.group_hr_user,hr.group_hr_manager,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor" icon="fa-group" type="object">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="pms_number_appraisal" readonly="1" help="Performance Mgt System (Appraisal)"/>
+                            </span>
+                            <span class="o_stat_text">
+                                PMS
+                            </span>
+                        </div>
+                    </button>
+
+                    <!-- <button name="stat_button_query" type="object" groups="hr.group_hr_user" class="oe_stat_button" icon="fa-archive">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="pms_number_queries" readonly="1" force_save="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Queries
+                            </span>
+                        </div>
+                    </button>
+
+                    <button name="stat_button_warning" type="object" groups="base.group_system,hr.group_hr_user" class="oe_stat_button" icon="fa-archive">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="pms_number_warning" readonly="1" force_save="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Warnings
+                            </span>
+                        </div>
+                    </button> -->
+
+                    <button name="stat_button_absent" type="object" groups="base.group_system,hr.group_hr_user" class="oe_stat_button" icon="fa-archive">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="pms_number_absent" readonly="1" force_save="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Absents
+                            </span>
+                        </div>
+                    </button>
+
+                    <button name="stat_button_number_commendation" type="object" groups="base.group_system,hr.group_hr_user" class="oe_stat_button" icon="fa-plus">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="pms_number_commendation" readonly="1" force_save="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Commends
+                            </span>
+                        </div>
+                    </button>
+                </div>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_view_employee_filter_pms_inherited" >
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter" />
+            <field name="arch" type="xml"> 
+                <field name="name" position="after">
+                    <field name="employee_number" string="Staff Number"/>
+                    <field name="administrative_supervisor_id" string="Supervisor"/>
+                    <field name="reviewer_id" string="Reviewer"/>
+                    <field name="parent_id" string="Manager"/>
+                    <field name="grade_id" string="Grade"/>
+                    <field name="level_id" string="Level"/>
+                    <field name="job_id" string="Designation"/>
+                    
+                </field>
+ 
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_view_employee_tree_pms_inherited" >
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="employee_number" string="Staff Number" groups="hr.group_hr_user"/>
+                </xpath>
+                <xpath expr="//field[@name='job_id']" position="replace">
+                    <field name="job_id" string="Designation" groups="hr.group_hr_user"/>
+                </xpath> 
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="level_id" string="Level" groups="hr.group_hr_user"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- <record model="ir.ui.view" id="hr_kanban_view_employees_pms_inherited" >
+            <field name="name">hr.employee</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees" />
+            <field name="arch" type="xml"> 
+                <field name="name" position="after">
+                    <field name="employee_number" string="Staff Number"/>
+                    <field name="administrative_supervisor_id" string="Supervisor"/>
+                    <field name="reviewer_id" string="Reviewer"/>
+                    <field name="parent_id" string="Manager"/>
+                    <field name="grade_id" string="Grade"/>
+                    <field name="level_id" string="Level"/>
+                    <field name="job_id" string="Designation"/>
+                    
+                </field>
+ 
+            </field>
+        </record> -->
+        <record model="ir.ui.view" id="view_department_form_pms" >
+            <field name="name">hr.department</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form" />
+            <field name="arch" type="xml"> 
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="jobs_ids" string="Job roles" required="0" invisible="0"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_employee_district_view_id" model="ir.actions.act_window">
+			<field name="name">District</field>
+			<field name="res_model">hr.district</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+        <record id="action_employee_work_unit_view_id" model="ir.actions.act_window">
+			<field name="name">Units</field>
+			<field name="res_model">hr.work.unit</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+
+        <record id="ir_action_server_pms_mail" model="ir.actions.server">
+			<field name="name">Send Login Credential*</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="binding_model_id" ref="hr.model_hr_employee" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('base.group_system'), 
+            ref('hr.group_hr_manager')
+			])]"/>
+            <field name="code">action=model.sudo().send_credential_notification()</field>
+        </record>
+
+        
+
+        <record id="ir_action_server_update_employee_user_credentials" model="ir.actions.server">
+			<field name="name">Update Employee Password</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="binding_model_id" ref="hr.model_hr_employee" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('base.group_system'),
+            ref('hr.group_hr_manager'),
+			])]"/>
+            <field name="code">action=model.sudo().reset_multiple_employee_user_password()</field>
+        </record>
+
+        <record id="ir_action_server_auto_update_employee_appraisers_role" model="ir.actions.server">
+			<field name="name">Update Appraisers Role</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="binding_model_id" ref="hr.model_hr_employee" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('base.group_system'),
+            ref('hr.group_hr_manager'),
+			])]"/>
+            <field name="code">action=model.sudo().auto_update_employee_appraisers_role()</field>
+        </record>
+
+        <record id="ir_action_server_capitalize" model="ir.actions.server">
+			<field name="name">Capitalize Names </field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="binding_model_id" ref="hr.model_hr_employee" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('base.group_system'),
+			])]"/>
+            <field name="code">action=model.sudo().make_name_capitalize()</field>
+        </record>
+
+    <menuitem id="view_pms_district_menu" name="District" sequence="50" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_employee_district_view_id"
+    groups="base.group_system,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"/>
+    <menuitem id="view_pms_unit_menu" name="Unit" sequence="51" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_employee_work_unit_view_id"
+    groups="base.group_system,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"/>
+    </data>
+</odoo>

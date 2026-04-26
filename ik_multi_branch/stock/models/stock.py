@@ -201,20 +201,20 @@ class StockWarehouse(models.Model):
 
 class StockLocation(models.Model):
     _inherit = 'stock.location'
-    branch_id = fields.Many2one('multi.branch', 'Branch',)
+    branch_id = fields.Many2one('multi.branch', 'Branch', related="warehouse_id.branch_id")
 
     
-    @api.constrains('branch_id')
-    def _check_branch(self):
-        for location in self:
-            warehouse_obj = self.env['stock.warehouse']
-            warehouse_id = warehouse_obj.search(
-                ['|', '|', ('wh_input_stock_loc_id', '=', location.id),
-                 ('lot_stock_id', '=', location.id),
-                 ('wh_output_stock_loc_id', '=', location.id)])
-            for warehouse in warehouse_id:
-                if location.branch_id != warehouse.branch_id:
-                    raise UserError(_('Configuration error\nYou  must select same branch on a location as asssigned on a warehouse configuration.'))
+    # @api.constrains('branch_id')
+    # def _check_branch(self):
+    #     for location in self:
+    #         warehouse_obj = self.env['stock.warehouse']
+    #         warehouse_id = warehouse_obj.search(
+    #             ['|', '|', ('wh_input_stock_loc_id', '=', location.id),
+    #              ('lot_stock_id', '=', location.id),
+    #              ('wh_output_stock_loc_id', '=', location.id)])
+    #         for warehouse in warehouse_id:
+    #             if location.branch_id != warehouse.branch_id:
+    #                 raise UserError(_('Configuration error\nYou  must select same branch on a location as asssigned on a warehouse configuration.'))
 
 
 class StockRoute(models.Model):
@@ -320,7 +320,7 @@ class StockMove(models.Model):
                 'stock_move_id': self.id,
                 'branch_id': self.branch_id.id,
             })
-            new_account_move.post()
+            new_account_move.action_post()
 
     def _get_new_picking_values(self):
         rec = super(StockMove, self)._get_new_picking_values()

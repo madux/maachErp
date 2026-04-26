@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+		<record id="view_hr_pms_department_form" model="ir.ui.view">
+			<field name="name">PMS department form</field>
+			<field name="model">pms.department</field>
+			<field name="arch" type="xml">
+				<form string="department" create="0">
+					<header>
+                        <button 
+                            name="button_publish" 
+                            string="Publish" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state not in ['draft','review']"
+                            confirm="Are you sure you want to Publish: This action will generate appraisal for employees in your department" 
+                        />
+                        <button 
+                            name="button_cancel" 
+                            string="Cancel" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state not in ['published']"
+                            confirm="Are you sure you want to cancel: This will cancel sent appraisals" 
+                        />
+                        <button 
+                            name="button_undo_cancel" 
+                            string="Undo Cancel" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state not in ['cancel']"
+                            confirm="Are you sure you want to undo cancel: This will reopen cancelled appraisals" 
+                        />
+                        <button 
+                            name="button_set_to_draft" 
+                            string="Set to Draft" 
+                            class="oe_highlight" 
+                            type="object" 
+                            invisible="state not in ['cancel']"
+                        />
+                        <button 
+                            name="test_action_notify" 
+                            string="Test email sending" 
+                            class="oe_highlight" 
+                            type="object"  
+                        />
+                        <field name="state" widget="statusbar" clickable="False" invisible="0" readonly="1"
+							statusbar_visible="draft,publish,cancel"
+							statusbar_colors='{"draft":"black","publish":"green","review":"blue","cancel":"red"}'
+							/>
+					</header>
+					<sheet>
+                        <div class="oe_button_box" name="button_box"/>
+                        <widget name="web_ribbon" title="Draft" bg_color="bg-danger" invisible = "state != 'draft'"/>
+                        <widget name="web_ribbon" title="Published" bg_color="bg-success" invisible = "state != 'publish'"/>
+                        
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" default_focus="1" required="1" placeholder="Name" readonly = "state != 'draft'"/>
+                            </h1>
+                        </div>
+						<group>
+                            <separator string="Details" colspan="4"/>
+                            <group>
+                                <field name="sequence" readonly="1"/>
+                                <field name="type_of_pms" required="1" readonly = "state != 'draft'"/>
+                                <field name="department_id" readonly = "state != 'draft'"/>
+                                <field name="department_manager_id" force_save="1" readonly = "state not in ['draft']"/>
+                            </group>
+                            <group>
+                                <field name="hr_category_id" readonly = "state != 'draft'"/> 
+                                <field name="test_employee_id"/> 
+                            </group>
+                            <separator string="Periods" colspan="4"/>
+                            <group>
+                                <field name="pms_year_id" readonly = "state != 'draft'"/>
+                                <field name="date_from" readonly = "state != 'draft'"/>
+                                <field name="date_end" readonly = "state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="deadline" readonly="1"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                You are required to review the Section lines if necessary<br/>
+                            </div>
+                            <newline/>
+						</group>
+						<notebook>
+							<page name="section_line_ids" string="Sections" invisible="0">
+								<field name="section_line_ids" 
+								    required="1" options="{'no_quick_create':True}">
+									<form string="Sections">
+                                        <div class="oe_title">
+                                            <h1>
+                                                <field name="name" default_focus="1" required="1" placeholder="Achievements"/>
+                                            </h1>
+                                        </div>
+										<group>
+											<group>
+												<field name="type_of_section" readonly="0"/> 
+												<field name="min_line_number"/>
+												<field name="max_line_number" required="0"/> 
+											</group>
+											<group>
+												<field name="pms_category_id" readonly="1"/> 
+												<field name="section_avg_scale" required="1"/> 
+                                                <field name="dep_input_weightage" required="1"/> 
+											</group>
+										</group>
+                                        <field name="section_line_ids" 
+                                            required="1" options="{'no_quick_create':True}">
+                                            <form string="Sections">
+                                                <div class="oe_title">
+                                                    <h1>
+                                                        <field name="name" default_focus="1" required="1" placeholder="Quality"/>
+                                                    </h1>
+                                                </div>
+                                                <group>
+                                                    <group>
+                                                        <field name="is_required" readonly="0"/> 
+                                                        
+                                                    </group>
+                                                    <group>
+                                                        <field name="section_id" required="0"/> 
+                                                        <field name="section_line_id" required="0"/> 
+
+                                                    </group>
+                                                </group>
+                                                <notebook>
+                                                    <page string="KBA Description">
+                                                        <field name="kba_description_ids" editable="bottom">
+                                                            <tree string="">
+                                                                <field name="name" required="0" readonly="0"/> 
+                                                            </tree>
+                                                        </field>
+                                                    </page>
+                                                </notebook>
+                                            </form>
+                                            <tree string="" delete="true">
+                                                <field name="name"/> 
+                                                <field name="is_required"/> 
+                                                <field name="section_id" invisible="1"/> 
+                                            </tree>
+                                        </field>
+									</form>
+                                    <tree string="" delete="true">
+                                        <field name="name"/> 
+                                        <field name="type_of_section"/> 
+										<field name="min_line_number"/>
+                                        <field name="max_line_number"/> 
+                                        <field name="section_avg_scale"/> 
+                                        <field name="dep_input_weightage"/> 
+                                    </tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<!-- <div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div> -->
+                    <chatter reload_on_follower="True"/>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_pms_department" model="ir.ui.view">
+			<field name="name">view.pms.department.tree</field>
+			<field name="model">pms.department</field>
+			<field name="arch" type="xml">
+				<tree string="department">
+                    <field name="sequence" readonly="1"/>
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="hr_category_id"/>
+                    <field name="department_manager_id"/>
+                    <field name="pms_year_id"/>
+                    <field name="date_from"/>
+                    <field name="date_end"/>
+                    <field name="deadline"/>
+                    <field name="state"/>
+                </tree>
+			</field>
+		</record> 
+
+		<record id="view_pms_department_filter" model="ir.ui.view">
+			<field name="name">department</field>
+			<field name="model">pms.department</field>
+			<field name="arch" type="xml">
+				<search string="Search department">
+					<field name="sequence" readonly="1"/>
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="hr_category_id"/>
+                    <field name="department_manager_id"/>
+                    <field name="pms_year_id"/>
+                    <field name="date_from"/>
+                    <field name="date_end"/>
+                    <field name="deadline"/>
+                    <field name="state"/>
+                    <field name="is_department_head"/>
+                    <group>
+                        <filter name="name" string='Name' domain="[]" context="{'group_by' : 'name'}"/>
+                        <filter name="group_pms_year_id" string='Period' domain="[]" context="{'group_by' : 'pms_year_id'}"/>
+                        <filter name="group_hr_category_id" string='Category' domain="[]" context="{'group_by' : 'hr_category_id'}"/>
+                        <filter name="group_department_id" string='Department' domain="[]" context="{'group_by' : 'department_id'}"/>
+                        <filter name="state" string='State' domain="[]" context="{'group_by' : 'state'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+ 
+		<record id="action_pms_department_view_id" model="ir.actions.act_window">
+			<field name="name">Departmental template</field>
+			<field name="res_model">pms.department</field>
+			<field name="view_mode">tree,form</field>
+              <field name="domain">[]</field>
+             <field name="context">{'search_default_group_pms_year_id': 1,'search_default_group_hr_category_id': 1,'search_default_group_department_id': 1}</field>
+             <!-- <field name="search_view_id" ref="hr_pms.view_pms_department_filter" /> -->
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record> 
+        <record id="ir_action_server_pms_department_publish" model="ir.actions.server">
+			<field name="name">Publish</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_pms.model_pms_department" />
+            <field name="binding_model_id" ref="hr_pms.model_pms_department" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('hr_pms.group_pms_officer_id'),
+            ref('hr_pms.group_pms_manager_id'),
+			])]"/>
+            <field name="code">action=model.sudo().action_mass_publish()</field>
+        </record>
+        <record id="ir_action_server_pms_department_cancel" model="ir.actions.server">
+			<field name="name">Cancel</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_pms.model_pms_department" />
+            <field name="binding_model_id" ref="hr_pms.model_pms_department" />
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [
+			ref('hr_pms.group_pms_officer_id'),
+            ref('hr_pms.group_pms_manager_id'),
+			])]"/>
+            <field name="code">action=model.sudo().button_mass_cancel()</field>
+        </record>
+    <menuitem id="view_pms_department_menu" name="Department templates" sequence="5" parent="hr_pms.view_hr_pms_menu" action="hr_pms.action_pms_department_view_id"
+    groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor"/>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+    <!-- -->
+    <record id="hr_pms_user_see_all" model="ir.rule">
+        <field name="name">HR PMS Rule See All</field>
+        <field name="model_id" ref="hr_pms.model_pms_appraisee"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_pms.group_pms_manager_id')), (4, ref('hr_pms.group_pms_officer_id'))]"/>
+    </record>
+
+    <record id="hr_pms_user_related_record" model="ir.rule">
+        <field name="name">PMS - user see related records</field>
+        <field name="model_id" ref="hr_pms.model_pms_appraisee"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|','|','|', '|','|','|','|','|','|', ('employee_id.user_id.id', '=', user.id),('department_id.manager_id.user_id.id', '=', user.id),('employee_id.reviewer_id.user_id.id', '=', user.id), ('employee_id.administrative_supervisor_id.user_id.id', '=', user.id),('employee_id.parent_id.user_id.id', '=', user.id),('reviewer_id.user_id.id', '=', user.id), ('administrative_supervisor_id.user_id.id', '=', user.id),('manager_id.user_id.id', '=', user.id),('directed_user_id.id', '=', user.id),('approver_ids.user_id','in', [user.id])]</field>
+        <field name="groups" eval="[(4, ref('hr_pms.group_pms_user_id')), (4, ref('hr_pms.group_pms_supervisor')),(4, ref('hr_pms.group_pms_reviewer'))]"/>
+    </record>
+    <record id="hr_pms_user_see_all_department_template" model="ir.rule">
+        <field name="name">HR PMS Rule See All department templates</field>
+        <field name="model_id" ref="hr_pms.model_pms_department"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_pms.group_pms_manager_id')), (4, ref('hr_pms.group_pms_officer_id'))]"/>
+    </record>
+    <record id="hr_pms_department_user_related_record" model="ir.rule">
+        <field name="name">PMS Department - user see related records</field>
+        <field name="model_id" ref="hr_pms.model_pms_department"/>
+        <field name="global" eval="True"/>
+        <field name="perm_read" eval="True"/>
+        <field name="domain_force">['|',('department_manager_id.user_id.id', '=', user.id),('create_uid', '=', user.id)]</field>
+        <!-- <field name="groups" eval="[(4, ref('hr_pms.group_pms_supervisor'))]"/> -->
+    </record>
+
+
+</odoo>

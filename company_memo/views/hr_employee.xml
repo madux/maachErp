@@ -6,9 +6,9 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form" />
             <field name="arch" type="xml">
-                <!-- <field name="work_email" position="before">
+                <field name="work_email" position="before">
                     <field name="employee_number" required="1"/>
-                </field> -->
+                </field>
                 <field name="job_id" position="after">
                     <field name="maximum_cash_advance_limit" groups="base.group_system,hr.group_hr_manager"/>
                     <field name="leave_reliever_memo_stage_ids" readonly="1"/>

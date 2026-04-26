@@ -1,14 +1,26 @@
-odoo.define('portal_request.search_request', function (require) {
-    "use strict";
+/** @odoo-module */
+// import publicWidget from '@web/legacy/js/public/public_widget';
+// import { rpc } from "@web/core/network/rpc";
+// import { onMounted } from "@odoo/owl";
+// import { loadJS, loadCSS } from '@web/core/assets';
+// import jQuery from "@web/legacy/js/libs/jquery";
+// import "@website/libs/zoomodoo/zoomodoo";
 
-    require('web.dom_ready');
-    var utils = require('web.utils');
-    var ajax = require('web.ajax');
-    var publicWidget = require('web.public.widget');
-    var core = require('web.core');
-    var qweb = core.qweb;
-    var _t = core._t;  
-    
+import PublicWidget from "@web/legacy/js/public/public_widget";
+import { jsonrpc } from "@web/core/network/rpc_service";
+
+
+// odoo.define('portal_request.search_request', function (require) {
+//     "use strict";
+
+//     require('web.dom_ready');
+//     var utils = require('web.utils');
+//     var ajax = require('web.ajax');
+//     var publicWidget = require('web.public.widget');
+//     var core = require('web.core');
+//     var qweb = core.qweb;
+//     var _t = core._t;  
+$(document).ready(function () { 
     let setMode = function(isLight) {
         const $dashboard = $('.dashboard');
         const $btn = $('#switchModeBtn');
@@ -27,12 +39,10 @@ odoo.define('portal_request.search_request', function (require) {
             $('#back-icon').attr('fill', 'white');
             $('#myprofile').attr('color', 'white');
             $('#switchModeBtn1').attr('color', 'white');
-
-
         }
     }
 
-    publicWidget.registry.SearchRequestWidgets = publicWidget.Widget.extend({
+    PublicWidget.registry.SearchRequestWidgets = PublicWidget.Widget.extend({
         selector: '#search_request_section',
         start: function(){
             var self = this;
@@ -40,7 +50,6 @@ odoo.define('portal_request.search_request', function (require) {
                 console.log("started search request")
                
             });
-
         },
         willStart: function(){
             var self = this; 
@@ -92,12 +101,13 @@ odoo.define('portal_request.search_request', function (require) {
 });
 
 
-odoo.define('portal_request.pagination', function (require) {
-    "use strict";
+// odoo.define('portal_request.pagination', function (require) {
+//     "use strict";
+$(document).ready(function () {
     
-    var publicWidget = require('web.public.widget');
+    // var publicWidget = require('web.public.widget');
     
-    publicWidget.registry.PaginationWidget = publicWidget.Widget.extend({
+    PublicWidget.registry.PaginationWidget = PublicWidget.Widget.extend({
         selector: '#search_request_section',
         events: {
             'keypress #page_input': '_onPageInputKeypress',

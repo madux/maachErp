@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+		<record id="view_hr_pms_category_form" model="ir.ui.view">
+			<field name="name">PMS category form</field>
+			<field name="model">pms.category</field>
+			<field name="arch" type="xml">
+				<form string="Category" create="0">
+					<header>
+                        <button 
+                            name="button_publish" 
+                            string="Publish" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'draft'"
+                            confirm="Are you sure you want to Publish: This action will generate appraisal templates for departments" 
+                            groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                        />
+                        <button 
+                            name="button_cancel" 
+                            string="Cancel" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'published'"
+                            confirm="Are you sure you want to cancel: This will cancel sent appraisals" 
+                            groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                        />
+                        <button 
+                            name="button_republish" 
+                            string="Re-publish" 
+                            type="object" 
+                            invisible="state != 'cancel'"
+                            confirm="Are you sure you want to reactivate a cancelled document? This will cancel sent appraisals" 
+                            groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                        />
+
+                        <button 
+                            name="button_send_missing_appraisal" 
+                            string="Send Missing Employee Appraisal" 
+                            type="object" 
+                            invisible="state != 'published'"
+                            confirm="Are you sure you want to generate appraisals" 
+                            groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                        />
+                        <button 
+                            name="button_set_to_draft" 
+                            string="Set to Draft" 
+                            class="btn-primary" 
+                            type="object" 
+                            invisible="state != 'cancel'"
+                            groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                        />
+
+                        <button 
+                            name="action_resend_mail" 
+                            string="Resend Email" 
+                            class="oe_highlight" 
+                            type="object"  
+                        />
+
+                        <button 
+                            name="test_send_mail_notification" 
+                            string="Test email sending" 
+                            class="oe_highlight" 
+                            type="object" 
+                        />
+                        <field name="state" widget="statusbar" clickable="False" invisible="0" readonly="1"
+							statusbar_visible="draft,published,cancel"
+							statusbar_colors='{"draft":"black","published":"green","cancel":"red"}'
+							/>
+					</header>
+					<sheet>
+                        <div class="oe_button_box" name="button_box"/>
+                        <widget name="web_ribbon" title="Draft" bg_color="bg-danger" invisible ="state != 'draft'"/>
+                        <widget name="web_ribbon" title="Published" bg_color="bg-success" invisible ="state != 'publish'"/>
+                        <div class="oe_title">
+                            <!-- <field name="active" invisible="1"/> -->
+                            <h1>
+                                <field name="name" default_focus="1" required="1" placeholder="e.g MIDDLE MANAGEMENT LEVEL TEMPLATE" readonly="state != 'draft'"/>
+                            </h1>
+                        </div>
+						<group>
+                            <separator string="Details" colspan="4"/>
+                            <group>
+                                <field name="category" required="1"/>
+                                <field name="sequence" readonly="1"/>
+                                <field name="type_of_pms" required="1" readonly="state != 'draft'"/>
+                                <field name="pms_year_id" required="1" readonly="state != 'draft'"/>
+                                <field name="publish_to_employees" required="1" readonly="state != 'draft'"/>
+                                <field name="test_employee_id"/> 
+                                <field name="date_from" readonly="1" force_save="1"/>
+                                <field name="date_end" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="deadline"/>
+                                <field name="published_date" readonly="1" force_save="1"/>
+                                <field name="online_deadline_date" readonly="0" force_save="1"/>
+                                <field name="allow_mid_year_review" readonly="0" force_save="1"/>
+                                <field name="allow_annual_review_submission" readonly="0" force_save="1"/>
+                                <field name="missing_employee_ids" readonly="0" force_save="1" widget="many2many_tags"/>
+
+                            </group>
+                            <separator string="Category Section Weight" colspan="4"/>
+                            <group>
+                                <field name="kra_weighted_score" readonly="state != 'draft'"/>
+                                <field name="fc_weighted_score" readonly="state != 'draft'"/>
+                                <field name="lc_weighted_score" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="loaded_via_data" invisible="1" readonly="0"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                You are required to provide the Section <br/>
+                                 weights to be used for final computation
+                            </div>
+                            <newline/>
+						</group>
+								<!-- context="{'default_learner_id': id}"  -->
+						<notebook>
+							<page name="job_role_ids" string="Job Functions / Positions" invisible="0">
+								<field name="job_role_ids" 
+								    required="1" options="{'no_quick_create':True}">
+									<form string="Job Functions / Positions">
+										<group>
+											<group>
+												<field name="name" required="1"/> 
+												<field name="department_id" required="1"/> 
+											</group>
+											<group>
+												<field name="description" string="Job description"/>
+                                                <field name="company_id" invisible="1" force_save="1"/>
+											</group>
+										</group>
+										</form>
+										<tree string="Job Functions / Position" delete="true" create="true">
+                                            <field name="name" required="1" string="Job Position"/>   
+											<field name="department_id" required="1"/> 
+											<field name="description" string="Job description"/>
+										</tree>
+								</field>
+							</page>
+                            <page name="section_ids" string="Sections" invisible="0">
+								<field name="section_ids" 
+								    required="1" options="{'no_quick_create':True}"
+                                    context="{'default_pms_category_id': id}">
+									<form string="Sections">
+                                        <div class="oe_title">
+                                            <h1>
+                                                <field name="name" default_focus="1" required="1" placeholder="KRAs &amp; Achivements"/>
+                                            </h1>
+                                        </div>
+										<group>
+											<group>
+												<field name="type_of_section" readonly="0"/> 
+												<field name="min_line_number" required="0"/> 
+												<field name="max_line_number" required="0"/> 
+											</group>
+											<group>
+												<field name="pms_category_id" readonly="1"/> 
+												<field name="section_avg_scale" required="1"/> 
+												<field name="input_weightage" required="1" readonly="0"/> 
+											</group>
+										</group>
+                                        <field name="section_line_ids" 
+                                            required="1" options="{'no_quick_create':True}">
+                                            <form string="Sections">
+                                                <div class="oe_title">
+                                                    <h1>
+                                                        <field name="name" default_focus="1" required="1" placeholder="Quality"/>
+                                                    </h1>
+                                                </div>
+                                                <group>
+                                                    <group>
+                                                        <field name="is_required" readonly="0"/> 
+                                                        <field name="description" invisible="1" required="0" placeholder="Does not avoid conflict(s); ...opportunities to build healthy work environment"/>
+
+                                                    </group>
+                                                    <group>
+                                                        <field name="section_id" required="0" readonly="1" groups="base.group_system"/> 
+                                                    </group>
+                                                </group>
+                                                <notebook>
+                                                    <page string="KBA Description">
+                                                        <field name="kba_description_ids" editable="bottom">
+                                                            <tree string="">
+                                                                <field name="name" required="0" readonly="0"/> 
+                                                                
+                                                            </tree>
+                                                        </field>
+                                                    
+                                                    </page>
+                                                </notebook>
+                                            </form>
+                                            <tree string="" delete="true">
+                                                <field name="name"/> 
+                                                <field name="is_required"/> 
+                                                <field name="section_id" invisible="1"/> 
+                                            </tree>
+                                        </field>
+                                    </form>
+                                    <tree string="" delete="true">
+                                        <field name="name"/> 
+                                        <field name="type_of_section"/> 
+										<field name="min_line_number"/> 
+                                        <field name="max_line_number"/> 
+                                        <field name="section_avg_scale"/> 
+                                        <field name="input_weightage" readonly="0"/> 
+                                    </tree>
+								</field>
+							</page>
+                            <page name="pms_department_template" string="Department templates" invisible="0">
+								<field name="pms_department_ids"/> 
+							</page>
+						</notebook>
+					</sheet>
+					<!-- <div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						
+						<field name="message_ids" widget="mail_thread"/>
+					</div> -->
+                    <chatter reload_on_follower="True"/>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_pms_category_tree">
+			<field name="name">view pms category.tree</field>
+			<field name="model">pms.category</field>
+			<field name="arch" type="xml">
+				<tree string="Category">
+                    <field name="sequence" readonly="1"/>
+                    <field name="name"/>
+                    <field name="pms_year_id"/>
+                    <field name="deadline"/>
+                    <field name="published_date"/>
+                    <field name="kra_weighted_score"/>
+                    <field name="fc_weighted_score"/>
+                    <field name="lc_weighted_score"/>
+                    <field name="state"/>
+                </tree>
+			</field>
+		</record>
+<!-- <record id="view_account_search" model="ir.ui.view">
+            <field name="name">account.account.search</field>
+            <field name="model">account.account</field>
+            <field name="arch" type="xml">
+                <search string="Accounts"> -->
+		<record id="view_pms_category_filter" model="ir.ui.view">
+			<field name="name">Category</field>
+			<field name="model">pms.category</field>
+			<field name="arch" type="xml">
+				<search string="Search category">
+					<field name="sequence" readonly="1"/>
+                    <field name="name"/>
+                    <field name="pms_year_id"/>
+                    <field name="deadline"/>
+                    <field name="published_date"/>
+                    <field name="kra_weighted_score"/>
+                    <field name="fc_weighted_score"/>
+                    <field name="lc_weighted_score"/>
+                    <field name="state"/>
+
+                    <group>
+                        <filter name="name" string='Name' domain="[]" context="{'group_by' : 'name'}"/>
+                        <filter name="pms_year_id" string='Period' domain="[]" context="{'group_by' : 'pms_year_id'}"/>
+                        <filter name="state" string='State' domain="[]" context="{'group_by' : 'state'}"/>
+                         <filter name="active" string="Active" domain="[('active', '=', True)]" context="{'group_by' : 'active'}"/>
+                          <filter name="active" string="InActive" domain="[('active', '=', False)]" context="{'group_by' : 'active'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+ 
+        <!-- learner. -->
+		<record id="action_pms_category_view" model="ir.actions.act_window">
+			<field name="name">Performance Template</field>
+			<field name="res_model">pms.category</field>
+			<field name="view_mode">tree,form</field>
+             <field name="domain">[]</field>
+             <field name="context">{'default_state': 'draft'}</field>
+             <field name="search_view_id" ref="hr_pms.view_pms_category_filter" />
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+
+    <menuitem id="view_pms_category_menu" name="Performance Template" sequence="1" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_pms_category_view"
+    groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"/>
+</odoo>

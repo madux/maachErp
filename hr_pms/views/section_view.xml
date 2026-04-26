@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+		<record id="view_hr_pms_section_form" model="ir.ui.view">
+			<field name="name">PMS section form</field>
+			<field name="model">pms.section</field>
+			<field name="arch" type="xml">
+				<form string="Sections">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" required="1" placeholder="KRAs &amp; Achivements"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type_of_section" readonly="0"/> 
+                            <field name="min_line_number" required="0"/> 
+                            <field name="max_line_number" required="0"/> 
+                            
+                        </group>
+                        <group>
+                            <field name="pms_category_id" readonly="1"/> 
+                            <field name="section_avg_scale" required="1"/> 
+                            <field name="input_weightage" required="1" readonly="0"/> 
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="section_line_ids" string="Sections" invisible="0">
+                            <field name="section_line_ids" 
+                                required="1" options="{'no_quick_create':True}">
+                                <tree string="" delete="true" editable="bottom">
+                                    <field name="name" required="1"/> 
+                                    <field name="is_required"/> 
+                                    <field name="section_id" invisible="1"/> 
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+			</field>
+		</record>
+
+		<record id="view_pms_section" model="ir.ui.view">
+			<field name="name">view.pms.section.tree</field>
+			<field name="model">pms.section</field>
+			<field name="arch" type="xml">
+				<tree string="section">
+                    <field name="name"/>
+                    <field name="type_of_section" readonly="0"/> 
+                    <field name="min_line_number" required="0"/> 
+                    <field name="max_line_number" required="0"/> 
+                    <field name="pms_category_id" readonly="1"/> 
+                    <field name="section_avg_scale" required="1"/> 
+                    <field name="input_weightage" required="1" readonly="0"/> 
+                </tree>
+			</field>
+		</record>
+
+		<record id="view_pms_section_filter" model="ir.ui.view">
+			<field name="name">section</field>
+			<field name="model">pms.section</field>
+			<field name="arch" type="xml">
+				<search string="Search Section">
+                    <field name="name"/>
+                    <field name="pms_category_id"/>
+                    <field name="type_of_section" readonly="0"/>
+                    <group>
+                        <filter name="name" string='Name' domain="[]" context="{'group_by' : 'name'}"/>
+                        <filter name="type_of_section" string='Type' domain="[]" context="{'group_by' : 'type_of_section'}"/>
+                        <filter name="pms_category_id" string='Category' domain="[]" context="{'group_by' : 'pms_category_id'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+ 
+		<record id="action_pms_section_view" model="ir.actions.act_window">
+			<field name="name">Section</field>
+			<field name="res_model">pms.section</field>
+			<field name="view_mode">tree,form</field>
+             <field name="domain">[]</field>
+             <field name="context">{'default_state': 'draft'}</field>
+             <field name="search_view_id" ref="hr_pms.view_pms_section_filter" />
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+
+    <menuitem id="view_pms_section_menu" name="Sections" sequence="20" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_pms_section_view"
+    groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor"/>
+</odoo>

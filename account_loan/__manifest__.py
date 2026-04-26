@@ -19,5 +19,5 @@
         # "views/account_move_view.xml",
     ],
     "installable": True,
-    "external_dependencies": {"python": ["numpy", "numpy-financial<=1.0.0"]},
+    # "external_dependencies": {"python": ["numpy", "numpy-financial<=1.0.0"]},
 }

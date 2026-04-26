@@ -19,7 +19,7 @@
 					<div class="body-emp page-section active" id="portal-dashboard-content">
 						<div class="main-container-emp">
 							<main class="content-emp">
-								<div id="app-icon" class="thumbnail-header">
+								<div id="app-icon d-none" class="thumbnail-header">
 									<svg xmlns="http://www.w3.org/2000/svg" 
 										width="30" height="30" 
 										class="bi bi-grid-fill custom-icon" 

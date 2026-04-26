@@ -1,5 +1,15 @@
-odoo.define('portal_request.portal_homepage', function (require) {
-    "use strict";
+/** @odoo-module */
+import PublicWidget from "@web/legacy/js/public/public_widget";
+import { jsonrpc } from "@web/core/network/rpc_service";
+// import publicWidget from '@web/legacy/js/public/public_widget';
+// import { rpc } from "@web/core/network/rpc";
+// import { onMounted } from "@odoo/owl";
+// import { loadJS, loadCSS } from '@web/core/assets';
+// import jQuery from "@web/legacy/js/libs/jquery";
+// import "@website/libs/zoomodoo/zoomodoo";
+
+// odoo.define('portal_request.portal_homepage', function (require) {
+//     "use strict";
 
     // require('web.dom_ready');
     // var utils = require('web.utils');
@@ -70,9 +80,9 @@ odoo.define('portal_request.portal_homepage', function (require) {
             let staff_number = $('#employee_staff_id')
             $btn.attr('disabled', 'disabled');
             $btn.prepend('<i class="fa fa-spinner fa-spin"/> ');
-            $.blockUI({
-                'message': '<h2 class="card-name">Resetting password ...</h2>'
-            });
+            // $.blockUI({
+            //     'message': '<h2 class="card-name">Resetting password ...</h2>'
+            // });
             const Data = {
                 'employee_email': email.val(),
                 'staff_number': staff_number.val(),
@@ -88,7 +98,7 @@ odoo.define('portal_request.portal_homepage', function (require) {
                 success: function (data) {
                     $btn.attr('disabled', false);
                     $btn.html($btnHtml)
-                    $.unblockUI()
+                    // $.unblockUI()
                     if(data.status){
                         console.log('updating employee password reset => '+ JSON.stringify(data))
                         email.val('');
@@ -107,7 +117,7 @@ odoo.define('portal_request.portal_homepage', function (require) {
                 error: function (xhr) {
                     $btn.attr('disabled', false);
                     $btn.html($btnHtml)
-                    $.unblockUI()
+                    // $.unblockUI()
                     alert(xhr.responseText);
                 }
             });
@@ -147,4 +157,3 @@ odoo.define('portal_request.portal_homepage', function (require) {
              
         });
     });
-});

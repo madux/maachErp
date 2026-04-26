@@ -1,0 +1,144 @@
+<templates id="template" xml:space="preserve">
+    <t t-name="PMSDashboard">
+        <div class="row main-section">
+            <div class="col-md-4 col-sm-6 pos_order_today oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-1 submitted-pms" title="Submitted" name="hr_pms.action_pms_appraisal_view_id" search_view_ref='hr_pms.action_pms_appraisal_view_id'>
+                            <div class="stat-icon" style="background:#5bcbd0">
+                                    <i class="fa fa-bar-chart"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Submitted PMS</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_non_draft_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-2 overdue_pms">
+                            <div class="stat-icon" style="background:#645bd0">
+                                <i class="fa fa-area-chart"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Overdue PMS</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_overdue_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-3 pms_completed">
+                            <div class="stat-icon" style="background:#85d05b">
+                                <i class="fa fa-bolt"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Completed PMS</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_completed_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-4 perception_agreed_pms">
+                            <div class="stat-icon" style="background:#d05bb8">
+                                <i class="fa fa-bookmark"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Agreed Perception</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_perception_agreed_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-5 perception_disagreed_pms">
+                            <div class="stat-icon" style="background:#d0c35b">
+                                <i class="fa fa-blind"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Disgreed Perception</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_perception_disagreed_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-6 pms_at_review">
+                            <div class="stat-icon" style="background:#5b8ed0">
+                                <i class="fa fa-check-square-o"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Reviewer's PMS</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_reviewer_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-7 pms_not_generatd">
+                            <div class="stat-icon" style="background:#5b8ed0">
+                                <i class="fa fa-check-square-o"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Ungenerated PMS</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._getpms_not_generated"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 pos_order oh-payslip">
+                <div class="oh-card" style="width: 288px;">
+                    <div class="oh-card-body">
+                        <div class="stat-widget-one widget-8 pms_remaining">
+                            <div class="stat-icon" style="background:#5b8ed0">
+                                <i class="fa fa-newspaper-o"/>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-head">Remaining PMS</div>
+                                <div class="stat_count">
+                                    <t t-esc="widget._get_draft_pms"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

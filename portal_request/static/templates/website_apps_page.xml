@@ -1,6 +1,6 @@
 <odoo>
 	<data>
-		<template name="Homepage" t-name="website.apppage" id="website_app_page">
+		<template name="HomepageX" t-name="website.apppage" id="website_app_page">
 			<!-- <t t-call="website.layout">  -->
 			<div class="dashboard">
 				 

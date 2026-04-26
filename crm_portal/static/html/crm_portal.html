@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CRM Portal</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <!-- Our CSS -->
+    <script src="crm_portal/static/js/crm_portal.js?v=23"></script>
+    <!-- <script src="/plateau_portal/static/html/portal_form_edit.js?v=4"></script> -->
+    <link href="/crm_portal/static/css/crm_portal.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════════ -->
+<div id="sidebar">
+    <div class="brand">
+        <i class="fa fa-bar-chart"></i>
+        <span>CRM Portal</span>
+    </div>
+    <nav>
+        <a href="#" data-menu="dashboard">
+            <i class="fa fa-home"></i>
+            <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="#" data-menu="leads">
+            <i class="fa fa-user-plus"></i>
+            <span class="nav-label">Leads</span>
+        </a>
+        <a href="#" data-menu="opportunities">
+            <i class="fa fa-star"></i>
+            <span class="nav-label">Opportunities</span>
+        </a>
+        <a href="#" data-menu="sales">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="nav-label">Sales</span>
+        </a>
+        <a href="#" data-menu="pipeline">
+            <i class="fa fa-filter"></i>
+            <span class="nav-label">Pipeline</span>
+        </a>
+    </nav>
+    <div class="toggle-btn" id="sidebar-toggle">
+        <i class="fa fa-bars"></i>
+        <span>Collapse</span>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════ -->
+<div id="main">
+
+    <!-- Topbar -->
+    <div id="topbar">
+        <h2 id="page-title">Dashboard</h2>
+        <div class="user-info">
+            <div class="avatar" id="user-avatar">U</div>
+            <span id="user-name">User</span>
+        </div>
+    </div>
+
+    <div id="content">
+
+        <!-- ────────────────────────────────────────
+             DASHBOARD VIEW
+        ──────────────────────────────────────── -->
+        <div id="view-dashboard">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-label">My Leads</span>
+                    <span class="kpi-value" id="kpi-leads">—</span>
+                    <span class="kpi-icon"><i class="fa fa-user-plus"></i></span>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Opportunities</span>
+                    <span class="kpi-value" id="kpi-opps">—</span>
+                    <span class="kpi-icon"><i class="fa fa-star"></i></span>
+                </div>
+                <div class="kpi-card won">
+                    <span class="kpi-label">Won</span>
+                    <span class="kpi-value" id="kpi-won">—</span>
+                    <span class="kpi-icon"><i class="fa fa-trophy"></i></span>
+                </div>
+                <div class="kpi-card lost">
+                    <span class="kpi-label">Lost</span>
+                    <span class="kpi-value" id="kpi-lost">—</span>
+                    <span class="kpi-icon"><i class="fa fa-times-circle"></i></span>
+                </div>
+                <div class="kpi-card rev">
+                    <span class="kpi-label">Total Revenue Won</span>
+                    <span class="kpi-value" id="kpi-rev">—</span>
+                    <span class="kpi-icon"><i class="fa fa-dollar"></i></span>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h4><i class="fa fa-bar-chart"></i> Pipeline by Stage</h4>
+                    <canvas id="chart-pipeline"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4><i class="fa fa-line-chart"></i> Won Deals — Last 6 Months</h4>
+                    <canvas id="chart-monthly"></canvas>
+                </div>
+            </div>
+
+            <!-- Quick links -->
+            <div class="section-header" style="margin-top:8px">
+                <h3>Quick Actions</h3>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="CRM.openCreateForm()">
+                    <i class="fa fa-plus"></i> New Record
+                </button>
+                <button class="btn btn-info" onclick="CRM.init && CRM.init()">
+                    <i class="fa fa-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- ────────────────────────────────────────
+             LIST VIEW (Leads / Opportunities / Sales)
+        ──────────────────────────────────────── -->
+        <div id="view-list" style="display:none">
+            <div class="section-header">
+                <h3 id="list-title">Records</h3>
+                <button class="btn btn-primary" onclick="CRM.openCreateForm()">
+                    <i class="fa fa-plus"></i> New Record
+                </button>
+            </div>
+
+            <div class="filter-bar">
+                <input id="search-input" type="text" placeholder="🔍 Search records…" style="flex:1;min-width:180px"/>
+                <select id="stage-filter">
+                    <option value="">All Stages</option>
+                </select>
+                <select id="type-filter">
+                    <option value="">All Types</option>
+                    <option value="lead">Leads</option>
+                    <option value="opportunity">Opportunities</option>
+                    <option value="won">Won</option>
+                    <option value="lost">Lost</option>
+                    <option value="draft">Draft</option>
+                    <option value="sale">Confirmed</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead id="list-thead">
+                        <tr>
+                            <th>Name</th><th>Type</th><th>Customer</th>
+                            <th>Stage</th><th>Probability</th>
+                            <th>Expected Revenue</th><th>Deadline</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-tbody">
+                        <tr><td colspan="8" style="text-align:center;padding:40px">
+                            <div class="spinner"></div>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ────────────────────────────────────────
+             PIPELINE VIEW
+        ──────────────────────────────────────── -->
+        <div id="view-pipeline" style="display:none">
+            <div class="section-header">
+                <h3>Pipeline — Kanban View</h3>
+                <button class="btn btn-primary" onclick="CRM.openCreateForm()">
+                    <i class="fa fa-plus"></i> New Opportunity
+                </button>
+            </div>
+            <div class="pipeline-board" id="pipeline-board">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+    </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ══════════════════════════════════════════════
+     CRM FORM MODAL
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="crmModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modal-title">Record</h3>
+            <button class="close-btn" onclick="CRM.closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-form-body">
+            <div style="text-align:center;padding:40px"><div class="spinner"></div></div>
+        </div>
+        <div class="modal-footer" id="modal-footer"></div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SMS MODAL
+══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="smsModal">
+    <div class="modal" style="max-width:420px">
+        <div class="modal-header">
+            <h3><i class="fa fa-comment"></i> Send SMS</h3>
+            <button class="close-btn" onclick="CRM.closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="smsModal">
+            <input type="hidden" id="sms-record-id"/>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="sms-message" rows="4" placeholder="Type your message…"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="CRM.closeModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="CRM.sendSms()">
+                <i class="fa fa-paper-plane"></i> Send SMS
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast"></div>
+
+<!-- Our JS -->
+  
+</body>
+</html>

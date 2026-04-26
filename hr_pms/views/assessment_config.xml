@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+		<record id="view_assessment_description_form" model="ir.ui.view">
+			<field name="name">assessment.description</field>
+			<field name="model">assessment.description</field>
+			<field name="arch" type="xml">
+				<form string="Assessment" create="0">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" default_focus="1" required="1"/>
+                            </h1>
+                        </div>
+                        <field name="desc" required="0" widget="html"/>
+                        <field name="type" required="0"/>
+                    </sheet>
+                </form>
+			</field>
+		</record>
+
+		<record id="view_assessment_description_tree" model="ir.ui.view">
+			<field name="name">view.assessment.description.tree</field>
+			<field name="model">assessment.description</field>
+			<field name="arch" type="xml">
+				<tree string="" create="0">
+                    <field name="name"/> 
+                    <field name="type"/> 
+                </tree>
+			</field>
+		</record>
+
+		<record id="action_assessment_description_view_id" model="ir.actions.act_window">
+			<field name="name">Assessment description</field>
+			<field name="res_model">assessment.description</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click To Create.
+				</p>
+			</field>
+		</record>
+        <menuitem id="view_assessment_description_menu" name="Assessment Configuration" sequence="30" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_assessment_description_view_id"
+    groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor"/>
+</odoo>

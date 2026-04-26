@@ -1,15 +1,27 @@
-odoo.define('portal_request.portal_employee_dashboards', function (require) {
-    "use strict";
+/** @odoo-module */
+import PublicWidget from "@web/legacy/js/public/public_widget";
+import { jsonrpc } from "@web/core/network/rpc_service";
+// import publicWidget from '@web/legacy/js/public/public_widget';
+// import { rpc } from "@web/core/network/rpc";
+// import { onMounted } from "@odoo/owl";
+// import { loadJS, loadCSS } from '@web/core/assets';
+// import jQuery from "@web/legacy/js/libs/jquery";
+// import "@website/libs/zoomodoo/zoomodoo";
 
-    require('web.dom_ready');
-    var utils = require('web.utils');
-    var ajax = require('web.ajax');
-    var publicWidget = require('web.public.widget');
-    var core = require('web.core');
-    var qweb = core.qweb;
-    var _t = core._t; 
+
+// odoo.define('portal_request.portal_employee_dashboards', function (require) {
+//     "use strict";
+
+//     require('web.dom_ready');
+//     var utils = require('web.utils');
+//     var ajax = require('web.ajax');
+//     var publicWidget = require('web.public.widget');
+//     var core = require('web.core');
+//     var qweb = core.qweb;
+//     var _t = core._t; 
+$( document ).ready(function() {
+
     let localStorage = window.localStorage;
-
     let navigateTo = function(screenId) {
         $('.page-section').removeClass('active');   // remove active from all
         $('#' + screenId).addClass('active'); // add to target
@@ -44,7 +56,7 @@ odoo.define('portal_request.portal_employee_dashboards', function (require) {
         }
     }
 
-    publicWidget.registry.EmployeeDashboardWidgets = publicWidget.Widget.extend({
+    PublicWidget.registry.EmployeeDashboardWidgets = PublicWidget.Widget.extend({
         selector: '#portal-dashboard-form',
         start: function(){
             var self = this;

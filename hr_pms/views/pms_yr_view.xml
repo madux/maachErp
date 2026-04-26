@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+
+        <!-- <record id="pms_year_tree" model="ir.ui.view">
+            <field name="name">pms.year.tree</field>
+            <field name="model">pms.year</field>
+            <field name="arch" type="xml">
+                <tree>
+                    
+                    <sheet>
+                        <field name="name"/>
+                        <field name="date_from"/>
+                        <field name="date_end"/>
+                    </sheet>
+                </tree>
+            </field>
+        </record> -->
+
+        <record id="pms_year_form" model="ir.ui.view">
+            <field name="name">pms.year.form</field>
+            <field name="model">pms.year</field>
+            <field name="arch" type="xml">
+                <form>
+                    
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_from"/>
+                            <field name="date_end"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    
+        <record id="pms_yr_action" model="ir.actions.act_window">
+            <field name="name">Performance Period</field>
+            <field name="res_model">pms.year</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="pms_yr_menu_form" name="Performance Period" parent="hr_pms.view_hr_pms_config_menu"
+                sequence="8" action="pms_yr_action" groups="base.group_system"/>
+</odoo>

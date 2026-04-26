@@ -725,7 +725,7 @@ class AccountBankStatementLine(models.Model):
     #         aml_dict['payment_id'] = payment and payment.id or False
     #         aml_obj.with_context(check_move_validity=False).create(aml_dict)
 
-    #         move.post()
+    #         move.action_post()
     #         #record the move name on the statement line to be able to retrieve it in case of unreconciliation
     #         self.write({'move_name': move.name})
     #         payment and payment.write({'payment_reference': move.name})

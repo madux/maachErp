@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="pms_back_wizard" model="ir.ui.view">
+            <field name="name">Return</field>
+            <field name="model">pms.back</field>
+            <field name="arch" type="xml">
+                <form String="Reason for Return">
+                    <group>
+                        <group>
+                            <field name="record_id" readonly="1" invisible="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="resp" readonly="0" invisible="1"/>
+                            <field name="direct_employee_id" invisible="0" readonly="1" required ="1" options="{'no_create':True, 'no_open': False}"/>
+                        </group>
+                            <field name="reason" required="1" placeholder="Please Add Reason(s) ..." colspan="20"/>
+                    <footer>
+                        <button name="post" type="object" string="Return" class="oe_highlight"/>
+                            <button string="Cancel" class="oe_link" special="cancel"/>
+                        </footer>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

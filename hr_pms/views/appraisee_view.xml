@@ -1,0 +1,1248 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="view_pms_appraisee_filter" model="ir.ui.view">
+			<field name="name">appraisee</field>
+			<field name="model">pms.appraisee</field>
+			<field name="arch" type="xml">
+				<search string="Search appraisee">
+                    <field name="employee_id"/>
+                    <field name="employee_number" groups="base.group_user"/>
+                    <field name="department_id" groups="base.group_user"/>
+                    <field name="job_id" groups="base.group_user"/>
+                    <field name="manager_id" string='Manager' groups="base.group_user"/>
+                    <field name="administrative_supervisor_id" string='Administrative Supervisor'/>
+                    <field name="reviewer_id" string='Reviewer'/>
+                    <field name="pms_year_id" readonly="0"/>
+                    <field name="deadline" readonly="0"/>
+                    <field name="dummy_state" invisible="1" force_save="1"/>
+                    
+                    <filter string="Score: 0 - 19" name="score_0_10" domain="[('overall_score','&lt;', 20)]"/>
+                    <filter string="Score: 20 - 29" name="score_0_20" domain="[('overall_score','&gt;', 19),('overall_score','&lt;', 30)]"/>
+                    <filter string="Score: 30 - 39" name="score_0_30" domain="[('overall_score','&gt;', 29),('overall_score','&lt;', 40)]"/>
+                    <filter string="Score: 40 - 49" name="score_0_40" domain="[('overall_score','&gt;', 39),('overall_score','&lt;', 50)]"/>
+                    <filter string="Score: 50 - 59" name="score_0_50" domain="[('overall_score','&gt;', 49),('overall_score','&lt;', 60)]"/>
+                    <filter string="Score: 60 - 69" name="score_0_60" domain="[('overall_score','&gt;', 59),('overall_score','&lt;', 70)]"/>
+                    <filter string="Score: 70 - 79" name="score_0_70" domain="[('overall_score','&gt;', 69),('overall_score','&lt;', 80)]"/>
+                    <filter string="Score: 80 - 89" name="score_0_80" domain="[('overall_score','&gt;', 79),('overall_score','&lt;', 90)]"/>
+                    <filter string="Score: 90 - 99" name="score_0_90" domain="[('overall_score','&gt;', 89),('overall_score','&lt;', 100)]"/>
+                    <filter string="Score: 100" name="score_0_100" domain="[('overall_score','&gt;=', 100)]"/>
+                    <group>
+                        <filter name="department_id" string='Department' domain="[]" context="{'group_by' : 'department_id'}"/>
+                        <filter name="employee_id" groups="base.group_user" string='Employee' domain="[]" context="{'group_by' : 'employee_id'}"/>
+                        <!-- <filter name="group_pms_year_id" string='Period' domain="[]" context="{'group_by' : 'pms_year_id'}"/> -->
+                        <filter name="group_type_of_pms" string='Type of PMS' domain="[]" context="{'group_by' : 'type_of_pms'}"/>
+                        <filter name="manager_id" string='Manager' domain="[]" context="{'group_by' : 'manager_id'}"/>
+                        <filter name="administrative_supervisor_id" string='Administrative Supervisor' domain="[]" context="{'group_by' : 'administrative_supervisor_id'}"/>
+                        <filter name="reviewer_id" string='Reviewer' domain="[]" context="{'group_by' : 'reviewer_id'}"/>
+                        <filter name="overall_score" string='Overall Score' domain="[]" context="{'group_by' : 'overall_score'}"/>
+                        <filter name="appraisee_satisfaction" string='Appraisee Satisfaction' domain="[]" context="{'group_by' : 'appraisee_satisfaction'}"/>
+                        <filter name="state" string='Status' domain="[]" context="{'group_by' : 'state'}"/>
+                        <filter name="overall_score" string='Overall score' domain="[]" context="{'group_by' : 'overall_score'}"/> 
+                        <filter name="current_assessment_score" string='Current Assessment score' domain="[]" context="{'group_by' : 'current_assessment_score'}"/>
+                        <filter name="potential_assessment_score" string='Potential Assessment Score' domain="[]" context="{'group_by' : 'potential_assessment_score'}"/>
+                        <filter name="post_normalization_score" string='Post Normalization Score' domain="[]" context="{'group_by' : 'post_normalization_score'}"/>
+                    </group>
+				</search>
+			</field>
+		</record>
+
+        <!-- <record id="view_pms_appraisee_calendar" model="ir.ui.view">
+            <field name="name">pms.appraisee.calendar</field>
+            <field name="model">pms.appraisee</field>
+            <field name="arch" type="xml">
+                <calendar string="Appraisee" date_start="date_from" color="state" hide_time="true" event_limit="5" quick_add="False">
+                    <field name="employee_id" avatar_field="image_128"/>
+                    <field name="department_id"/>
+                    <field name="reviewer_id"/>
+                    <field name="manager_id"/>
+                    <field name="state" filters="1" invisible="1"/>
+                </calendar>
+            </field>
+        </record> -->
+        <record model="ir.ui.view" id="view_pms_appraisee_graph">
+            <field name="name">pms.appraisee.graph</field>
+            <field name="model">pms.appraisee</field>
+            <field name="arch" type="xml">
+                <graph string="PMS" sample="1">
+                    <field name="department_id" type="measure"/>
+                     <field name="employee_id" type="measure"/>
+                    <field name="overall_score"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_sale_order_pivot">
+            <field name="name">pms.appraisee.pivot</field>
+            <field name="model">pms.appraisee</field>
+            <field name="arch" type="xml">
+                <pivot string="PMS" sample="1">
+                    <field name="employee_id" groups="base.group_user" type="row"/>
+                    <field name="overall_score" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+		<record id="view_hr_pms_appraisee_form" model="ir.ui.view">
+			<field name="name">PMS appraisee form</field>
+			<field name="model">pms.appraisee</field>
+			<field name="arch" type="xml">
+				<form string="appraisees" create="0">
+                    <header>
+                        <!-- <button 
+                            name="back_forth_button_test" 
+                            string="return test" 
+                            type="object" 
+                        /> -->
+                        <button 
+                            name="goal_setting_button_submit" 
+                            string="Submit Goal Setting to Manager" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'goal_setting_draft'"
+                            confirm="Are you sure you want to Submit"
+                        />
+                        <button 
+                            name="manager_submit_goal_setting_button" 
+                            string="Approve For Mid year Review" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'gs_fa'"
+                            confirm="Are you sure you want to Submit"
+                        />
+                        <button 
+                            name="hyr_button_submit" 
+                            string="Submit for review" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'hyr_draft'"
+                            confirm="Are you sure you want to Submit"
+                        />
+                        <button 
+                            name="hyr_button_admin_supervisor_rating" 
+                            string="Submit Review" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'hyr_admin_rating'"
+                            confirm="Are you sure you want to Submit rating"
+                        />
+                        <button 
+                            name="hyr_button_functional_manager_rating" 
+                            string="Submit Review" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'hyr_functional_rating'"
+                            confirm="Are you sure you want to Submit rating"
+                        />
+                        <!-- FULL YEAR REVIEW STARTS HEREV  -->
+                        <button 
+                            name="button_submit" 
+                            string="Submit" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'draft'"
+                            confirm="Are you sure you want to Submit"
+                            groups="base.group_system,hr_pms.group_pms_officer_id,hr_pms.group_pms_supervisor,hr_pms.group_pms_user_id,hr_pms.group_pms_manager_id"
+                        />
+
+                        <button 
+                            name="button_admin_supervisor_rating" 
+                            string="Submit rating" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'admin_rating'"
+                            confirm="Are you sure you want to Submit rating"
+                        />
+                            <!-- groups="hr_pms.group_pms_user_id,hr_pms.group_pms_supervisor,hr_pms.group_pms_manager_id" -->
+                        <button 
+                            name="button_functional_manager_rating" 
+                            string="Submit rating" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'functional_rating'"
+                            confirm="Are you sure you want to Submit rating"
+                        />
+                        <!-- groups="hr_pms.group_pms_user_id,hr_pms.group_pms_supervisor,hr_pms.group_pms_manager_id" -->
+                        <button 
+                            name="button_reviewer_manager_rating" 
+                            string="Submit Review" 
+                            class="oe_highlight" 
+                            type="object"
+                            invisible="state != 'reviewer_rating'"
+                            confirm="Are you sure you want to Submit rating"
+                        /> 
+                        <button 
+                            name="button_withdraw" 
+                            string="Withdraw" 
+                            type="object"
+                            invisible="is_current_user != True or state not in ['admin_rating','functional_rating']"
+                            confirm="Are you sure you want to Withdraw"
+                            groups="base.group_system,hr_pms.group_pms_officer_id,hr_pms.group_pms_user_id,hr_pms.group_pms_manager_id,hr.group_hr_manager"
+                        />
+                        <button 
+                            name="return_appraisal" 
+                            string="Return" 
+                            type="object"
+                            invisible="is_current_user == True or state not in ['admin_rating','gs_fa', 'functional_rating', 'reviewer_rating']"
+                            confirm="Are you sure you want to return"
+                        />
+                        <!-- <button 
+                            name="hyr_return_appraisal" 
+                            string="Return" 
+                            type="object"
+                            confirm="Are you sure you want to return"
+                        /> -->
+                            <!-- states="admin_rating,functional_rating" -->
+                        <button 
+                            name="button_set_to_draft" 
+                            string="Set to draft" 
+                            class="oe_highlight" 
+                            invisible="state != 'withdraw'"
+                            type="object"
+                            confirm="Are you sure you want to continue?"
+                            groups="base.group_system,hr_pms.group_pms_officer_id,hr_pms.group_pms_user_id,hr_pms.group_pms_supervisor,hr_pms.group_pms_manager_id"
+                        />
+                        <button 
+                            name="action_send_reminder" 
+                            string="Send Mail Reminder" 
+                            type="object"
+                            invisible="state in ['draft','admin_rating','functional_rating','reviewer_rating','done']"
+                        />
+                        <field name="state" widget="statusbar" clickable="False" invisible="0" readonly="1" force_save="1"
+							statusbar_visible="draft,reviewer_rating,done"/>
+							<!-- statusbar_visible="draft,admin_rating,functional_rating,reviewer_rating,done" -->
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" default_focus="1" required="1" readonly="lock_fields == False" placeholder="KRAs &amp; Achivements"/>
+                            </h1>
+                        </div>
+                        <div class='alert alert-info' role="alert">
+                            FIND USER MANUAL HERE ==
+                            Download:  <a href='/hr_pms/static/TRAINING_FOR_HR_PMS.pdf' target="_blank"> <strong>USER MANUAL</strong> </a> <br/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="type_of_pms" invisible="0" readonly="1" force_save="1"/> 
+                                <field name="pms_year_id" invisible="0" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}"/> 
+                                <field name="deadline" readonly="1" force_save="1"/> 
+                                <field name="dummy_state" invisible="1" force_save="1"/> 
+                                <!-- <field name="online_deadline_date" string="Appraisee Deadline Date" readonly="1" force_save="1"/>  -->
+                            </group>
+                            <group>
+                                <field name="date_from" readonly="1" force_save="1"/> 
+                                <field name="date_end" readonly="1" force_save="1"/>
+                                <field name="submitted_date" readonly="1" force_save="1"/>
+                                <field name="is_current_user" readonly="0" invisible="1"/>
+                                 <!-- groups="base.group_system"/> -->
+                                
+                            </group>
+                        </group>
+                        <div class='alert alert-info' role="alert">
+                            FIND USER MANUAL HERE ==
+                            Click to Download:  <a href='https://docs.google.com/document/d/1LyFGhP7vG5nDpLmiMFbQm0Xq9UVcTB7-wEV6LXDqLyY/edit?tab=t.0#heading=h.le83mypap6o1' target="_blank"> <strong>USER MANUAL</strong> </a> <br/>
+                        </div>
+                        <notebook>
+                            <page name="instruction_page" string="Instructions" invisible="0">
+							    <p style="color: red;" invisible="instruction_html != False">* All Appraisees should rate the min - max of 5 - 20 on KRA / Achievement. </p>
+							    <p style="color: red;" invisible="instruction_html != False">* Kindly read instruction before rating on each line. </p>
+                                <field name="instruction_html" readonly="1" string="Instructions" widget="html"/>
+                            </page>
+                            <page name="employee_manager_info" string="Staff Profile">
+                                <form string="">
+                                    <group>
+                                    <separator class="alert alert-info" role="alert" string="Appraisee’s Personal Information (employee must have worked for minimum 4 months in the appraisal period)" colspan="4"/>
+                                    <group>
+                                        <field name="employee_id" readonly="0" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        <field name="job_id" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" string="Function" groups="base.group_user"/> 
+                                        <field name="department_id" readonly="1" string="Department" force_save="1" options="{'no_create': True,'no_open': True}"/>
+                                        <field name="ps_district_id" readonly="1" string="District" force_save="1" options="{'no_create': True,'no_open': True}"/> 
+                                        <field name="pms_department_id" required="1" invisible="1" groups="base.group_user" options="{'no_create': True,'no_open': True}"/> 
+                                        <field name="template_category_id" required="0" invisible="0" groups="base.group_user" options="{'no_create': True,'no_open': False}"/> 
+                                    </group>
+                                    <group>
+                                        <field name="employee_number" readonly="1" force_save="1" string="Staff ID" groups="base.group_user"/>
+                                        <field name="job_title" readonly="1" force_save="1" string="Designation" groups="base.group_user"/>
+                                        <field name="work_unit_id" readonly="1" string="Unit/SC/Workshop/Substation" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                    </group>
+                                        <separator class="alert alert-info" role="alert" string="Current Functional Appraiser’s (should have supervised appraisee for minimum 4 months) Personal Information" colspan="4"/>
+                                        <group>
+                                            <field name="manager_id" readonly="1" string="Manager" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                            <field name="manager_job_id" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" string="Function" groups="base.group_user"/> 
+                                            <field name="manager_department" string="Department" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/>
+                                            <field name="manager_district" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        </group>
+                                        <group>
+                                            <field name="manager_employee_number" readonly="1" force_save="1" string="Staff ID" groups="base.group_user"/>
+                                            <field name="manager_job_title" readonly="1" force_save="1" string="Designation" groups="base.group_user"/>
+                                            <field name="manager_work_unit" readonly="1" string="Unit/SC/Workshop/Substation" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        </group>
+                                        <separator class="alert alert-info" role="alert" string="Current Administrative Appraiser’s (should have supervised appraisee for minimum 4 months) Personal Information" colspan="4"/>
+                                        <group>
+                                            <field name="administrative_supervisor_id" readonly="1" string="Name" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                            <field name="supervisor_job_id" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" string="Function" groups="base.group_user"/> 
+                                            <field name="supervisor_department" string="Department" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/>
+                                            <field name="supervisor_district" readonly="1" string="District" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        </group>
+                                        <group>
+                                            <field name="supervisor_employee_number" readonly="1" force_save="1" string="Staff ID" groups="base.group_user"/>
+                                            <field name="supervisor_job_title" readonly="1" force_save="1" string="Designation" groups="base.group_user"/>
+                                            <field name="supervisor_work_unit" readonly="1" string="Unit/SC/Workshop/Substation" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        </group>
+                                        <separator class="alert alert-info" role="alert" string="Current Reviewer’s (the supervisor of the current Functional Appraiser) Personal Information" colspan="4"/>
+                                        <group>
+                                            <field name="reviewer_id" readonly="1" string="Reviewer" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                            <field name="reviewer_job_id" readonly="1" force_save="1" string="Function" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                            <field name="reviewer_department" readonly="1" string="Department" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/>
+                                            <field name="reviewer_district" readonly="1" string="District" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        </group>
+                                        <group>
+                                            <field name="reviewer_employee_number" readonly="1" force_save="1" string="Staff ID" groups="base.group_user"/>
+                                            <field name="reviewer_job_title" readonly="1" force_save="1" string="Designation" groups="base.group_user"/>
+                                            <field name="reviewer_work_unit" readonly="1" string="Unit/SC/Workshop/Substation" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>
+                            <page name="section_line_ids" string="Goal Settings" 
+                            invisible="state != 'goal_setting_draft' and type_of_pms != 'gs'">
+                                <field name="dummy_kra_section_scale" force_save="1" readonly="1" invisible="1"/> 
+							    <div invisible="type_of_pms != 'gs'">
+                                    <p style="color: black;font-size: 14px;">Goal Setting</p>
+                                    <p style="color: red;">* Only Employee and Functional managers are expected to fill at this stage</p>
+                                    <p style="color: red;">* FA should also discuss with AA at this stage</p>
+                                </div>
+                                <!-- <button 
+                                    name="button_goal_setting" 
+                                    string="Upload goals using excel" 
+                                    class="oe_highlight btn-sm" 
+                                    type="object"
+                                    groups="hr_pms.group_pms_user_id"
+                                />  -->
+                                <field name="goal_setting_section_line_ids" options="{'no_quick_create':True,'no_open': True}" 
+                                    invisible = "type_of_pms != 'gs'" readonly = "state not in ['goal_setting_draft', 'gs_fa']">
+                                    <tree string="Goal Setting" delete="true" editable="bottom" options="{'no_create':False, 'no_open': False}">
+                                        <field name="name" required="1"
+                                     readonly="can_edit == False and state in ['gs_fa']"/>
+                                        <field name="state" invisible="1" column_invisible="1" force_save="1"/> 
+                                        <field name="can_edit" invisible="1" column_invisible="1" force_save="1"/> 
+                                        <field name="weightage" readonly="can_edit == False and state in ['gs_fa']"
+                                        required="state in ['goal_setting_draft', 'gs_fa'] and state in ['gs_fa']"
+                                        column_invisible = "parent.state not in ['goal_setting_draft', 'gs_fa']" sum="total"
+                                        />
+                                        <field name="pms_uom" required="1" readonly = "can_edit == False and state in ['gs_fa']"/>
+                                        <field name="target" readonly="can_edit == False and state in ['gs_fa']"
+                                        required = "state in ['goal_setting_draft']" column_invisible = "parent.state not in ['goal_setting_draft', 'gs_fa']"/>
+                                        <field name="acceptance_status" readonly="can_edit == False and state in ['gs_fa']"
+                                        required = "state in ['gs_fa']" column_invisible = "parent.state not in ['gs_fa']"/>
+                                        <field name="goal_setting_section_id" invisible="1" column_invisible="1" options="{'no_create': True,'no_open': True}"/> 
+                                        <field name="fa_comment" required="0" invisible="1" column_invisible="1"/>
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" required="1" readonly ="state not in ['goal_setting_draft']"/> 
+                                                <field name="weightage" sum="total" readonly ="state not in ['goal_setting_draft']"
+                                                required="state in ['goal_setting_draft']" column_invisible="parent.state not in ['goal_setting_draft']" />
+                                                
+                                            </group>
+                                            <group>
+                                                <field name="goal_setting_section_id" invisible="1" options="{'no_create': True,'no_open': True}"/> 
+                                                <field name="state" force_save="1" invisible="1"/> 
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page name="section_line_ids" string="Sections" invisible ="state not in ['draft', 'hyr_draft', 'admin_rating', 'hyr_functional_rating','functional_rating', 'reviewer_rating', 'done','signed']">
+                                <div invisible="type_of_pms != 'hyr'">
+                                    <p style="color: black;font-size: 14px;">MID YEAR KRA / Achievement(s)</p>
+                                    <p style="color: red;" invisible = "instruction_html != False">* --Minimum of 5 lines and Maximun of 7 Lines to be added on this section </p>
+                                    <p style="color: red;">* Instructions: At this stage, kindly add the target weightage. No score rating is done at this point </p>
+                                    <p style="color: red;">* Only Administrative or Functional managers are expected to fill at this stage</p>
+                                </div> 
+                                <field name="hyr_kra_section_line_ids" options="{'no_quick_create':True,'no_open': True}" 
+                                 readonly = "state in ['draft', 'admin_rating', 'functional_rating', 'reviewer_rating']"
+                                    invisible = "type_of_pms != 'hyr'"
+                                    context="{'default_enable_line_edit': 'yes', 'default_state': state}">
+                                    <tree string="Mid Year review KRA Sections" delete="true" editable="bottom" options="{'no_create':False, 'no_open': False}">
+                                        <field name="name" required="1" readonly = "enable_line_edit in ['', 'no']"/> 
+                                        <field name="state" invisible="1" column_invisible="1" force_save="1"/>
+                                        <field name="enable_line_edit" invisible="1" column_invisible="1" force_save="1"/> 
+                                        <field name="is_current_user" invisible="1" column_invisible="1" force_save="1"/> 
+                                        <field name="manager_can_edit" invisible="1" column_invisible="1" readonly="0" force_save="1"/> 
+                                        <!-- <field name="appraisee_weightage" invisible="1" readonly = "state not in ['hyr_draft']"
+                                        required="state in ['hyr_draft']" sum="total"/> -->
+                                        <field name="weightage" sum="total" readonly ="1"/> 
+                                        <field name="target" readonly ="1"/>
+                                        <field name="revise_weightage" sum="total" readonly="enable_line_edit in ['', 'no'] and state not in ['hyr_draft','hyr_functional_rating']"
+                                        required="state in ['hyr_functional_rating']" column_invisible ="parent.state not in ['hyr_draft','hyr_functional_rating']"/>
+                                        <field name="pms_uom" readonly="manager_can_edit == 'no' or state not in ['hyr_functional_rating']"
+                                        required = "state in ['hyr_functional_rating']" column_invisible ="parent.state not in ['hyr_draft','hyr_functional_rating']"/>
+                                        <field name="revise_target" readonly="manager_can_edit == 'no' or state not in ['hyr_functional_rating']"
+                                        required ="state in ['hyr_functional_rating']" column_invisible ="parent.state not in ['hyr_draft','hyr_functional_rating']" sum="total"/>
+                                        <field name="acceptance_status" readonly="manager_can_edit == 'no' or state not in ['hyr_functional_rating']"
+                                        required = "state in ['hyr_draft','hyr_functional_rating']" column_invisible = "parent.state not in ['hyr_draft','hyr_functional_rating']" />
+                                        <field name="hyr_fa_rating" readonly="manager_can_edit == 'no' or state not in ['hyr_draft','hyr_functional_rating']"
+                                        required="state in ['hyr_functional_rating']" invisible="is_current_user == True" column_invisible ="parent.state not in ['hyr_draft','hyr_functional_rating']"/>
+                                        <field name="fa_comment" widget="text" force_save="1" readonly ="manager_can_edit == 'no' or state not in ['hyr_draft','hyr_functional_rating']"
+                                        required="state in ['hyr_functional_rating']" invisible="is_current_user == True"/>
+                                        <field name="hyr_kra_section_id" invisible="1" column_invisible="1" options="{'no_create': True,'no_open': True}"/> 
+                                        <field name="is_functional_manager" force_save="1" invisible="1" column_invisible="1"/> 
+                                        <field name="is_administrative_supervisor" force_save="1" invisible="1" column_invisible="1"/> 
+                                        <field name="is_reviewer" force_save="1" invisible="1" column_invisible="1"/>
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" readonly = "state not in ['hyr_draft']"/> 
+                                                <!-- self rating only for KRAs -->
+                                                <field name="weightage" readonly = "state not in ['hyr_functional_rating']"
+                                                required="state in ['hyr_functional_rating']" column_invisible = "parent.state in ['hyr_draft', 'hyr_admin_rating']" />
+                                                <field name="acceptance_status" readonly = "state not in ['hyr_functional_rating']"
+                                                required="state in ['hyr_functional_rating']" column_invisible = "parent.state not in ['hyr_functional_rating']"/>
+                                            </group>
+                                            <group>
+                                                <field name="state" invisible="1" force_save="1"/>
+                                                <field name="hyr_kra_section_id" invisible="1" options="{'no_create': True,'no_open': True}"/> 
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <div invisible ="type_of_pms != 'hyr'"> 
+                                    <separator string="Appraisee Comments" colspan="4"/><br/>
+                                    <field name="appraisee_comment" widget="text" force_save="1" placeholder="Start typing" 
+                                    invisible="state not in ['hyr_draft', 'hyr_admin_rating', 'hyr_functional_rating']"
+                                     readonly ="state not in ['hyr_draft']"/><br/>
+                                    <separator string="Manager Comments" colspan="4" /><br/>
+                                    <field name="manager_comment" widget="text" force_save="1" placeholder="Start typing" 
+                                    invisible ="state not in ['hyr_draft','hyr_admin_rating','hyr_functional_rating']"
+                                 readonly ="state not in ['hyr_functional_rating']"/><br/>
+                                </div><br/>
+                                
+                                <div class="row" invisible ="type_of_pms != 'fyr'">  
+                                    <p style="color: black;font-size: 14px;">SECTION (A) - KRA / Achievement(s)</p>
+                                    <p style="color: red;" invisible ="instruction_html != False"> * Minimum of 5 lines and Maximun of 7 Lines to be added on this section </p>
+                                    <p style="color: red;">* Instructions: Rating scale is 1 (Lowest rate) to 4 scale, where 4 is the HIGHEST rating </p>
+                                    <p style="color: red;">* KRA Lines should be Minimum of 5 lines and Maximum of 7 Lines </p>
+                                </div><br/>
+                                <field name="kra_section_line_ids" 
+                                    required="1" options="{'no_quick_create':True,'no_open': True}" 
+                                 readonly = "state not in ['draft', 'admin_rating', 'functional_rating', 'reviewer_rating']"
+                                    invisible="type_of_pms != 'fyr'"
+                                    context="{'default_section_avg_scale': dummy_kra_section_scale}">
+                                    <tree string="KRA Sections" delete="true" editable="bottom" options="{'no_create':True, 'no_open': False}">
+                                        <field name="name" required="1" readonly="parent.state not in ['draft', 'gs_fa', 'goal_setting_draft']"/>
+                                        <field name="section_avg_scale" invisible="1" column_invisible="1" readonly="1"/>
+                                        <field name="hyr_aa_rating" required="0" readonly="1" column_invisible="1" invisible="1"/>
+                                        <field name="hyr_fa_rating" required="0" readonly="1"/>
+                                        <field name="appraisee_weightage" invisible="1" column_invisible="1" readonly = "state not in ['draft']" required="state in ['draft']" sum="total"/>
+                                        <!-- <field name="weightage" readonly="parent.state not in ['draft', 'gs_fa', 'goal_setting_draft']" sum="total" required="state in ['functional_rating']"/> -->
+                                        <field name="weightage" readonly="0" sum="total" required="state in ['functional_rating']"/>
+                                        <!-- column_invisible = "parent.state in ['draft', 'admin_rating']" -->
+                                        <field name="self_rating" force_save="1" invisible="0" readonly="state != 'draft'" 
+                                        required="state == 'draft'" sum="total"/>
+                                        <field name="kra_section_id" invisible="1" column_invisible="1" options="{'no_create': True,'no_open': True}"/> 
+                                        <!-- Used to determine who is currently logged in. if the user is not a functional, system should be readonly -->
+                                        <field name="state" invisible="1" column_invisible="1" force_save="1"/> 
+                                        <field name="is_functional_manager" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="is_administrative_supervisor" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="is_reviewer" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'" 
+                                        required="state == 'admin_rating'"  column_invisible = "parent.state in ['draft']" sum="total"/> 
+                                        <field name="functional_supervisor_rating" readonly="state != 'functional_rating'" 
+                                        required="state == 'functional_rating'"  column_invisible = "parent.state in ['draft','admin_rating']" sum="total"/> 
+                                        <field name="reviewer_rating" force_save="1" readonly="state != 'reviewer_rating'" 
+                                        required="state == 'reviewer_rating'" column_invisible = "parent.state in ['draft', 'admin_rating','functional_rating']" sum="total"/> 
+                                        <field name="is_required" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="section_avg_scale" force_save="1" readonly="0" invisible="1" column_invisible="1" /> 
+                                        <field name="weighted_score" force_save="1" invisible="1" column_invisible="1" sum="total"/> 
+                                        <field name="state" invisible="1" column_invisible="1" />
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" readonly="1"/>
+                                                <field name="state" invisible="1" column_invisible="1" />
+                                                <field name="kra_section_id" string="Section" invisible="1" column_invisible="1"  options="{'no_create':True, 'no_open':False}"/> 
+                                                <field name="weightage" sum="total" readonly = "state not in ['functional_rating']" 
+                                                 required="state in ['functional_rating']"  column_invisible = "parent.state in ['draft', 'admin_rating']" />
+                                            </group>
+                                            <group>
+                                                <field name="administrative_supervisor_rating" string="Administrative Supervisor Rating(AR)" readonly="1"/> 
+                                                <field name="functional_supervisor_rating" string="Functional Manager Rating(FA)" readonly="1"/> 
+                                                <field name="reviewer_rating" string="Reviewer Rating(FA)" readonly="1"/> 
+                                                <field name="weighted_score" force_save="1"/> 
+                                               
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator string="Functional Competency Sections" colspan="4" invisible ="type_of_pms != 'fyr'"/>
+							    <p style="color: red;" invisible ="type_of_pms != 'fyr'"> * Instructions: Rating scale is 1 (Lowest rate) to 5(Highest) scale</p>
+                                <field name="fc_section_line_ids" 
+                                    required="1" options="{'no_quick_create':True}" invisible ="type_of_pms != 'fyr'" readonly ="state not in ['draft', 'admin_rating','functional_rating','reviewer_rating']"> 
+                                    <tree string="Functional Sections" delete="false" create="false" editable="bottom">
+                                        <field name="name" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <!-- weightage is set by default from the config side to use 20%. -->
+                                        <field name="weightage" readonly="1"/>
+                                        <field name="fc_section_id" invisible="1" column_invisible="1" /> 
+                                        <!-- self rating only for KRAs -->
+    <!--                                    <field name="self_rating" force_save="1" invisible="1" column_invisible="1"  required="0"/> -->
+                                        <!-- Used to determine who is currently logged in. if the user is not a functional, system should be readonly -->
+                                        <field name="is_functional_manager" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="is_administrative_supervisor" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="is_reviewer" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'" 
+                                        required="state == 'admin_rating'" sum="total"/> 
+                                        <field name="functional_supervisor_rating" readonly="state != 'functional_rating'" 
+                                        required="state == 'functional_rating'" sum="total"/> 
+                                        <field name="reviewer_rating" force_save="1" invisible="0" readonly="state != 'reviewer_rating'" 
+                                        required="state == 'reviewer_rating'" sum="total"/> 
+                                        <field name="is_required" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="section_avg_scale" force_save="1" readonly="1" invisible="0"/> 
+                                        <field name="weighted_score" force_save="1" sum="total"/> 
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" readonly="1"/> 
+                                            </group>
+                                            <group>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator string="Leadership Competency Sections" colspan="4" invisible ="type_of_pms != 'fyr'"/>
+							    <p style="color: red;" invisible ="type_of_pms != 'fyr'"> * Instructions: Rating scale is 1 (Lowest rate) to 5(Highest) scale</p>
+                                <field name="lc_section_line_ids" 
+                                    required="1" options="{'no_quick_create':True}" invisible ="type_of_pms != 'fyr'" readonly ="state not in ['draft', 'admin_rating','functional_rating','reviewer_rating']"> 
+                                    <tree string="Leadership Competency" delete="false" create="false" editable="bottom">
+                                        <field name="name" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <!-- weightage is set by default from the config side to use 20%. -->
+                                        <field name="weightage" readonly="1" sum="total"/>
+                                        <field name="lc_section_id" invisible="1" column_invisible="1" /> 
+                                        <!-- self rating only for KRAs -->
+    <!--                                    <field name="self_rating" force_save="1" invisible="1" column_invisible="1"  required="0"/> -->
+                                        <!-- Used to determine who is currently logged in. if the user is not a functional, system should be readonly -->
+                                        <field name="is_functional_manager" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="is_administrative_supervisor" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="is_reviewer" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'" 
+                                        required="state == 'admin_rating'" sum="total"/> 
+                                        <field name="functional_supervisor_rating" readonly="state != 'functional_rating'" 
+                                        required="state == 'functional_rating'" sum="total"/> 
+                                        <field name="reviewer_rating" force_save="1" invisible="0" readonly="state != 'reviewer_rating'" 
+                                        required="state == 'reviewer_rating'" sum="total"/> 
+                                        <field name="is_required" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="section_avg_scale" force_save="1" readonly="1" invisible="0" sum="total"/> 
+                                        <field name="weighted_score" force_save="1" sum="total"/> 
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" readonly="1"/> 
+                                            </group>
+                                            <group>
+                                                
+                                            </group>
+                                            <notebook>
+                                                <page string="KBA Description">
+                                                    <field name="kba_descriptions" colspan="4"/>
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator string="Training Need Identification (to be filled by the CURRENT APPRAISER)" colspan="4" invisible ="type_of_pms != 'fyr'"/>
+							    <p style="color: red;" invisible ="type_of_pms != 'fyr'"> * At least 1 should be related to functional competency and 1 should be related to general topic or leadership competency </p>
+                                <field name="training_section_line_ids" 
+                                    required="0" options="{'no_open':True}" invisible ="type_of_pms != 'fyr'" readonly ="state not in ['admin_rating', 'functional_rating']"> 
+                                    <tree string="Training Need Identification" delete="true" create="true" editable="bottom">
+                                        <field name="name" required="1" invisible="0" readonly="0"/>
+                                        <field name="comments" readonly="0"/>
+                                        <field name="requester_id" readonly="1"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <field name="training_section_id" invisible="1" column_invisible="1" /> 
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" required="1" invisible="0" readonly="0"/>
+                                                <field name="state" invisible="1" column_invisible="1" /> 
+                                                <field name="training_section_id" invisible="1" column_invisible="1" /> 
+                                            </group>
+                                            <group>
+                                                <field name="comments" readonly="0"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator string="Overall Current Assessment" colspan="4" invisible ="type_of_pms != 'fyr'"/>
+							    <p style="color: red;" invisible ="type_of_pms != 'fyr'"> * Instruction: Use the following scale for your rating</p>
+                                <div class="row" invisible ="type_of_pms != 'fyr'"> 
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th style="color: #000000; background-color: #FF0000;">ORDINARY</th>
+                                                <th style="color: #000000; background-color: #89CFF0;">DILIGENT</th>
+                                                <th style="color: #000000; background-color: #9FE2BF;">FANTASTIC</th>
+                                                <th style="color: #000000; background-color: #00A36C;">SUPERB</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    Performance is well below standard. <br/>
+                                                    Whether the person can improve to meet <br/>
+                                                    the minimum standard is questionable<br/>
+                                                </th>
+                                                <th>
+                                                    Performance &amp; Competence is below the<br/>
+                                                    expected standards. However, potential to <br/>
+                                                    improve within a reasonable time frame is<br/>
+                                                    evident. Not someone, whose attrition bothers<br/>
+                                                    company
+                                                </th>
+                                                <th>Performance &amp; Competence is largely<br/>
+                                                    meeting expected standards. This level is<br/>
+                                                    what satisfies the bosses / company to retain<br/>
+                                                    the talent even if it needs extra walking<br/>
+                                                    in normal circumstances
+                                                </th>
+                                                <th>The person is so successful at his/her job <br/>
+                                                    &amp; competencies criteria that special note<br/>
+                                                    should be made, and performance ranks in <br/>
+                                                    the top percentile. A top talent, someone <br/>
+                                                    to be retained at any cost!
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table><br/>
+                                </div>
+                                <field name="current_assessment_section_line_ids" 
+                                    required="0" invisible ="type_of_pms != 'fyr'" readonly="state in ['draft']"
+                                    context="{'default_state': state}">
+                                    <tree string="Current Assessment" delete="false" create="false" editable="bottom">
+                                        <field name="name" string="Assessment By" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <field name="current_assessment_section_id" invisible="1" column_invisible="1" /> 
+                                        <field name="assessment_type" required="1" />
+                                        <field name="administrative_supervisor_rating" invisible="1" column_invisible="1" /> 
+                                         
+                                        <field name="functional_supervisor_rating" invisible="1" column_invisible="1" />
+                                         
+                                        <field name="reviewer_rating" force_save="1" invisible="1" column_invisible="1" />
+                                          
+                                        <!-- <field name="name" string="Title" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="desc" string="Description " readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <field name="weightage" invisible="1" column_invisible="1" />
+                                        <field name="current_assessment_section_id" invisible="1" column_invisible="1" /> 
+                                        <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'"
+                                        required="state == 'admin_rating'"/> 
+                                        <field name="functional_supervisor_rating" readonly="state != 'functional_rating'"
+                                        required="state == 'functional_rating'"/> 
+                                        <field name="reviewer_rating" force_save="1" invisible="0" readonly="state != 'reviewer_rating'"
+                                        required="state == 'reviewer_rating'"/>  -->
+                                        <!-- <field name="section_avg_scale" force_save="1" readonly="1" invisible="1" column_invisible="1" /> 
+                                        <field name="weighted_score" force_save="1" invisible="1" column_invisible="1" />  -->
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" string="Assessment By" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                                <field name="state" invisible="1"/> 
+                                                <field name="current_assessment_section_id" invisible="1"/>
+                                                <field name="assessment_type" required="1"/> 
+                                            </group>
+                                            <group> 
+                                                <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'"
+                                                invisible="state != 'admin_rating'"/> 
+                                                <field name="functional_supervisor_rating" readonly="state != 'functional_rating'"
+                                                invisible="state != 'functional_rating'"/> 
+                                                <field name="reviewer_rating" force_save="1" readonly="state != 'reviewer_rating'"
+                                                invisible="state != 'reviewer_rating'"/> 
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator string="Potential Assessment" colspan="4" invisible ="type_of_pms != 'fyr'"/>
+							    <p style="color: red;" invisible ="type_of_pms != 'fyr'"> * Instruction It's majorly about the 'future', not the past performance: Use the following scale for your rating </p>
+                                <div class="row" invisible ="type_of_pms != 'fyr'"> 
+                                    <table class="table table-bordered table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th style="color: #ffffff; background-color: #000000;">LOW POTENTIAL</th>
+                                                <th style="color: #ffffff; background-color: #000000;">MEDIUM POTENTIAL</th>
+                                                <th style="color: #ffffff; background-color: #000000;">HIGH POTENTIAL</th>
+                                                <th style="color: #ffffff; background-color: #000000;">READY TO GO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    Potential in current job is
+                                                    below expectation; needs
+                                                    more development &amp;
+                                                    dedication
+                                                </th>
+                                                <th>
+                                                    Shows good potential in
+                                                    current job, but needs more
+                                                    development &amp; grooming
+                                                    for future / higher roles.
+                                                </th>
+                                                <th>Shows high proficiency in
+                                                    current job(s); and is capable
+                                                    of handling higher/future
+                                                    role with guidance
+                                                </th>
+                                                <th>Has overgrown 
+                                                    current role, and is
+                                                    fully potent to take up
+                                                    higher/future role
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table><br/>
+                                </div>
+                                <field name="potential_assessment_section_line_ids" 
+                                    required="0" invisible ="type_of_pms != 'fyr'" readonly="state in ['draft']"
+                                    context="{'default_state': state}">
+                                    <tree string="Potential Assessment" delete="false" create="false" editable="bottom">
+                                        <field name="name" string="Assessment By" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <field name="potential_section_id" invisible="1" column_invisible="1" /> 
+                                        <field name="assessment_type" required="1"/>
+                                        <field name="administrative_supervisor_rating" invisible="1" column_invisible="1" /> 
+                                        <field name="functional_supervisor_rating" invisible="1" column_invisible="1" />
+                                        <field name="reviewer_rating" force_save="1" invisible="1" column_invisible="1" />
+
+                                        <!-- <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'"
+                                        invisible="state != 'admin_rating'"/> 
+                                        <field name="functional_supervisor_rating" readonly="state != 'functional_rating'"
+                                        invisible="state != 'functional_rating'"/> 
+                                        <field name="reviewer_rating" force_save="1" invisible="0" readonly="state != 'reviewer_rating'"
+                                        invisible="state != 'reviewer_rating'"/> -->
+
+                                        <!-- <field name="name" string="Title " required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="desc" string="Description " readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <field name="potential_section_id" invisible="1" column_invisible="1" /> 
+                                        <field name="weightage" readonly="1" invisible="1" column_invisible="1" />
+                                        <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'"
+                                        required="state == 'admin_rating'"/> 
+                                        <field name="functional_supervisor_rating" readonly="state != 'functional_rating'"
+                                        required="state == 'functional_rating'"/> 
+                                        <field name="reviewer_rating" force_save="1" invisible="0" readonly="state != 'reviewer_rating'"
+                                        required="state == 'reviewer_rating'"/>  -->
+                                        <!-- <field name="is_required" force_save="1" invisible="1" column_invisible="1" /> 
+                                        <field name="section_avg_scale" force_save="1" readonly="1" invisible="1" column_invisible="1" /> 
+                                        <field name="weighted_score" force_save="1" invisible="1" column_invisible="1" />  -->
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="name" string="Assessment By" required="1" readonly="1" options="{'no_create':True, 'no_open': False}"/>
+                                                <field name="state" invisible="1"/> 
+                                                <field name="potential_section_id" invisible="1"/> 
+                                                <field name="assessment_type" required="1"/>
+                                            </group>
+                                            <group>
+                                            
+                                            <field name="administrative_supervisor_rating" readonly="state != 'admin_rating'"
+                                            invisible="state != 'admin_rating'"/> 
+                                            <field name="functional_supervisor_rating" readonly="state != 'functional_rating'"
+                                            invisible="state != 'functional_rating'"/> 
+                                            <field name="reviewer_rating" force_save="1" readonly="state != 'reviewer_rating'"
+                                            invisible="state != 'reviewer_rating'"/> 
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator string="Quality checks" colspan="4" invisible ="type_of_pms != 'fyr'"/>
+							    <p style="color: red;" invisible ="type_of_pms != 'fyr'"> * Instruction Quality checks &amp; due diligence to be done by the HR Team </p>
+                                <field name="qualitycheck_section_line_ids" 
+                                    required="0" invisible ="type_of_pms != 'fyr'" readonly ="state not in ['done', 'signed']"> 
+                                    <tree string="Quality checks" delete="true" create="true" editable="bottom">
+                                         
+                                        <field name="qualitycheck_section_id" invisible="1" column_invisible="1" /> 
+                                        <field name="state" invisible="1" column_invisible="1" /> 
+                                        <field name="observation_comment" required="1"/> 
+                                        <field name="date_of_observation" required="0"/> 
+                                        <field name="action_required" required="0"/> 
+                                        <field name="date_of_closed_observation" required="0"/> 
+                                    </tree>
+                                    <form string="">
+                                        <group>
+                                            <group>
+                                                <field name="date_of_observation" readonly="0"/> 
+                                                <field name="state" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="date_of_observation" required="1"/> 
+                                                <field name="observation_comment" required="0"/> 
+                                                <field name="action_required" required="0"/> 
+                                                <field name="date_of_closed_observation" required="0"/> 
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page name="scoreInfo" string="Score Details" invisible ="type_of_pms != 'fyr'"
+                            groups="base.group_system,hr_pms.group_pms_supervisor,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_reviewer">
+                                <form string="">
+                                    <group>
+                                        <separator string="Score Informations" colspan="4"/>
+                                        <group>
+                                            <field name="final_kra_score" readonly="1" force_save="1"/> 
+                                            <field name="final_fc_score" readonly="1" force_save="1"/> 
+                                            <field name="final_lc_score" readonly="1" force_save="1"/>  
+                                        </group>
+                                        <group>
+                                            <field name="overall_score" readonly="1" force_save="1"/> 
+                                            <field name="current_assessment_score" readonly="1"/>
+                                            <field name="potential_assessment_score"/>
+                                            <field name="approver_ids" invisible="1" required="0" widget="many2many_tags"/> 
+                                            <field name="line_manager_id" readonly="1" invisible="1"/> 
+                                            <field name="directed_user_id" readonly="1" invisible="1"/> 
+                                        </group>
+                                        <group>
+                                            <field name="post_normalization_score" readonly="1"/>
+                                            <field name="post_normalization_description" readonly="1"/>
+                                            <field name="normalized_score_uploader_id" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>    
+                            <page name="app_section" string="Appraisee's Comment,Attachments &amp; Sign off" invisible ="type_of_pms in ['gs', 'hyr']"> 
+                                <separator string="Appraisee Section" colspan="4"/>
+                                <form string="">
+                                    <group> 
+                                        <group>
+                                            <field name="appraisee_comment" placeholder="Start typing..." readonly = "state not in ['goal_setting_draft', 'hyr_draft', 'draft', 'done', 'signed']"/> 
+                                            <field name="appraisee_attachement_ids" domain="[('id', '=', None)]" readonly = "state not in ['goal_setting_draft', 'hyr_draft','draft', 'done', 'signed']"> 
+                                                <form string="-" editable="bottom">
+                                                    <group>
+                                                        <group>
+                                                            <field name="name" string="Description"/> 
+                                                        </group>
+                                                        <group>
+                                                            <field name="datas" string="Upload file"/> 
+                                                            <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                        </group>
+                                                    </group>
+                                                </form>
+                                                <tree string="-" editable="bottom">
+                                                    <field name="name" string="Description"/> 
+                                                    <field name="datas" string="Upload file"/>
+                                                    <field name="datas" string="Download file" readonly="1" force_save="1"/>  
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group>
+                                            <field name="appraisee_satisfaction" readonly = "state not in ['done', 'signed']" invisible="state not in ['done', 'signed']"/> 
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>
+                            <page name="manager_section" string="Manager's Comment" invisible="type_of_pms != 'fyr' or state not in ['functional_rating']"
+                            groups="base.group_system,hr_pms.group_pms_supervisor,hr_pms.group_pms_manager_id,hr_pms.group_pms_officer_id">
+                                <separator string="Manager's Comment" colspan="4"/>
+                                <form string="">
+                                    <group>
+                                        <group>
+                                            <field name="manager_comment" placeholder="Start typing..." readonly = "state not in ['functional_rating', 'reviewer_rating', 'done']"/> 
+                                        </group>
+                                        <group>
+                                            <field name="manager_attachement_ids" domain="[('id', '=', None)]" readonly = "state not in ['functional_rating', 'reviewer_rating', 'done']">
+                                                <form string="-" editable="bottom">
+                                                    <group>
+                                                        <group>
+                                                            <field name="name" string="Description"/> 
+                                                        </group>
+                                                        <group>
+                                                            <field name="datas" string="Upload file"/> 
+                                                            <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                        </group>
+                                                    </group>
+                                                    
+                                                </form>
+                                                <tree string="-" editable="bottom">
+                                                    <field name="name" string="Description"/> 
+                                                    <field name="datas" string="Upload file"/> 
+                                                    <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                </tree>
+                                            </field> 
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>
+                            <page name="supervisor_section" string="Admin Appraiser's Comment" invisible ="type_of_pms != 'fyr' or state not in ['admin_rating']"
+                            groups="base.group_system,hr_pms.group_pms_supervisor,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"
+                            >
+                                <separator string="Admin Appraiser's Comment" colspan="4"/>
+                                <form string="">
+                                    <group>
+                                        <group>
+                                            <field name="supervisor_comment" placeholder="Start typing..." readonly="state != 'admin_rating'"/> 
+                                        </group>
+                                        <group>
+                                            <field name="supervisor_attachement_ids" domain="[('id', '=', None)]" readonly = "state not in ['admin_rating', 'functional_rating']">
+                                                <form string="-" editable="bottom">
+                                                    <group>
+                                                        <group>
+                                                            <field name="name" string="Description"/> 
+                                                        </group>
+                                                        <group>
+                                                            <field name="datas" string="Upload file"/> 
+                                                            <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                        </group>
+                                                    </group>
+                                                </form>
+                                                <tree string="-" editable="bottom">
+                                                    <field name="name" string="Description"/> 
+                                                    <field name="datas" string="Upload file"/> 
+                                                    <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                </tree>
+                                            </field>  
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>
+                            <page name="reviewer_comment" string="Reviewer's Comment" invisible="type_of_pms != 'fyr' or state not in ['reviewer_rating']">
+                                <separator string="Reviewer's Section" colspan="4"/>
+                                <form string="">
+                                    <group>
+                                        <group>
+                                            <field name="reviewer_comment" string="Comment" placeholder="Start typing..." readonly = "state not in ['reviewer_rating', 'done']"/> 
+                                        </group>
+                                        <group>
+                                            <field name="reviewer_attachement_ids" domain="[('id', '=', None)]" readonly = "state not in ['reviewer_rating', 'done']">
+                                                <form string="-" editable="bottom">
+                                                    <group>
+                                                        <group>
+                                                          <field name="name" string="Description"/> 
+                                                        </group>
+                                                        <group string="Upload file">
+                                                            <field name="datas" string="Upload file"/> 
+                                                            <field name="datas" string="Download file" readonly="1"/> 
+                                                        </group>
+                                                    </group>
+                                                </form>
+                                                <tree string="-" editable="bottom" options="{'no_open': True}">
+                                                    <field name="name" string="Description"/> 
+                                                    <field name="datas" string="Upload file" force_save="1"/> 
+                                                    <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                </tree>
+                                                
+                                            </field>  
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>
+                            <page name="all_comments" string="Appraisal Comment(s)" invisible = "is_current_user == True or state == 'draft' or type_of_pms != 'fyr'"> 
+                                <separator string="Appraisee Comments" colspan="4"/>
+                                <field name="appraisee_comment" readonly="1"/>
+                                <separator string="Supervisor Comments" colspan="4"/>
+                                <field name="supervisor_comment" readonly="1"/>
+
+                                <separator string="Manager Comments" colspan="4"/>
+                                <field name="manager_comment" readonly="1"/>
+                                <separator string="Reviewer Comments" colspan="4"/>
+                                <field name="reviewer_comment" string="Comment"/> 
+                                <field name="lock_fields" readonly="0" invisible="0"/>
+
+                            </page>
+                            <page name="reason_back" string="Return Comment(s)"
+                            invisible ="type_of_pms != 'fyr'"> 
+                                <form string="">
+                                    <group>
+                                        <group>
+                                            <field name="reason_back" placeholder="Start typing..." readonly ="1"/> 
+                                        </group>
+                                        <group>
+                                            <field name="is_functional_appraiser" invisible ="1"/> 
+                                        </group>
+                                    </group>
+                                </form>
+                            </page>
+                            <!-- <page name="attachment_page" string="Appraisee's Attachments" invisible="0">
+                                <separator string="Appraisee's Attachments" colspan="4"/>
+                                <form string="">
+                                    <group>
+                                        <group>
+                                            <field name="appraisee_attachement_ids" readonly="1"> 
+                                                <form string="-" editable="bottom">
+                                                    <group>
+                                                        <group>
+                                                            <field name="name" string="Description"/> 
+                                                        </group>
+                                                        <group>
+                                                            <field name="datas" string="Upload file"/> 
+                                                            <field name="datas" string="Download file" readonly="1" force_save="1"/> 
+                                                        </group>
+                                                    </group>
+                                                </form>
+                                                <tree string="-" editable="bottom">
+                                                    <field name="name" string="Description"/> 
+                                                    <field name="datas" string="Upload file"/>
+                                                    <field name="datas" string="Download file" readonly="1" force_save="1"/>  
+                                                </tree>
+                                            </field>
+                                        </group>
+                                        <group>
+                                        </group>
+                                    </group>
+                                </form>
+                            </page> -->
+                            <!-- <page string="Audit trail" invisible ="type_of_pms in ['gs', 'hyr']"> 
+                            </page> -->
+                            
+                        </notebook>
+                    </sheet>
+                    <chatter reload_on_follower="True"/>
+
+                    
+                </form>
+			</field>
+		</record>
+
+		<record id="view_pms_appraisee_tree" model="ir.ui.view">
+			<field name="name">view.pms.appraisee.tree</field>
+			<field name="model">pms.appraisee</field>
+			<field name="arch" type="xml">
+				<tree string="appraisee" create="0" decoration-success="state in ('functional_rating', 'admin_rating', 'reviewer_rating','wating_approval','done')" decoration-muted="state == 'withdraw'" decoration-bf="state == 'done'">
+                    <field name="employee_id" readonly="1" string="Employee"/> 
+                    <field name="department_id" readonly="0" string="Department"/>  
+                    <field name="pms_year_id" readonly="1" string="Period"/>   
+                    <field name="deadline" readonly="1" string="Deadline"/> 
+                    <field name="is_current_user" readonly="1" string="Is current user" invisible="1" column_invisible="1" /> 
+                    <!-- <field name="final_kra_score" readonly="1" string="KRA Score"/> 
+                    <field name="final_fc_score" readonly="1" string="FC Score"/> 
+                    <field name="final_lc_score" readonly="1" string="LC Score"/>  -->
+                    <field name="overall_score" readonly="1" string="Overall Score"/> 
+                    <field name="state" readonly="1"/> 
+                </tree>
+			</field>
+		</record>
+
+		
+        <record id="view_pms_appraisee_kanban" model="ir.ui.view">
+			<field name="name">Kanban appraisee</field>
+			<field name="model">pms.appraisee</field>
+			<field name="arch" type="xml">
+                <kanban default_group_by="dummy_state" class="o_hr_employee_kanban" js_class="hr_employee_kanban" sample="1" create="0" edit="0">
+                    <field name="employee_id"/>
+                    <field name="state" options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}}"/>
+                    <progressbar field="state" colors="{&quot;draft&quot;: &quot;admin_rating&quot;, &quot;functional_rating&quot;: &quot;reviewer_rating&quot;, &quot;done&quot;: &quot;signed&quot;}"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <div class="float-right" t-if="record.state.raw_value == 'done'" name="done_state">
+                                                    <!-- Employee is present/connected and it is normal according to his work schedule  -->
+                                                    <span class="fa fa-circle text-success" role="img" aria-label="Present" title="Present" name="done_state">
+                                                    </span>
+                                                </div>
+                                                <div class="float-right" t-if="record.state.raw_value == 'draft'" name="draft_state">
+                                                    <span class="fa fa-circle-o text-muted" role="img" aria-label="Draft" title="Ready For Full Appraisal" name="draft_state">
+                                                    </span>
+                                                </div>
+                                                <div class="float-right" t-if="record.state.raw_value == 'functional_rating'" name="functional_rating_state">
+                                                    <span class="fa fa-circle-o text-success" role="img" aria-label="Functional rating" title="Functional rating" name="functional_rating_state">
+                                                    </span>
+                                                </div>
+                                                <div class="float-right" t-if="record.state.raw_value == 'signed'" name="signed">
+                                                    <!-- Employee is not here but according to his work schedule, he should be connected -->
+                                                    <span class="fa fa-circle text-warning" role="img" aria-label="Signed" title="Signed" name="signed">
+                                                    </span>
+                                                </div>
+                                                Name : <field name="employee_id" placeholder="Employee's Name"/>
+                                            </strong>
+                                            <span t-if="record.job_title.raw_value" class="o_kanban_record_subtitle"><b>Designation: </b><field name="job_title"/></span>
+                                            <span t-if="record.employee_number" class="o_kanban_record_subtitle"><b>Staff No: </b><field name="employee_number"/></span>
+                                            <span t-if="record.department_id.raw_value" class="o_kanban_record_subtitle"><b>Department: </b><field name="department_id"/></span>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li t-if="record.administrative_supervisor_id.raw_value" class="o_text_overflow"><b>AA</b><field name="administrative_supervisor_id"/></li>
+                                        <li t-if="record.manager_id.raw_value" class="o_text_overflow"><b>FA: </b><field name="manager_id"/></li>
+                                        <li t-if="record.reviewer_id.raw_value" class="o_text_overflow"><b>FR: </b><field name="reviewer_id"/></li>
+                                        <li t-if="record.appraisee_satisfaction.raw_value" class="o_force_ltr"><b>Perception: </b><field name="appraisee_satisfaction"/></li>
+                                    </ul>
+                                    <div class="oe_kanban_content">
+                                        <div class="o_kanban_record_bottom">
+                                            <div class="oe_kanban_bottom_left"/>
+                                            <div class="oe_kanban_bottom_right">
+                                                <a title="Chat" icon="fa-comments" href="#" class="ml8 o_employee_chat_btn" role="button"><i class="fa fa-comments"/></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+       
+
+         
+
+        <!-- <record id="action_pms_appraisee_view_id" model="ir.actions.act_window">
+            <field name="name">Appraisee</field>
+            <field name="res_model">pms.appraisee</field>
+            <field name="view_mode">tree,form</field>
+        </record> -->
+
+		<record id="action_pms_appraisee_view_id" model="ir.actions.act_window">
+			<field name="name">Appraisee</field>
+			<field name="res_model">pms.appraisee</field>
+            <field name="domain">[('employee_id.user_id.id','=', uid)]</field>
+            <field name="view_mode">tree,form</field>
+             <field name="search_view_id" ref="hr_pms.view_pms_appraisee_filter" />
+			<field name="view_id" ref="hr_pms.view_pms_appraisee_tree"/>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					No appraisal generated for you. Kindly check the General Appraisal Menu
+				</p>
+			</field>
+		</record>
+
+        <record id="action_pms_appraisal_view_id" model="ir.actions.act_window">
+			<field name="name">Appraisals</field>
+			<field name="res_model">pms.appraisee</field>
+			<field name="view_mode">tree,kanban,form,graph,pivot</field>
+            <field name="domain">[]</field>
+             <field name="search_view_id" ref="hr_pms.view_pms_appraisee_filter" />
+             <field name="context">{'search_default_group_pms_year_id': 1,'search_default_group_type_of_pms': 1}</field>
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					No appraisal generated for you. Kindly check the General Appraisal Menu
+				</p>
+			</field>
+		</record>
+        <record id="action_pms_fa_view_id" model="ir.actions.act_window">
+			<field name="name">Functional Appraisal</field>
+			<field name="res_model">pms.appraisee</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','in',['gs_fa', 'hyr_functional_rating','functional_rating']),('manager_id.user_id','=',uid)]</field>
+            <!-- <field name="context">{'search_default_pms_year_id': 1, 'search_default_state': 1}</field> -->
+             <field name="search_view_id" ref="hr_pms.view_pms_appraisee_filter" />
+
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					No appraisal record found
+				</p>
+			</field>
+		</record>
+
+        <record id="action_pms_aa_view_id" model="ir.actions.act_window">
+			<field name="name">Administrative Appraisal</field>
+			<field name="res_model">pms.appraisee</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','admin_rating'),('administrative_supervisor_id.user_id.id','=',uid)]</field>
+            <!-- <field name="context">{'search_default_pms_year_id': 1, 'search_default_state': 1}</field> -->
+             <field name="search_view_id" ref="hr_pms.view_pms_appraisee_filter" />
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					No appraisal record found
+				</p>
+			</field>
+		</record>
+
+        <record id="action_pms_fr_view_id" model="ir.actions.act_window">
+			<field name="name">Reviewer</field>
+			<field name="res_model">pms.appraisee</field>
+			<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','reviewer_rating'),('reviewer_id.user_id','=', uid)]</field>
+            <!-- <field name="context">{'search_default_pms_year_id': 1, 'search_default_state': 1}</field> -->
+             <field name="search_view_id" ref="hr_pms.view_pms_appraisee_filter" />
+			<field name="view_id" eval="False"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					No appraisal record found
+				</p>
+			</field>
+		</record>
+
+        <record id="ir_action_server_pms_appraisee_reminder_mail" model="ir.actions.server">
+			<field name="name">Send Reminder Notification*</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="binding_model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system'), ref('hr_pms.group_pms_officer_id')])]"/>
+            <field name="code">action=model.sudo().mass_send_reminder()</field>
+        </record>
+
+        <record id="ir_action_server_pms_appraisee_duplicate" model="ir.actions.server">
+			<field name="name">Duplicate</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="binding_model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system'), ref('hr_pms.group_pms_officer_id')])]"/>
+            <field name="code">action=model.sudo().bulk_copy_appraisal()</field>
+        </record>
+
+        <record id="ir_action_server_pms_instruction_update" model="ir.actions.server">
+			<field name="name">Update Instruction</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="binding_model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system'),ref('hr_pms.group_pms_officer_id')])]"/>
+            <field name="code">action=model.update_instruction()</field>
+        </record>
+
+        <record id="ir_action_server_pms_post_normalisation_update" model="ir.actions.server">
+			<field name="name">Upload Post Normalisation</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="binding_model_id" ref="hr_pms.model_pms_appraisee"/>
+            <field name="state">code</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system'),ref('hr_pms.group_pms_officer_id')])]"/>
+            <field name="code">action=model.post_normalisation_upload_action()</field>
+        </record>
+    
+    <menuitem id="view_hr_pms_menu" name="HR PMS" sequence="4" 
+    web_icon="hr_pms,static/description/icon_main.png"
+     action="hr_pms.action_pms_appraisee_view_id"/>
+    
+    <menuitem 
+    id="view_hr_pms_config_menu" 
+    name="Configuration" 
+    sequence="30" 
+    parent="hr_pms.view_hr_pms_menu"
+    groups="group_pms_officer_id,group_pms_manager_id"/>
+
+    <record model="ir.actions.act_url" id="action_pms_open_my_url">
+        <field name="name">PMS Portal</field>
+        <field name="url">/pms-portal</field>
+        <field name="target">new</field>
+    </record>
+
+		<menuitem parent="hr_pms.view_hr_pms_menu" id="menu_memo_pms_website_request" name="PMS Portal" action="action_pms_open_my_url" sequence="6"/>
+
+
+    <menuitem id="view_pms_appraisee_menu" name="Appraisal" sequence="1" parent="hr_pms.view_hr_pms_menu" action="hr_pms.action_pms_appraisee_view_id"/>
+    <menuitem id="view_pms_my_appraisal_menu" name="My Appraisal(s)" sequence="1" parent="hr_pms.view_pms_appraisee_menu" action="hr_pms.action_pms_appraisee_view_id"
+    groups="hr_pms.group_pms_user_id,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor"/>
+    <menuitem id="view_pms_appraisal_men_gen" name="All Appraisal(s)" sequence="2" parent="view_pms_appraisee_menu" action="hr_pms.action_pms_appraisal_view_id"
+    groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,base.group_user"/>
+    <menuitem id="view_pms_aa_1_menu" name="Administrative Appraisal(s)" sequence="2" parent="hr_pms.view_hr_pms_menu" action="hr_pms.action_pms_aa_view_id" groups="hr_pms.group_pms_user_id,base.group_user"/>
+    <menuitem id="view_pms_fa_2_menu" name="Functional Appraisal(s)" sequence="3" parent="hr_pms.view_hr_pms_menu" action="hr_pms.action_pms_fa_view_id" groups="hr_pms.group_pms_user_id,base.group_user"/>
+    <menuitem id="view_pms_fr_3_menu" name=" Appraisal(s) for Review" sequence="4" parent="hr_pms.view_hr_pms_menu" action="hr_pms.action_pms_fr_view_id" groups="hr_pms.group_pms_user_id,base.group_user"/>
+</odoo>

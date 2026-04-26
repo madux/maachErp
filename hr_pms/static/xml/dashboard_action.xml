@@ -1,0 +1,16 @@
+<odoo>
+    <record model="ir.actions.client" id="pms_custom_dashboard_action_id">
+        <field name="name">PMSDashboard</field>
+        <field name="tag">custom_pms_dashboard_tag</field>
+    </record>
+    <menuitem action="pms_custom_dashboard_action_id" id="pms_custom_dashboard_menu_id" parent="hr_pms.view_pms_appraisee_menu" sequence="0"
+    name="Dashboard" groups="base.group_system,hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id"/>
+
+    <!-- <template id="pms_assets_dashboard" name="PMS Dashboard Assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/hr_pms/static/js/dashboard.js"></script>
+            <script type="text/javascript" src="/hr_pms/static/js/hr_pms_fields.js"></script>
+            <link rel="stylesheet" href="/hr_pms/static/css/dashboard.css"/>
+        </xpath>
+    </template> -->
+</odoo>
