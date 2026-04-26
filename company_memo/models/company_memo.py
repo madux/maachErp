@@ -576,18 +576,18 @@ class Memo_Model(models.Model):
         
         # Build chatter message
         message_parts = [
-            f"<p><b>{icon} {label}</b></p>",
-            f"<p><b>By:</b> {current_employee.name}</p>",
-            f"<p><b>Stage:</b> {self.stage_id.name}</p>",
+            f"{icon} {label}",
+            f"By: {current_employee.name}",
+            f"Stage: {self.stage_id.name}",
         ]
         
         if next_stage:
-            message_parts.append(f"<p><b>Moving to:</b> {next_stage.name}</p>")
+            message_parts.append(f"Moving to: {next_stage.name}\n")
         
         if comments:
-            message_parts.append(f"<p><b>Comments:</b></p><p>{comments}</p>")
+            message_parts.append(f"Comments:{comments}\n")
         
-        message_parts.append(f"<p><small><i>{fields.Datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</i></small></p>")
+        message_parts.append(f"{fields.Datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
         self.sudo().message_post(
             body="".join(message_parts),
