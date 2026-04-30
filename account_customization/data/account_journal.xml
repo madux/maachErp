@@ -1,0 +1,31 @@
+<odoo>
+
+    <record id="ng_sales_journal" model="account.journal">
+        <field name="name">Sales Journal</field>
+        <field name="code">SJ</field>
+        <field name="type">sale</field>
+        <field name="default_account_id" ref="ng_sales"/>
+    </record>
+
+    <record id="ng_purchase_journal" model="account.journal">
+        <field name="name">Purchase Journal</field>
+        <field name="code">PJ</field>
+        <field name="type">purchase</field>
+        <field name="default_account_id" ref="ng_cogs"/>
+    </record>
+
+    <record id="ng_bank_journal" model="account.journal">
+        <field name="name">Bank Journal</field>
+        <field name="code">BK</field>
+        <field name="type">bank</field>
+        <field name="default_account_id" ref="ng_bank"/>
+    </record>
+
+    <record id="ng_misc_journal" model="account.journal">
+        <field name="name">General Journal</field>
+        <field name="code">MIS</field>
+        <field name="type">general</field>
+        <field name="default_account_id" ref="ng_cash"/>
+    </record>
+
+</odoo>

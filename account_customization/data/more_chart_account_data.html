@@ -1,0 +1,172 @@
+<odoo>
+
+    <record id="grp_assets" model="account.group">
+        <field name="name">Assets</field>
+        <field name="code_prefix_start">1000</field>
+        <field name="code_prefix_end">1999</field>
+    </record>
+
+    <record id="grp_liabilities" model="account.group">
+        <field name="name">Liabilities</field>
+        <field name="code_prefix_start">2000</field>
+        <field name="code_prefix_end">2999</field>
+    </record>
+
+    <record id="grp_equity" model="account.group">
+        <field name="name">Equity</field>
+        <field name="code_prefix_start">3000</field>
+        <field name="code_prefix_end">3999</field>
+    </record>
+
+    <record id="grp_income" model="account.group">
+        <field name="name">Income</field>
+        <field name="code_prefix_start">4000</field>
+        <field name="code_prefix_end">4999</field>
+    </record>
+
+    <record id="grp_expense" model="account.group">
+        <field name="name">Expenses</field>
+        <field name="code_prefix_start">5000</field>
+        <field name="code_prefix_end">5999</field>
+    </record>
+
+ 
+
+    <!-- Cash & Bank -->
+    <record id="acc_cash_main" model="account.account">
+        <field name="name">Cash on Hand</field>
+        <field name="code">1000</field>
+        <field name="account_type">asset_cash</field>
+        <field name="group_id" ref="grp_assets"/>
+        <field name="reconcile" eval="True"/>
+    </record>
+
+    <record id="acc_bank_naira" model="account.account">
+        <field name="name">Bank - Naira</field>
+        <field name="code">1010</field>
+        <field name="account_type">asset_cash</field>
+        <field name="group_id" ref="grp_assets"/>
+        <field name="reconcile" eval="True"/>
+    </record>
+
+    <record id="acc_bank_usd" model="account.account">
+        <field name="name">Bank - USD</field>
+        <field name="code">1020</field>
+        <field name="account_type">asset_cash</field>
+        <field name="group_id" ref="grp_assets"/>
+    </record>
+
+    <!-- Receivables -->
+    <record id="acc_receivable_trade" model="account.account">
+        <field name="name">Trade Receivables</field>
+        <field name="code">1100</field>
+        <field name="account_type">asset_receivable</field>
+        <field name="reconcile" eval="True"/>
+    </record>
+
+    <record id="acc_receivable_staff" model="account.account">
+        <field name="name">Staff Advances</field>
+        <field name="code">1110</field>
+        <field name="account_type">asset_current</field>
+    </record>
+
+    <!-- Inventory -->
+    <record id="acc_inventory_main" model="account.account">
+        <field name="name">Inventory</field>
+        <field name="code">1200</field>
+        <field name="account_type">asset_current</field>
+    </record>
+
+    <!-- Fixed Assets -->
+    <record id="acc_ppe" model="account.account">
+        <field name="name">Property Plant & Equipment</field>
+        <field name="code">1500</field>
+        <field name="account_type">asset_non_current</field>
+    </record>
+
+    <record id="acc_depreciation" model="account.account">
+        <field name="name">Accumulated Depreciation</field>
+        <field name="code">1510</field>
+        <field name="account_type">asset_non_current</field>
+    </record>
+
+    <record id="acc_payable_trade" model="account.account">
+        <field name="name">Trade Payables</field>
+        <field name="code">2000</field>
+        <field name="account_type">liability_payable</field>
+        <field name="reconcile" eval="True"/>
+    </record>
+
+    <record id="acc_vat_payable" model="account.account">
+        <field name="name">VAT Payable</field>
+        <field name="code">2100</field>
+        <field name="account_type">liability_current</field>
+    </record>
+
+    <record id="acc_wht_payable" model="account.account">
+        <field name="name">Withholding Tax Payable</field>
+        <field name="code">2110</field>
+        <field name="account_type">liability_current</field>
+    </record>
+
+    <record id="acc_loans" model="account.account">
+        <field name="name">Bank Loans</field>
+        <field name="code">2200</field>
+        <field name="account_type">liability_non_current</field>
+    </record>
+
+    <record id="acc_sales_goods" model="account.account">
+        <field name="name">Sales - Goods</field>
+        <field name="code">4000</field>
+        <field name="account_type">income</field>
+    </record>
+
+    <record id="acc_sales_services" model="account.account">
+        <field name="name">Service Revenue</field>
+        <field name="code">4010</field>
+        <field name="account_type">income</field>
+    </record>
+
+    <record id="acc_other_income" model="account.account">
+        <field name="name">Other Income</field>
+        <field name="code">4100</field>
+        <field name="account_type">income_other</field>
+    </record>
+
+
+    <record id="acc_cogs" model="account.account">
+        <field name="name">Cost of Goods Sold</field>
+        <field name="code">5000</field>
+        <field name="account_type">expense_direct_cost</field>
+    </record>
+
+    <record id="acc_salary" model="account.account">
+        <field name="name">Salaries & Wages</field>
+        <field name="code">5100</field>
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="acc_rent" model="account.account">
+        <field name="name">Rent Expense</field>
+        <field name="code">5200</field>
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="acc_utilities" model="account.account">
+        <field name="name">Utilities</field>
+        <field name="code">5300</field>
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="acc_transport" model="account.account">
+        <field name="name">Transport & Logistics</field>
+        <field name="code">5400</field>
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="acc_marketing" model="account.account">
+        <field name="name">Marketing & Advertising</field>
+        <field name="code">5500</field>
+        <field name="account_type">expense</field>
+    </record> 
+</odoo>

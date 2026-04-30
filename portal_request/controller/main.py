@@ -2355,11 +2355,11 @@ class PortalRequest(http.Controller):
             'memo_type_key': memo_id.memo_type_key or memo_id.memo_key,
         })
         _logger.info(f'''
-            Successfully Registered! with approver = {final_approver_id} stage {next_stage_id}
+            Successfully Registered! with approver ={memo_id.code} {final_approver_id} stage {next_stage_id}
             ''')
         # === END OF IMPROVED ROUTING LOGIC ===
         saveAction = True if saveAction in ['true', 'True', True] else False
-        memo_id.stage_id = memo_id.memo_setting_id.stage_ids and memo_id.memo_setting_id.stage_ids[0].id
+        # memo_id.stage_id = memo_id.memo_setting_id.stage_ids and memo_id.memo_setting_id.stage_ids[0].id
         # raise ValidationError(f"MEMO ID STAGES ARE {memo_id.stage_id}")
         _logger.info(f"""Incoming saveAction from frontend: {post.get('saveAction')}""")
         if saveAction == True:
@@ -2374,12 +2374,13 @@ class PortalRequest(http.Controller):
                 memo_id.state = 'submit'
         elif saveAction != True:
             # memo_id.stage_id = memo_id.memo_setting_id.stage_ids and memo_id.memo_setting_id.stage_ids[0].id
-            _logger.info(f"""Incoming Memo confirm from frontend:x""")
+            _logger.info(f"""Incoming Memo submission from frontend:x""")
 
             memo_id.confirm_memo(
                 memo_id.direct_employee_id or employee_id.parent_id, 
                 post.get("description", ""),
-                from_website=True
+                from_website=True,
+                default_stage_id = next_stage_id
                 )
         request.session['memo_ref'] = memo_id.code
         request.session['memo_record_id'] = memo_id.id

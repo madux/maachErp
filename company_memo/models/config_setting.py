@@ -238,6 +238,14 @@ class MemoStage(models.Model):
     approver_ids = fields.Many2many("hr.employee", string="Responsible Approvers")
     user_role_ids = fields.Many2many("res.group.role", string="User Roles", required=False)
     memo_config_id = fields.Many2one("memo.config", string="Parent settings")
+    threshold_amount = fields.Float(string="Threshold", default=0)
+    threshold_role_ids = fields.Many2many(
+        "res.group.role", 
+        "res_group_role_stage_rel",
+        "res_group_role_id",
+        "res_stage_id",
+        string="Threshold Roles")
+
     loaded_from_data = fields.Boolean(string="Loaded from data", default=False)
     publish_on_dashboard = fields.Boolean("Publish on Dashboard", default=False)
     require_po_confirmation = fields.Boolean("Require PO confirmation", default=False)
@@ -406,26 +414,81 @@ class MemoStage(models.Model):
         }
     
     
+        
+class MemoConfigThreshold(models.Model):
+    _name = "memo.threshold"
+    _description = "Memo threshold"
+    # _rec_name = "name"
+
+    @api.constrains('threshold_over_amount', 'threshold_under_amount')
+    def constrain_threshold(self):
+        self.ensure_one()
+        if self.threshold_over_amount > self.threshold_under_amount:
+            raise ValidationError('Error! Threshold amount from cannot be greater than threshold amount to')
+
+    memo_config_id = fields.Many2one(
+        'memo.config',
+        string='Memo Config',
+        required=True,
+        copy=False,
+        )
+    threshold_over_amount = fields.Float(string="Threshold", default=1, required=True)
+    threshold_under_amount = fields.Float(string="Threshold", default=100000, required=True)
+    threshold_stage_id = fields.Many2one(
+        "memo.stage",
+        string="Threshold stage",
+        required=True,
+    )
+
+    @api.onchange('memo_config_id')
+    def _onchange_memo_config_id(self):
+        self.threshold_stage_id = False
+
+    allowed_stage_ids = fields.Many2many(
+        'memo.stage',
+        compute='_compute_allowed_stage_ids',
+        store=False
+    )
+
+    @api.depends('memo_config_id')
+    def _compute_allowed_stage_ids(self):
+        for rec in self:
+            stages = rec.memo_config_id.stage_ids
+
+            if not stages:
+                rec.allowed_stage_ids = False
+                continue
+
+            first_stage = stages[0]
+            last_stage = stages[-1]
+            # stage_list = []
+            # for s in stages:
+            #     if s.id == first_stage.id:
+            #         continue 
+            #     elif s.id == last_stage.id:
+            #         continue 
+            #     elif s.is_approved_stage:
+            #         continue 
+            #     else:
+            #         stage_list.append(s.id)
+            #         # if s.no_conditional_stage_id or s.yes_conditional_stage_id:
+            #         #     stage_list += [s.no_conditional_stage_id, s.yes_conditional_stage_id]
+
+            # rec.allowed_stage_ids = [(6,0, stage_list)]
+
+            rec.allowed_stage_ids = stages.filtered(
+                lambda s: (
+                    s.id != first_stage.id and
+                    s.id != last_stage.id and
+                    not s.is_approved_stage
+                )
+            )
+
+
 class MemoConfig(models.Model):
     _name = "memo.config"
     _description = "Request setting"
     _rec_name = "name"
-
-    # memo_type = fields.Selection(
-    #     [
-    #     ("Payment", "Payment"),
-    #     ("loan", "Loan"),
-    #     ("Internal", "Internal Memo"),
-    #     ("employee_update", "Employee Update Request"),
-    #     ("material_request", "Material request"),
-    #     ("procurement_request", "Procurement Request"),
-    #     ("vehicle_request", "Vehicle request"),
-    #     ("leave_request", "Leave request"),
-    #     ("server_access", "Server Access Request"),
-    #     ("cash_advance", "Cash Advance"),
-    #     ("soe", "Statement of Expense"),
-    #     ("recruitment_request", "Recruitment Request"),
-    #     ], string="Request Type",default="", required=True)
     
     @api.constrains('branch_id', 'department_id', 'company_id')
     def constrain_company_branch_department(self):
@@ -446,6 +509,11 @@ class MemoConfig(models.Model):
         'res.company',
         string="Company",
     )
+    threshold_ids = fields.One2many(
+        "memo.threshold", 
+        "memo_config_id",
+        string="Thresholds")
+
     publish_to_public = fields.Boolean("Publish", default=True)
     memo_key = fields.Char("Request Key", related="memo_type.memo_key")
     name = fields.Char(

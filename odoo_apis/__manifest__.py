@@ -7,6 +7,7 @@
     'description': 'This module provides an API for creating and retrieving sales orders, payment, etc',
     'depends': ['base', 'sale_management', 'stock'],
     "data": [
+        'data/ir_config_parameter.xml',
         'views/res_user.xml',
         'views/res_partner.xml',
         'views/sale_order.xml',

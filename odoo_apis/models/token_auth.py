@@ -17,6 +17,8 @@ class Token(models.Model):
     token = fields.Char("Access Token", required=False)
     user_id = fields.Many2one("res.users", string="User", required=False)
     scope = fields.Char("Scope")
+    allowed_number_api_calls = fields.Integer("Allowed Number of calls", default=500)
+    total_used_api_calls = fields.Integer("To API calls used", default=0)
 
     def find_one_or_create_token(self, user_id=None, create=False):
         """Returns user api token.
@@ -75,9 +77,12 @@ class Users(models.Model):
     @api.model_create_multi
     def create(self, vals):
         res = super().create(vals)
+        stored_key = request.env['ir.config_parameter'].sudo().get_param(
+            'generated_external_api_key.api_key', ''
+        )
         user_token = self.env['user.api.token'].create({
             'user_id': res.id,
-            'token': 'token_sasdd7e6ca6e3793e40bd6171429de6f8686ac6cd',
+            'token': stored_key if stored_key else 'token_sasdd7e6ca6e3793e40bd6171429de6f8686ac6cd',
         })
         return res
         

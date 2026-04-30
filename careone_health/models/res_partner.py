@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    employee_number = fields.Integer(string='Number')
+    employee_number = fields.Char(string='Number')
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -15,10 +15,10 @@ class ResPartner(models.Model):
     patient_no = fields.Char(string='Patient No', readonly=True,)
     gender = fields.Selection([('Male', 'Male'),('Female', 'Female'),('Other', 'Other')], string='Gender')
     # date_of_registration = fields.Char(string='Registration Date')
-    first_name = fields.Char(string='First Name', required= True)
-    middle_name = fields.Char(string='Middle Name',required= True)
-    last_name = fields.Char(string='Last Name',required= True)
-    date_of_registration = fields.Datetime(string='Registration Date',default= fields.Datetime.now,required= True)
+    first_name = fields.Char(string='First Name', required= False)
+    middle_name = fields.Char(string='Middle Name',required= False)
+    last_name = fields.Char(string='Last Name',required= False)
+    date_of_registration = fields.Datetime(string='Registration Date',default= fields.Datetime.now,required= False)
     dob = fields.Date(string='Date of Birth')
     age = fields.Char(string='Age', compute="compute_dob", store=False)
     
@@ -96,12 +96,13 @@ class ResPartner(models.Model):
     @api.onchange('related_employee_number')
     def onchange_related_employee_number(self):
         for user in self:
-            employee = self.env['hr.employee'].search(
-                [('employee_number', '=', user.related_employee_number)],
-                limit=1
-            )
-            if not employee:
-                raise ValidationError(f"System could not find any employee related to {user.related_employee_number}")
+            if user.related_employee_number:
+                employee = self.env['hr.employee'].search(
+                    [('employee_number', '=', user.related_employee_number)],
+                    limit=1
+                )
+                if not employee:
+                    raise ValidationError(f"System could not find any employee related to {user.related_employee_number}")
 
     def get_default_name(self, vals):
         return self.env["ir.sequence"].next_by_code("patient.code") or "/"

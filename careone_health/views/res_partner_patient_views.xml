@@ -10,10 +10,6 @@
                  <field name="is_patient"/>
             </xpath> -->
 
-           
-       
-
-
             <div name="button_box" position="inside">
                 <button class="oe_stat_button" type="object" name="action_view_evaluation" groups="sales_team.group_sale_salesman" icon="fa-heartbeat">
                     <field string="Evaluation" name="patient_evaluation_count" widget="statinfo"/>
@@ -48,11 +44,11 @@
                 <page string="Patient Information" invisible="is_patient == False">
                     <group>
                         <group>
-                            <field name="last_name"/>
-                            <field name="first_name"/>
+                            <field name="last_name" required="is_patient == True"/>
+                            <field name="first_name" required="is_patient == True"/>
                             <field name="middle_name"/>
-                            <field name="phone"/>
-                            <field name="date_of_registration"/>
+                            <field name="phone" required="is_patient == True"/>
+                            <field name="date_of_registration" required="is_patient == True"/>
                             <field name="patient_no"/>
                             <field name="street"/>
                             <field name="city"/>
@@ -61,9 +57,9 @@
                         </group>
                         <group>
                             <field name="related_employee_number"/>
-                            <field name="gender"/>
-                            <field name="dob"/>
-                            <field name="age"/>
+                            <field name="gender" required="is_patient == True"/>
+                            <field name="dob" required="is_patient == True"/>
+                            <field name="age" required="is_patient == True"/>
                             <field name="last_visit_date"/>
                             <field name="prescription_count"/>
                             <field name="genotype"/>

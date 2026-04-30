@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <record id="memo_threshold_form" model="ir.ui.view">
+            <field name="name">Memo.threshold</field>
+            <field name="model">memo.threshold</field>
+            <field name="arch" type="xml">
+                <form string="Request threshold">
+                    <group>
+                        <group>
+                            <field name="threshold_over_amount" required="1"/> 
+                            <field name="threshold_under_amount" required="1"/> 
+                            <field name="threshold_stage_id" required="1" domain="[('id', 'in', allowed_stage_ids)]"/> 
+                        </group>
+                        <group>
+                            <field name="allowed_stage_ids" required="0" widget="many2many_tags"/> 
+                            <field name="memo_config_id" required="1"/> 
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
         <record id="memo_config_form" model="ir.ui.view">
             <field name="name">Memo User Setting</field>
             <field name="model">memo.config</field>
@@ -46,6 +65,7 @@
                                 <field name="processing_branch_id" invisible="inter_district == False)],'required="inter_district == True), ('requires_processing_district == False"/> -->
                                 <field name="processing_company_id" invisible="inter_district == False"/>
                                 <field name="processing_branch_id" invisible="inter_district == False"/>
+                                
 
                             </group>
                             <notebook>
@@ -61,8 +81,18 @@
                                             <field name="approver_ids" string="Employees for Follow up" required="0" widget="many2many_tags" options="{'no_create':True, 'no_open': False}"/>
                                             <field name="user_role_ids" string="Roles" required="0" widget="many2many_tags" options="{'no_quick_create':True}"/>
                                             <field name="is_approved_stage"/>
-                                            <field name="memo_config_id" force_save="1" invisible="1" optional="hide" options="{'no_create':True, 'no_open': False}"/>
-                                            <field name="active" force_save="1" optional="hide"/>
+                                            <field name="memo_config_id" force_save="1" optional="hide" options="{'no_create':True, 'no_open': False}"/>                                            
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                <page string="Threshold">
+                                    <field name="threshold_ids">
+                                        <tree string="threshold" editable="bottom">
+                                            <field name="memo_config_id" force_save="1" readonly="1" optional="hide" options="{'no_create':True, 'no_open': False}"/>                                            
+                                            <field name="threshold_over_amount" string="Amount from" placeholder="1"/>
+                                             <field name="threshold_under_amount"  string="Amount to" placeholder="100,000"/>
+                                            <field name="threshold_stage_id" required="1" domain="[('id', 'in', allowed_stage_ids)]"/> 
                                         </tree>
                                     </field>
                                 </page>
@@ -123,11 +153,12 @@
                             <field name="publish_on_dashboard"/>
                             <field name="user_role_ids" string="Roles" required="0"/>
                             <field name="require_po_confirmation"/>
-                        </group>
-                        <group>
                             <field name="require_so_confirmation"/>
                             <field name="require_bill_payment"/>
                             <field name="require_waybill_detail"/>
+                        </group>
+                        <group>
+                            
                             <field name="is_approved_stage" default="0"/> 
                             <field name="memo_has_condition"/>
                             <field name="yes_condition" invisible="memo_has_condition == True"/>

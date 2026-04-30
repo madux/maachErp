@@ -1,6 +1,6 @@
   /* ── CSS Variables ── */
   :root{
-  --primary:#1A5C38;--primary-lt:#27AE60;--primary-bg:#E8F5E9;
+  --primary:#6c4863;--primary-lt:#27AE60;--primary-bg:#E8F5E9;
   --accent:#E67E22;--danger:#E74C3C;--warning:#F39C12;--info:#2980B9;
   --text:#1C1C1C;--muted:#6B7280;--border:#E5E7EB;
   --surface:#F8FAFC;--white:#FFFFFF;
@@ -181,7 +181,7 @@ tfoot td{padding:10px 12px;font-weight:700;background:var(--surface);border-top:
 .assess-scale th{padding:8px 10px;font-weight:700;color:#fff;text-align:left}
 .assess-scale td{padding:8px 10px;border:1px solid var(--border);vertical-align:top}
 .assess-scale .col-ord{background:#E74C3C}.assess-scale .col-dil{background:#2980B9}
-.assess-scale .col-fan{background:#27AE60}.assess-scale .col-sup{background:#1A5C38}
+.assess-scale .col-fan{background:#27AE60}.assess-scale .col-sup{background:#6c4863}
 
 /* ── Section nav (scroll anchors) ── */
 .section-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}

@@ -4,7 +4,7 @@
     'version': '1.0.0',
     'author': 'EEDC',
     'category': 'Tools',
-    'depends': ['base', 'portal', 'company_memo', 'ik_multi_branch', 'multi_company'],
+    'depends': ['base', 'portal', 'company_memo', 'ik_multi_branch'], #'multi_company'],
     'data': [
         'security/role_manager_security.xml',
         'security/ir.model.access.csv',

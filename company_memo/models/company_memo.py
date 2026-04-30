@@ -1960,6 +1960,33 @@ class Memo_Model(models.Model):
     #                 )
     #         else:
     #             return False, False
+
+    def get_threshold_stage_id(self, memo_setting_id):
+        next_stage_id = False
+        if memo_setting_id and memo_setting_id.stage_ids:
+            mstages = memo_setting_id.stage_ids.ids
+            request_type_with_threshold = [
+                    'Payment', 'payment', 
+                    'cash_advance', 'procurement_request'
+                ]
+            if self.memo_type_key in request_type_with_threshold:
+                '''check if the memo has threshold, system goes to 
+                the config threshold lines, find the line that ranges 
+                between the total request amount, picks one and sends it
+                to the stage
+                '''
+                # threshold_within_range = memo_setting_id.mapped('threshold_ids').filtered(
+                #     lambda rec: rec.threshold_over_amount >= float(self.request_total_amount) and float(self.request_total_amount) < rec.threshold_under_amount
+                #     )
+                threshold_within_range = memo_setting_id.mapped('threshold_ids').filtered(
+                    lambda rec: rec.threshold_over_amount <= self.request_total_amount <= rec.threshold_under_amount
+                )
+                if threshold_within_range:
+                    '''becareful to ensure that the stage also exist in the settings'''
+                    if threshold_within_range[0].threshold_stage_id.id in mstages: 
+                        next_stage_id = threshold_within_range[0].threshold_stage_id.id
+        return next_stage_id
+
     def get_next_stage_artifact(self, current_stage_id, from_website=False):
         """
         args: from_website: used to decide if the record is
@@ -1984,28 +2011,29 @@ class Memo_Model(models.Model):
         
         if memo_settings and current_stage_id:
             mstages = memo_settings.stage_ids # [3,6,8,9]
+
+            next_stage_id = self.get_threshold_stage_id(memo_settings)
             manager_can_approve = False
             last_stage = mstages[-1] if mstages else False 
-            
-            if last_stage and last_stage.id != current_stage_id.id:
-                if current_stage_id.id in memo_setting_stages.ids:
-                    current_stage_index = memo_setting_stages.ids.index(current_stage_id.id)
-                else:
-                    current_stage_index = 0
+            if not next_stage_id:
+                if last_stage and last_stage.id != current_stage_id.id:
+                    if current_stage_id.id in memo_setting_stages.ids:
+                        current_stage_index = memo_setting_stages.ids.index(current_stage_id.id)
+                    else:
+                        current_stage_index = 0
 
-                # if current_stage_index in [0, 1]: # Check here very well
-                if current_stage_index == 0:
-                    manager_can_approve = True
-                
-                if current_stage_index + 1 < len(memo_setting_stages):
-                    next_stage_id = memo_setting_stages.ids[current_stage_index + 1] 
+                    # if current_stage_index in [0, 1]: # Check here very well
+                    if current_stage_index == 0:
+                        manager_can_approve = True
+                    
+                    if current_stage_index + 1 < len(memo_setting_stages):
+                        next_stage_id = memo_setting_stages.ids[current_stage_index + 1] 
+                    else:
+                        next_stage_id = current_stage_id.id
                 else:
-                    next_stage_id = current_stage_id.id
-            else:
-                next_stage_id = self.stage_id.id
+                    next_stage_id = self.stage_id.id
             
             next_stage_record = self.env['memo.stage'].sudo().browse([next_stage_id])
-            
             if next_stage_record:
                 approver_ids = next_stage_record.approver_ids.ids
                 if manager_can_approve:

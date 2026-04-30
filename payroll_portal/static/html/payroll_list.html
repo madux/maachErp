@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Internal Memo Request - List View</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        
+        <link href="/payroll_portal/static/css/payroll.css" rel="stylesheet" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="/payroll_portal/static/js/payroll.js?v=3"></script>
+
+        <style>
+            /* ── Modal Overlay ── */
+            .payslip-modal-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.55);
+                z-index: 9999;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+            }
+            .payslip-modal-overlay.open { display: flex; }
+
+            /* ── Modal Box ── */
+            .payslip-modal {
+                background: #fff;
+                border-radius: 12px;
+                width: 100%;
+                max-width: 780px;
+                max-height: 92vh;
+                overflow-y: auto;
+                box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+                position: relative;
+                animation: modalIn .18s ease;
+            }
+            @keyframes modalIn {
+                from { opacity: 0; transform: translateY(18px) scale(0.98); }
+                to   { opacity: 1; transform: translateY(0)   scale(1); }
+            }
+
+            /* ── Modal Header ── */
+            .modal-header-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.1rem 1.4rem 0.9rem;
+                border-bottom: 1px solid #eee;
+                position: sticky;
+                top: 0;
+                background: #fff;
+                z-index: 10;
+                border-radius: 12px 12px 0 0;
+            }
+            .modal-header-bar h5 {
+                margin: 0;
+                font-size: 15px;
+                font-weight: 600;
+                color: #1a1a2e;
+                letter-spacing: .01em;
+            }
+            .modal-header-actions { display: flex; gap: 8px; align-items: center; }
+            .btn-modal-print {
+                background: #1a73e8;
+                color: #fff;
+                border: none;
+                padding: 6px 14px;
+                border-radius: 6px;
+                font-size: 13px;
+                cursor: pointer;
+                display: flex; align-items: center; gap: 6px;
+                transition: background .15s;
+            }
+            .btn-modal-print:hover { background: #1557b0; }
+            .btn-modal-close {
+                background: none;
+                border: none;
+                font-size: 20px;
+                color: #888;
+                cursor: pointer;
+                line-height: 1;
+                padding: 4px 8px;
+                border-radius: 6px;
+                transition: background .15s, color .15s;
+            }
+            .btn-modal-close:hover { background: #f5f5f5; color: #333; }
+
+            /* ── Payslip Body ── */
+            .payslip-body {
+                padding: 1.5rem 1.8rem;
+            }
+
+            /* Company Header */
+            .ps-company-header {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                margin-bottom: 1.4rem;
+                padding-bottom: 1.2rem;
+                border-bottom: 2px solid #1a73e8;
+            }
+            .ps-company-logo {
+                width: 60px;
+                height: 60px;
+                object-fit: contain;
+                border-radius: 8px;
+                border: 1px solid #e8e8e8;
+            }
+            .ps-company-logo-placeholder {
+                width: 60px; height: 60px;
+                background: #1a73e8;
+                border-radius: 8px;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 22px; font-weight: 700; color: #fff;
+                flex-shrink: 0;
+            }
+            .ps-company-info h3 {
+                margin: 0 0 2px;
+                font-size: 18px;
+                font-weight: 700;
+                color: #1a1a2e;
+            }
+            .ps-company-info p {
+                margin: 0;
+                font-size: 12px;
+                color: #888;
+            }
+            .ps-title-badge {
+                margin-left: auto;
+                text-align: right;
+            }
+            .ps-title-badge .ps-doc-title {
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                color: #1a73e8;
+            }
+            .ps-title-badge .ps-number {
+                font-size: 12px;
+                color: #888;
+                margin-top: 2px;
+            }
+
+            /* Info Sections */
+            .ps-section-label {
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+                color: #1a73e8;
+                margin: 1.2rem 0 .6rem;
+                padding-bottom: 4px;
+                border-bottom: 1px solid #e8f0fb;
+            }
+            .ps-info-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px 24px;
+            }
+            .ps-info-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                font-size: 13px;
+                padding: 4px 0;
+                border-bottom: 1px dashed #f0f0f0;
+            }
+            .ps-info-label { color: #888; white-space: nowrap; flex-shrink: 0; margin-right: 8px; }
+            .ps-info-value { font-weight: 500; color: #1a1a2e; text-align: right; }
+
+            /* Financials */
+            .ps-financials {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                margin-top: .8rem;
+            }
+            .ps-fin-card {
+                background: #f7f9fc;
+                border-radius: 8px;
+                padding: 12px 14px;
+                border: 1px solid #e8eef7;
+            }
+            .ps-fin-card .fin-label {
+                font-size: 11px;
+                color: #888;
+                text-transform: uppercase;
+                letter-spacing: .07em;
+                margin-bottom: 4px;
+            }
+            .ps-fin-card .fin-amount {
+                font-size: 18px;
+                font-weight: 700;
+                color: #1a1a2e;
+            }
+            .ps-fin-card.highlight { background: #e8f0fb; border-color: #b0ccf0; }
+            .ps-fin-card.highlight .fin-amount { color: #1a73e8; }
+            .ps-fin-card.danger { background: #fef3f2; border-color: #f5c2be; }
+            .ps-fin-card.danger .fin-label { color: #c0392b; }
+            .ps-fin-card.danger .fin-amount { color: #c0392b; }
+
+            /* State Badge */
+            .ps-state-chip {
+                display: inline-block;
+                padding: 3px 10px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: .06em;
+            }
+
+            /* Modal Footer */
+            .modal-footer-bar {
+                padding: .9rem 1.8rem;
+                border-top: 1px solid #eee;
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+            }
+
+            /* ── Print Styles ── */
+            @media print {
+                body * { visibility: hidden !important; }
+                .print-area, .print-area * { visibility: visible !important; }
+                .print-area {
+                    position: fixed !important;
+                    inset: 0 !important;
+                    background: #fff !important;
+                    padding: 24px 32px !important;
+                    font-family: 'Segoe UI', Arial, sans-serif !important;
+                    z-index: 99999 !important;
+                }
+                .no-print { display: none !important; }
+                .print-page-break { page-break-before: always; }
+            }
+
+            /* ── Bulk Print Sheet ── */
+            .print-area {
+                display: none;
+            }
+            .print-payslip {
+                page-break-after: always;
+                padding: 28px 36px;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                font-size: 13px;
+                color: #1a1a2e;
+                max-width: 760px;
+                margin: 0 auto;
+            }
+            .print-payslip:last-child { page-break-after: avoid; }
+            .print-header {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                border-bottom: 2.5px solid #1a73e8;
+                padding-bottom: 14px;
+                margin-bottom: 18px;
+            }
+            .print-logo {
+                width: 56px; height: 56px;
+                object-fit: contain;
+            }
+            .print-logo-placeholder {
+                width: 56px; height: 56px;
+                background: #1a73e8;
+                border-radius: 8px;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 20px; font-weight: 700; color: #fff;
+            }
+            .print-company h2 { margin: 0 0 3px; font-size: 17px; font-weight: 700; }
+            .print-company p  { margin: 0; font-size: 11px; color: #666; }
+            .print-doc-title  { margin-left: auto; text-align: right; }
+            .print-doc-title .title { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #1a73e8; }
+            .print-doc-title .num   { font-size: 11px; color: #888; }
+            .print-section-label {
+                font-size: 10px; font-weight: 700; letter-spacing: .12em;
+                text-transform: uppercase; color: #1a73e8;
+                margin: 14px 0 6px;
+                padding-bottom: 3px;
+                border-bottom: 1px solid #dde7f9;
+            }
+            .print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+            .print-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; border-bottom: 1px dashed #eee; }
+            .print-row .lbl { color: #888; }
+            .print-row .val { font-weight: 600; }
+            .print-fin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+            .print-fin-box { background: #f7f9fc; border: 1px solid #e0eaf7; border-radius: 6px; padding: 10px 12px; }
+            .print-fin-box.hi { background: #e8f0fb; border-color: #b0ccf0; }
+            .print-fin-box .lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .06em; }
+            .print-fin-box .amt { font-size: 16px; font-weight: 700; margin-top: 2px; }
+            .print-fin-box.hi .amt { color: #1a73e8; }
+            .print-footer { margin-top: 22px; border-top: 1px solid #ddd; padding-top: 10px; font-size: 10px; color: #aaa; text-align: center; }
+
+            /* Loading state in modal */
+            .modal-loading {
+                display: flex; align-items: center; justify-content: center;
+                min-height: 220px; color: #888; gap: 10px;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin" style="font-size: 36px; color: #5c94ef;"></i>
+                <p style="margin-top: 15px;">Loading memos...</p>
+            </div>
+        </div>
+
+        <!-- ── PAYSLIP DETAIL MODAL ── -->
+        <div class="payslip-modal-overlay" id="payslipModal">
+            <div class="payslip-modal">
+                <div class="modal-header-bar">
+                    <h5 id="modalTitle">Payslip Details</h5>
+                    <div class="modal-header-actions">
+                        <button class="btn-modal-print no-print" onclick="printCurrentPayslip()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button class="btn-modal-close no-print" onclick="closeModal()">&#x2715;</button>
+                    </div>
+                </div>
+                <div class="payslip-body" id="payslipModalBody">
+                    <div class="modal-loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading payslip…
+                    </div>
+                </div>
+                <div class="modal-footer-bar no-print">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── HIDDEN PRINT AREA (bulk print) ── -->
+        <div class="print-area" id="printArea"></div>
+
+        <div class="main-container">
+            <!-- Top Navigation -->
+            <div class="top-nav">
+                <div class="logo">
+                    <i class="fas fa-flag"></i>
+                    <a href="/" target='_blank'>
+                        <img class="img-border img-responsive thumbnail" src="payroll_portal/static/img/payroll.png">
+                    </a>
+                </div>
+                <div class="nav-menu">
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-item active">ORP</a>
+                        <div class="dropdown-menu-custom">
+                            <a href="#" class="dropdown-item-custom">All Payslips</a>
+                            <a href="#" class="dropdown-item-custom">My Payslips</a>
+                        </div>
+                    </div>
+                    <a href="/portal-request" class="nav-item">Request(s)</a>
+                    <a href="#" class="nav-item">Setup</a>
+                    <a href="#" class="nav-item">Configuration</a>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fas fa-list"></i> All Records
+                </button>
+                <button class="filter-tab" data-filter="my_approvals">
+                    <i class="fas fa-user-check"></i> My Records
+                </button>
+                <button class="filter-tab" data-filter="to_approve">
+                    <i class="fas fa-clock"></i> Completed
+                </button>
+                <button class="filter-tab" data-filter="to_submit">
+                    <i class="fas fa-paper-plane"></i> Not paid
+                </button>
+            </div>
+
+            <!-- List Header -->
+            <div class="list-header">
+                <div class="header-left">
+                    <button class="btn-new">
+                        <i class="fas fa-plus"></i> New
+                    </button>
+                    <span class="list-title">Action</span>
+                    <div class="nav-menu">
+                        <div class="nav-dropdown">
+                            <i class="fa-solid fa-cog"></i>
+                            <div class="dropdown-menu-custom">
+                                <a href="#" class="dropdown-item-custom">Delete</a>
+                                <a href="#" class="dropdown-item-custom">Archive</a>
+                                <a href="#" class="dropdown-item-custom">Export</a>
+                                <a href="#" class="dropdown-item-custom" onclick="printSelected(); return false;">Print Selected</a>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                   
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search by title, code, or initiator...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="btn-page" onclick="refreshList()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <span class="pagination-info" id="paginationInfo">0-0 / 0</span>
+                    <div class="pagination-controls">
+                        <button class="btn-page" id="btnPrevPage" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn-page" id="btnNextPage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell">
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                            <th>Number</th>
+                            <th>Employee</th>
+                            <th>Structure</th>
+                            <th>Date From</th>
+                            <th>Date To</th>
+                            <th>Normal Wage</th>
+                            <th>Deductions</th>
+                            <th>Basic</th>
+                            <th>Net Wage</th>
+                            <th>Gross</th>
+                            <th>State</th>
+                            <th><i class="fas fa-ellipsis-v"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="memoTableBody">
+                        <!-- Records will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

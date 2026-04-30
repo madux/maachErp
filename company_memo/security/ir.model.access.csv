@@ -47,3 +47,4 @@ access_admin_res_group_role_id,access_admin_res_group_role,company_memo.model_re
 access_memo_action_history_id,access_memo_action_history_role,company_memo.model_memo_action_history,base.group_user,1,1,1,1
 access_memo_stage_route_admin,memo.stage.route.admin,model_memo_stage_route,base.group_system,1,1,1,1
 access_memo_stage_route_user,memo.stage.route.user,model_memo_stage_route,base.group_user,1,0,0,0
+access_memo_threshold_user,memo.threshold.user,model_memo_threshold,base.group_user,1,1,1,1

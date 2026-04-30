@@ -12,6 +12,7 @@
         'data/booking_sequence.xml',
         'data/booking_cron.xml',
         'data/mail_template.xml',
+        'data/ir_config_parameter.xml',
         'views/booking_category_views.xml',
         'views/booking_views.xml',
         'views/booking_branch_views.xml',

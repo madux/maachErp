@@ -25,7 +25,7 @@ def _authenticate_api_key(func):
     """Decorator: validate X-API-Key header against res.users api_key or use HTTP Basic."""
     def wrapper(self, *args, **kwargs):
         # Support HTTP Basic Auth (username:password) OR X-API-Key header
-        api_key = request.httprequest.headers.get('X-API-Key')
+        api_key = request.httprequest.headers.get('token')
         auth_header = request.httprequest.headers.get('Authorization', '')
 
         user = None

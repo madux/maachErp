@@ -16,11 +16,12 @@
                     <field name="currency_id" readonly="0" force_save="1" string="Currency"/>
                 </xpath>  -->
                 <xpath expr="//page[last()]" position="after">
-                    <page id="aml_tab_community" string="Account Items" name="aml_tab_community">
+                    <page id="aml_tab_community_com" string="Account Items" name="aml_tab_community_com">
                         <field name="line_ids" mode="tree,kanban" context="{'default_move_type': context.get('default_move_type'), 'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id}" 
                         invisible="payment_state == 'invoicing_legacy' and move_type != 'entry'">
-                            <tree editable="bottom" string="Journal Items" decoration-muted="display_type in ('line_section', 'line_note')" default_order="sequence, id">
-                                <!-- Displayed fields -->
+                            <tree editable="bottom" string="Journal Items" default_order="sequence, id">
+                                <field name="display_type" invisible="1"/>
+
                                 <field name="account_id" required="display_type not in ('line_section', 'line_note')" domain="[('deprecated', '=', False), ('company_id', '=', parent.company_id)]"/>
                                 <field name="partner_id" optional="show" domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]" column_invisible="parent.move_type != 'entry'"/>
                                 <field name="name" widget="section_and_note_text" optional="show"/>
@@ -35,12 +36,12 @@
                                 <field name="discount" string="Disc.%"/>
                                 <!--<field name="debit" sum="Total Debit" attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))], 'readonly': [('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('display_type', 'in', ('line_section', 'line_note', 'product'))]}"/>-->
                                 <!--<field name="credit" sum="Total Credit" attrs="{'invisible': [('display_type', 'in', ('line_section', 'line_note'))], 'readonly': [('parent.move_type', 'in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('display_type', 'in', ('line_section', 'line_note', 'product'))]}"/>-->
-                                <field name="debit" sum="Total Debit" column_invisible="display_type in ['line_section', 'line_note']" readonly = "parent.state not in ['draft'] and display_type in ('line_section', 'line_note', 'product')"/>
-                                <field name="credit" sum="Total Credit" column_invisible="display_type in ['line_section', 'line_note']" readonly = "parent.state not in ['draft'] and display_type in ('line_section', 'line_note', 'product')"/>
+                                <field name="debit" sum="Total Debit" readonly = "parent.state not in ['draft'] and display_type in ('line_section', 'line_note', 'product')"/>
+                                <field name="credit" sum="Total Credit" readonly = "parent.state not in ['draft'] and display_type in ('line_section', 'line_note', 'product')"/>
                                 
                                 
                                 <field name="price_total" string="Total"/>
-                                <field name="balance" column_invisible="1"/>
+                                <field name="balance" optional="hide"/>
                                 <field name="discount_date" string="Discount Date" optional="hide"/>
                                 <field name="discount_amount_currency" string="Discount Amount" optional="hide"/>
                                 
@@ -50,14 +51,14 @@
                                 <!-- Buttons -->
                                 <button name="action_automatic_entry" type="object" icon="fa-calendar" string="Cut-Off" aria-label="Change Period" class="float-end" invisible="account_internal_group not in ['income', 'expense']" column_invisible="parent.move_type == 'entry' or parent.state != 'posted'" context="{'hide_automatic_options': 1, 'default_action': 'change_period'}"/>
                                 <!-- Others fields -->
-                                <field name="tax_line_id" column_invisible="1"/>
-                                <field name="company_currency_id" column_invisible="1"/>
-                                <field name="display_type" force_save="1" column_invisible="1"/>
-                                <field name="company_id" column_invisible="0" optional="hide"/>
-                                <field name="sequence" column_invisible="1" optional="hide"/>
-                                <field name="id" column_invisible="1"/>
-                                <field name="account_internal_group" column_invisible="1"/>
-                                <field name="account_type" column_invisible="1"/>
+                                <field name="tax_line_id" invisible="0" optional="hide"/>
+                                <field name="company_currency_id" invisible="0" optional="hide"/>
+                                <field name="display_type" force_save="1" invisible="0"/>
+                                <field name="company_id" invisible="0" optional="hide"/>
+                                <field name="sequence" invisible="0" optional="hide"/>
+                                <field name="id" invisible="0" optional="hide"/>
+                                <field name="account_internal_group" invisible="0" optional="hide"/>
+                                <field name="account_type" invisible="0" optional="hide"/>
                             </tree>
                             <!-- Form view to cover mobile use -->
                             <form>

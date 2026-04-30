@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Dashboard</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+        <link href="/portal_request/static/src/css/employee_portal.css" rel="stylesheet" crossorigin="anonymous">
+
+    </head>
+
+    <body>
+
+        <!-- Page loader -->
+        <div class="page-loader" id="pageLoader">
+            <div class="spinner"></div>
+            <span>Loading your dashboard…</span>
+        </div>
+
+        <!-- TOP NAV -->
+        <nav class="top-nav">
+            <div class="logo">
+                <i class="fas fa-flag"></i>
+                <a href="/" target="_blank">
+                    <img src="/portal_request/static/img/link.png" alt="Logo" onerror="this.style.display='none'">
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="/emp-portal" class="active">Dashboard</a>
+                <a href="/payroll-list">Payslips</a>
+                <a href="/my/requests/leave_request">Leaves</a>
+                <a href="/apps">Requests</a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="page-wrap">
+
+            <!-- ── PROFILE HERO ── -->
+            <div class="profile-card" id="profileCard">
+                <div class="avatar-wrap">
+                    <div class="avatar-placeholder" id="avatarPlaceholder">?</div>
+                    <img class="avatar-img" id="avatarImg" src="" alt="" style="display:none"
+                        onload="this.style.display='block'; document.getElementById('avatarPlaceholder').style.display='none';"
+                        onerror="this.style.display='none'; document.getElementById('avatarPlaceholder').style.display='flex';">
+                    <div class="avatar-online"></div>
+                </div>
+
+                <div class="profile-info">
+                    <div class="greeting">Welcome back</div>
+                    <h1 id="empName">—</h1>
+                    <div class="profile-meta">
+                        <div class="meta-chip">
+                            <i class="fas fa-sitemap"></i>
+                            <span id="empDept">—</span>
+                        </div>
+                        <div class="meta-chip">
+                            <i class="fas fa-user-tie"></i>
+                            Manager: <strong id="empManager">—</strong>
+                        </div>
+                        <div class="meta-chip">
+                            <i class="fas fa-briefcase"></i>
+                            <span id="empJob">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-badge">
+                    <div class="staff-id-box">
+                        Staff ID
+                        <div class="id-val" id="empStaffId">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── STATS ── -->
+            <div class="section-label">Overview</div>
+            <div class="stats-grid" id="statsGrid">
+
+                <!-- Requests -->
+                <div class="stat-card sc-blue" id="cardRequests">
+                    <div class="icon-wrap"><i class="fas fa-file-alt"></i></div>
+                    <div>
+                        <div class="stat-num skeleton sk-num" id="numRequests">&nbsp;</div>
+                        <div class="stat-lbl">My Requests</div>
+                    </div>
+                    <div class="stat-sub"><i class="fas fa-arrow-right"></i> Memos &amp; applications</div>
+                </div>
+
+                <!-- Leaves -->
+                <a class="stat-card sc-teal clickable" href="/my/requests/leave_request" id="cardLeaves">
+                    <div class="icon-wrap"><i class="fas fa-umbrella-beach"></i></div>
+                    <div>
+                        <div class="stat-num skeleton sk-num" id="numLeaves">&nbsp;</div>
+                        <div class="stat-lbl">Leaves Taken</div>
+                    </div>
+                    <div class="stat-sub"><i class="fas fa-external-link-alt"></i> View leave history</div>
+                </a>
+
+                <!-- Appraisals -->
+                <div class="stat-card sc-purple" id="cardAppraisals">
+                    <div class="icon-wrap"><i class="fas fa-star"></i></div>
+                    <div>
+                        <div class="stat-num skeleton sk-num" id="numAppraisals">&nbsp;</div>
+                        <div class="stat-lbl">Appraisals</div>
+                    </div>
+                    <div class="stat-sub"><i class="fas fa-chart-line"></i> Performance reviews</div>
+                </div>
+
+                <!-- Payslips -->
+                <a class="stat-card sc-amber clickable" href="/payroll-list" id="cardPayslips">
+                    <div class="icon-wrap"><i class="fas fa-money-check-alt"></i></div>
+                    <div>
+                        <div class="stat-num skeleton sk-num" id="numPayslips">&nbsp;</div>
+                        <div class="stat-lbl">Payslips</div>
+                    </div>
+                    <div class="stat-sub"><i class="fas fa-external-link-alt"></i> View payroll history</div>
+                </a>
+
+                <!-- Projects -->
+                <div class="stat-card sc-rose" id="cardProjects">
+                    <div class="icon-wrap"><i class="fas fa-project-diagram"></i></div>
+                    <div>
+                        <div class="stat-num skeleton sk-num" id="numProjects">&nbsp;</div>
+                        <div class="stat-lbl">Projects</div>
+                    </div>
+                    <div class="stat-sub"><i class="fas fa-tasks"></i> Active &amp; completed</div>
+                </div>
+
+                <!-- Tasks -->
+                <div class="stat-card sc-navy" id="cardTasks">
+                    <div class="icon-wrap"><i class="fas fa-check-square"></i></div>
+                    <div>
+                        <div class="stat-num skeleton sk-num" id="numTasks">&nbsp;</div>
+                        <div class="stat-lbl">Tasks Assigned</div>
+                    </div>
+                    <div class="stat-sub"><i class="fas fa-list-ul"></i> Across all projects</div>
+                </div>
+
+            </div>
+
+            <!-- ── LOWER ROW ── -->
+            <div class="section-label">Details</div>
+            <div class="lower-grid">
+
+                <!-- Quick info -->
+                <div class="info-card">
+                    <h3><i class="fas fa-id-card"></i> Employee Details</h3>
+                    <div class="info-rows">
+                        <div class="info-row">
+                            <span class="lbl">Full Name</span>
+                            <span class="val" id="infoName">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Staff ID</span>
+                            <span class="val" id="infoStaffId">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Department</span>
+                            <span class="val" id="infoDept">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Job Position</span>
+                            <span class="val" id="infoJob">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Manager</span>
+                            <span class="val" id="infoManager">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Work Email</span>
+                            <span class="val" id="infoEmail">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Work Phone</span>
+                            <span class="val" id="infoPhone">—</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="lbl">Company</span>
+                            <span class="val" id="infoCompany">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appraisal donut chart -->
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-pie"></i> Appraisal Scores</h3>
+                    <div class="chart-sub">Overall performance distribution</div>
+
+                    <div class="chart-wrap">
+                        <canvas id="appraisalChart"></canvas>
+                        <div class="chart-center-label">
+                            <span class="big" id="chartAvg">—</span>
+                            <span class="sm">avg score</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-legend" id="chartLegend">
+                        <!-- injected by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="/portal_request/static/src/js/employee_portal.js"></script>
+        
+    </body>
+
+</html>

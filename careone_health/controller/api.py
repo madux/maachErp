@@ -97,10 +97,10 @@ class PharmacyAPIController(http.Controller):
     # ==================== GET ENDPOINTS ====================
     
     @validate_token
-    @http.route('/api/v1/products', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/products', type='http', auth='public', methods=['GET'], csrf=False)
     def get_products(self, **params):
         """
-        GET /api/v1/products
+        GET /api/v1/health/products
         Description: Get all drug products or filter by id/code
         
         Parameters:
@@ -112,9 +112,9 @@ class PharmacyAPIController(http.Controller):
           dosage_form, strength, list_price, uom_id, drug_category_id, etc.
         
         Example:
-        GET /api/v1/products
-        GET /api/v1/products?id=123
-        GET /api/v1/products?code=DRUG001
+        GET /api/v1/health/products
+        GET /api/v1/health/products?id=123
+        GET /api/v1/health/products?code=DRUG001
         """
         try:
             domain = [('is_drugs', '=', True)]
@@ -160,10 +160,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/prescription-lines', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/prescription-lines', type='http', auth='public', methods=['GET'], csrf=False)
     def get_prescription_lines(self, **params):
         """
-        GET /api/v1/prescription-lines
+        GET /api/v1/health/prescription-lines
         Description: Get prescription lines with optional filters
         
         Parameters:
@@ -182,8 +182,8 @@ class PharmacyAPIController(http.Controller):
         - List of prescription lines with all relevant fields
         
         Example:
-        GET /api/v1/prescription-lines?patient_id=45
-        GET /api/v1/prescription-lines?dispensed_date_from=2024-01-01&dispensed_date_to=2024-12-31
+        GET /api/v1/health/prescription-lines?patient_id=45
+        GET /api/v1/health/prescription-lines?dispensed_date_from=2024-01-01&dispensed_date_to=2024-12-31
         """
         try:
             domain = []
@@ -259,10 +259,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/partners', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/partners', type='http', auth='public', methods=['GET'], csrf=False)
     def get_partners(self, **params):
         """
-        GET /api/v1/partners
+        GET /api/v1/health/partners
         Description: Get partners/patients
         
         Parameters:
@@ -274,8 +274,8 @@ class PharmacyAPIController(http.Controller):
           email, street, city, state, country, etc.
         
         Example:
-        GET /api/v1/partners
-        GET /api/v1/partners?patient_no=PAT001
+        GET /api/v1/health/partners
+        GET /api/v1/health/partners?patient_no=PAT001
         """
         try:
             domain = []
@@ -318,10 +318,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/pharmacy-history', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/pharmacy-history', type='http', auth='public', methods=['GET'], csrf=False)
     def get_pharmacy_history(self, **params):
         """
-        GET /api/v1/pharmacy-history
+        GET /api/v1/health/pharmacy-history
         Description: Get pharmacy history records
         
         Parameters:
@@ -333,7 +333,7 @@ class PharmacyAPIController(http.Controller):
         - List of pharmacy history records with patient details
         
         Example:
-        GET /api/v1/pharmacy-history?patient_no=PAT001
+        GET /api/v1/health/pharmacy-history?patient_no=PAT001
         """
         try:
             domain = []
@@ -394,10 +394,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/journals', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/journals', type='http', auth='public', methods=['GET'], csrf=False)
     def get_journals(self, **params):
         """
-        GET /api/v1/journals
+        GET /api/v1/health/journals
         Description: Get account journals
         
         Parameters:
@@ -408,8 +408,8 @@ class PharmacyAPIController(http.Controller):
         - List of journals with id, name, code, type
         
         Example:
-        GET /api/v1/journals
-        GET /api/v1/journals?code=BANK
+        GET /api/v1/health/journals
+        GET /api/v1/health/journals?code=BANK
         """
         try:
             domain = []
@@ -440,10 +440,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/invoices', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/invoices', type='http', auth='public', methods=['GET'], csrf=False)
     def get_invoices(self, **params):
         """
-        GET /api/v1/invoices
+        GET /api/v1/health/invoices
         Description: Get account moves/invoices
         
         Parameters:
@@ -454,7 +454,7 @@ class PharmacyAPIController(http.Controller):
         - List of invoices with details
         
         Example:
-        GET /api/v1/invoices?patient_no=PAT001
+        GET /api/v1/health/invoices?patient_no=PAT001
         """
         try:
             domain = [('move_type', 'in', ['out_invoice', 'out_refund', 'in_invoice', 'in_refund'])]
@@ -519,10 +519,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/sale-orders', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/sale-orders', type='http', auth='public', methods=['GET'], csrf=False)
     def get_sale_orders(self, **params):
         """
-        GET /api/v1/sale-orders
+        GET /api/v1/health/sale-orders
         Description: Get sale orders
         
         Parameters:
@@ -534,8 +534,8 @@ class PharmacyAPIController(http.Controller):
         - List of sale orders with order lines
         
         Example:
-        GET /api/v1/sale-orders?patient_no=PAT001
-        GET /api/v1/sale-orders?so_number=SO001
+        GET /api/v1/health/sale-orders?patient_no=PAT001
+        GET /api/v1/health/sale-orders?so_number=SO001
         """
         try:
             domain = []
@@ -600,10 +600,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/taxes', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/taxes', type='http', auth='public', methods=['GET'], csrf=False)
     def get_taxes(self, **params):
         """
-        GET /api/v1/taxes
+        GET /api/v1/health/taxes
         Description: Get account taxes
         
         Parameters:
@@ -613,8 +613,8 @@ class PharmacyAPIController(http.Controller):
         - List of taxes with id, name, amount
         
         Example:
-        GET /api/v1/taxes
-        GET /api/v1/taxes?company_id=1
+        GET /api/v1/health/taxes
+        GET /api/v1/health/taxes?company_id=1
         """
         try:
             domain = []
@@ -644,17 +644,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/branches', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/branches', type='http', auth='public', methods=['GET'], csrf=False)
     def get_branches(self, **params):
         """
-        GET /api/v1/branches
+        GET /api/v1/health/branches
         Description: Get all branches
         
         Returns:
         - List of branches with id, name, code
         
         Example:
-        GET /api/v1/branches
+        GET /api/v1/health/branches
         """
         try:
             branches = request.env['multi.branch'].sudo().search([])
@@ -673,10 +673,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/pharmacy-stages', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/pharmacy-stages', type='http', auth='public', methods=['GET'], csrf=False)
     def get_pharmacy_stages(self, **params):
         """
-        GET /api/v1/pharmacy-stages
+        GET /api/v1/health/pharmacy-stages
         Description: Get pharmacy stages
         
         Parameters:
@@ -686,7 +686,7 @@ class PharmacyAPIController(http.Controller):
         - List of pharmacy stages
         
         Example:
-        GET /api/v1/pharmacy-stages?branch_id=1
+        GET /api/v1/health/pharmacy-stages?branch_id=1
         """
         try:
             domain = []
@@ -714,10 +714,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/purchase-orders', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/purchase-orders', type='http', auth='public', methods=['GET'], csrf=False)
     def get_purchase_orders(self, **params):
         """
-        GET /api/v1/purchase-orders
+        GET /api/v1/health/purchase-orders
         Description: Get purchase orders
         
         Parameters:
@@ -729,7 +729,7 @@ class PharmacyAPIController(http.Controller):
         - List of purchase orders with order lines
         
         Example:
-        GET /api/v1/purchase-orders?po_number=PO001
+        GET /api/v1/health/purchase-orders?po_number=PO001
         """
         try:
             domain = []
@@ -795,10 +795,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/stock-locations', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/stock-locations', type='http', auth='public', methods=['GET'], csrf=False)
     def get_stock_locations(self, **params):
         """
-        GET /api/v1/stock-locations
+        GET /api/v1/health/stock-locations
         Description: Get stock locations
         
         Parameters:
@@ -808,7 +808,7 @@ class PharmacyAPIController(http.Controller):
         - List of stock locations
         
         Example:
-        GET /api/v1/stock-locations?branch_id=1
+        GET /api/v1/health/stock-locations?branch_id=1
         """
         try:
             domain = []
@@ -838,10 +838,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/stock-moves', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/stock-moves', type='http', auth='public', methods=['GET'], csrf=False)
     def get_stock_moves(self, **params):
         """
-        GET /api/v1/stock-moves
+        GET /api/v1/health/stock-moves
         Description: Get stock moves
         
         Parameters:
@@ -851,7 +851,7 @@ class PharmacyAPIController(http.Controller):
         - List of stock moves with move lines
         
         Example:
-        GET /api/v1/stock-moves?branch_id=1
+        GET /api/v1/health/stock-moves?branch_id=1
         """
         try:
             domain = []
@@ -916,10 +916,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/stock-warehouses', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/stock-warehouses', type='http', auth='public', methods=['GET'], csrf=False)
     def get_stock_warehouses(self, **params):
         """
-        GET /api/v1/stock-warehouses
+        GET /api/v1/health/stock-warehouses
         Description: Get stock warehouses
         
         Parameters:
@@ -929,7 +929,7 @@ class PharmacyAPIController(http.Controller):
         - List of warehouses
         
         Example:
-        GET /api/v1/stock-warehouses?branch_id=1
+        GET /api/v1/health/stock-warehouses?branch_id=1
         """
         try:
             domain = []
@@ -961,10 +961,10 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/stock-quants', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/stock-quants', type='http', auth='public', methods=['GET'], csrf=False)
     def get_stock_quants(self, **params):
         """
-        GET /api/v1/stock-quants
+        GET /api/v1/health/stock-quants
         Description: Get stock quants (inventory levels)
         
         Parameters:
@@ -975,7 +975,7 @@ class PharmacyAPIController(http.Controller):
         - List of stock quants with available quantities
         
         Example:
-        GET /api/v1/stock-quants?product_code=DRUG001
+        GET /api/v1/health/stock-quants?product_code=DRUG001
         """
         try:
             domain = []
@@ -1016,17 +1016,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/allergies', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/allergies', type='http', auth='public', methods=['GET'], csrf=False)
     def get_allergies(self, **params):
         """
-        GET /api/v1/allergies
+        GET /api/v1/health/allergies
         Description: Get all allergies
         
         Returns:
         - List of allergies
         
         Example:
-        GET /api/v1/allergies
+        GET /api/v1/health/allergies
         """
         try:
             allergies = request.env['pharmacy.allergy'].sudo().search([])
@@ -1046,17 +1046,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/chronic-conditions', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/chronic-conditions', type='http', auth='public', methods=['GET'], csrf=False)
     def get_chronic_conditions(self, **params):
         """
-        GET /api/v1/chronic-conditions
+        GET /api/v1/health/chronic-conditions
         Description: Get all chronic conditions
         
         Returns:
         - List of chronic conditions
         
         Example:
-        GET /api/v1/chronic-conditions
+        GET /api/v1/health/chronic-conditions
         """
         try:
             conditions = request.env['pharmacy.chronic.condition'].sudo().search([])
@@ -1076,17 +1076,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/drug-categories', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/drug-categories', type='http', auth='public', methods=['GET'], csrf=False)
     def get_drug_categories(self, **params):
         """
-        GET /api/v1/drug-categories
+        GET /api/v1/health/drug-categories
         Description: Get all drug categories
         
         Returns:
         - List of drug categories
         
         Example:
-        GET /api/v1/drug-categories
+        GET /api/v1/health/drug-categories
         """
         try:
             categories = request.env['pharmacy.drug.category'].sudo().search([])
@@ -1109,17 +1109,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/drug-interactions', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/drug-interactions', type='http', auth='public', methods=['GET'], csrf=False)
     def get_drug_interactions(self, **params):
         """
-        GET /api/v1/drug-interactions
+        GET /api/v1/health/drug-interactions
         Description: Get all drug interactions
         
         Returns:
         - List of drug interactions
         
         Example:
-        GET /api/v1/drug-interactions
+        GET /api/v1/health/drug-interactions
         """
         try:
             interactions = request.env['pharmacy.drug.interaction'].sudo().search([])
@@ -1149,17 +1149,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/stock-batches', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/stock-batches', type='http', auth='public', methods=['GET'], csrf=False)
     def get_stock_batches(self, **params):
         """
-        GET /api/v1/stock-batches
+        GET /api/v1/health/stock-batches
         Description: Get pharmacy stock batches
         
         Returns:
         - List of stock batches
         
         Example:
-        GET /api/v1/stock-batches
+        GET /api/v1/health/stock-batches
         """
         try:
             batches = request.env['pharmacy.stock.batch'].sudo().search([])
@@ -1191,17 +1191,17 @@ class PharmacyAPIController(http.Controller):
             return self._error_response(str(e))
     
     @validate_token
-    @http.route('/api/v1/insurances', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route('/api/v1/health/insurances', type='http', auth='public', methods=['GET'], csrf=False)
     def get_insurances(self, **params):
         """
-        GET /api/v1/insurances
+        GET /api/v1/health/insurances
         Description: Get pharmacy insurances
         
         Returns:
         - List of insurances
         
         Example:
-        GET /api/v1/insurances
+        GET /api/v1/health/insurances
         """
         try:
             insurances = request.env['pharmacy.insurance'].sudo().search([])
@@ -1235,10 +1235,10 @@ class PharmacyAPIController(http.Controller):
     # ==================== POST ENDPOINTS ====================
     
     @validate_token
-    @http.route('/api/v1/partners', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/health/partners', type='json', auth='public', methods=['POST'], csrf=False)
     def create_partner(self, **params):
         """
-        POST /api/v1/partners
+        POST /api/v1/health/partners
         Description: Create a new partner/patient
         
         Request Body (JSON):
@@ -1299,10 +1299,10 @@ class PharmacyAPIController(http.Controller):
             }
     
     @validate_token
-    @http.route('/api/v1/pharmacy-history', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/health/pharmacy-history', type='json', auth='public', methods=['POST'], csrf=False)
     def create_pharmacy_history(self, **params):
         """
-        POST /api/v1/pharmacy-history
+        POST /api/v1/health/pharmacy-history
         Description: Create a new pharmacy history/prescription
         
         Request Body (JSON):
@@ -1379,10 +1379,10 @@ class PharmacyAPIController(http.Controller):
             }
             
     @validate_token  
-    @http.route('/api/v1/sale-orders', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/health/sale-orders', type='json', auth='public', methods=['POST'], csrf=False)
     def create_sale_order(self, **params):
         """
-        POST /api/v1/sale-orders
+        POST /api/v1/health/sale-orders
         Description: Create a new sale order
         
         Request Body (JSON):
@@ -1442,10 +1442,10 @@ class PharmacyAPIController(http.Controller):
             }
     
     @validate_token
-    @http.route('/api/v1/purchase-orders', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/health/purchase-orders', type='json', auth='public', methods=['POST'], csrf=False)
     def create_purchase_order(self, **params):
         """
-        POST /api/v1/purchase-orders
+        POST /api/v1/health/purchase-orders
         Description: Create a new purchase order
         
         Request Body (JSON):
@@ -1505,10 +1505,10 @@ class PharmacyAPIController(http.Controller):
             }
     
     @validate_token
-    @http.route('/api/v1/invoices', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/health/invoices', type='json', auth='public', methods=['POST'], csrf=False)
     def create_invoice(self, **params):
         """
-        POST /api/v1/invoices
+        POST /api/v1/health/invoices
         Description: Create a new invoice
         
         Request Body (JSON):
@@ -1572,10 +1572,10 @@ class PharmacyAPIController(http.Controller):
             }
     
     @validate_token
-    @http.route('/api/v1/stock-moves', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/health/stock-moves', type='json', auth='public', methods=['POST'], csrf=False)
     def create_stock_move(self, **params):
         """
-        POST /api/v1/stock-moves
+        POST /api/v1/health/stock-moves
         Description: Create a new stock move
         
         Request Body (JSON):

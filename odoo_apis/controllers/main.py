@@ -42,7 +42,7 @@ class SalesManController(http.Controller):
         @functools.wraps(func)
         def wrap(self, *args, **kwargs):
             """."""
-            token = request.httprequest.headers.get("token")
+            token = request.httprequest.headers.get("X-API-KEY")
             if not token:
                 return invalid_response(
                     "token_not_found", "please provide token in the request header", 401
@@ -52,14 +52,26 @@ class SalesManController(http.Controller):
                 .sudo()
                 .search([("token", "=", token)], order="id DESC", limit=1)
             )
-            _logger.info(f"ASCCES DATA {access_token_data} AND {token}")
-            if (access_token_data.find_one_or_create_token(user_id=access_token_data.user_id.id) != token):
-                return invalid_response(
-                    "token", "Invalid Token", 401
-                )
+            # doing double validation for licensed users
+            stored_key = request.env['ir.config_parameter'].sudo().get_param(
+                'generated_external_api_key.api_key', ''
+            )
+            # if not stored_key:
+            #     return invalid_response(
+            #         "token", "User token has expired. Update licenses in order to use this", 401
+            #     )
+            _logger.info(f"Access data {access_token_data} AND {token}")
+            if stored_key and stored_key == token:
+                pass 
+            else:
+                if (access_token_data.find_one_or_create_token(user_id=access_token_data.user_id.id) != token):
+                    return invalid_response(
+                        "token", "Invalid Token", 401
+                    )
 
-            request.session.uid = access_token_data.user_id.id
-            request.update_env(user=access_token_data.user_id.id, context=None, su=None)
+                request.session.uid = access_token_data.user_id.id
+                access_token_data.total_used_api_calls = access_token_data.total_used_api_calls + 1 # increases the number of calls done per user
+                request.update_env(user=access_token_data.user_id.id, context=None, su=None)
             return func(self, *args, **kwargs)
         return wrap
     
@@ -93,8 +105,9 @@ class SalesManController(http.Controller):
             '|', ('name', '=', data.get('invoice_number')), 
             ('id', '=', data.get('invoice_id'))], limit=1)
         _logger.info(f"INVOICES => {inv}")
-        
-    @http.route('/api/v1/inv', type='json', auth='none', methods=['POST', 'GET'], csrf=False, website=True)
+
+    @validate_token 
+    @http.route('/api/v1/invoice-validation', type='http', auth='none', methods=['POST', 'GET'], csrf=False, website=True)
     def validate_invoice_api(self, **kwargs):
         
         '''url = "http://localhost:8069/api/v1/invoice-validation"
@@ -113,57 +126,69 @@ class SalesManController(http.Controller):
         invoice_number = data.get('invoice_number')
         invoice_id = int(data.get('invoice_id')) if data.get('invoice_id') else False
         journal_id = int(data.get('journal_id')) if data.get('journal_id') else False
+
         is_register_payment = data.get('is_register_payment')
         if not invoice_number or not invoice_id: 
-            json.dumps({
+            return json.dumps({
                     'success': False, 
                     'data': {},
                     'message': 'Please provide invoice id or invoice number'
                 })
-        journalid = None
+        
+        journal = None 
+        if journal_id:
+            journal = request.env['account.journal'].sudo().search([('id', '=', int(journal_id))], limit=1)
+        if not journal:
+            journal = request.env.ref('odoo_apis.api_ng_bank_journal').sudo() if request.env.ref('odoo_apis.api_ng_bank_journal', raise_if_not_found=False) else request.env['account.journal'].sudo().search(
+                [('type', 'in', ['bank', 'cash'])],
+                limit=1
+            )
+            # journal = request.env.sudo().ref('odoo_apis.api_ng_bank_journal') or request.env['account.journal'].sudo().search([('type', 'in', ['bank', 'cash'])], limit=1)
+
         if is_register_payment:
-            if not journal_id:
-                json.dumps({
+            if not any([journal_id, journal]):
+                return json.dumps({
                     'success': False, 
                     'data': {},
                     'message': 'Please add a valid journal id'
                 })
-            journal = request.env['account.journal'].sudo().search([('id', '=', int(journal_id))], limit=1)
             if not journal:
-                json.dumps({
+                return json.dumps({
                     'success': False, 
                     'data': {},
                     'message': 'No journal found'
                 })
-            journalid = journal.id
         inv = request.env['account.move'].sudo().search([
             '|', ('name', '=', invoice_number), 
             ('id', '=', invoice_id)], limit=1)
         _logger.info(f"Data INVOICE is {inv}")
         
         if inv:
+            if not inv.partner_id: 
+                return json.dumps({
+                        'success': False, 
+                        'data': {},
+                        'message': 'The invoice does not have a partner assigned'
+                    })
+            lines = inv.invoice_line_ids or inv.line_ids
+            if not lines: 
+                return json.dumps({
+                        'success': False, 
+                        'data': {},
+                        'message': 'The invoice line has not been added'
+                    })
             if inv.state == "draft":
-                _logger.info(f"bolo {inv}")
-                
-                # inv.action_post()
+                _logger.info(f"status is currently in draft {inv.state}")
                 inv.action_post()
-                # inv.message_post(body='Invoice Generated from api',
-                #               message_type='comment',
-                #               subtype_xmlid='mail.mt_note',
-                #               author_id=request.env.user.partner_id.id)
-        
             payment = None
-            # journalid = request.env['account.journal'].sudo().browse([8])
             # _logger.info(f"Data JOURNAL INV TO VALIDATE is {journalid}")
-            # if is_register_payment:
-            
-                # payment = self.validate_invoice_and_post_journal(journalid, inv)
-                
+            if is_register_payment:
+                payment = self.validate_invoice_and_post_journal(journal, inv)
             # else:
             return json.dumps({
-            'success': True, 
-            'message': 'Successfully generated',
-            'data': {'invoice_id': inv.id, 'invoice_number': inv.name}
+                'success': True,
+                'message': 'Successfully generated',
+                'data': {'invoice_id': inv.id, 'invoice_number': inv.name, 'payment': payment.id if payment else None}
             })
         else:
             return json.dumps({
@@ -927,17 +952,17 @@ class SalesManController(http.Controller):
         payment_vals = {
             'date': fields.Date.today(),
             'amount': inv.amount_total,
-            'payment_type': 'inbound',
+            'payment_type': 'outbound' if inv.move_type == 'in_invoice' else 'inbound',
             'company_id': inv.company_id.id,
-            # 'is_internal_transfer': True,
-            'partner_type': 'customer',
+            'partner_type': 'supplier' if inv.move_type == 'in_invoice' else 'customer',
             'ref': inv.name,
             # 'move_id': inv.id,
-            # 'journal_id': 8, #inv.payment_journal_id.id,
+            'journal_id': journal_id.id, #journal_id8, #inv.payment_journal_id.id,
             'currency_id': inv.currency_id.id,
             'partner_id': inv.partner_id.id,
+            # 'invoice_line_ids': [(4, inv.id)],
             # 'destination_account_id': inv.line_ids[1].account_id.id,
-            'payment_method_line_id': payment_method, #payment_method_line_id.id if payment_method_line_id else payment_method,
+            'payment_method_line_id': payment_method, 
         }
         _logger.info(f"VALIDATE xxx is {payment_vals}")
         
@@ -953,13 +978,594 @@ class SalesManController(http.Controller):
             'skip_account_move_synchronization':True,
             'check_move_validity':False,
         }
-        # payments = request.env['account.payment'].sudo().with_context(**skip_context).create(payment_vals)
+        payments = request.env['account.payment'].sudo().with_context(**skip_context).create(payment_vals)
         # # payments = request.env['account.payment'].create(payment_vals)
         # # payments._synchronize_from_moves(False)
         
-        # payments.action_post()
-        # return payments
-       
+        payments.action_post()
+        inv.payment_ids = [(4, payments.id)]
+        return payments
+
+    @validate_token    
+    @http.route('/api/v1/get-account', type='http', auth='none', methods=['GET'], csrf=False, website=True)
+    def get_account(self, **kwargs):
+        '''
+        {
+            'company_id': 1, // null or false or ''
+        }
+        if product id, returns the specific product by id else returns all products
+        '''
+        try:
+            data = json.loads(request.httprequest.data) # kwargs
+            keys = {
+                        'id':  lambda rec: rec.id, 
+                        'name':  lambda rec: rec.name, 
+                        'code':  lambda rec: rec.code, 
+                        'account_type': lambda rec: rec.account_type,
+                    }
+            return self.get_data_artifacts(data, 'account.account', keys=keys)
+            
+        except Exception as e:
+            return json.dumps({
+                    'success': False, 
+                    'message': str(e)})
+
+    @validate_token    
+    @http.route('/api/v1/get-journal', type='http', auth='none', methods=['GET'], csrf=False, website=True)
+    def get_journal(self, **kwargs):
+        '''
+        {
+            'company_id': 1, // null or false or ''
+            'id': 1, // null or false or ''
+        }
+        if product id, returns the specific product by id else returns all products
+        '''
+        try:
+            data = json.loads(request.httprequest.data) # kwargs
+            keys = {
+                        'id': lambda rec: rec.id, 
+                        'name': lambda rec: rec.name, 
+                        'code': lambda rec:rec.code, 
+                        'currency_id': lambda rec:rec.currency_id.id,
+                        'currency_name': lambda rec: rec.currency_id.name,
+                        'journal_type': lambda rec: rec.type,
+                    }
+            return self.get_data_artifacts(data, 'account.journal', keys=keys)
+        
+        except Exception as e:
+            return json.dumps({
+                    'success': False, 
+                    'message': str(e)})
+
+    def get_data_artifacts(self, data, model, domain=None, keys=None):
+
+        domain = domain or []
+        keys = keys or {'id': False}
+
+        if 'company_id' in data:
+            if not isinstance(data.get('company_id'), int):
+                return json.dumps({
+                    'success': False,
+                    'message': 'Company must be integer'
+                })
+            domain.append(('company_id', '=', data.get('company_id')))
+        if 'id' in data:
+            record_id = data.get('id')
+
+            # validate type only if value is provided
+            if record_id not in [None, False, ''] and not isinstance(record_id, int):
+                return json.dumps({
+                    'success': False,
+                    'message': 'ID Provided must be integer'
+                })
+
+            # apply filter ONLY when id is actually set
+            if record_id not in [None, False, '']:
+                domain.append(('id', '=', record_id))
+        _logger.info("weting be domain", domain)
+        _logger.info("weting be data", data)
+
+        obj = request.env[model].sudo().search(domain)
+
+        if obj:
+            result = []
+            for rec in obj:
+                record_data = {}
+                for key, func in keys.items():
+                    try:
+                        record_data[key] = func(rec)
+                    except Exception:
+                        record_data[key] = False
+                result.append(record_data)
+
+            return json.dumps({
+                'success': True,
+                'data': result
+            })
+        else:
+            return json.dumps({
+                'success': False,
+                'message': 'No Record found'
+            })
+                
+    @validate_token
+    @http.route('/api/v1/get-company', type='http', auth='none', methods=['GET'], csrf=False, website=True)
+    def get_company(self, **kwargs):
+        """params {
+                    'id': 1
+                }
+        """
+        try:
+            data = json.loads(request.httprequest.data)
+
+            keys = {
+                'id': lambda rec: rec.id,
+                'name': lambda rec: rec.name,
+            }
+
+            return self.get_data_artifacts(data, 'res.company', keys=keys)
+
+        except Exception as e:
+            return json.dumps({
+                'success': False,
+                'message': str(e)
+            })
+
+    # ROUTES
+
+    @validate_token
+    @http.route('/api/v1/stock-moves', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_stock_moves(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'product_id': lambda r: r.product_id.id,
+            'quantity': lambda r: r.product_uom_qty,
+            'state': lambda r: r.state,
+        }
+        return self.get_data_artifacts(data, 'stock.move', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/stock-location', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_stock_location(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'usage': lambda r: r.usage,
+        }
+        return self.get_data_artifacts(data, 'stock.location', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/account-tax', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_account_tax(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'amount': lambda r: r.amount,
+            'type': lambda r: r.amount_type,
+        }
+        return self.get_data_artifacts(data, 'account.tax', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/payment-term', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_payment_term(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+        }
+        return self.get_data_artifacts(data, 'account.payment.term', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/partner', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_partner(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'email': lambda r: r.email,
+            'phone': lambda r: r.phone,
+            'address': lambda r: r.street,
+            'city': lambda r: r.city,
+            'country_id': lambda r: r.country_id.id,
+            'country_name': lambda r: r.country_id.name,
+            'salesperson_id': lambda r: r.user_id.id,
+            'salesperson_name': lambda r: r.user_id.name,
+        }
+        return self.get_data_artifacts(data, 'res.partner', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/payment', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_payment(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'amount': lambda r: r.amount,
+            'partner_id': lambda r: r.partner_id.id,
+            'state': lambda r: r.state,
+        }
+        return self.get_data_artifacts(data, 'account.payment', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/sale-order', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_sale_order(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'partner_id': lambda r: r.partner_id.id,
+            'amount_total': lambda r: r.amount_total,
+            'state': lambda r: r.state,
+        }
+        return self.get_data_artifacts(data, 'sale.order', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/purchase-order', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_purchase_order(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'partner_id': lambda r: r.partner_id.id,
+            'amount_total': lambda r: r.amount_total,
+            'state': lambda r: r.state,
+        }
+        return self.get_data_artifacts(data, 'purchase.order', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/product', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_product(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'default_code': lambda r: r.default_code,
+            'list_price': lambda r: r.lst_price,
+        }
+        return self.get_data_artifacts(data, 'product.product', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/warehouse', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_warehouse(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'code': lambda r: r.code,
+        }
+        return self.get_data_artifacts(data, 'stock.warehouse', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/uom', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_uom(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'category': lambda r: r.category_id.name,
+        }
+        return self.get_data_artifacts(data, 'uom.uom', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/stock-picking', type='http', auth='none', methods=['GET'], csrf=False)
+    def get_stock_picking(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        keys = {
+            'id': lambda r: r.id,
+            'name': lambda r: r.name,
+            'state': lambda r: r.state,
+            'partner_id': lambda r: r.partner_id.id,
+        }
+        return self.get_data_artifacts(data, 'stock.picking', keys=keys)
+
+
+    @validate_token
+    @http.route('/api/v1/product/availability', type='http', auth='none', methods=['GET'], csrf=False)
+    def product_availability(self, **kwargs):
+        '''
+        {
+            "product_id": 10
+        }
+        '''
+        data = json.loads(request.httprequest.data)
+        product_id = data.get('product_id')
+        if not product_id:
+            return json.dumps({
+                'success': False,
+                'message': 'product_id is required'
+            })
+        productid = request.env['product.product'].sudo().browse([int(product_id)])
+        if not productid:
+            return json.dumps({
+                'success': False,
+                'message': 'product_id not found on the system'
+            })
+
+        quants = request.env['stock.quant'].sudo().search([
+            ('product_id', '=', productid.id)
+        ])
+
+        qty = sum(quants.mapped('quantity'))
+
+        return json.dumps({
+            'success': True,
+            'data': {
+                'product_id': product_id,
+                'available_qty': qty
+            }
+        })
+    # ================================creating partner records ==========================================
+    @validate_token
+    @http.route('/api/v1/partner/create', type='http', auth='none', methods=['POST'], csrf=False)
+    def create_contact(self, **kwargs):
+        '''{
+        "name": "John Doe",
+        "email": "john.doe@email.com",
+        "phone": "08012345678",
+        "company_type": "person"
+        }'''
+        data = json.loads(request.httprequest.data)
+
+        try:
+            partner = request.env['res.partner'].sudo().create({
+                'name': data.get('name'),
+                'email': data.get('email'),
+                'phone': data.get('phone'),
+                'company_type': data.get('company_type', 'person'),
+            })
+
+            return json.dumps({
+                'success': True,
+                'data': {
+                    'id': partner.id,
+                    'name': partner.name
+                }
+            })
+
+        except Exception as e:
+            return json.dumps({
+                'success': False,
+                'message': str(e)
+            })
+
+    # =====================product create ===============================
+    @validate_token
+    @http.route('/api/v1/product/create', type='http', auth='none', methods=['POST'], csrf=False)
+    def create_product(self, **kwargs):
+        '''{
+        "name": "Wireless Mouse",
+        "default_code": "WM-001",
+        "list_price": 5000,
+        "type": "product"
+        }'''
+        data = json.loads(request.httprequest.data)
+
+        try:
+            product = request.env['product.product'].sudo().create({
+                'name': data.get('name'),
+                'default_code': data.get('default_code'),
+                'list_price': data.get('list_price', 0.0),
+                'type': data.get('type', 'product'),
+            })
+
+            return json.dumps({
+                'success': True,
+                'data': {
+                    'id': product.id,
+                    'name': product.name
+                }
+            })
+
+        except Exception as e:
+            return json.dumps({
+                'success': False,
+                'message': str(e)
+            })
+
+    # =====================procurement create ===============================
+    @validate_token
+    @http.route('/api/v1/picking/create', type='http', auth='none', methods=['POST'], csrf=False)
+    def create_procurement(self, **kwargs):
+        '''{
+        "partner_id": 3,
+        "picking_type_id": 1,
+        "location_id": 12,
+        "location_dest_id": 5,
+        "lines": [
+            {
+            "name": "PROC-LINE-001",
+            "product_id": 10,
+            "qty": 5,
+            "uom_id": 1
+            },
+            {
+            "name": "PROC-LINE-002",
+            "product_id": 12,
+            "qty": 2,
+            "uom_id": 1
+            }
+        ]
+        }'''
+        data = json.loads(request.httprequest.data)
+
+        try:
+            picking = request.env['stock.picking'].sudo().create({
+                'partner_id': data.get('partner_id'),
+                'picking_type_id': data.get('picking_type_id'),
+                'location_id': data.get('location_id'),
+                'location_dest_id': data.get('location_dest_id'),
+            })
+
+            lines = data.get('lines', [])
+            for line in lines:
+                request.env['stock.move'].sudo().create({
+                    'name': line.get('name', 'PROC'),
+                    'product_id': line.get('product_id'),
+                    'product_uom_qty': line.get('qty'),
+                    'product_uom': line.get('uom_id'),
+                    'picking_id': picking.id,
+                    'location_id': data.get('location_id'),
+                    'location_dest_id': data.get('location_dest_id'),
+                })
+
+            return json.dumps({
+                'success': True,
+                'data': {
+                    'id': picking.id,
+                    'name': picking.name
+                }
+            })
+
+        except Exception as e:
+            return json.dumps({
+                'success': False,
+                'message': str(e)
+            })
+            
+    @validate_token
+    @http.route('/api/v1/create-move', type='http', auth='none', methods=['POST'], csrf=False)
+    def create_move(self, **kwargs):
+        '''
+            action_type: "cancel", or "post"
+        '''
+        """
+            # {
+            #     "jsonrpc": 2.0,
+            #     "params": 
+            {
+                    "ref": "Cash Collection",
+                    "company_id": 1,
+                    "journal_id": "3",
+                    "date": "2026-03-05",
+                    "move_type": "entry",
+                    "action_type": "post",
+                    "transactions": [
+                        {
+                            "description": "Revenue",
+                            "amount": 40000,
+                            "account_code": "43000",
+                            "type": "credit"
+                        },
+                        {
+                            "description": "Cash",
+                            "amount": 40000,
+                            "account_code": "10000",
+                            "type": "debit"
+                        }
+                    ]
+                }
+            
+        """
+        user = request.env.user 
+        _logger.info("DATA SENTTTT")
+        data = json.loads(request.httprequest.data.decode("utf8"))
+
+        _logger.info(kwargs) 
+        return self._generate_account_entry(user, data)
+
+    def _generate_account_entry(self, user, data):
+        env = request.env(user=user)
+
+        # Validate
+        if not data.get('transactions'):
+            return self._error("transactions is required")
+        if data.get('company_id'):
+            company = env['res.company'].sudo().browse(int(data.get('company_id')))
+        else:
+            company = request.env.user.company_id
+        if not company.exists():
+            return self._error("Invalid company_id")
+
+        journal = env['account.journal'].sudo().search([
+            '|',
+            ('id', '=', data.get('journal_id')),
+            ('code', '=', data.get('journal_id'))
+        ], limit=1)
+
+        if not journal:
+            return self._error("Invalid journal")
+
+        move_lines = []
+        total_debit = 0
+        total_credit = 0
+
+        for line in data['transactions']:
+            account = env['account.account'].sudo().search([
+                ('code', '=', line.get('account_code')),
+                ('company_id', '=', company.id)
+            ], limit=1)
+
+            if not account:
+                return self._error(f"Account not found: {line.get('account_code')}")
+
+            amount = float(line.get('amount', 0))
+            typ = line.get('type')
+
+            if typ not in ['debit', 'credit']:
+                return self._error("type must be debit or credit")
+
+            debit = amount if typ == 'debit' else 0
+            credit = amount if typ == 'credit' else 0
+
+            total_debit += debit
+            total_credit += credit
+
+            move_lines.append((0, 0, {
+                'name': line.get('description'),
+                'account_id': account.id,
+                'debit': debit,
+                'credit': credit,
+            }))
+
+        if total_debit != total_credit:
+            return self._error(f"Unbalanced move Debit ={total_debit} Credit={total_credit} must be balanced before posted")
+        try:
+            move = env['account.move'].sudo().create({
+                'ref': data.get('ref'),
+                'date': data.get('date'),
+                'journal_id': journal.id,
+                'company_id': company.id,
+                'move_type': data.get('move_type', 'entry'),
+                'line_ids': move_lines,
+            })
+            if data.get('action_type') == 'post':
+                move.action_post()
+        except Exception as e:
+            _logger.exception("Creation failed")
+            return self._error(str(e))
+        return self._success({
+            "id": move.id,
+            "name": move.name
+        })
+
+    def _success(self, data=None, message="Success"):
+        return json.dumps({
+            "success": True,
+            "data": data or {},
+            "message": message
+        })
+
+
+    def _error(self, message="Error", data=None):
+        return json.dumps({
+            "success": False,
+            "data": data or {},
+            "message": message
+        })
         
     def _update_sales_order(self, data):
         '''Update an existing sales order.'''

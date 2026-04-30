@@ -228,6 +228,16 @@ class subscriptionModel(models.Model):
                         'medical_booking.api_key',
                         api_key
                     )
+                    existing_params = env_new['ir.config_parameter'].sudo().get_param(
+                        'generated_external_api_key.api_key', '')
+                    if existing_params:
+                        existing_params.update({'key': 'generated_external_api_key.api_key', 'value': api_key})
+                        # env_new['ir.config_parameter'].sudo().update({'key': 'external_api_key.api_key', 'value': api_key})
+                    else:
+                        env_new['ir.config_parameter'].sudo().create({
+                            'key': 'generated_external_api_key.api_key',
+                            'value': api_key
+                        })
                     self.x_api_key = api_key
 
                     cr.commit()

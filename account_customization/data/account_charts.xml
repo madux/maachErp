@@ -1,0 +1,155 @@
+<odoo>
+
+    <!-- ===================== -->
+    <!-- ASSETS -->
+    <!-- ===================== -->
+
+    <record id="ng_cash" model="account.account">
+        <field name="name">Cash on Hand</field>
+        <field name="code">1000</field>
+        <field name="account_type">asset_cash</field>
+        <field name="reconcile" eval="True"/>
+        <field name="active">1</field>
+
+    </record>
+
+    <record id="ng_bank" model="account.account">
+        <field name="name">Bank Account</field>
+        <field name="code">1010</field>
+        <field name="account_type">asset_cash</field>
+        <field name="reconcile" eval="True"/>
+        <field name="active">1</field>
+
+    </record>
+
+    <record id="ng_receivable" model="account.account">
+        <field name="name">Accounts Receivable</field>
+        <field name="code">1100</field>
+        <field name="account_type">asset_receivable</field>
+        <field name="reconcile" eval="True"/>
+        <field name="active">1</field>
+
+    </record>
+
+    <record id="ng_inventory" model="account.account">
+        <field name="name">Inventory</field>
+        <field name="code">1200</field>
+        <field name="active">1</field>
+
+        <field name="account_type">asset_current</field>
+    </record>
+
+    <record id="ng_fixed_assets" model="account.account">
+        <field name="name">Property, Plant &amp; Equipment</field>
+        <field name="code">1500</field>
+        <field name="active">1</field>
+
+        <field name="account_type">asset_non_current</field>
+    </record>
+
+    <!-- ===================== -->
+    <!-- LIABILITIES -->
+    <!-- ===================== -->
+
+    <record id="ng_payable" model="account.account">
+        <field name="name">Accounts Payable</field>
+        <field name="code">2000</field>
+        <field name="account_type">liability_payable</field>
+        <field name="reconcile" eval="True"/>
+        <field name="active">1</field>
+
+    </record>
+
+    <record id="ng_tax_payable" model="account.account">
+        <field name="name">Tax Payable</field>
+        <field name="code">2100</field>
+        <field name="active">1</field>
+
+        <field name="account_type">liability_current</field>
+    </record>
+
+    <record id="ng_loans" model="account.account">
+        <field name="name">Loans</field>
+        <field name="code">2200</field>
+        <field name="active">1</field>
+        <field name="account_type">liability_non_current</field>
+    </record>
+
+    <!-- ===================== -->
+    <!-- EQUITY -->
+    <!-- ===================== -->
+
+    <record id="ng_capital" model="account.account">
+        <field name="name">Share Capital</field>
+        <field name="code">3000</field>
+        <field name="active">1</field>
+        <field name="account_type">equity</field>
+    </record>
+
+    <record id="ng_retained_earnings" model="account.account">
+        <field name="name">Retained Earnings</field>
+        <field name="code">3100</field>
+        <field name="active">1</field>
+        <field name="account_type">equity</field>
+    </record>
+
+    <!-- ===================== -->
+    <!-- INCOME -->
+    <!-- ===================== -->
+
+    <record id="ng_sales" model="account.account">
+        <field name="name">Sales Revenue</field>
+        <field name="code">4000</field>
+        <field name="active">1</field>
+        <field name="account_type">income</field>
+    </record>
+
+    <record id="ng_other_income" model="account.account">
+        <field name="name">Other Income</field>
+        <field name="code">4100</field>
+        <field name="active">1</field>
+        <field name="account_type">income_other</field>
+    </record>
+
+    <!-- ===================== -->
+    <!-- EXPENSES -->
+    <!-- ===================== -->
+
+    <record id="ng_cogs" model="account.account">
+        <field name="name">Cost of Goods Sold</field>
+        <field name="code">5000</field>
+        <field name="active">1</field>
+        <field name="account_type">expense_direct_cost</field>
+    </record>
+
+    <record id="ng_salaries" model="account.account">
+        <field name="name">Salaries and Wages</field>
+        <field name="code">5100</field>
+        <field name="active">1</field>
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="ng_rent" model="account.account">
+        <field name="name">Rent Expense</field>
+        <field name="code">5200</field>
+        <field name="active">1</field>
+
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="ng_utilities" model="account.account">
+        <field name="name">Utilities Expense</field>
+        <field name="code">5300</field>
+        <field name="active">1</field>
+        <field name="account_type">expense</field>
+    </record>
+
+    <record id="ng_admin" model="account.account">
+        <field name="name">Administrative Expenses</field>
+        <field name="code">5400</field>
+        <field name="active">1</field>
+        <field name="account_type">expense</field>
+    </record>
+
+</odoo>
+ 

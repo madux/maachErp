@@ -1,0 +1,18 @@
+<odoo>
+
+    <!-- Default Receivable -->
+    
+    <record forcecreate="True" id="prop_receivable_all_partners" model="ir.property">
+        <field name="name">property_account_receivable_id</field>
+        <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_receivable_id')]"/>
+        <field eval="'account.account,'+str(ng_receivable)" name="value"/>
+    </record>
+    <!-- Default Payable -->
+
+    <record forcecreate="True" id="prop_payable_all_partners" model="ir.property">
+        <field name="name">property_account_payable_id</field>
+        <field name="fields_id" search="[('model','=','res.partner'),('name','=','property_account_payable_id')]"/>
+        <field eval="'account.account,'+str(ng_payable)" name="value"/>
+    </record>
+
+</odoo>
