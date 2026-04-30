@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record id="group_hr_document" model="res.groups">
-            <field name="name">HR Document</field>
-            <field name="category_id" ref="base.module_category_sales_sign"/>
-        </record>
-    </data>
-</odoo>

@@ -1,4 +1,0 @@
-# -*- coding: utf-8 -*-
-
-from . import service
-from . import res_users

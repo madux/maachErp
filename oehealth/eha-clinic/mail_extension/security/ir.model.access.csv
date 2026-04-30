@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_healthmate_push_notification,access_healthmate_push_notification_name,model_push_notification,,1,1,1,1

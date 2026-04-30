@@ -1,1 +1,0 @@
-from . import pos_config, pos_order, res_partner

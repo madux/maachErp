@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_message_broker_broker,message_broker.broker,model_message_broker_broker,base.group_user,1,1,1,1
-access_message_broker_message,message_broker.message,model_message_broker_message,base.group_user,1,1,1,1
-access_message_broker_rule,message_broker.rule,model_message_broker_rule,base.group_user,1,1,1,1

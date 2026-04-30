@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_subscription_plan,eha_website.sale_subscription_plan,model_sale_subscription_plan,,1,1,1,1
-access_product_feature,eha_website.product_feature,model_product_feature,,1,1,1,1

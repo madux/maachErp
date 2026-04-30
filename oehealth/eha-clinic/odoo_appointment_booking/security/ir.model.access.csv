@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_eha_booking_services,access_name_eha_booking_services,model_eha_booking_services,,1,1,1,1
-access_eha_booking_appointment_slot,access_name_eha_booking_appointment_slot,model_eha_booking_appointment_slot,,1,1,1,1
-access_time_slot_line_id,access_name_time_slot_line,model_time_slot_line,,1,1,1,1

@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_smart_health_user,access_smart_health_user,model_smart_health_card_provider,eha_smart_health.group_smart_health_user,1,0,0,0
-access_smart_health_manager,access_smart_health_manager,model_smart_health_card_provider,eha_smart_health.group_smart_health_manager,1,1,1,1

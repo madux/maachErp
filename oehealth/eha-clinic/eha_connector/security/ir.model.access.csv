@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_aether_sync_log,eha_connector.aether.cron.sync,model_aether_sync_log,,1,1,0,1
-access_aether_sync_checkpoint,eha_connector.aether.sync.checkpoint,model_aether_sync_checkpoint,,1,1,0,1
-access_ncdc_log,access_ncdc_log user,eha_connector.model_ncdc_log,base.group_user,1,1,1,1
-access_panabios_log,access_panabios_log user,eha_connector.model_panabios_log,base.group_user,1,1,1,1

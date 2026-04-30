@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record id="group_sale_subscription_manager" model="res.groups">
-            <field name="name">Manager</field>
-            <field name="category_id" ref="sale_subscription.module_category_subscription_management"/>
-        </record>
-    </data>
-</odoo>

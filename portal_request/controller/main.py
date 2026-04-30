@@ -2368,7 +2368,7 @@ class PortalRequest(http.Controller):
             configure stage of the memo settings'''
             if memo_id.memo_setting_id.stage_ids:
                 memo_id.stage_id = memo_id.memo_setting_id.stage_ids[0].id
-                memo_id.state = 'submit'
+                meomo_id.state = 'submit'
             else:
                 # memo_id.stage_id = False
                 memo_id.state = 'submit'

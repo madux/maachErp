@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_pos_session_accountant,pos.session accountant,point_of_sale.model_pos_session,pos_extension.group_pos_accountant,1,1,0,0
-access_pos_order_account,pos.order,point_of_sale.model_pos_order,pos_extension.group_pos_accountant,1,1,1,0
-access_pos_orderline_accountant,pos.order.line accountant,point_of_sale.model_pos_order_line,pos_extension.group_pos_accountant,1,1,1,0
-access_pos_config_accountant,pos.config accountant,point_of_sale.model_pos_config,pos_extension.group_pos_accountant,1,0,0,0
-access_account_bank_statement_accountant,account.bank.statement accountant,account.model_account_bank_statement,group_pos_accountant,1,1,1,0
-access_account_bank_statement_line_accountant,account.bank.statement.line accountant,account.model_account_bank_statement_line,group_pos_accountant,1,1,1,1
-
-

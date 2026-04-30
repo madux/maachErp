@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sms_log,access_sms_log user,model_sms_log,base.group_user,1,1,1,1
-access_access_bulk_sms,access_bulk_sms,sms_extension.model_bulk_sms,base.group_user,1,1,1,0

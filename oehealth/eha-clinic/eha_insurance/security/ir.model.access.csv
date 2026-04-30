@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_eha_medical_insurance_id,eha_medical_insurance,model_eha_medical_insurance,,1,1,1,1
-access_eha_medical_insurance_type_id,eha_medical_insurance_type,model_eha_medical_insurance_type,,1,1,1,1
-access_eha_insurance_organisation_id,eha_insurance_organisation,model_eha_insurance_organisation,,1,1,1,1

@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_eha_emr_connector,eha_emr_connector.eha_emr_connector,model_eha_emr_connector,base.group_user,1,1,1,1
-access_eha_emr_connector_error_log,eha_emr_connector.error.log,model_eha_emr_connector_error_log,base.group_user,1,1,1,1
