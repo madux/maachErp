@@ -92,6 +92,7 @@
                                             <field name="memo_config_id" force_save="1" readonly="1" optional="hide" options="{'no_create':True, 'no_open': False}"/>                                            
                                             <field name="threshold_over_amount" string="Amount from" placeholder="1"/>
                                              <field name="threshold_under_amount"  string="Amount to" placeholder="100,000"/>
+                            <field name="allowed_stage_ids" required="0" widget="many2many_tags" optional="hide"/> 
                                             <field name="threshold_stage_id" required="1" domain="[('id', 'in', allowed_stage_ids)]"/> 
                                         </tree>
                                     </field>

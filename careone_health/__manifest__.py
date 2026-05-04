@@ -10,7 +10,7 @@
     'depends': ['base', 'mail', 'product', 'account','account_payment', 'stock', 
                 'purchase', 'sale', 'sale_management', 'ik_multi_branch',
                 'odoo_apis', 
-                'calendar'],#, 'home_menu_overlay'],
+                'calendar', 'home_menu_overlay_module'],
     'author': 'Chris Maduka [MAACH SOFTWARE]',
     'data': [ 
         # 'data/account_view.xml',

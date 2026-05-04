@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Financial Report Portal</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<!-- Module CSS -->
+<link rel="stylesheet" href="/report_portal/static/css/report_portal.css"/>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- report-portal-meta injected by controller here -->
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     TOP NAVIGATION BAR
+════════════════════════════════════════════ -->
+<nav id="topbar">
+  <div class="tb-brand">
+    <div class="tb-brand-icon">F</div>
+    <div>
+      <div class="tb-brand-name">FinanceIQ</div>
+      <div class="tb-brand-sub">Report Portal</div>
+    </div>
+  </div>
+
+  <div class="tb-nav">
+    <div class="tb-nav-item">
+      <div class="tb-nav-link active" data-page="dashboard">
+        <i class="fa-solid fa-gauge-high"></i> Dashboard
+      </div>
+    </div>
+    <div class="tb-nav-item">
+      <div class="tb-nav-link" data-page="general_ledger">
+        <i class="fa-solid fa-book-open"></i> General Ledger
+      </div>
+    </div>
+    <div class="tb-nav-item">
+      <div class="tb-nav-link" data-page="trial_balance">
+        <i class="fa-solid fa-scale-balanced"></i> Trial Balance
+      </div>
+    </div>
+
+    <!-- Financials dropdown -->
+    <div class="tb-nav-item" id="nav-financials">
+      <div class="tb-nav-link" data-toggle="nav-financials">
+        <i class="fa-solid fa-file-invoice-dollar"></i> Financials
+        <i class="fa-solid fa-chevron-down tb-caret"></i>
+      </div>
+      <div class="tb-dropdown">
+        <div class="tb-dropdown-item" data-page="profit_loss">
+          <i class="fa-solid fa-chart-line"></i> Profit &amp; Loss
+        </div>
+        <div class="tb-dropdown-item" data-page="balance_sheet">
+          <i class="fa-solid fa-table-columns"></i> Balance Sheet
+        </div>
+        <div class="tb-dropdown-item" data-page="tax_report">
+          <i class="fa-solid fa-percent"></i> Tax Report
+        </div>
+      </div>
+    </div>
+
+    <div class="tb-nav-item">
+      <div class="tb-nav-link" data-page="consolidated">
+        <i class="fa-solid fa-building-columns"></i> Consolidated
+      </div>
+    </div>
+    <div class="tb-nav-item">
+      <div class="tb-nav-link" data-page="monthly_expense">
+        <i class="fa-solid fa-calendar-days"></i> Monthly Exp.
+      </div>
+    </div>
+  </div>
+
+  <!-- Right controls -->
+  <div class="tb-right">
+
+    <!-- Company filter dropdown -->
+    <div style="position:relative">
+      <button class="tb-btn" id="btn_company_toggle">
+        <i class="fa-solid fa-building"></i>
+        <span id="active_company_name">All Companies</span>
+        <i class="fa-solid fa-chevron-down" style="font-size:8px;margin-left:2px"></i>
+      </button>
+      <div id="company_dropdown" style="display:none;position:absolute;top:36px;right:0;
+        background:var(--ink-2);border:1px solid var(--border);border-radius:var(--radius);
+        min-width:220px;z-index:999;box-shadow:var(--shadow);max-height:240px;overflow-y:auto;">
+        <div style="padding:6px 14px 4px;font-size:9px;font-weight:700;
+          text-transform:uppercase;letter-spacing:.7px;color:var(--muted)">Companies</div>
+        <div id="fr_company_filter_box"></div>
+      </div>
+    </div>
+
+    <!-- Branch filter dropdown -->
+    <div style="position:relative">
+      <button class="tb-btn" id="btn_branch_toggle">
+        <i class="fa-solid fa-code-branch"></i> Branches
+        <i class="fa-solid fa-chevron-down" style="font-size:8px;margin-left:2px"></i>
+      </button>
+      <div id="branch_dropdown" style="display:none;position:absolute;top:36px;right:0;
+        background:var(--ink-2);border:1px solid var(--border);border-radius:var(--radius);
+        min-width:220px;z-index:999;box-shadow:var(--shadow);max-height:240px;overflow-y:auto;">
+        <div style="padding:6px 14px 4px;font-size:9px;font-weight:700;
+          text-transform:uppercase;letter-spacing:.7px;color:var(--muted)">Branches / Districts</div>
+        <div id="fr_branch_filter_box"></div>
+      </div>
+    </div>
+
+    <!-- Date range -->
+    <div class="tb-date-range">
+      <i class="fa-regular fa-calendar" style="color:var(--muted)"></i>
+      <input type="date" id="g_date_from"/>
+      <span class="tb-sep">→</span>
+      <input type="date" id="g_date_to"/>
+    </div>
+
+    <button class="tb-btn primary" id="btn_run">
+      <i class="fa-solid fa-play"></i> Run
+    </button>
+    <button class="tb-btn" id="btn_export_excel" title="Export Excel (.xlsx)">
+      <i class="fa-solid fa-file-excel" style="color:#1d6f42"></i> Excel
+    </button>
+    <button class="tb-btn" id="btn_export_pdf" title="Export PDF">
+      <i class="fa-solid fa-file-pdf" style="color:#e74c3c"></i> PDF
+    </button>
+  </div>
+</nav>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<!-- ════════════════════════════════════════════
+     MAIN APP
+════════════════════════════════════════════ -->
+<div id="app">
+  <div id="content">
+
+    <!-- ══════════════════════════════════════
+         DASHBOARD
+    ══════════════════════════════════════ -->
+    <div class="page-section active" id="page-dashboard">
+      <div class="section-head">
+        <div>
+          <div class="section-title">Financial Dashboard</div>
+          <div class="section-sub">Overview · All branches · <span id="dash_period"></span></div>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card income">
+          <div class="kpi-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+          <div class="kpi-label">Total Income</div>
+          <div class="kpi-value" id="kpi_income">—</div>
+          <div class="kpi-delta up" id="kpi_income_delta">—</div>
+        </div>
+        <div class="kpi-card expense">
+          <div class="kpi-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+          <div class="kpi-label">Total Expense</div>
+          <div class="kpi-value" id="kpi_expense">—</div>
+          <div class="kpi-delta down">Period total</div>
+        </div>
+        <div class="kpi-card net">
+          <div class="kpi-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div class="kpi-label">Net P &amp; L</div>
+          <div class="kpi-value" id="kpi_net">—</div>
+          <div class="kpi-delta" id="kpi_net_delta">—</div>
+        </div>
+        <div class="kpi-card payable">
+          <div class="kpi-icon"><i class="fa-solid fa-file-invoice"></i></div>
+          <div class="kpi-label">Outstanding Payables</div>
+          <div class="kpi-value" id="kpi_payable">—</div>
+          <div class="kpi-delta" style="color:var(--muted)">Unreconciled</div>
+        </div>
+        <div class="kpi-card tx">
+          <div class="kpi-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="kpi-label">Posted Transactions</div>
+          <div class="kpi-value" id="kpi_tx">—</div>
+          <div class="kpi-delta" style="color:var(--muted)">Posted moves</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="grid-2">
+        <div class="chart-card">
+          <div class="chart-head">
+            <div><div class="chart-title">Income vs Expense Trend</div><div class="chart-sub">Last 6 months</div></div>
+            <span class="chart-badge">Monthly</span>
+          </div>
+          <canvas id="chart_trend" height="185"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-head">
+            <div><div class="chart-title">Expense by Branch / District</div><div class="chart-sub">Current period</div></div>
+            <span class="chart-badge" id="branch_count_badge">—</span>
+          </div>
+          <canvas id="chart_branch" height="185"></canvas>
+          <div class="d-none" id="chart_branch_empty" style="text-align:center;padding:40px;color:var(--muted);font-size:12px">No branch data</div>
+        </div>
+      </div>
+
+      <!-- Branch / Company / Top Accounts -->
+      <div class="grid-3">
+        <div class="district-card">
+          <div class="district-card-head">
+            <div class="district-card-title">Branch / District Analysis</div>
+          </div>
+          <table class="dtc-table">
+            <thead><tr><th>Branch</th><th class="num">Income</th><th class="num">Expense</th><th class="num">Balance</th><th>Status</th></tr></thead>
+            <tbody id="branch_tbody"><tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="district-card">
+          <div class="district-card-head"><div class="district-card-title">By Company</div></div>
+          <table class="dtc-table">
+            <thead><tr><th>Company</th><th class="num">Expense</th><th class="num">%</th></tr></thead>
+            <tbody id="company_tbody"><tr><td colspan="3" style="text-align:center;padding:24px;color:var(--muted)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="district-card">
+          <div class="district-card-head"><div class="district-card-title">Top Expense Accounts</div></div>
+          <table class="dtc-table">
+            <thead><tr><th>Account</th><th class="num">Amount</th></tr></thead>
+            <tbody id="topaccount_tbody"><tr><td colspan="2" style="text-align:center;padding:24px;color:var(--muted)">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Quick tiles -->
+      <div class="fr-quick-tiles">
+        <div class="fr-tile" data-report="monthly_expense"><i class="fa-solid fa-calendar-days"></i><span>Monthly Exp.</span></div>
+        <div class="fr-tile" data-report="general_ledger"><i class="fa-solid fa-book-open"></i><span>General Ledger</span></div>
+        <div class="fr-tile" data-report="trial_balance"><i class="fa-solid fa-scale-balanced"></i><span>Trial Balance</span></div>
+        <div class="fr-tile" data-report="profit_loss"><i class="fa-solid fa-chart-line"></i><span>Profit &amp; Loss</span></div>
+        <div class="fr-tile" data-report="balance_sheet"><i class="fa-solid fa-table-columns"></i><span>Balance Sheet</span></div>
+        <div class="fr-tile" data-report="tax_report"><i class="fa-solid fa-percent"></i><span>Tax Report</span></div>
+        <div class="fr-tile" data-report="consolidated"><i class="fa-solid fa-sitemap"></i><span>Consolidated</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         GENERAL LEDGER
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-general_ledger">
+      <div class="section-head">
+        <div><div class="section-title">General Ledger</div><div class="section-sub">Posted journal lines per account with running balance</div></div>
+        <div class="section-actions">
+          <select class="filter-select" id="gl_acc_type">
+            <option value="">All Types</option>
+            <option value="expense">Expenses</option>
+            <option value="income">Income</option>
+            <option value="asset">Assets</option>
+            <option value="liability">Liabilities</option>
+            <option value="equity">Equity</option>
+          </select>
+        </div>
+      </div>
+      <div class="summary-bar" id="gl_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="gl_title">General Ledger</div><div class="rpt-card-period" id="gl_period"></div></div>
+          <div class="rpt-actions">
+            <button class="tb-btn" id="gl_expand_all"><i class="fa-solid fa-expand"></i> Expand All</button>
+            <button class="tb-btn" id="gl_collapse_all"><i class="fa-solid fa-compress"></i> Collapse</button>
+          </div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table">
+            <thead><tr><th>Date</th><th>Reference</th><th>Partner</th><th>Journal</th><th class="num">Debit</th><th class="num">Credit</th><th class="num">Balance</th></tr></thead>
+            <tbody id="gl_tbody"><tr class="skeleton-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="gl_count">—</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TRIAL BALANCE
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-trial_balance">
+      <div class="section-head">
+        <div><div class="section-title">Trial Balance</div><div class="section-sub">Opening + Period Dr/Cr + Closing balance per account</div></div>
+      </div>
+      <div class="summary-bar" id="tb_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="tb_title">Trial Balance</div><div class="rpt-card-period" id="tb_period"></div></div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table">
+            <thead><tr><th>Code</th><th>Account Name</th><th class="num">Opening Dr</th><th class="num">Opening Cr</th><th class="num">Period Dr</th><th class="num">Period Cr</th><th class="num">Closing Dr</th><th class="num">Closing Cr</th></tr></thead>
+            <tbody id="tb_tbody"><tr class="skeleton-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="tb_count">—</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PROFIT & LOSS
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-profit_loss">
+      <div class="section-head">
+        <div><div class="section-title">Profit &amp; Loss</div><div class="section-sub">Income minus Expenses for the period</div></div>
+      </div>
+      <div class="summary-bar" id="pl_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="pl_title">Profit &amp; Loss</div><div class="rpt-card-period" id="pl_period"></div></div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table">
+            <thead><tr><th>Code</th><th>Account Name</th><th class="num">Amount</th></tr></thead>
+            <tbody id="pl_tbody"><tr class="skeleton-row"><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="pl_count">—</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         BALANCE SHEET
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-balance_sheet">
+      <div class="section-head">
+        <div><div class="section-title">Balance Sheet</div><div class="section-sub">Assets = Liabilities + Equity</div></div>
+      </div>
+      <div class="summary-bar" id="bs_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="bs_title">Balance Sheet</div><div class="rpt-card-period" id="bs_period"></div></div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table">
+            <thead><tr><th>Code</th><th>Account Name</th><th class="num">Balance</th></tr></thead>
+            <tbody id="bs_tbody"><tr class="skeleton-row"><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="bs_count">—</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAX REPORT
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-tax_report">
+      <div class="section-head">
+        <div><div class="section-title">Tax Report</div><div class="section-sub">Tax base and amounts per tax rule</div></div>
+      </div>
+      <div class="summary-bar" id="tax_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="tax_title">Tax Report</div><div class="rpt-card-period" id="tax_period"></div></div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table">
+            <thead><tr><th>Tax Name</th><th class="num">Base Amount</th><th class="num">Tax Amount</th><th class="num">Total</th></tr></thead>
+            <tbody id="tax_tbody"><tr class="skeleton-row"><td></td><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="tax_count">—</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         CONSOLIDATED DISTRICT
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-consolidated">
+      <div class="section-head">
+        <div><div class="section-title">Consolidated District Report</div><div class="section-sub">Amounts across all branches / districts</div></div>
+        <div class="section-actions">
+          <select class="filter-select" id="con_acc_type">
+            <option value="expense">Expenses</option>
+            <option value="income">Income</option>
+            <option value="">All Types</option>
+          </select>
+          <button class="tb-btn" id="con_expand_all"><i class="fa-solid fa-expand"></i> Expand All</button>
+        </div>
+      </div>
+      <div class="summary-bar" id="con_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="con_title">Consolidated District Report</div><div class="rpt-card-period" id="con_period"></div></div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table" id="con_table">
+            <thead id="con_thead"></thead>
+            <tbody id="con_tbody"><tr class="skeleton-row"><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="con_count">—</span></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         MONTHLY EXPENDITURE
+    ══════════════════════════════════════ -->
+    <div class="page-section" id="page-monthly_expense">
+      <div class="section-head">
+        <div><div class="section-title">Monthly Expenditure</div><div class="section-sub">Expenses grouped by account × month</div></div>
+      </div>
+      <div class="summary-bar" id="me_summary" style="display:none"></div>
+      <div class="rpt-card">
+        <div class="rpt-card-head">
+          <div><div class="rpt-card-title" id="me_title">Monthly Expenditure</div><div class="rpt-card-period" id="me_period"></div></div>
+        </div>
+        <div class="rpt-wrap">
+          <table class="rpt-table" id="me_table">
+            <thead id="me_thead"></thead>
+            <tbody id="me_tbody"><tr class="skeleton-row"><td></td><td></td><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+        <div class="pagination-bar"><span id="me_count">—</span></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- Module JS (loaded last so DOM is ready) -->
+<script src="/report_portal/static/js/report_portal.js"></script>
+</body>
+</html>
