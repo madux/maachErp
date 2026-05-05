@@ -145,9 +145,9 @@
                                 <field name="date_deadline" readonly="state not in ['submit','Refuse']" invisible = "memo_type_key not in ['material_request','procurement_request']"/>
 								<field name="leave_type_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"/>
 								<!-- <field name="leave_start_date" widget="daterange" options='{"related_end_date": "leave_end_date", "datepicker": {"daysOfWeekDisabled": [5, 6]}}' required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"/> -->
-								<field name="leave_start_date" widget="no_weekend_date" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"/>
-								<field name="leave_end_date" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"
-								widget="no_weekend_date"/>
+								
+								<field name="leave_start_date" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"/>
+								<field name="leave_end_date" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"/>
 								<field name="leave_Reliever" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit', 'Approve2'] or user_is_approver == False"/>
 								<field name="leave_duration" required="memo_type_key in ['leave_request']" invisible = "memo_type_key not in ['leave_request']" readonly="state not in ['submit']"/>
 								<field name="user_ids" readonly="1" invisible="1" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" />

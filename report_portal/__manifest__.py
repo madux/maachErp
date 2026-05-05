@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Financial Report Portal',
-    'version': '16.0.1.0.0',
+    'version': '17.0',
     'summary': 'Standalone HTML financial report portal with GL, P&L, Balance Sheet, Trial Balance, Tax, Consolidated, Monthly Expense + Dashboard',
     'category': 'Accounting/Reporting',
     'depends': ['account', 'web'],

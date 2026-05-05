@@ -14,7 +14,7 @@
         'contacts', 'hr_holidays', 'hr_recruitment', 'sale',
         #  'documents', 
         # 'documents_sign', 'documents_hr_recruitment',
-        'widget_addons',
+        # 'widget_addons',
         'attachment_indexation',
         'ik_multi_branch', 'l10n_uk', 'account_customization',
         ],

@@ -9,6 +9,7 @@
         'web.assets_backend': [
             'widget_addons/static/src/js/weekend_datepicker.js',
         ],
+        
     },
     'installable': True,
     'application': False,
