@@ -10,7 +10,7 @@
         - Contracts etc
     """,
     'author': 'Maduka sopulu',
-    'depends': ['hr', 'payroll'],
+    'depends': ['hr', 'hr_payroll'],
     'data': [
     ],
     'assets': {},
