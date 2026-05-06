@@ -16,7 +16,8 @@
         # 'documents_sign', 'documents_hr_recruitment',
         # 'widget_addons',
         'attachment_indexation',
-        'ik_multi_branch', 'l10n_uk', 'account_customization',
+        'ik_multi_branch', 'l10n_uk',
+        #  'account_customization',
         ],
     'data': [
         'security/security_group.xml', 

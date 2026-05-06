@@ -19,7 +19,7 @@
     'depends': [
         'base', 
         # 'helpdesk', 
-        'website_payment',
+        # 'website_payment',
         'sale', 
         'product', 
         'stock', 
