@@ -1754,7 +1754,7 @@ class PortalRequest(http.Controller):
                             "location_id": False,
                             "message": f"""
                             System could not found any single quantity available in your 
-                            company locations.However below are the locations that have them available.\n
+                            company locations.However below are the locations that have them available.
                             {message_display}
                             """, 
                         }
@@ -2164,9 +2164,10 @@ class PortalRequest(http.Controller):
             'Start date : ' + post.get("request_date",'') if post.get("request_date") else '', 
             'End date : ' + post.get("request_end_date",'') if post.get("request_end_date") else '', 
             ]
+        requirement = '\n'.join([r for r in systemRequirementOptions if r ])
         description_body = f"""
-        Description:{post.get("description", "")}\n
-        Requirements: {'\n'.join([r for r in systemRequirementOptions if r ])}
+        Description:{post.get("description", "")}
+        Requirements: requirement
         """
         memo_config = request.env['memo.config'].sudo().search([('id', '=', int(post.get("selectConfigOption")))], limit=1)
 
@@ -3901,7 +3902,7 @@ class PortalRequest(http.Controller):
                 request_record.write(value)
                 body_msg = f"""
                     Dear Sir / Madam, <br/>
-                    I wish to notify you that a memo with the reference #{request_record.code} \n <br/>\
+                    I wish to notify you that a memo with the reference #{request_record.code} <br/>\
                     has been commented by the supervisor / manager. <br/>\
                     Kindly {get_url(request_record.id)}"""
                 request_record.mail_sending_direct(body_msg) 
@@ -3920,7 +3921,7 @@ class PortalRequest(http.Controller):
                     })
                 body_msg = f"""
                     Dear Sir / Madam, <br/>
-                    I wish to notify you that a request with description \n <br/>\
+                    I wish to notify you that a request with description <br/>\
                     has been commented by the Manager. <br/>\
                     Kindly {get_url(request_record.id)}"""
                 request_record.message_post(body=body)
