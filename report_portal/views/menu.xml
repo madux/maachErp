@@ -19,5 +19,14 @@
             parent="menu_report_portal_root"
             action="action_report_portal"
             sequence="1"/>
+
+        <menuitem
+            id="portal_menu_report_portal_main"
+            name="Financial Reports"
+            parent="account.menu_finance_reports"
+            action="action_report_portal"
+            sequence="1"/>
+
+            
     </data>
 </odoo>

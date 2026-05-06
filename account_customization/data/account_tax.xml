@@ -5,8 +5,8 @@
         </record>
         <!-- 10% Sales Tax -->
         <record id="tax_sale_10" model="account.tax">
-            <field name="name">10% Sales Tax</field>
-            <field name="amount">10.0</field>
+            <field name="name">0% Sales Tax</field>
+            <field name="amount">0.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
             <field name="tax_group_id" ref="account_customization.tax_group_1"/>
@@ -14,7 +14,7 @@
 
         <!-- 10% Purchase Tax -->
         <record id="tax_purchase_10" model="account.tax">
-            <field name="name">10% Purchase Tax</field>
+            <field name="name">10% Withholding Tax</field>
             <field name="amount">10.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
@@ -33,8 +33,8 @@
 
         <!-- 10% Purchase Tax -->
         <record id="tax_purchase_75" model="account.tax">
-            <field name="name">7.5% Purchase Tax</field>
-            <field name="amount">10.0</field>
+            <field name="name">5% Withholding Tax</field>
+            <field name="amount">5.0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
             <field name="tax_group_id" ref="account_customization.tax_group_1"/>
