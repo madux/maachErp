@@ -77,13 +77,16 @@ class Users(models.Model):
     @api.model_create_multi
     def create(self, vals):
         res = super().create(vals)
-        stored_key = request.env['ir.config_parameter'].sudo().get_param(
-            'generated_external_api_key.api_key', ''
-        )
-        user_token = self.env['user.api.token'].create({
-            'user_id': res.id,
-            'token': stored_key if stored_key else 'token_sasdd7e6ca6e3793e40bd6171429de6f8686ac6cd',
-        })
+        
+        is_admin = res.has_group('base.group_system')
+        if is_admin:
+            stored_key = self.env['ir.config_parameter'].sudo().get_param(
+                'generated_external_api_key.api_key', ''
+            )
+            user_token = self.env['user.api.token'].create({
+                'user_id': res.id,
+                'token': stored_key if stored_key else 'token_sasdd7e6ca6e3793e40bd6171429de6f8686ac6cd',
+            })
         return res
         
         
