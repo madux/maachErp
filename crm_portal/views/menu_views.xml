@@ -49,8 +49,8 @@
         <menuitem id="menu_crm_portal_sales"     name="Sales"        parent="menu_crm_portal_root" action="action_crm_portal_sales"    sequence="4"/>
         <menuitem id="menu_crm_portal_pipeline"  name="Pipeline"     parent="menu_crm_portal_root" action="action_crm_portal_pipeline" sequence="5"/>
 
-        <record id="crm.crm_menu_leads" model="ir.ui.menu">
+        <!-- <record id="crm.crm_menu_leads" model="ir.ui.menu">
             <field name="groups_id" eval="[(4, ref('ik_multi_branch.account_major_user'))]"/>
-        </record>
+        </record> -->
     </data>
 </odoo>

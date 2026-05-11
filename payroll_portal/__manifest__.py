@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Payroll Portal',
-    'version': '17.0.1.0.0',
+    'version': '17.0',
     'category': 'CRM',
     'summary': 'Custom Payroll Portal with Dashboard for external users',
     'description': """

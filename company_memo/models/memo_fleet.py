@@ -2,8 +2,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
-from geopy.geocoders import Nominatim
-from geopy.distance import geodesic
+# from geopy.geocoders import Nominatim
+# from geopy.distance import geodesic
 
 
 class MemoFleetMaintenance(models.Model):
@@ -220,20 +220,23 @@ class MemoFleet(models.Model):
         self.distance_covered = self.calculate_distance(self.source_destination_id,self.source_destination_id)
     
     def get_coordinates(self, address):
-        geolocator = Nominatim(user_agent="location_distance")
-        location = geolocator.geocode(address)
-        if location:
-            return (location.latitude, location.longitude)
-        else:
-            return None
+        pass 
+        # geolocator = Nominatim(user_agent="location_distance")
+        # location = geolocator.geocode(address)
+        # if location:
+        #     return (location.latitude, location.longitude)
+        # else:
+        #     return None
 
     def calculate_distance(self, address1, address2):
         coords_1 = self.get_coordinates(address1)
         coords_2 = self.get_coordinates(address2)
         if coords_1 and coords_2:
+            return "100km"
+
             # Calculate the distance using geodesic method (which calculates the great-circle distance)
-            distance = geodesic(coords_1, coords_2).km  # Distance in kilometers
-            return distance if not "0" else "400km"
+            # distance = geodesic(coords_1, coords_2).km  # Distance in kilometers
+            # return distance if not "0" else "400km"
         else:
             return "410km"
 

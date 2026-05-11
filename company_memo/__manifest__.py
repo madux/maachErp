@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'ERP Requests Application',
+    'name': 'ERP Requests ApplicationS',
     'version': '14.0',
     'author': 'Maach Services',
     'description': """An ERP Requests application use to create requests: 

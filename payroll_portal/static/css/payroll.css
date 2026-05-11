@@ -6,7 +6,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #5c94ef 10%, #3777dd 90%);
+            background: linear-gradient(135deg, #b17ca3 10%, #6c4863 90%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -31,7 +31,7 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            color: #667eea;
+            color: #6c4863;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -53,7 +53,7 @@
         }
 
         .nav-item:hover, .nav-item.active {
-            background: #667eea;
+            background: #6c4863;
             color: white;
         }
 
@@ -277,7 +277,7 @@
         .btn-settings {
             background: transparent;
             border: none;
-            color: #667eea;
+            color: #6c4863;
             font-size: 20px;
             cursor: pointer;
             padding: 5px 10px;
@@ -296,7 +296,7 @@
         .btn-icon {
             background: transparent;
             border: none;
-            color: #667eea;
+            color: #6c4863;
             font-size: 16px;
             cursor: pointer;
             padding: 5px;
@@ -367,9 +367,9 @@
         }
         
         .filter-tab.active {
-            background: #667eea;
+            background: #6c4863;
             color: white;
-            border-color: #667eea;
+            border-color: #6c4863;
         }
         
         .loading-overlay {
@@ -411,7 +411,7 @@
             aspect-ratio: 1 / 1; /* Keeps it square */
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #667eea;
+            border: 4px solid #6c4863;
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
             transition: all 0.3s ease;
         }
