@@ -14,8 +14,8 @@
                         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
                         :root {
-                            --ink: #111318;
-                            --ink-soft: #4a4f5e;
+                            --ink: #2c2c2d;
+                            --ink-soft: #bdbfc5;
                             --ink-muted: #8a90a0;
                             --surface: #f5f4f0;
                             --surface-card: #ffffff;
@@ -93,11 +93,11 @@
                             letter-spacing: 0.02em;
                         }
                         .btn-ghost {
-                            background: rgba(255,255,255,0.1);
+                            background: rgba(255, 255, 255, 0.1);
                             border-color: rgba(255,255,255,0.2);
-                            color: #fff;
+                            color: #fff !important;
                         }
-                        .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+                        .btn-ghost:hover { background: rgba(158, 154, 154, 0.2); }
 
                         .btn-outline {
                             background: transparent;
@@ -732,8 +732,8 @@
                         <header class="topbar">
                             <span class="topbar-brand">Request Portal</span>
                             <div class="topbar-actions">
-                                <a href="/my/requests" class="btn btn-ghost btn-sm">← Back</a>
-                                <a href="/portal-request" class="btn btn-ghost btn-sm">+ New Request</a>
+                                <a href="/my/requests" class="btn btn-sm btn-ghost">← Back</a>
+                                <a href="/portal-request" class="btn btn-sm btn-ghost">+ New Request</a>
                                 <a t-att-href="req.get_internal_url(req.id)" class="btn btn-ghost btn-sm" target="_blank">Core View ↗</a>
                             </div>
                         </header>
@@ -787,8 +787,88 @@
                                     <t t-if="req.state in ['Sent', 'Approve', 'Approve2'] and current_user in [rec.user_id.id for rec in req.stage_id.approver_ids] or req.state in ['Sent', 'Approve', 'Approve2'] and current_user in [req.employee_id.parent_id.user_id.id, req.employee_id.administrative_supervisor_id.user_id.id]">
                                         <div class="action-bar-sep"></div>
                                         <a id="approve_request" class="approve_request btn btn-success btn-sm">✓ Approve</a>
-                                        <a id="refuse_request_btn" class="refuse_request_btn btn btn-danger btn-sm" data-bs-target="#portal_request_cancel_modal" data-bs-toggle="modal">✕ Refuse</a>
+                                        <a id="refuse_request_btn" class="refuse_request_btn btn btn-danger btn-sm d-none" data-bs-target="#portal_request_cancel_modal" data-bs-toggle="modal">✕ Refuse</a>
+                                        <button type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#my_custom_modal">
+                                            Refuse
+                                        </button>
                                     </t>
+
+                                    <div class="modal fade"
+                                        id="my_custom_modal"
+                                        tabindex="-1"
+                                        aria-labelledby="my_custom_modal_label"
+                                        aria-hidden="true">
+
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <!-- Header -->
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="my_custom_modal_label">
+                                                        Confirm Action
+                                                    </h5>
+
+                                                    
+                                                </div>
+
+                                                <!-- Body -->
+                                                <div class="modal-body">
+
+                                                    <p>.</p>
+
+                                                    <input type="text"
+                                                        class="form-control refuse_comment_message"
+                                                        placeholder="Type something..."
+                                                        name="refuse_comment_message"
+                                                        id="refuse_comment_message"
+                                                        />
+
+                                                </div>
+
+                                                <!-- Footer -->
+                                                <div class="modal-footer">
+                                                    <!-- <div id="div_refuse_comment_message" class="div_refuse_comment_message">
+                                                        <div style="margin-bottom:0.5rem;">
+                                                            <label class="form-label">Comment (optional)</label>
+                                                            <input type="text" name="refuse_comment_message" id="refuse_comment_message" class="form-control" placeholder="Write a reason…" labelfor="Refuse comment"/>
+                                                        </div> 
+                                                        <div style="display:flex; gap:0.5rem; margin-top:1rem; flex-wrap:wrap;">
+                                                            <button id="refuse_comment_button" class="refuse_comment_button btn btn-danger btn-sm" type="button">✕ Refuse with Comment</button>
+                                                            <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Discard</button>
+                                                        </div>
+                                                    </div> 
+                                                    <div class="modal-footer" id="modalfooter4cancel">
+                                                        <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Discard</button>
+                                                        <a role="button" class="btn btn-danger btn-sm cancel_modal_btn" id="cancel_modal_btn">Cancel the Request</a>
+                                                    </div> -->
+
+                                                    <button type="button"
+                                                            class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+
+                                                    <button type="button"
+                                                            class="btn btn-primary cancel_modal_btn"
+                                                            id="cancel_modal_btn">
+                                                        Cancel
+                                                    </button>
+
+                                                    <button type="button"
+                                                            class="btn btn-primary refuse_comment_button"
+                                                            id="refuse_comment_button"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top">
+                                                        Refuse
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <!-- Submit / Resend -->
                                     <t t-if="req.state in ['Refuse', 'submit']">
@@ -1336,10 +1416,9 @@
                                         <div class="modal-header">
                                         <span class="modal-title">Confirm Action</span>
                                         <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close">✕</button>
-                                        <input type="hidden" class="form-control" id="cancel_refuse_input" name="cancel_refuse_input" value="" labelfor="Cancel"/>
+                                        <input type="text" class="form-control" id="cancel_refuse_input" name="cancel_refuse_input" value="" labelfor="Cancel"/>
                                         </div>
                                         <div class="modal-body">
-                                        <p style="color:var(--ink-soft); margin-bottom:1rem;">Are you sure you wish to proceed?</p>
                                         <div id="div_refuse_comment_message" class="div_refuse_comment_message">
                                             <div style="margin-bottom:0.5rem;">
                                             <label class="form-label">Comment (optional)</label>

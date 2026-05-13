@@ -21,17 +21,17 @@ import { jsonrpc } from "@web/core/network/rpc_service";
 
 $(document).ready(function () {
     let setProductdata = [];
-    let alert_modal = $('#portal_request_alert_modal');
+    let alert_modal = $('#portal_request_cancel_modal');
     let successful_alert = $('#successful_alert');
-    let modal_message = $('#display_modal_message');
+    let modal_message = $('#refuse_comment_message');
     let divRefuseCommentMessage = $('#div_refuse_comment_message');
     let modalfooter4cancel = $('#modalfooter4cancel');
     let refuseCommentMessage = $('#refuse_comment_message');
     $('input[name=is_edit_mode]').prop('checked', false);
 
     // hiding the components until options is indicated
-    divRefuseCommentMessage.hide()
-    modalfooter4cancel.hide()
+    // divRefuseCommentMessage.hide()
+    // modalfooter4cancel.hide()
     refuseCommentMessage.attr('required', false);
     // document.addEventListener("input", autoResize);
     let localStorage = window.localStorage;
@@ -44,6 +44,10 @@ $(document).ready(function () {
     //     }
     // }
     // $('input').autoResize();
+
+    // $('[data-bs-toggle="tooltip"]').each(function () {
+    //     new bootstrap.Tooltip(this);
+    // });
 
     let triggerEndDate = function(){
         var endDate = new Date($('#leave_start_datex').val()).getTime() + (1 * 24 * 60 * 60 * 1000);
@@ -1161,7 +1165,7 @@ $(document).ready(function () {
                 // $.blockUI({
                 //     'message': '<h2 class="card-name">Refusing ...</h2>'
                 // });
-                console.log(`refusal comment clicked ${targetElement}`)
+                console.log(`refusal comment clicked ==> ${$('#refuse_comment_message').val()}, ${targetElement}`)
                 await jsonrpc(
                     `/update/data`,
                     {
@@ -1177,7 +1181,7 @@ $(document).ready(function () {
                         console.log('updating manager comment record data => '+ JSON.stringify(data))
                         $('#refuse_comment_message').val('');
                         $('#refuse_comment_message').attr('required', false);
-                        $('#portal_request_cancel_modal').hide()
+                        // $('#portal_request_cancel_modal').hide()
                         $('#successful_alert').show()
                         window.location.href = `/my/request/view/${$('.record_id').attr('id')}`
                         // alert(data.message);
@@ -1232,7 +1236,9 @@ $(document).ready(function () {
                             $btn.html($btnHtml)
                             // $.unblockUI()
                             divRefuseCommentMessage.show();
-                            modalfooter4cancel.hide();
+                            // if (modalfooter4cancel.length){
+                            //     modalfooter4cancel.hide();
+                            // }
                             refuseCommentMessage.attr('required', true);
                             console.log('Cancelling footer')
 
@@ -1526,8 +1532,6 @@ $(document).ready(function () {
             'click .cancel_btn': function(ev){
                 $('#refuse_comment_message').val('');
                 $('#refuse_comment_message').attr('required', false);
-                divRefuseCommentMessage.hide();
-                modalfooter4cancel.show()
             }, 
 
             'click .cancel_modal_btn': async function(ev){

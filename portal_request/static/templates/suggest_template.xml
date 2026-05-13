@@ -1,0 +1,1477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="request_form_template" name="Request form">
+            <t t-call="web.html_container">
+                <head>
+                    <meta charset="UTF-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                    <title>Request Form</title>
+                    <!-- Bootstrap 5 — required for .modal('show')/('hide') used in portal JS -->
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
+                    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+                    <style>
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #111318;
+    --ink-soft: #4a4f5e;
+    --ink-muted: #8a90a0;
+    --surface: #f5f4f0;
+    --surface-card: #ffffff;
+    --surface-alt: #f0efe9;
+    --border: #dddcd6;
+    --border-focus: #111318;
+    --accent: #1a3a5c;
+    --accent-light: #e8eef5;
+    --success: #1a6641;
+    --success-bg: #e6f4ec;
+    --danger: #991b1b;
+    --danger-bg: #fef2f2;
+    --warning: #92400e;
+    --warning-bg: #fffbeb;
+    --info: #1e40af;
+    --info-bg: #eff6ff;
+    --stage-done: #1a6641;
+    --stage-active: #1a3a5c;
+    --stage-pending: #c5c3bc;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  }
+
+  html { font-size: 15px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Top bar ─────────────────────────────── */
+  .topbar {
+    background: var(--ink);
+    color: #fff;
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+  }
+  .topbar-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+    opacity: 0.95;
+  }
+  .topbar-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+  /* ── Buttons ──────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .btn-ghost {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+  .btn-outline {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--ink-soft);
+  }
+  .btn-outline:hover { border-color: var(--ink); color: var(--ink); background: var(--surface-alt); }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #122b48; }
+
+  .btn-success {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+  }
+
+  .btn-danger {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: #fff;
+  }
+
+  .btn-warning {
+    background: #d97706;
+    border-color: #d97706;
+    color: #fff;
+  }
+  .btn-sm { padding: 0.3rem 0.75rem; font-size: 0.78rem; }
+  .btn-lg { padding: 0.6rem 1.4rem; font-size: 0.9rem; }
+  .d-none { display: none !important; }
+
+  /* ── Layout ───────────────────────────────── */
+  .page-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── Stage pipeline ──────────────────────── */
+  .pipeline-wrap {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+  }
+  .pipeline-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.85rem;
+  }
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-width: max-content;
+  }
+  .stage-item {
+    display: flex;
+    align-items: center;
+  }
+  .stage-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    border-radius: 99px;
+    white-space: nowrap;
+    background: var(--surface-alt);
+    border: 1.5px solid var(--border);
+    color: var(--ink-muted);
+    position: relative;
+  }
+  .stage-box .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .stage-box.completed {
+    background: var(--success-bg);
+    border-color: #6ee7b7;
+    color: var(--success);
+  }
+  .stage-box.completed .dot { opacity: 1; }
+  .stage-box.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(26,58,92,0.3);
+  }
+  .stage-box.active .dot { background: #fff; opacity: 1; }
+  .stage-arrow {
+    width: 28px; height: 1.5px;
+    background: var(--border);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .stage-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -3.5px;
+    border: 4px solid transparent;
+    border-left-color: var(--border);
+  }
+
+  /* ── Action bar ──────────────────────────── */
+  .action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0.85rem 1.25rem;
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+  .action-bar-sep {
+    width: 1px; height: 24px;
+    background: var(--border);
+    margin: 0 0.25rem;
+  }
+
+  /* ── Main grid ───────────────────────────── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Sidebar ─────────────────────────────── */
+  .sidebar { display: flex; flex-direction: column; gap: 1rem; }
+
+  .sidebar-card {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .sidebar-section-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 0.9rem 1.1rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+  .sidebar-nav { list-style: none; padding: 0.5rem 0; }
+  .sidebar-nav li a {
+    display: block;
+    padding: 0.45rem 1.1rem;
+    font-size: 0.83rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-left: 2.5px solid transparent;
+    transition: all 0.12s;
+  }
+  .sidebar-nav li a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .sidebar-nav li.active a {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .person-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1.1rem;
+  }
+  .person-row + .person-row { border-top: 1px solid var(--border); }
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--surface-alt);
+    border: 2px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .person-info { min-width: 0; }
+  .person-name { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+  .person-sub { font-size: 0.73rem; color: var(--ink-muted); }
+  .person-sub a { color: var(--ink-muted); text-decoration: none; }
+  .person-sub a:hover { color: var(--accent); }
+
+  .sidebar-actions { padding: 0.85rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .sidebar-actions .btn { width: 100%; justify-content: center; }
+
+  /* Status pill */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.85rem;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .status-info { background: var(--info-bg); color: var(--info); }
+  .status-success { background: var(--success-bg); color: var(--success); }
+  .status-danger { background: var(--danger-bg); color: var(--danger); }
+  .status-warning { background: var(--warning-bg); color: var(--warning); }
+
+  /* ── Main content ────────────────────────── */
+  .content-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .card {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .card-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.03em;
+  }
+  .card-body { padding: 1.5rem; }
+  .card-section-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Field grid ──────────────────────────── */
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 640px) { .fields-grid { grid-template-columns: 1fr; } }
+  .field-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .field-row:last-child { border-bottom: none; }
+  .field-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    min-width: 130px;
+    flex-shrink: 0;
+    letter-spacing: 0.01em;
+  }
+  .field-value {
+    font-size: 0.87rem;
+    color: var(--ink);
+    font-weight: 400;
+    flex: 1;
+  }
+  .field-value a { color: var(--accent); text-decoration: none; }
+  .field-value a:hover { text-decoration: underline; }
+  .fields-col { display: flex; flex-direction: column; }
+  .fields-col:first-child { padding-right: 2rem; border-right: 1px solid var(--border); }
+  .fields-col:last-child { padding-left: 2rem; }
+
+  /* Form controls */
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    background: var(--surface-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+    transition: border-color 0.15s;
+  }
+  .form-control:focus { outline: none; border-color: var(--border-focus); }
+  .form-control[readonly], .form-control[disabled] {
+    background: var(--surface-alt);
+    color: var(--ink-soft);
+    cursor: default;
+  }
+  textarea.form-control { resize: vertical; }
+  select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a90a0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+
+  .form-group { margin-bottom: 1.1rem; }
+  .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 0.35rem; letter-spacing: 0.02em; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .form-row-2 { grid-template-columns: 1fr; } }
+
+  /* ── Description ─────────────────────────── */
+  .description-block {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    font-size: 0.87rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    min-height: 80px;
+  }
+
+  /* ── Request items table ─────────────────── */
+  .items-card { overflow: hidden; }
+  .items-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+  .items-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .items-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.2rem 0.6rem;
+  }
+  .table-wrap { overflow-x: auto; }
+
+  table.request-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  table.request-table thead tr {
+    background: var(--surface-alt);
+    border-bottom: 2px solid var(--border);
+  }
+  table.request-table thead th {
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+  table.request-table thead th:first-child { padding-left: 1.25rem; }
+  table.request-table thead th:last-child { padding-right: 1.25rem; }
+  table.request-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  table.request-table tbody tr:last-child { border-bottom: none; }
+  table.request-table tbody tr:hover { background: var(--surface-alt); }
+  table.request-table tbody td {
+    padding: 0.75rem 0.9rem;
+    color: var(--ink-soft);
+    vertical-align: middle;
+  }
+  table.request-table tbody td:first-child { padding-left: 1.25rem; }
+  table.request-table tbody td:last-child { padding-right: 1.25rem; }
+  .table-cell-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    padding: 0;
+  }
+  .table-cell-input:focus { outline: none; }
+  .product-name-badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.6rem;
+    display: inline-block;
+  }
+  .qty-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-light);
+    border-radius: 99px;
+    padding: 0.18rem 0.55rem;
+    display: inline-block;
+    min-width: 36px;
+    text-align: center;
+  }
+  .amount-cell { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 500; }
+  .subtotal-cell { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+  .check-cell { color: var(--success); font-size: 0.85rem; }
+
+  /* Totals row */
+  .table-totals {
+    background: var(--accent);
+    color: #fff;
+  }
+  .table-totals td {
+    padding: 0.85rem 0.9rem !important;
+    font-weight: 600;
+    color: #fff !important;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+  .table-totals td:first-child { padding-left: 1.25rem !important; }
+  .total-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; display: block; }
+  .total-value { font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  /* soe totals */
+  .table-totals.soe-totals td { background: transparent; }
+
+  /* ── Employees table ─────────────────────── */
+  table.emp-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  table.emp-table thead tr { background: var(--surface-alt); border-bottom: 2px solid var(--border); }
+  table.emp-table thead th {
+    padding: 0.65rem 1rem;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--ink-muted); text-align: left;
+  }
+  table.emp-table tbody tr { border-bottom: 1px solid var(--border); }
+  table.emp-table tbody tr:last-child { border-bottom: none; }
+  table.emp-table tbody td { padding: 0.7rem 1rem; color: var(--ink-soft); vertical-align: middle; }
+
+  /* ── Message thread ──────────────────────── */
+  .thread-card {}
+  .thread-message {
+    display: flex;
+    gap: 0.85rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .thread-message:last-child { border-bottom: none; }
+  .thread-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--surface-alt);
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: var(--ink-soft);
+    overflow: hidden;
+  }
+  .thread-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .thread-author { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+  .thread-body { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.2rem; line-height: 1.6; }
+
+  /* ── Attachments ─────────────────────────── */
+  .attachment-list { display: flex; flex-direction: column; gap: 0.5rem; padding: 1rem 1.5rem; }
+  .attachment-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.6rem 0.9rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+  }
+  .attachment-name { color: var(--ink); font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+  .attachment-name::before {
+    content: '📎';
+    font-size: 0.8rem;
+  }
+  .attachment-link { color: var(--accent); font-size: 0.78rem; font-weight: 600; text-decoration: none; }
+  .attachment-link:hover { text-decoration: underline; }
+
+  /* ── Supervisor comment ──────────────────── */
+  .comment-block {
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .comment-header {
+    padding: 0.9rem 1.4rem;
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .comment-body { padding: 1.25rem 1.4rem; }
+  .comment-footer { padding: 0 1.4rem 1.25rem; display: flex; gap: 0.5rem; }
+
+  /* ── File upload ─────────────────────────── */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .upload-zone:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .upload-icon { font-size: 1.4rem; margin-bottom: 0.35rem; display: block; }
+
+  /* ── Modals — Bootstrap-driven, custom-styled ── */
+  /* Bootstrap handles show/hide; we only override visuals */
+  .modal-dialog {
+    max-width: 480px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.18s ease;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .modal-content {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface-card);
+  }
+  .modal-header {
+    padding: 1.1rem 1.5rem;
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+  .modal-header .btn-close {
+    filter: none;
+    opacity: 0.5;
+  }
+  .modal-header .btn-close:hover { opacity: 1; }
+  /* legacy .modal-close button used in template */
+  .modal-close {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: none; background: var(--surface);
+    cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-muted); transition: background 0.12s;
+  }
+  .modal-close:hover { background: var(--border); color: var(--ink); }
+  .modal-body {
+    padding: 1.25rem 1.5rem;
+    background: var(--surface-card);
+  }
+  .modal-footer {
+    padding: 0.9rem 1.5rem;
+    background: var(--surface-alt);
+    border-top: 1px solid var(--border);
+    gap: 0.5rem;
+  }
+
+  /* ── Followers input ─────────────────────── */
+  #inputFollowers_div { margin-top: 0.75rem; }
+
+  /* ── No record ───────────────────────────── */
+  .no-record {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .no-record-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .no-record h2 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: 0.5rem; }
+  .no-record p { color: var(--ink-muted); font-size: 0.88rem; margin-bottom: 1.5rem; }
+
+  /* ── Alert ───────────────────────────────── */
+  .alert {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.84rem;
+    margin-bottom: 1rem;
+  }
+  .alert-success { background: var(--success-bg); color: var(--success); border: 1px solid #6ee7b7; }
+
+  /* Hidden inputs preserved */
+  input[type="hidden"] { display: none; }
+  input#is_edit_mode { display: none; }
+  input#selectRequestOption { display: none; }
+  input#leave_remaining { display: none; }
+                    </style>
+                </head>
+                <body>
+
+<!-- ══════════════════════════════════════════
+     TOP BAR
+══════════════════════════════════════════ -->
+<header class="topbar">
+  <span class="topbar-brand">Request Portal</span>
+  <div class="topbar-actions">
+    <a href="/my/requests" class="btn btn-ghost btn-sm">← Back</a>
+    <a href="/portal-request" class="btn btn-ghost btn-sm">+ New Request</a>
+    <a t-att-href="req.get_internal_url(req.id)" class="btn btn-ghost btn-sm" target="_blank">Core View ↗</a>
+  </div>
+</header>
+
+<section class="page-wrap portal-request-form" id="portal-request-form">
+
+  <!-- ══════════════════════════════════════
+       RECORD EXISTS — main template
+  ══════════════════════════════════════ -->
+  <t t-if="req.id">
+
+    <!-- Stage pipeline -->
+    <t t-if="req.computed_stage_ids">
+    <div class="pipeline-wrap">
+      <div class="pipeline-label">Approval Pipeline</div>
+      <div class="pipeline">
+        <t t-foreach="req.computed_stage_ids" t-as="stg">
+          <div class="stage-item">
+            <t t-if="stg.sequence &lt; req.stage_id.sequence">
+              <div class="stage-box completed"><span class="dot"></span><t t-esc="stg.name"/></div>
+            </t>
+            <t t-elif="stg.id == req.stage_id.id">
+              <div class="stage-box active"><span class="dot"></span><t t-esc="stg.name"/></div>
+            </t>
+            <t t-else="">
+              <div class="stage-box"><span class="dot"></span><t t-esc="stg.name"/></div>
+            </t>
+            <t t-if="stg != req.computed_stage_ids[-1]">
+              <div class="stage-arrow"></div>
+            </t>
+          </div>
+        </t>
+      </div>
+    </div>
+    </t>
+
+    <!-- Action bar -->
+    <div class="action-bar">
+      <!-- Back -->
+      <a id="previous" t-att-href="back_url" class="btn btn-outline btn-sm">← Back</a>
+      <div class="action-bar-sep"></div>
+
+      <!-- Edit / Save / Discard -->
+      <t t-if="req.state in ['submit', 'refuse', 'Refuse'] and current_user in [req.employee_id.user_id.id, req.create_uid.id]">
+        <a id="editbtn" class="btn btn-outline btn-sm editbtn">✏ Edit</a>
+        <a id="save" class="btn btn-success btn-sm d-none">✓ Save</a>
+        <a id="discardbtn" class="btn btn-danger btn-sm d-none">✕ Discard</a>
+      </t>
+
+      <!-- Approve / Refuse -->
+      <t t-if="req.state in ['Sent', 'Approve', 'Approve2'] and current_user in [rec.user_id.id for rec in req.stage_id.approver_ids] or req.state in ['Sent', 'Approve', 'Approve2'] and current_user in [req.employee_id.parent_id.user_id.id, req.employee_id.administrative_supervisor_id.user_id.id]">
+        <div class="action-bar-sep"></div>
+        <a id="approve_request" class="approve_request btn btn-success btn-sm">✓ Approve</a>
+        <a id="refuse_request_btn" class="refuse_request_btn btn btn-danger btn-sm">✕ Refuse</a>
+      </t>
+
+      <!-- Submit / Resend -->
+      <t t-if="req.state in ['Refuse', 'submit']">
+        <div class="action-bar-sep"></div>
+        <a t-att-id="req.id" class="resend_request btn btn-primary btn-sm">↑ Submit</a>
+      </t>
+
+      <!-- Print invoice -->
+      <t t-if="req.move_id or req.state in ['Done'] and req.memo_type_key in ['Payment', 'cash_advance', 'soe', 'procurement_request']">
+        <div class="action-bar-sep"></div>
+        <a t-att-href="'/print/memo/invoice/%s' % req.id" target="_blank" class="btn btn-outline btn-sm">🖨 Print Invoice</a>
+      </t>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         MAIN GRID: Sidebar + Content
+    ══════════════════════════════════════ -->
+    <div class="main-grid">
+
+      <!-- ──────────── SIDEBAR ──────────── -->
+      <aside class="sidebar">
+
+        <!-- Quick nav -->
+        <div class="sidebar-card">
+          <div class="sidebar-section-title">Navigation</div>
+          <ul class="sidebar-nav">
+            <li class="active"><a href="#request-details">Request Details</a></li>
+            <li><a href="#request_chat">History</a></li>
+            <li><a href="#attachment_section">Attachments</a></li>
+            <li><a href="#message_thread_section">Comms Thread</a></li>
+          </ul>
+        </div>
+
+        <!-- Quick actions -->
+        <t t-if="req.state in ['submit', 'Sent']">
+        <div class="sidebar-card">
+          <div class="sidebar-section-title">Quick Actions</div>
+          <div class="sidebar-actions">
+            <a class="btn btn-primary btn-sm" href="/portal-request">+ Create New Request</a>
+            <button class="btn btn-outline btn-sm cancel_btn">✕ Cancel Request</button>
+          </div>
+        </div>
+        </t>
+
+        <!-- Approvers -->
+        <t t-if="req.approver_ids">
+        <div class="sidebar-card">
+          <div class="sidebar-section-title">Approvers</div>
+          <t t-foreach="req.approver_ids" t-as="appr">
+            <t t-if="appr.user_id">
+            <div class="person-row">
+              <div class="avatar">
+                <img t-att-src="image_data_uri(appr.user_id.avatar_1024)" alt=""/>
+              </div>
+              <div class="person-info">
+                <div class="person-name"><t t-esc="appr.user_id.name"/></div>
+                <div class="person-sub">Approver</div>
+              </div>
+            </div>
+            </t>
+          </t>
+        </div>
+        </t>
+
+        <!-- Employee / Requester -->
+        <t t-if="req.employee_id.user_id">
+        <div class="sidebar-card">
+          <div class="sidebar-section-title">Requester</div>
+          <!-- Hidden inputs preserved -->
+          <input class="d-none" type="checkbox" t-attf-name="is_edit_mode" t-att-record_id="req.id" id="is_edit_mode"/>
+          <div class="person-row">
+            <div class="avatar">
+              <img t-att-src="image_data_uri(req.employee_id.user_id.avatar_1024)" alt=""/>
+            </div>
+            <div class="person-info">
+              <div class="person-name"><span t-field="req.employee_id.user_id.partner_id" t-options='{"widget": "contact", "fields": ["name"]}'/></div>
+              <div class="person-sub">
+                <a t-attf-href="mailto:{{req.employee_id.work_email}}" t-if="req.employee_id.work_email">
+                  <span t-field="req.employee_id.user_id.partner_id" t-options='{"widget": "contact", "fields": ["email"]}'/>
+                </a>
+              </div>
+              <div class="person-sub">
+                <a t-attf-href="tel:{{req.employee_id.mobile_phone}}" t-if="req.employee_id.mobile_phone">
+                  <span t-field="req.employee_id.user_id.partner_id" t-options='{"widget": "contact", "fields": ["phone"]}'/>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </t>
+
+        <!-- Followers -->
+        <t t-if="req.users_followers">
+        <div class="sidebar-card">
+          <div class="sidebar-section-title">Followers</div>
+          <t t-foreach="req.users_followers" t-as="fol">
+          <div class="person-row">
+            <div class="avatar">
+              <img t-att-src="image_data_uri(fol.avatar_1024)" alt=""/>
+            </div>
+            <div class="person-info">
+              <div class="person-name"><t t-esc="fol.name"/></div>
+            </div>
+          </div>
+          </t>
+        </div>
+        </t>
+
+      </aside>
+
+
+      <!-- ──────────── MAIN CONTENT ──────────── -->
+      <div class="content-col">
+
+        <!-- Alert -->
+        <div id="successful_alert" class="alert alert-success d-none" role="alert">
+          <strong>Well done!</strong> You successfully updated your comment.
+        </div>
+
+        <!-- ── Request header card ── -->
+        <div class="card" id="request-details">
+          <div class="card-header">
+            <div>
+              <div class="card-title"><span t-field="req.name"/></div>
+              <div class="card-code"><span t-field="req.code"/></div>
+              <!-- Hidden inputs preserved -->
+              <a t-att-id="req.id" class="record_id" style="display:none;"/>
+              <input type="text" class="form-control d-none" id="selectRequestOption" name="selectRequestOption" t-att-value="req.memo_type_key" labelfor=""/>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.5rem;">
+              <span class="status-pill status-info" field_name="status" t-field="req.stage_id.name">
+              </span>
+              <t t-if="req.memo_type_key == 'cash_advance' and req.is_cash_advance_retired">
+                <span class="status-pill status-success">Retired</span>
+              </t>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Core fields, two-column -->
+            <div class="card-section-title">General Information</div>
+            <div class="fields-grid">
+              <div class="fields-col">
+                <div class="field-row">
+                  <span class="field-label">District</span>
+                  <span class="field-value" t-field="req.branch_id"/>
+                </div>
+                <div class="field-row">
+                  <span class="field-label">Request Date</span>
+                  <span class="field-value" t-field="req.date" field_name="request_date" t-options='{"widget": "datetime", "hide_seconds": true}'/>
+                </div>
+                <t t-if="req.employee_id.parent_id">
+                <div class="field-row">
+                  <span class="field-label">Manager</span>
+                  <span class="field-value" t-field="req.employee_id.parent_id.name" field_name="employer_manager"/>
+                </div>
+                </t>
+                <t t-if="req.employee_id.administrative_supervisor_id">
+                <div class="field-row">
+                  <span class="field-label">Supervisor</span>
+                  <span class="field-value" t-field="req.employee_id.administrative_supervisor_id.name"/>
+                </div>
+                </t>
+              </div>
+              <div class="fields-col">
+
+                <!-- Payment fields -->
+                <t t-if="req.memo_type.memo_key in ['Payment']">
+                  <div class="field-row">
+                    <span class="field-label">Payment Ref.</span>
+                    <span class="field-value">
+                      <input type="text" class="form-control" t-attf-value="{{req.payment_reference}}" field_name="payment_reference" id="payment_reference_form" name="payment_reference_form" readonly="true" labelfor="Payment reference"/>
+                    </span>
+                  </div>
+                  <div class="field-row">
+                    <span class="field-label">Vendor</span>
+                    <span class="field-value">
+                      <input type="text" class="vendor-cls form-control" t-attf-value="{{req.vendor_id.name}}" field_name="vendor_id" t-attf-id="{{req.vendor_id.id}}" name="vendor_id_form" readonly="true" required="true" labelfor="Vendor"/>
+                    </span>
+                  </div>
+                </t>
+
+                <!-- SOE cash advance reference -->
+                <t t-if="req.memo_type.memo_key == 'soe'">
+                  <div class="field-row">
+                    <span class="field-label">Cash Advance Ref.</span>
+                    <span class="field-value">
+                      <t t-if="req.cash_advance_reference">
+                        <a t-attf-href="/my/request/view/{{req.cash_advance_reference.id}}?back_url=/my/request/view/{{req.id}}" target="_blank">
+                          <span t-field="req.cash_advance_reference.code"/>  ↗
+                        </a>
+                      </t>
+                      <t t-else=""><em style="color:var(--ink-muted)">No linked cash advance</em></t>
+                    </span>
+                  </div>
+                </t>
+
+              </div>
+            </div>
+
+            <!-- Leave fields -->
+            <t t-if="req.memo_type.memo_key in ['leave_request']">
+              <div class="card-section-title" style="margin-top:1.5rem;">Leave Details</div>
+              <div class="fields-grid">
+                <div class="fields-col">
+                  <t t-if="req.employee_id.employee_number">
+                  <div class="field-row">
+                    <span class="field-label">Staff ID</span>
+                    <span class="field-value" t-field="req.employee_id.employee_number" name="staff_id" id="staff_id" field_name="staff_id"/>
+                  </div>
+                  </t>
+                  <div class="field-row">
+                    <span class="field-label">Request Type</span>
+                    <span class="field-value" t-field="req.memo_type"/>
+                  </div>
+                  <div class="field-row">
+                    <span class="field-label">Leave Type</span>
+                    <span class="field-value">
+                      <select field_name="leave_type" id="leave_type_id" name="leave_type_id" disabled="true" class="form-control" labelfor="Leave type" readonly="true" required="required">
+                        <option selected="selected" t-attf-value="{{req.leave_type_id.id}}"><t t-esc="req.leave_type_id.name"/></option>
+                        <t t-foreach="leave_type_ids" t-as="lv">
+                          <option t-att-value="lv.id"><t t-esc="lv.name"/></option>
+                        </t>
+                      </select>
+                    </span>
+                  </div>
+                  <div class="field-row">
+                    <span class="field-label">Reliever</span>
+                    <span class="field-value">
+                      <select id="leave_reliever_ids" name="leave_reliever_id" field_name="leave_taken" class="form-control" labelfor="Leave Reliever" readonly="true" required="required" disabled="true">
+                        <option selected="selected" t-attf-value="{{req.leave_Reliever.id}}"><t t-esc="req.leave_Reliever.name"/></option>
+                        <t t-foreach="employee_ids" t-as="emp">
+                          <option t-att-value="emp.id"><t t-esc="emp.name"/></option>
+                        </t>
+                      </select>
+                    </span>
+                  </div>
+                </div>
+                <div class="fields-col">
+                  <div class="field-row">
+                    <span class="field-label">Start Date</span>
+                    <span class="field-value">
+                      <input type="text" class="form-control" field_name="leave_start_date" id="leave_start_datex" date_field="1" name="leave_start_datex" required="true" readonly="true" disabled="true" labelfor="Leave start date" t-attf-value="{{req.leave_start_date.strftime('%m/%d/%Y')}}"/>
+                    </span>
+                  </div>
+                  <div class="field-row">
+                    <span class="field-label">End Date</span>
+                    <span class="field-value">
+                      <input type="text" class="form-control" field_name="leave_end" id="leave_end_datex" date_field="1" name="leave_end_datex" required="required" readonly="true" disabled="true" labelfor="Leave End date" t-attf-value="{{req.leave_end_date.strftime('%m/%d/%Y')}}"/>
+                    </span>
+                  </div>
+                  <div class="field-row">
+                    <span class="field-label">Remaining</span>
+                    <span class="field-value" style="display:flex; align-items:baseline; gap:0.4rem;">
+                      <input type="hidden" class="form-control" field_name="leave_remaining" name="leave_remaining" id="leave_remaining" t-attf-value="{{number_of_days_display}}"/>
+                      <span id="leave_remain" style="font-size:1.6rem; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums;"><t t-esc="number_of_days_display"/></span>
+                      <span style="color:var(--ink-muted); font-size:0.8rem;">days</span>
+                    </span>
+                  </div>
+                  <div class="field-row">
+                    <span class="field-label">Days Taken</span>
+                    <span class="field-value" id="leave_taken" field_name="leave_taken"><t t-esc="leave_taken"/></span>
+                  </div>
+                </div>
+              </div>
+            </t>
+
+            <!-- Material request: source / destination -->
+            <t t-if="req.memo_type_key in ['material_request']">
+              <div class="card-section-title" style="margin-top:1.5rem;">Transfer Locations</div>
+              <!-- Interdistrict (hidden as in original) -->
+              <div class="d-none">
+                <input type="checkbox" name="isInterDistrict" id="isInterDistrict" disabled="true" t-att-checked="req.is_inter_district_transfer and 'checked' or None"/>
+              </div>
+              <div class="form-row-2" style="margin-bottom:1rem;">
+                <div class="form-group">
+                  <label class="form-label">Source Location</label>
+                  <input field_name="source_location_id" name="source_location_id" t-att-id="req.source_location_id.id" t-att-value="req.source_location_id.name" class="Sourcelocation-cls form-control" readonly="readonly" required="required"/>
+                  <input t-att-id="req.source_location_id.id" t-att-value="req.source_location_id.name" class="TargetSourceLocation form-control d-none" name="TargetSourceLocation"/>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Destination Location</label>
+                  <input field_name="destination_location_id" t-att-value="req.dest_location_id.name" t-att-id="req.dest_location_id.id" t-att-relation="true" name="destination_location_id" class="destinationlocation-cls form-control" readonly="readonly" required="required"/>
+                </div>
+              </div>
+            </t>
+
+            <!-- Description -->
+            <div class="card-section-title" style="margin-top:1.5rem;">Description</div>
+            <div name="descriptionDiv">
+              <t t-set="raw_description" t-value="req.description"/>
+              <textarea class="form-control" name="description" field_name="description_id" required="1" id="description" disabled="true" readonly="true" rows="4" labelfor="Description"><t t-esc="description_body"/></textarea>
+            </div>
+
+            <!-- Followers input (hidden by default) -->
+            <div id="inputFollowers_div" class="d-none form-group" data-type="text" data-name="Field">
+              <label class="form-label" for="inputFollowers">Choose Followers</label>
+              <input id="inputFollowers" class="form-control" field_name="inputFollowers" name="inputFollowers"/>
+            </div>
+
+            <!-- Edit document upload (hidden by default) -->
+            <div id="edit_document_div" class="d-none" style="margin-top:1rem;">
+              <label class="form-label">Attach New Documents</label>
+              <label class="upload-zone" for="other_docs_edit">
+                <span class="upload-icon">📎</span>
+                Click to upload files or drag and drop<br/>
+                <span style="font-size:0.75rem; color:var(--ink-muted)">You can upload multiple files</span>
+              </label>
+              <input type="file" class="d-none" name="other_docs" id="other_docs_edit" multiple="1" placeholder="Select files..."/>
+            </div>
+
+          </div><!-- /card-body -->
+        </div><!-- /request details card -->
+
+
+        <!-- ── REQUEST ITEMS TABLE ── -->
+        <t t-if="req.memo_type.memo_key not in ['server_access','leave_request', 'loan', 'Internal','employee_update', 'employee_update','recruitment_request']">
+        <div class="card items-card" id="product_item_form_div">
+          <div class="items-header">
+            <span class="items-title">Request Items</span>
+            <span class="items-count"><t t-esc="len(req.product_ids)"/> items</span>
+          </div>
+          <div class="table-wrap">
+            <table class="request-table" id="product_table">
+              <thead>
+                <tr>
+                  <th style="width:3%"></th>
+                  <th id="productHeader" style="width:22%">Product</th>
+                  <th style="width:28%">Description</th>
+                  <th style="width:8%; text-align:center;">Qty</th>
+                  <t t-if="req.memo_type.memo_key not in ['material_request']">
+                    <th style="width:14%; text-align:right;">Unit Price</th>
+                    <th style="width:14%; text-align:right;">Subtotal</th>
+                  </t>
+                  <t t-if="req.memo_type.memo_key in ['soe']">
+                    <th style="width:8%; text-align:center;">Used Qty</th>
+                    <th style="width:10%; text-align:right;">Used Price</th>
+                    <th style="width:10%; text-align:right;">Retire Total</th>
+                    <th style="width:10%; text-align:right;">Difference</th>
+                    <th style="width:5%; text-align:center;">✔</th>
+                  </t>
+                  <t t-else=""><th style="width:5%"></th></t>
+                </tr>
+              </thead>
+              <tbody id="tbody_product" name="tbody_product">
+                <t t-set="total_amount" t-value="0"/>
+                <t t-set="retire_total_amount" t-value="0"/>
+                <t t-foreach="req.product_ids" t-as="prod">
+                <tr class="prod_row" t-att-id="prod.id" t-att-name="prod_row" t-att-row_count="prod.id">
+                  <td>
+                    <input type="checkbox" class="productchecked" checked="checked" disabled="true" readonly="readonly" field_name="checkbox" t-att-id="prod.id" t-att-name="prod.quantity_available" style="accent-color:var(--accent);"/>
+                  </td>
+                  <td>
+                    <span class="product-name-badge" t-att-id="prod.id">
+                      <input t-att-id="prod.id" t-att-special_id="prod.id" field_name="product_id" class="table-cell-input productitemrow" name="product_item_id" t-att-value="prod.product_id.id" t-att-data-init-text="prod.product_id.name" readonly="readonly" style="font-weight:500; color:var(--ink);"/>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="input-container" t-att-id="prod.id" style="display:block; position:relative;">
+                      <textarea t-att-id="prod.id" type="text" t-att-special_id="prod.description" field_name="product_description" class="table-cell-input" name="product_item_description" readonly="readonly" rows="2" style="resize:none; line-height:1.5;"><t t-esc="prod.description"/></textarea>
+                    </span>
+                  </td>
+                  <td style="text-align:center;">
+                    <span class="qty-badge">
+                      <input type="text" main_name="quantity_available" field_name="request_qty" t-att-name="prod.quantity_available" t-att-id="prod.id" t-att-value="prod.quantity_available" t-att-class="'table-cell-input QTY%s' % prod.id" t-att-row_count="prod.id" readonly="readonly" style="text-align:center; font-weight:700; color:var(--accent); background:transparent; border:none; width:40px;"/>
+                    </span>
+                  </td>
+                  <t t-if="req.memo_type.memo_key not in ['material_request']">
+                    <td style="text-align:right;">
+                      <span class="amount-cell">
+                        <input type="text" main_name="amount_total" field_name="unit_price" t-att-name="prod.amount_total" t-att-id="prod.id" t-att-value="prod.amount_total" t-att-class="'table-cell-input AmountTots AMTTOTAL%s' % prod.id" t-att-row_count="prod.id" readonly="readonly" style="text-align:right; width:100%;"/>
+                      </span>
+                    </td>
+                    <td style="text-align:right;">
+                      <span t-att-class="'subtotal-cell SUBTOTAL%s' % prod.id" main_name="sub_total_amount" t-att-name="prod.sub_total_amount" t-att-value="prod.sub_total_amount" id="sub_total_amount">
+                        <t t-esc="'{0:,}'.format(float(prod.sub_total_amount))"/>
+                      </span>
+                    </td>
+                  </t>
+                  <t t-if="req.memo_type.memo_key in ['soe']">
+                    <td style="text-align:center;">
+                      <input type="text" main_name="used_qty" field_name="used_qty" t-att-name="prod.used_qty" t-att-id="prod.id" t-att-value="prod.used_qty" t-att-class="'table-cell-input USEDQTY%s' % prod.id" t-att-row_count="prod.id" readonly="readonly" style="text-align:center; width:60px;"/>
+                    </td>
+                    <td style="text-align:right;">
+                      <input type="text" main_name="used_amount" field_name="used_amount" t-att-name="prod.used_amount" t-att-id="prod.id" t-att-value="prod.used_amount" t-att-class="'table-cell-input UsedAmountTots USEDAMTTOTAL%s' % prod.id" t-att-row_count="prod.id" readonly="readonly" style="text-align:right; width:100%;"/>
+                    </td>
+                    <td style="text-align:right;">
+                      <input type="text" main_name="retire_sub_total_amount" field_name="retire_sub_total_amount" t-att-name="prod.retire_sub_total_amount" t-att-id="prod.id" t-att-value="'{0:,}'.format(float(prod.retire_sub_total_amount))" t-att-class="'table-cell-input RTOTAL RTOTAL%s' % prod.id" t-att-row_count="prod.id" readonly="readonly" style="text-align:right; width:100%;"/>
+                    </td>
+                    <td style="text-align:right;">
+                      <input type="text" main_name="difference_in_amount" field_name="difference_in_amount" t-att-name="prod.difference_in_amount" t-att-id="prod.id" t-att-value="'{0:,}'.format(float(prod.difference_in_amount))" t-att-class="'table-cell-input DiffTotal DiffTotal%s' % prod.id" t-att-row_count="prod.id" readonly="readonly" style="text-align:right; width:100%;"/>
+                    </td>
+                    <td style="text-align:center;" class="check-cell">
+                      <t t-if="prod.retired">✔</t>
+                    </td>
+                  </t>
+                  <t t-else=""><td></td></t>
+                </tr>
+                <t t-set="total_amount" t-value="total_amount + prod.sub_total_amount"/>
+                <t t-set="retire_total_amount" t-value="retire_total_amount + prod.retire_sub_total_amount"/>
+                </t>
+              </tbody>
+              <!-- Totals row -->
+              <tfoot>
+                <tr class="table-totals">
+                  <td colspan="3" style="text-align:right; padding-right:1rem !important;">
+                    <span class="total-label">Grand Total</span>
+                  </td>
+                  <td></td>
+                  <t t-if="req.memo_type.memo_key not in ['material_request']">
+                    <td></td>
+                    <td style="text-align:right;">
+                      <span class="total-value" name="all_total_amount" id="all_total_amount"><t t-esc="'{0:,}'.format(float(total_amount))"/></span>
+                    </td>
+                  </t>
+                  <t t-if="req.memo_type.memo_key in ['soe']">
+                    <td></td><td></td>
+                    <td style="text-align:right;">
+                      <span class="total-value" name="retire_total_amount_elm" id="retire_total_amount_elm"><t t-esc="'{0:,}'.format(float(retire_total_amount))"/></span>
+                    </td>
+                    <td></td><td></td>
+                  </t>
+                  <t t-else=""><td></td></t>
+                </tr>
+              </tfoot>
+            </table>
+          </div><!-- /table-wrap -->
+        </div>
+        </t>
+
+
+        <!-- ── EMPLOYEE UPDATE TABLE ── -->
+        <t t-if="req.memo_type.memo_key == 'employee_update'">
+        <div class="card" id="emp_item_form_div">
+          <div class="items-header">
+            <span class="items-title">Employees for Update</span>
+          </div>
+          <div class="table-wrap">
+            <table class="emp-table" id="emp_table">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>New Department</th>
+                  <th>New Role</th>
+                  <th>New District</th>
+                </tr>
+              </thead>
+              <tbody id="tbody_employee" name="tbody_employee">
+                <t t-foreach="req.employee_transfer_line_ids" t-as="employee">
+                <tr class="employee_row" t-att-id="employee.id" t-att-name="employee_row" t-att-row_count="employee.id">
+                  <td><t t-esc="employee.employee_id.name"/></td>
+                  <td><t t-esc="employee.transfer_dept.name"/></td>
+                  <td><t t-esc="employee.new_role.name"/></td>
+                  <td><t t-esc="employee.new_district.name"/></td>
+                </tr>
+                </t>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </t>
+
+
+        <!-- ── Supervisor comment ── -->
+        <t t-if="current_user in [req.employee_id.administrative_supervisor_id.user_id.id, req.employee_id.parent_id.user_id.id]">
+        <div class="comment-block">
+          <div class="comment-header">Supervisor / Manager's Comment</div>
+          <div class="comment-body">
+            <textarea rows="4" name="supervisor_comment_message" id="supervisor_comment_message" class="form-control" placeholder="Write a comment before approving…"/>
+          </div>
+          <div class="comment-footer">
+            <button id="supervisor_comment_button" class="supervisor_comment_button btn btn-primary btn-sm" type="button">✓ Comment &amp; Approve</button>
+          </div>
+        </div>
+        </t>
+
+
+        <!-- ── Message thread ── -->
+        <t t-if="current_user in [req.employee_id.parent_id.user_id.id, req.employee_id.administrative_supervisor_id.user_id, req.employee_id.user_id.id]">
+        <div class="card thread-card" id="request_chat">
+          <div class="items-header">
+            <span class="items-title">Messages &amp; History</span>
+          </div>
+          <t t-call="portal.message_thread">
+            <t t-set="object" t-value="req"/>
+          </t>
+        </div>
+        </t>
+
+
+        <!-- ── Attachments ── -->
+        <t t-if="record_attachment_ids">
+        <div class="card" id="attachment_section">
+          <div class="items-header">
+            <span class="items-title">Attachments</span>
+            <span class="items-count"><t t-esc="len(record_attachment_ids)"/> files</span>
+          </div>
+          <div class="attachment-list">
+            <t t-foreach="record_attachment_ids" t-as="att">
+            <div class="attachment-item">
+              <span class="attachment-name"><t t-esc="att.name"/></span>
+              <a t-att-href="'/web/content/%s?download=true' % att.id" target="_blank" class="attachment-link">↓ Download</a>
+            </div>
+            </t>
+          </div>
+        </div>
+        </t>
+
+
+        <!-- ── Communication Thread ── -->
+        <div class="card" id="message_thread_section">
+          <div class="items-header">
+            <span class="items-title">Communication Thread</span>
+          </div>
+          <div>
+            <t t-foreach="req.message_ids" t-as="mess">
+            <div class="thread-message">
+              <div class="thread-avatar">
+                <t t-if="mess.author_id">
+                  <img t-attf-src="#{image_data_uri(mess.sudo().author_avatar)}" alt=""/>
+                </t>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div class="thread-author"><t t-esc="mess.author_id.name"/></div>
+                <div class="thread-body" t-raw="mess.body"/>
+              </div>
+            </div>
+            </t>
+          </div>
+        </div>
+
+
+      </div><!-- /content-col -->
+    </div><!-- /main-grid -->
+
+
+    <!-- ═══════════════════════════════════
+         MODALS
+    ═══════════════════════════════════ -->
+
+    <!-- Refuse / Cancel modal -->
+    <div class="modal" id="portal_request_cancel_modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span class="modal-title">Confirm Action</span>
+          <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close">✕</button>
+          <input type="hidden" class="form-control" id="cancel_refuse_input" name="cancel_refuse_input" value="" labelfor="Cancel"/>
+        </div>
+        <div class="modal-body">
+          <p style="color:var(--ink-soft); margin-bottom:1rem;">Are you sure you wish to proceed?</p>
+          <div id="div_refuse_comment_message" class="div_refuse_comment_message">
+            <div style="margin-bottom:0.5rem;">
+              <label class="form-label">Comment (optional)</label>
+              <input type="text" name="refuse_comment_message" id="refuse_comment_message" class="form-control" placeholder="Write a reason…" labelfor="Refuse comment"/>
+            </div>
+            <div style="display:flex; gap:0.5rem; margin-top:1rem; flex-wrap:wrap;">
+              <button id="refuse_comment_button" class="refuse_comment_button btn btn-danger btn-sm" type="button">✕ Refuse with Comment</button>
+              <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Discard</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" id="modalfooter4cancel">
+          <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Discard</button>
+          <a role="button" class="btn btn-danger btn-sm cancel_modal_btn" id="cancel_modal_btn">Cancel the Request</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual approver selection modal -->
+    <div class="modal" id="manual_approver_modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span class="modal-title">Select Next Approver</span>
+          <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body">
+          <p style="color:var(--ink-soft); margin-bottom:1rem;">Multiple approvers found. Please select one:</p>
+          <div class="form-group">
+            <label class="form-label" for="manual_approver_select">Approver</label>
+            <select class="form-control" id="manual_approver_select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btn_confirm_manual_approver">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Route selection modal -->
+    <div class="modal" id="manual_route_modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span class="modal-title">Select Routing Option</span>
+          <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body">
+          <p style="color:var(--ink-soft); margin-bottom:1rem;">Please select where to forward this request:</p>
+          <div class="form-group">
+            <label class="form-label" for="manual_route_select">Destination</label>
+            <select class="form-control" id="manual_route_select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btn_confirm_manual_route">Confirm Route</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- District selection modal -->
+    <div class="modal" id="manual_district_modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span class="modal-title">Select District</span>
+          <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-body">
+          <p style="color:var(--ink-soft); margin-bottom:1rem;">Please select the processing district:</p>
+          <div class="form-group">
+            <label class="form-label" for="manual_district_select">District</label>
+            <select class="form-control" id="manual_district_select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btn_confirm_manual_district">Confirm District</button>
+        </div>
+      </div>
+    </div>
+
+  </t><!-- /t-if req.id -->
+
+
+  <!-- ══════════════════════════════════════
+       NO RECORD FOUND
+  ══════════════════════════════════════ -->
+  <t t-else="">
+    <div class="no-record">
+      <div class="no-record-icon">🔒</div>
+      <h2>No Record Available</h2>
+      <p>You don't have permission to access this record,<br/>or it does not exist.</p>
+      <div style="display:flex; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
+        <a href="/my/requests" class="btn btn-outline">← Back to Requests</a>
+        <a href="/portal-request" class="btn btn-primary">+ Create New Request</a>
+      </div>
+    </div>
+  </t>
+
+</section><!-- /page-wrap -->
+
+<!-- Website app section preserved -->
+<section id="website-app-section" style="display:none;">
+  <t t-call="portal_request.website_app_page"/>
+</section>
+
+                <!-- Bootstrap 5 JS — must load after DOM, before portal JS runs -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"/>
+
+                </body>
+            </t>
+        </template>
+
+    </data>
+</odoo>
