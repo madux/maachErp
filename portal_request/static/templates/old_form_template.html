@@ -1,0 +1,879 @@
+<odoo>
+    <data>
+        <template id="request_form_template" name="Request form">
+            <t t-call="portal.portal_layout">
+                <t t-set="wrapwrap_classes" t-value="'o_portal_bg_dark'"/>
+
+                <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
+                    <t t-call="portal.portal_back_in_edit_mode">
+                        <t t-set="backend_url" t-value="'/web#model=memo.model&amp;id=%s&amp;view_type=form' % (req.id)"/>
+                    </t>
+                </t>
+                <t t-if="req.id">
+                    <section class="s_website_form pt16 pb16 o_colored_level portal-request-form" id="portal-request-form" data-vcss="001" data-snippet="s_website_form" data-name="Form" style="background-image: none;">
+                        <section id="website-app-section" class="page-section">  
+                            <t t-call="portal_request.website_app_page"/>
+                        </section>
+
+                        <!-- Status Flow Section -->
+                        <t t-if="req.computed_stage_ids">
+                            <div class="status-flow d-flex align-items-center justify-content-start mb-3">
+                                <t t-foreach="req.computed_stage_ids" t-as="stg">
+                                    <t t-set="stage_class" t-value="'stage-box px-3 py-2 text-uppercase fw-bold'"/>
+                                    <t t-if="stg.sequence &lt; req.stage_id.sequence">
+                                        <t t-set="stage_class" t-value="stage_class + ' completed'"/>
+                                    </t>
+                                    <t t-elif="stg.id == req.stage_id.id">
+                                        <t t-set="stage_class" t-value="stage_class + ' active'"/>
+                                    </t>
+
+                                    <div class="stage-step d-flex align-items-center">
+                                        <div t-att-class="stage_class">
+                                            <t t-esc="stg.name"/>
+                                        </div>
+                                        <t t-if="stg != req.computed_stage_ids[-1]">
+                                            <div class="arrow-right"></div>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <div class="navbar-light py-0 mb-2 pt-1 p-2">
+                            <!-- <a id="previous" 
+                             t-attf-href="/my/requests/{{req.memo_type_key}}?memo_type={{req.memo_type_key}}" class="btn btn-secondary btn-sm">
+                                Back...
+                            </a> -->
+                             <a id="previous" 
+                                t-att-href="back_url" 
+                                class="btn btn-secondary btn-sm">
+                                    Back...
+                            </a>
+                            <a t-if="req.state in ['submit', 'refuse', 'Refuse'] and current_user in [req.employee_id.user_id.id, req.create_uid.id]" id="editbtn" class="btn btn-secondary btn-sm editbtn">
+                                Edit
+                            </a>
+                            <a id="save" class="btn btn-success btn-sm d-none">
+                                Save
+                            </a>
+                            <a id="discardbtn" class="btn btn-danger btn-sm d-none">
+                                Discard
+                            </a>
+                            <t t-if="req.state in ['Sent', 'Approve', 'Approve2'] and current_user in [rec.user_id.id for rec in req.stage_id.approver_ids] or req.state in ['Sent', 'Approve', 'Approve2'] and current_user in [req.employee_id.parent_id.user_id.id, req.employee_id.administrative_supervisor_id.user_id.id]">
+                                <a id="approve_request" class="approve_request btn btn-secondary btn-sm">
+                                    Approve
+                                </a>
+                                <a id="refuse_request_btn" class="refuse_request_btn btn btn-secondary btn-sm" data-bs-target="#portal_request_cancel_modal" data-bs-toggle="modal">
+                                    Refuse
+                                </a>
+                            </t>
+                            <t t-else="">-</t>
+                            <t t-if="req.state in ['Refuse', 'submit']">
+                                <a id="req.id" class="resend_request btn btn-secondary btn-sm">Submit</a>
+                            </t>
+                            <t t-if="req.move_id or req.state in ['Done'] and req.memo_type_key in ['Payment', 'cash_advance', 'soe', 'procurement_request']" id="printInvoiceBtn" class="btn btn-secondary btn-sm print_invoice_request">
+                                <a t-att-href="'/print/memo/invoice/%s' % req.id" target="_blank" class="btn btn-primary btn-sm">
+                                <!-- <a href="'/print/memo/invoice/%s' % (req.id)" class="btn btn-outline-primary o_website_form_send"> -->
+                                    Print invoice
+                                </a>
+                            </t>
+                            <a t-att-href="req.get_internal_url(req.id)" class="btn btn-primary btn-sm" target="_blank">
+                                View as core User
+                            </a>
+                        </div>
+
+                        <!-- Popup Modal for Selected Approvers -->
+                        <div class="modal fade" id="manual_approver_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Select Next Approver</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Multiple approvers found. Please select one:</p>
+                                        <div class="form-group">
+                                            <label for="manual_approver_select">Approver</label>
+                                            <select class="form-control" id="manual_approver_select"></select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary" id="btn_confirm_manual_approver">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NEW 1: Popup Modal for Routes (Sub-Approvers) -->
+                        <div class="modal fade" id="manual_route_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Select Routing Option</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Please select where to forward this request:</p>
+                                        <div class="form-group">
+                                            <label for="manual_route_select">Destination</label>
+                                            <select class="form-control" id="manual_route_select"></select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary" id="btn_confirm_manual_route">Confirm Route</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NEW 2: Popup Modal for Districts -->
+                        <div class="modal fade" id="manual_district_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Select District</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Please select the processing district:</p>
+                                        <div class="form-group">
+                                            <label for="manual_district_select">District</label>
+                                            <select class="form-control" id="manual_district_select"></select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary" id="btn_confirm_manual_district">Confirm District</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16 o_project_portal_sidebar">
+                          <div class="col-4">
+                            <t t-call="portal.portal_record_sidebar">
+                                <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+
+                                <t t-set="entries">
+                                    <div class="modal" tabindex="-1" role="dialog" id="portal_request_cancel_modal">
+                                        <div class="modal-dialog mt-5" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <input type="hidden" class="form-control s_website_form_input" id="cancel_refuse_input" name="cancel_refuse_input" value="" labelfor="Cancel"/>
+                                                    <h5 class="modal-title">Request</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you wish to proceed? </p>
+                                                    <div id="div_refuse_comment_message" class="div_refuse_comment_message o_portal_chatter_composer_body mb32 mt32">
+                                                        <div class="o_portal_messages_container mt32" data-anchor="true">
+                                                        <h4><strong>Comments</strong></h4>
+                                                            <input type="text" name="refuse_comment_message" id="refuse_comment_message" class="form-control" placeholder="Write a message..." labelfor="Refuse comment"/>
+                                                        </div>
+                                                        <div class="mt8">
+                                                            <button id="refuse_comment_button" class="o_portal_chatter_composer_btn refuse_comment_button btn btn-primary" type="button">Refuse With Comment</button>
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Discard</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="modal-footer" id="modalfooter4cancel">
+                                                    <!-- <a role="button" class="o_portal_chatter_composer_btn btn btn-primary" id="cancel_modal_btn" t-att-href="'/update/data/%s/%s' % (req.id, 'cancel')">Cancel the request</a> -->
+                                                    <a role="button" class="o_portal_chatter_composer_btn btn btn-primary cancel_modal_btn" id="cancel_modal_btn">Cancel the request</a>
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Discard</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                        <li t-if="req.state in ['submit', 'Sent']" class="list-group-item flex-grow-1">
+                                            <div class="d-grid flex-sm-nowrap">
+                                                <a class="portal_button pt-1" href="/portal-request">
+                                                    Create Request
+                                                </a>
+                                            </div>
+                                            <div class="d-grid pt-2 flex-sm-nowrap">
+                                                <button class="portal_button cancel_btn" data-bs-target="#portal_request_cancel_modal" data-bs-toggle="modal">
+                                                    Cancel Request
+                                                </button>
+                                            </div> 
+                                            
+                                        </li>
+                                        <li id="ticket-nav" class="list-group-item ps-0 flex-grow-1" t-ignore="true" role="complementary">
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item" id="nav-header">
+                                                    <a class="nav-link ps-3" href="/my/requests" style="max-width: 200px;">
+                                                        Request
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item" id="nav-chat">
+                                                    <a class="nav-link ps-3" href="#request_chat">
+                                                        History
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item" id="nav-chat">
+                                                    <a class="nav-link ps-4" href="">
+                                                        Previous
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item" id="nav-chat">
+                                                    <a class="nav-link ps-5" href="">
+                                                        Next
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li> 
+
+                                        <li t-if="req.approver_ids" class="list-group-item flex-grow-1">
+                                            <div class="col-12 col-md-12 pb-2">
+                                                <strong>Approvers:</strong>
+                                                <t t-foreach="req.approver_ids" t-as="appr">
+                                                    <t t-if="appr.user_id">
+                                                        <div class="d-flex ps-3 flex-nowrap">
+                                                            <img class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(appr.user_id.avatar_1024)" alt="Contact"/>
+                                                            <div class="ms-2">
+                                                                <div t-out="appr.user_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;]}" class="mt-2"/>
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                            </div>
+                                            <div class="col-12 col-md-12 pb-2" t-if="req.employee_id.user_id">
+                                                <strong>Employee / Requester</strong>
+                                                <div class="d-flex ps-3 flex-nowrap">
+                                                    <input class="d-none" type="checkbox" t-attf-name="is_edit_mode" t-att-record_id="req.id" id="is_edit_mode"/>
+                                                    <img class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(req.employee_id.user_id.avatar_1024)" alt="Contact"/>
+                                                    <div class="ms-2">
+                                                        <div t-field="req.employee_id.user_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;]}"/>
+                                                        <a t-attf-href="mailto:{{req.employee_id.work_email}}" t-if="req.employee_id.work_email"><div t-field="req.employee_id.user_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;email&quot;]}"/></a>
+                                                        <a t-attf-href="tel:{{req.employee_id.mobile_phone}}" t-if="req.employee_id.mobile_phone"><div t-field="req.employee_id.user_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;phone&quot;]}"/></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+ 
+                                            <div class="col-12 col-md-12 pb-2">
+                                                <strong>Followers:</strong>
+                                                <t t-if="req.users_followers">
+                                                    <t t-foreach="req.users_followers" t-as="fol">
+                                                        <div class="d-flex ps-3 flex-nowrap">
+                                                            <img class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(fol.avatar_1024)" alt="Contact"/>
+                                                            <div class="ms-2">
+                                                                <div class="mt-2"><t t-esc="fol.name"/></div>
+
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </t>
+                            </t>
+                            </div>
+                            <div id="request_content" class="col-8 col-lg justify-content-end">
+                                <div id="card" class="card">
+                                    <div id="card_header" class="card-header container" data-anchor="true">
+                                        <div class="row">
+                                            <!-- Column 1 -->
+                                            <div class="col-md-4">
+                                                <h5>
+                                                    <strong><span t-field="req.name"/></strong>
+                                                    <a t-att-id="req.id" class="record_id"/>
+                                                    <small class="text-muted"><span t-field="req.code"/> </small>
+                                                    <input type="text" class="form-control d-none" id="selectRequestOption" name="selectRequestOption" t-att-value="req.memo_type_key" labelfor=""/>
+
+                                                    <!-- <small class="text-muted"> User ID: #<t t-esc="current_user"/> </small> -->
+                                                    <!-- <small class="text-muted"> (#<span t-field="req.state"/>) </small>
+                                                    <small class="text-muted"> (#<t t-esc="current_user"/>) </small> -->
+                                                </h5>
+                                            </div>
+
+                                            <!-- Column 2 -->
+                                            <!--<div class="col-md-4 text-truncate"> -->
+
+                                            <!--    <t t-if="req.state in ['Refuse', 'submit']">-->
+                                            <!--        <a id="req.id" class="resend_request btn btn-secondary btn-sm">Resend</a>-->
+                                            <!--    </t>-->
+                                            <!--</div>-->
+                                            <!-- Column 3 -->
+                                            <div class="col-md-4 p-3">
+                                                <small class="text-end">Status:</small><br/>
+                                                <span t-field="req.stage_id.name" field_name="status" class="badge rounded-pill text-bg-info" title="Current stage of this request"/>
+                                                <t t-if="req.memo_type_key == 'cash_advance' and req.is_cash_advance_retired">
+                                                    <span class="badge rounded-pill text-bg-success ms-1">Retired</span>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="card_body" class="card-body">
+                                        <div class="row mb-4">
+                                            <strong class="col-md-4">District</strong>: <span class="col-md-6" t-field="req.branch_id"/>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <strong class="col-md-4">Request date</strong>: <span class="col-md-6" t-field="req.date" field_name="request_date" t-options="{&quot;widget&quot;: &quot;datetime&quot;, &quot;hide_seconds&quot;: True}"/>
+                                        </div><br/>
+                                        <t t-if="req.memo_type.memo_key in ['Payment']">
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Payment Reference</strong>:
+                                                <span class="col-md-6">
+                                                    <input type="text" class="form-control datepicker s_website_form_input" t-attf-value="{{req.payment_reference}}" field_name="payment_reference" id="payment_reference_form" name="payment_reference_form" readonly="true" labelfor="Payment reference"/>
+                                                </span>
+                                            </div> 
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Vendor</strong>:
+                                                <span class="col-md-6">
+                                                    <input type="text" class="vendor-cls form-control datepicker s_website_form_input" t-attf-value="{{req.vendor_id.name}}" field_name="vendor_id" t-attf-id="{{req.vendor_id.id}}" name="vendor_id_form" readonly="true" required="true" labelfor="Vendor"/>
+                                                </span>
+                                            </div> 
+                                        </t>
+
+                                        <t t-if="req.memo_type.memo_key == 'soe'">
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Cash Advance Ref.</strong>
+                                                <span class="col-md-6">
+                                                    <t t-if="req.cash_advance_reference">
+                                                        <a t-attf-href="/my/request/view/{{req.cash_advance_reference.id}}?back_url=/my/request/view/{{req.id}}" target="_blank" class="btn btn-link p-0 text-decoration-none">
+                                                            <span t-field="req.cash_advance_reference.code" class="fw-bold"/>
+                                                            <i class="fa fa-external-link ms-1 small"/>
+                                                        </a>
+                                                        <!-- <div class="small text-muted mt-1">
+                                                            (Amount: <span t-field="req.cash_advance_reference.amountfig" t-options="{'widget': 'monetary', 'display_currency': req.currency_id}"/>)
+                                                        </div> -->
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="text-muted fst-italic">No linked cash advance found</span>
+                                                    </t>
+                                                </span>
+                                            </div>
+                                        </t>
+
+                                        <t t-if="req.memo_type.memo_key in ['leave_request']">
+                                            <div class="row mb-4" t-if="req.employee_id.employee_number">
+                                                <strong class="col-md-4">Staff ID</strong>:
+                                                <span class="col-md-6">
+                                                    <a t-attf-href="#">
+                                                        <span t-field="req.employee_id.employee_number" name="staff_id" id="staff_id" field_name="staff_id"/>
+                                                    </a>
+                                                </span>
+                                            </div> 
+                                            
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Request type</strong>:
+                                                <span class="col-md-6">
+                                                    <a t-attf-href="#">
+                                                        <span t-field="req.memo_type"/>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Request date</strong>: <span class="col-md-6" field_name="date" t-field="req.date" t-options="{&quot;widget&quot;: &quot;datetime&quot;, &quot;hide_seconds&quot;: True}"/>
+                                            </div><br/>
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Leave type</strong>:
+                                                <span class="col-md-6">
+                                                    <select field_name="leave_type" id="leave_type_id" name="leave_type_id" disabled="true" class="form-control form-control-sm" labelfor="Leave type" readonly="true" required="required">
+                                                        <option selected="selected" t-attf-value="{{req.leave_type_id.id}}"><span t-esc="req.leave_type_id.name"/></option>
+                                                        <t t-foreach="leave_type_ids" t-as="lv">
+                                                            <option t-att-value="lv.id">
+                                                                <span t-esc="lv.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select> 
+                                                </span>
+                                            </div> 
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Leave Start date</strong>: 
+                                                <span class="col-md-6">
+                                                    <input type="text" class="form-control datepicker s_website_form_input" field_name="leave_start_date" id="leave_start_datex" date_field="1" name="leave_start_datex" required="true" readonly="true" disabled="true" labelfor="Leave start date" t-attf-value="{{req.leave_start_date.strftime('%m/%d/%Y')}}"/>
+                                                </span>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Leave End date</strong>:
+                                                <span class="col-md-6">
+                                                    <input type="text" class="form-control datepicker s_website_form_input" field_name="leave_end" id="leave_end_datex" date_field="1" name="leave_end_datex" required="required" readonly="true" disabled="true" labelfor="Leave End date" t-attf-value="{{req.leave_end_date.strftime('%m/%d/%Y')}}"/>
+                                                </span>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Leave Remaining</strong>: 
+                                                <span class="col-md-6">
+                                                    <input type="hidden" class="form-control s_website_form_input" field_name= "leave_remaining" name="leave_remaining" id="leave_remaining" t-attf-value="{{number_of_days_display}}"/>
+                                                    <span id="leave_remain" class="s_website_form_mark" style="font-size: 2em; font-weight: bold; white-space:nowrap;"><t t-esc="number_of_days_display"/></span> Days
+                                                </span>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Leave Days Taken</strong>:<span field_name= "leave_taken" class="col-md-6" id="leave_taken"><t t-esc="leave_taken"/></span>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <strong class="col-md-4">Reliever</strong>:
+                                                <span class="col-md-6">
+                                                    <select id="leave_reliever_ids" name="leave_reliever_id" field_name= "leave_taken" class="form-control form-control-sm" labelfor="Leave Reliever" readonly="true" required="required" disabled="true">
+                                                        <option selected="selected" t-attf-value="{{req.leave_Reliever.id}}"><span t-esc="req.leave_Reliever.name"/></option>
+                                                        <t t-foreach="employee_ids" t-as="emp">
+                                                            <option t-att-value="emp.id">
+                                                                <span t-esc="emp.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select> 
+                                                </span>
+                                            </div> 
+                                        </t>
+                                        <div class="row mb-4" t-if="req.employee_id.parent_id">
+                                            <strong class="col-md-4">Manager</strong>:
+                                            <span class="col-md-6">
+                                                <a t-attf-href="#">
+                                                    <span t-field="req.employee_id.parent_id.name" field_name= "employer_manager"/>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="row mb-4" t-if="req.employee_id.administrative_supervisor_id">
+                                            <strong class="col-md-4">Supervisor</strong>
+                                            <span class="col-md-6">
+                                                <a t-attf-href="#">
+                                                    <span t-field="req.employee_id.administrative_supervisor_id.name"/>
+                                                </a>
+                                            </span>
+                                        </div><br/>
+
+                                        <t t-if="req.memo_type_key in ['material_request']">
+                                            <!-- Interdistrict checkbox on top -->
+                                            <div class="row mb-3 d-none">
+                                                <div class="col-md-12">
+                                                    <label for="isInterDistrict" class="form-label fw-bold">Is Inter-district</label>
+                                                    <input type="checkbox"
+                                                        name="isInterDistrict"
+                                                        id="isInterDistrict"
+                                                        class="ms-2" 
+                                                        disabled="true"
+                                                        t-att-checked="req.is_inter_district_transfer and 'checked' or None"/>
+                                                </div>
+                                            </div>
+
+                                            <!-- Source and Destination side by side -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="source_location_id" class="form-label fw-bold">Source Location</label>
+                                                    <input field_name="source_location_id"
+                                                        name="source_location_id"
+                                                        t-att-id="req.source_location_id.id"
+                                                        t-att-value="req.source_location_id.name"
+                                                        class="Sourcelocation-cls form-control form-control-sm"
+                                                        disable="true"
+                                                        readonly="readonly"
+                                                        required="required"/>
+
+                                                    <!-- hidden source id -->
+                                                    <input
+                                                        t-att-id="req.source_location_id.id"
+                                                        t-att-value="req.source_location_id.name"
+                                                        class="TargetSourceLocation form-control d-none"
+                                                        name="TargetSourceLocation"/>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="destination_location_id" class="form-label fw-bold">Destination Location</label>
+                                                    <input field_name="destination_location_id"
+                                                        t-att-value="req.dest_location_id.name"
+                                                        t-att-id="req.dest_location_id.id"
+                                                        t-att-relation="true"
+                                                        name="destination_location_id"
+                                                        class="destinationlocation-cls form-control form-control-sm"
+                                                        disable="true"
+                                                        readonly="readonly"
+                                                        required="required"/>
+                                                </div>
+                                            </div>
+                                        </t>
+
+                                         
+                                        <strong class="col-md-4">Description:</strong>
+                                        <!-- <div t-if="not is_html_empty(req.description)" class="row mb-4 mb-5" name="descriptionDiv"> -->
+                                        <div class="row mb-4 mb-5" name="descriptionDiv">
+                                            <t t-set="raw_description" t-value="req.description"/>
+                                            <textarea class="form-control s_website_form_input" name="description" field_name= "description_id" required="1" id="description" disabled="true" readonly="true" rows="4" labelfor="Description"><t t-esc="description_body"/></textarea>
+                                        </div>
+
+                                        <div id="inputFollowers_div" class="d-none s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="text" data-name="Field">
+                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                <label for="inputFollowers" class="col-form-label col-sm-auto s_website_form_label"  labelfor="inputFollowers">
+                                                    <span class="s_website_form_label_content">Choose Followers</span>
+                                                </label>
+                                                    <div class="col-sm">
+                                                    <input id="inputFollowers" class="form-control s_website_form_input" field_name="inputFollowers" name="inputFollowers"/>
+                                                </div> 
+                                            </div>
+                                        </div> 
+                                        <div id="edit_document_div" class="row mb-4 d-none">
+                                            <strong class="col-md-4">Attach New Documents:</strong>
+                                            <div class="col-md-8">
+                                                <input type="file" class="form-control s_website_form_input" 
+                                                    name="other_docs" id="other_docs_edit" multiple="1" 
+                                                    placeholder="Select files..."/>
+                                                <small class="text-muted">You can upload additional files here.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="successful_alert" role="dialog" class="modal col-sm-6 mt-32">
+                                        <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show">
+                                        <!-- <div class="center-screen alert-success alert-dismissible text-center font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"> -->
+                                            <i class="fa fa-check" aria-hidden="true"/>
+                                            <strong class="font__weight-semibold">Well done!</strong> You successfully updated your comment.
+                                            <button type="button" id="btn-close-success" class="btn-close-success btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <t t-if="req.memo_type.memo_key not in ['server_access','leave_request', 'loan', 'Internal','employee_update', 'employee_update','recruitment_request']">
+                                <div class="form-row" id="product_item_form_div">
+                                    <h3 class="fs-title">Request Items</h3>
+                                    <t t-set="total_amount" t-value="0"/>
+                                    <t t-set="retire_total_amount" t-value="0"/>
+                                    <div class="tableclass table-responsive" id="product_table_div">
+                                        <table width="100%" border="1" bordercolor="#FFFFFF" bgcolor="#F7F7EF" border-collapse="collapse" align="center" id="product_table" class="table table-bordered" style="height: 200px !important;overflow-y: scroll !important;display: block;">
+                                            <thead>
+                                                <tr class="heading">
+                                                    <th width="5%">
+                                                        <label/>
+                                                    </th>
+                                                    <th width="30%" id="productHeader">
+                                                        Product Name
+                                                    </th>
+                                                    <th width="35%">
+                                                        Description
+                                                    </th>
+                                                    <th width="10%">
+                                                        <label>Unit / Qty</label>
+                                                    </th>
+                                                    <t t-if="req.memo_type.memo_key not in ['material_request']">
+                                                        <th width="15%">
+                                                            <label>UnitPrice</label>
+                                                        </th>
+                                                        <th width="15%">
+                                                            <label>SubTotal</label>
+                                                        </th>
+                                                    </t>
+                                                    <t t-if="req.memo_type.memo_key in ['soe']">
+                                                        
+                                                        <th width="10%">
+                                                            <label>Used Qty</label>
+                                                        </th>
+                                                        <th width="10%">
+                                                            <label>Used Unit Price</label>
+                                                        </th>
+                                                        <th width="10%">
+                                                            <label>Retire SubTotal</label>
+                                                        </th>
+                                                        <th width="10%">
+                                                            <label>Difference</label>
+                                                        </th>
+                                                        <th width="10%">
+                                                            <label>✔</label>
+                                                        </th>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <th width="5%">
+                                                            <label></label>
+                                                        </th>
+                                                    </t>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_product" name="tbody_product">
+                                                <t t-foreach="req.product_ids" t-as="prod">
+                                                    <tr class="heading prod_row" t-att-id="prod.id" t-att-name="prod_row" t-att-row_count="prod.id">
+                                                        <th width="2%">
+                                                            <span>
+                                                                <input type="checkbox" disable="true" readonly="readonly" field_name= "checkbox" class="productchecked" checked="checked" t-att-id="prod.id" t-att-name="prod.quantity_available"/>
+                                                            </span>
+                                                        </th>
+                                                        
+                                                        <th width="30%">
+                                                            <span t-att-id="prod.id">
+                                                                <!-- <input t-att-id="prod.id" t-att-special_id="prod.id" field_name= "product_id" disable="true" readonly="readonly" class="form-control productitemrow" name="product_item_id" t-att-value="prod.product_id.name"/> -->
+                                                                 <input t-att-id="prod.id" 
+                                                                    t-att-special_id="prod.id" 
+                                                                    field_name="product_id" 
+                                                                    disable="true" 
+                                                                    readonly="readonly" 
+                                                                    class="form-control productitemrow" 
+                                                                    name="product_item_id" 
+                                                                    
+                                                                    t-att-value="prod.product_id.id" 
+                                                                    t-att-data-init-text="prod.product_id.name"/>
+                                                            </span>
+                                                        </th>
+                                                        <th width="35%">
+                                                            <!-- <span t-att-id="prod.id"> -->
+                                                            <span class="input-container" t-att-id="prod.id">
+                                                                <textarea t-att-id="prod.id" type="text" t-att-special_id="prod.description" field_name= "product_description" required="required" disable="true" readonly="readonly" 
+                                                                class="form-control productitemrow scroll-textarea" name="product_item_description">
+                                                                <t t-esc="prod.description"/>
+                                                                </textarea>
+                                                                <!-- t-att-value="prod.description"/> -->
+                                                                <button id="expandid" class="expand-btn">↕</button>
+                                                            </span>
+                                                        </th>
+                                                        <th width="5%">
+                                                            <input type="text" main_name = "quantity_available" field_name= "request_qty" t-att-name="prod.quantity_available" t-att-id="prod.id" disable="true" required="required" t-att-value="prod.quantity_available" t-att-class="'productinput form-control QTY%s' % prod.id" t-att-row_count="prod.id" readonly="readonly"/> 
+                                                        </th>
+                                                        <t t-if="req.memo_type.memo_key not in ['material_request']">
+                                                            <th width="20%">
+                                                                <input type="text" main_name = "amount_total" field_name= "unit_price" t-att-name="prod.amount_total" t-att-id="prod.id" t-att-value="prod.amount_total" disable="true" required="required" t-att-class="'productinput form-control AmountTots AMTTOTAL%s' % prod.id" t-att-row_count="prod.id" readonly="readonly"/> 
+                                                                <!-- <input type="text" t-att-name="prod.amount_total" t-att-id="prod.id" t-att-value="'{0:,}'.format(float(prod.amount_total))" class="productinput form-control" readonly="readonly"/>  -->
+                                                            </th>
+                                                            <th width="20%">
+                                                                <span t-att-class="'productinput form-control sub_total_amount SUBTOTAL%s' % prod.id" main_name = "sub_total_amount" t-att-name="prod.sub_total_amount" disable="true" id="sub_total_amount" t-att-value="prod.sub_total_amount"><t t-esc="'{0:,}'.format(float(prod.sub_total_amount))"/></span>
+                                                            </th>
+                                                        </t>
+                                                        <t t-if="req.memo_type.memo_key in ['soe']">
+                                                            <th width="10%">
+                                                                <input type="text" main_name = "used_qty" field_name= "used_qty" t-att-name="prod.used_qty" t-att-id="prod.id" required="required" t-att-value="prod.used_qty" t-att-class="'productinput form-control USEDQTY%s' % prod.id" t-att-row_count="prod.id" readonly="readonly"/> 
+                                                            </th>
+                                                            <th width="10%">
+                                                                <input type="text" main_name = "used_amount" field_name= "used_amount" t-att-name="prod.used_amount" t-att-id="prod.id" t-att-value="prod.used_amount" required="required" t-att-class="'productinput form-control UsedAmountTots USEDAMTTOTAL%s' % prod.id" t-att-row_count="prod.id" readonly="readonly"/> 
+                                                            </th>
+                                                            <th width="10%">
+                                                                <input type="text" main_name = "retire_sub_total_amount" disable="true" field_name= "retire_sub_total_amount" t-att-name="prod.retire_sub_total_amount" t-att-id="prod.id" t-att-value="'{0:,}'.format(float(prod.retire_sub_total_amount))" required="required" t-att-class="'productinput form-control RTOTAL RTOTAL%s' % prod.id" t-att-row_count="prod.id" readonly="readonly"/> 
+                                                            </th>
+                                                            <th width="10%">
+                                                                <input type="text" main_name = "difference_in_amount" disable="true" field_name= "difference_in_amount" t-att-name="prod.difference_in_amount" t-att-id="prod.id" t-att-value="'{0:,}'.format(float(prod.difference_in_amount))" required="required" t-att-class="'productinput form-control DiffTotal DiffTotal%s' % prod.id" t-att-row_count="prod.id" readonly="readonly"/> 
+                                                            </th>
+                                                            <th width="10%">
+                                                                <t t-if="prod.retired">
+                                                                    <span>
+                                                                        ✔
+                                                                    </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                </t>
+                                                            </th>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <th width="5%">
+                                                                <label></label>
+                                                            </th>
+                                                        </t>
+                                                        
+                                                        <th width="5%">
+                                                            
+                                                        </th>
+                                                    </tr>
+                                                    <t t-set="total_amount" t-value="total_amount + prod.sub_total_amount"/>
+                                                    <t t-set="retire_total_amount" t-value="retire_total_amount + prod.retire_sub_total_amount"/>
+                                                </t>
+                                            </tbody>
+                                            <tbody id="total_amount_form">
+                                                <tr>
+                                                    <td width="2%">
+                                                    </td>
+                                                    <td width="10%">
+                                                    </td>
+                                                    <td width="5%">
+                                                    </td>
+                                                    <td width="5%">
+                                                    </td> 
+                                                    <td width="10%">
+                                                        <span style="font-size: 2em; font-weight: bold; white-space:nowrap;">Total: </span>
+                                                    </td>
+                                                    
+                                                     
+                                                    <td width="20%">
+                                                        <span name="all_total_amount" id="all_total_amount" style="font-size: 2em; font-weight: bold; white-space:nowrap;">
+                                                            <t t-esc="'{0:,}'.format(float(total_amount))"/>
+                                                        </span>
+                                                    </td>
+                                                    <t t-if="req.memo_type.memo_key in ['soe']">
+                                                        <td width="20%">
+                                                        </td>
+                                                        <td width="10%">
+                                                        </td> 
+                                                        <td width="10%">
+                                                            <span name="retire_total_amount_elm" id="retire_total_amount_elm" style="font-size: 2em; font-weight: bold; white-space:nowrap;">
+                                                                <t t-esc="'{0:,}'.format(float(retire_total_amount))"/>
+                                                            </span>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                    <!-- <div class="mb-0 py-2 col-12 add_item justify-content-center">
+                                        <div style="width: 200px;" class="s_website_form_label"/>
+                                        <a id="add_item_btn" name="add_item_btn" href="#" class="add_item_btn btn btn-primary btn-sm"> Add item </a>
+                                        <span id="s_website_form_result_addxx"/>
+                                    </div> -->
+                                </div>
+                            </t>
+                            <t t-else="">
+                            </t> 
+                            <t t-if="req.memo_type.memo_key == 'employee_update'">
+                                <div class="form-row" id="emp_item_form_div">
+                                    <h4 class="fs-title">Employee For Update</h4>
+                                    <div class="tableclass table-responsive" id="emp_table_div">
+                                        <table width="100%" border="1" bordercolor="#FFFFFF" border-collapse="collapse" align="center" id="emp_table" class="table table-bordered" style="height: 200px !important;overflow-y: scroll !important;display: block;">
+                                            <thead>
+                                                <tr class="heading">
+                                                    <th width="30%">
+                                                        Employee Name
+                                                    </th>
+                                                    <th width="25%">
+                                                        <label>New Department</label>
+                                                    </th>
+                                                    <th width="25%">
+                                                        <label>New Role</label>
+                                                    </th>
+                                                    <th width="20%">
+                                                        <label>New District</label>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_employee" name="tbody_employee">
+                                                <t t-foreach="req.employee_transfer_line_ids" t-as="employee">
+                                                    <tr class="heading employee_row" t-att-id="employee.id" t-att-name="employee_row" t-att-row_count="employee.id">
+                                                        <th width="30%">
+                                                            <span>
+                                                                <t t-esc="employee.employee_id.name"/>
+                                                            </span>  
+                                                        </th>
+                                                        
+                                                        <th width="25%">
+                                                            <span>
+                                                                <t t-esc="employee.transfer_dept.name"/>
+                                                            </span>
+                                                        </th>
+                                                        <th width="25%">
+                                                            <span>
+                                                                <t t-esc="employee.new_role.name"/>
+                                                            </span>
+                                                        </th>
+                                                        <th width="20%">
+                                                            <span>
+                                                                <t t-esc="employee.new_district.name"/>
+                                                            </span>
+                                                        </th>
+                                                        
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                            </t>
+                            <t t-if="current_user in [req.employee_id.administrative_supervisor_id.user_id.id, req.employee_id.parent_id.user_id.id]">
+                                <div class="div_supervisor_comment_message o_portal_chatter_composer_body mb32 mt32">
+                                    <div class="o_portal_messages_container mt32" data-anchor="true">
+                                    <h4><strong>Supervisor / Manager's comments</strong></h4>
+                                        <textarea rows="4" name="supervisor_comment_message" id="supervisor_comment_message" class="form-control" placeholder="Write a message..."/>
+                                    </div>
+                                    <div class="mt8">
+                                        <button id="supervisor_comment_button" class="o_portal_chatter_composer_btn supervisor_comment_button btn btn-primary" type="button">Comment &amp; Approve</button>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                            </t>
+                            <t t-if="current_user in [req.employee_id.parent_id.user_id.id, req.employee_id.administrative_supervisor_id.user_id, req.employee_id.user_id.id]">
+                                <div class="o_portal_messages_container mt32" id="request_chat" data-anchor="true">
+                                    <h4><strong>Message(s) and communication history</strong></h4>
+                                    <t t-call="portal.message_thread">
+                                        <t t-set="object" t-value="req"/>
+                                    </t>
+                                </div>
+                            </t>
+                            <t t-else="">
+                            </t> 
+                            <!-- <div class="o_portal_messages_container mt32" id="request_chat" data-anchor="true">
+                                <h4><strong>Message(s) and communication history</strong></h4>
+                                <t t-call="portal.message_thread">
+                                    <t t-set="object" t-value="req"/>
+                                </t>  
+                                <t t-call="portal.message_thread">
+                                    <t t-set="token" t-value="ticket.access_token"/>
+                                    <t t-set="disable_composer" t-value="ticket.stage_id.fold"/>
+                                </t>
+                            </div>  -->
+                            
+                            
+                            <t t-if="record_attachment_ids">
+                                <div id="attachment_section" class="card-header container" data-anchor="true">
+                                    <div class="row gs-0">
+                                        <div class="card-body table-responsive">
+                                            <table style="font-size:15px; width: 100%; border-collapse: collapse; margin-top: 10px; margin: 5px;">
+                                                <thead>
+                                                    <tr class="bg-light">
+                                                        <th class="bg-light">Attachment Name</th>
+                                                        <th class="bg-light">Link</th>
+                                                    </tr>
+                                                </thead>  
+
+                                                <t t-foreach="record_attachment_ids" t-as="att">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="bg-light p-1"><t t-esc="att.name"/></td>
+                                                            <td class="p-1">
+                                                                <a t-att-href="'/web/content/%s?download=true' % att.id" target="_blank">
+                                                                Download Attachment
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t> 
+                            <div id="message_thread_section" class="card-header container" data-anchor="true">
+                                <div class="row gs-0">
+                                    <div class="col-md">
+                                        <h4><strong>Communication Thread</strong></h4>
+                                        <h5 class="row mx-1 mb-1 mb-md-0">
+                                            <t t-foreach="req.message_ids" t-as="mess">
+                                                <div class="col-12 text-truncate">
+                                                    <img t-if="mess.author_id" class="rounded-circle o_portal_contact_img" t-attf-src="#{image_data_uri(mess.sudo().author_avatar)}" alt="Contact" style="width: 20px; height: 20px;"/>
+                                                    <strong>Author</strong> : <small class="text-muted "> (#<span t-field="mess.author_id.name"/>)</small><br/>
+                                                    <strong>Description</strong> <div class="col-lg-12" t-raw="mess.body"/><br/>
+                                                </div>
+                                            </t>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </section>
+                </t>
+                <t t-else="">
+                    <div id="no_record_content" class="col-12 col-lg justify-content-end">
+                        <div id="card" class="card">
+                            <div id="no_record_card_header" class="card-header container" data-anchor="true">
+                                <div class="row gs-0">
+                                    <div class="navbar-dark py-0 mb-2 pl-5">
+                                        <a id="previous" href="/my/requests" class="btn btn-secondary btn-sm">
+                                            Back
+                                        </a>
+                                        <a id="previous" href="/portal-request" class="btn btn-secondary btn-sm">
+                                            Create
+                                        </a>
+                                    </div>
+                                    <div class="row mb-4 mb-5">
+                                        <h2>
+                                            <span class="form-control s_website_form_input" name="no_record" disabled="true">
+                                            No Record Available to display for you <br/>
+                                            You are seeing this because you don't have the right to access this record <br/>
+                                            </span>
+                                        </h2>
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

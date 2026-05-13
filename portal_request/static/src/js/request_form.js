@@ -1215,6 +1215,7 @@ $(document).ready(function () {
                         $btn.attr('disabled', false);
                         $btn.html($btnHtml)
                         // $.unblockUI()
+                        console.log('User is not approver')
                         modal_message.text(data.message)
                         alert_modal.modal('show');
                     }else{
@@ -1223,6 +1224,8 @@ $(document).ready(function () {
                             $btn.html($btnHtml)
                             // $.unblockUI()
                             alert(data.message);
+                            console.log('Alert footer footer')
+
                         }
                         else{
                             $btn.attr('disabled', false);
@@ -1231,6 +1234,8 @@ $(document).ready(function () {
                             divRefuseCommentMessage.show();
                             modalfooter4cancel.hide();
                             refuseCommentMessage.attr('required', true);
+                            console.log('Cancelling footer')
+
                         }
                     }
                 })
