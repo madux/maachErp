@@ -21,6 +21,8 @@
         <field name="arch" type="xml">
                 <xpath expr="//field[@name='email']" position="after">
                          <field name="branch_id" widget="selection"/>
+                         <field name="hp_number"/>
+                         
                 </xpath>
         </field>
     </record>
@@ -32,6 +34,7 @@
         <field name="arch" type="xml">
             <field name="lang" position="after" >
 	        	<field string="Branch" name="branch_id" />
+                <field name="hp_number"/>
             </field>
         </field>
     </record>
