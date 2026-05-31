@@ -50,7 +50,7 @@
         # 'auth/views/assets.xml',
         # 'auth/data/ir_config_parameter_data.xml',
         # 'account/views/search_template_view.xml',
-        'account/views/account_view.xml',
+        # 'account/views/account_view.xml',
         # 'account/data/data.xml',
         # 'account/data/account_financial_report_data.xml',
         # 'account/data/mail_template_data.xml',

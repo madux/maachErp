@@ -63,11 +63,18 @@ $o-brand-odoo: #e83e8c;
 .o_field_widget {
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
     transition: all 0.3s ease;
-    color: #3D4263 !important;
     font-family: 'Outfit', system-ui, sans-serif !important;
-    font-size: 15px !important;
+    font-size: 14.5px !important;
+    font-weight: 500;
+    color: #3D4263 !important;
 }
 
+.o_avatar >.o_m2o_avatar {
+    font-family: 'Outfit', system-ui, sans-serif !important;
+    font-size: 14.5px !important;
+    font-weight: 600;
+    color: #5f6379 !important;
+}
 // .o_field_widget.o_required_modifier.o_field_char.o_readonly_modifier {
 //     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 //     transition: all 0.3s ease;
@@ -525,275 +532,153 @@ o_control_panel_breadcrumbs
 }
 
 
-// .o_field_statusbar {
-
-//     $-btn-secondary-design: map-get($o-btns-bs-override, "secondary");
-
-//     > .o_statusbar_status {
-//         display: flex;
-//         align-content: space-around;
-//         margin-left: auto;
-//         flex-flow: row-reverse wrap-reverse;
-//         align-self: stretch;
-//         align-items: stretch;
-
-//         gap: 4px;
-
-//         > .o_arrow_button:not(.d-none) {
-
-//             position: relative;
-//             padding-left: $o-statusbar-arrow-width * 1.5;
-//             border-radius: 6px;
-
-//             font-weight: 500;
-//             letter-spacing: .3px;
-
-//             background: linear-gradient(135deg,#f8f9fb,#e9edf3);
-//             border: 1px solid rgba(0,0,0,.05);
-
-//             transition: all .35s ease;
-
-//             box-shadow:
-//                 0 2px 6px rgba(0,0,0,.05);
-
-//             &:hover{
-//                 transform: translateY(-2px);
-
-//                 background: linear-gradient(135deg,#ffffff,#eef3f8);
-
-//                 box-shadow:
-//                     0 6px 16px rgba(0,0,0,.12);
-//             }
-
-//             &.o_first {
-//                 @include border-end-radius(8px);
-//                 padding-right: $o-horizontal-padding;
-//                 overflow: hidden;
-//             }
-
-//             &.o_last {
-//                 @include border-start-radius(8px);
-//                 padding-left: $o-horizontal-padding;
-//             }
-
-//             &:not(.o_first),
-//             &:not(.o_last) {
-
-//                 &:before, &:after {
-//                     @include o-position-absolute(-$border-width, -$o-statusbar-arrow-width);
-//                     display: block;
-
-//                     border-top: floor($o-statusbar-height/2) solid transparent;
-//                     border-bottom: ceil($o-statusbar-height/2) solid transparent;
-//                     border-right: none;
-
-//                     border-left: $o-statusbar-arrow-width solid #e9edf3;
-
-//                     content: " ";
-//                     transition: all .35s ease;
-//                 }
-
-//                 &:before {
-//                     right: calc(-#{$o-statusbar-arrow-width} - #{$border-width});
-//                     border-left-color: $o-view-background-color;
-//                 }
-
-//                 &:hover:after {
-//                     border-left-color: #ffffff;
-//                 }
-//             }
-
-//             /* Disabled / inactive */
-//             &:disabled {
-
-//                 opacity: .65;
-//                 cursor: default;
-
-//                 &:not(.o_arrow_button_current) {
-
-//                     &, &:hover, &:focus {
-//                         color: $text-muted;
-//                         background: #f4f6f9;
-//                     }
-//                 }
-//             }
-
-//             /* CURRENT ACTIVE STATE */
-//             &.o_arrow_button_current:disabled,
-//             &:active:not(.o_first) {
-
-//                 background: linear-gradient(135deg,#00c6ff,#0072ff);
-
-//                 color: white;
-
-//                 border-color: rgba(0,0,0,.05);
-
-//                 box-shadow:
-//                     0 0 10px rgba(0,150,255,.6),
-//                     0 0 20px rgba(0,120,255,.4),
-//                     inset 0 0 6px rgba(255,255,255,.2);
-
-//                 animation: statusGlow 1.8s infinite alternate;
-
-//                 &:after {
-//                     border-left-color: #0072ff;
-//                 }
-
-//                 &, & + .btn {
-//                     &:before {
-//                         border-left-color: #0066e0;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-
 .o_field_statusbar {
 
-    width: 100%;
+    $-btn-secondary-design: map-get($o-btns-bs-override, "secondary");
 
-    .o_statusbar_status {
-
+    > .o_statusbar_status {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        align-content: space-around;
+        margin-left: auto;
+        flex-flow: row-reverse wrap-reverse;
+        align-self: stretch;
+        align-items: stretch;
 
-        width: 100%;
+        gap: 4px;
 
-        gap: 0;
-
-        padding: 8px 0;
-    }
-
-    .o_arrow_button {
-
-        position: relative;
-
-        flex: 1;
-
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-
-        padding: 0 12px 0 0;
-
-        min-height: 60px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        color: #6b7280;
-
-        font-weight: 500;
-        font-size: 14px;
-
-        transition: all .3s ease;
-
-        overflow: visible !important;
-
-        /* LINE CONNECTOR */
-        &:not(:last-child)::after {
-
-            content: "";
-
-            position: absolute;
-
-            top: 50%;
-            left: calc(50% + 28px);
-
-            width: calc(100% - 56px);
-            height: 2px;
-
-            background: #d1d5db;
-
-            transform: translateY(-50%);
-
-            z-index: 1;
-        }
-
-        /* STEP CIRCLE */
-        &::before {
-
-            content: attr(data-value);
-
-            position: absolute;
-
-            left: 12px;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 28px;
-            height: 28px;
-
-            border-radius: 50%;
-
-            background: #d1d5db;
-
-            color: #4b5563;
-
+        > .o_arrow_button:not(.d-none) {
+            height: $o-statusbar-height;
             display: flex;
             align-items: center;
-            justify-content: center;
+            position: relative;
+            padding-left: $o-statusbar-arrow-width * 1.5;
+            border-radius: 6px;
 
-            font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
+            letter-spacing: .3px;
 
-            z-index: 2;
+            background: linear-gradient(135deg,#f8f9fb,#e9edf3);
+            border: 1px solid rgba(0,0,0,.05);
 
-            transition: all .3s ease;
-        }
+            transition: all .35s ease;
 
-        /* DONE STEP */
-        &.o_arrow_button_current ~ .o_arrow_button::before {
+            box-shadow:
+                0 2px 6px rgba(0,0,0,.05);
 
-            background: #d1d5db;
-            color: #4b5563;
-        }
+            &:hover{
+                transform: translateY(-2px);
 
-        /* COMPLETED STEP */
-        &:has(+ .o_arrow_button_current),
-        &.o_arrow_button_done {
-
-            color: #374151;
-
-            &::before {
-
-                content: "✓";
-
-                background: #22c55e;
-
-                color: white;
-            }
-
-            &::after {
-
-                background: #22c55e;
-            }
-        }
-
-        /* CURRENT STEP */
-        &.o_arrow_button_current {
-
-            color: #111827;
-
-            font-weight: 600;
-
-            &::before {
-
-                background: #ec4899;
-
-                color: white;
+                background: linear-gradient(135deg,#ffffff,#eef3f8);
 
                 box-shadow:
-                    0 0 0 4px rgba(236,72,153,.15);
+                    0 6px 16px rgba(0,0,0,.12);
+            }
+
+            &.o_first {
+                @include border-end-radius(8px);
+                padding-right: $o-horizontal-padding;
+                overflow: hidden;
+            }
+
+            &.o_last {
+                @include border-start-radius(8px);
+                padding-left: $o-horizontal-padding;
+            }
+
+            &:not(.o_first),
+            &:not(.o_last) {
+
+                &:before,
+                &:after {
+
+                    content: "";
+
+                    position: absolute;
+
+                    top: 50%;
+                    right: -#{$o-statusbar-arrow-width};
+
+                    transform: translateY(-50%);
+
+                    width: 0;
+                    height: 0;
+
+                    border-top: ($o-statusbar-height / 2) solid transparent;
+                    border-bottom: ($o-statusbar-height / 2) solid transparent;
+
+                    border-left:
+                        $o-statusbar-arrow-width solid #e9edf3;
+
+                    border-right: none;
+
+                    transition: all .35s ease;
+
+                    z-index: 2;
+                }
+
+                &:before {
+
+                    right: calc(
+                        -#{$o-statusbar-arrow-width}
+                        - #{$border-width}
+                    );
+
+                    border-left-color: $o-view-background-color;
+
+                    z-index: 1;
+                }
+
+                &:hover:after {
+                    border-left-color: #ffffff;
+                }
+            }
+
+            /* Disabled / inactive */
+            &:disabled {
+
+                opacity: .65;
+                cursor: default;
+
+                &:not(.o_arrow_button_current) {
+
+                    &, &:hover, &:focus {
+                        color: $text-muted;
+                        background: #f4f6f9;
+                    }
+                }
+            }
+
+            /* CURRENT ACTIVE STATE */
+            &.o_arrow_button_current:disabled,
+            &:active:not(.o_first) {
+
+                background: linear-gradient(135deg,#00c6ff,#0072ff);
+
+                color: white;
+
+                border-color: rgba(0,0,0,.05);
+
+                box-shadow:
+                    0 0 10px rgba(0,150,255,.6),
+                    0 0 20px rgba(0,120,255,.4),
+                    inset 0 0 6px rgba(255,255,255,.2);
+
+                animation: statusGlow 1.8s infinite alternate;
+
+                &:after {
+                    border-left-color: #0072ff;
+                }
+
+                &, & + .btn {
+                    &:before {
+                        border-left-color: #0066e0;
+                    }
+                }
             }
         }
     }
 }
-
+ 
 /* Glow animation */
 @keyframes statusGlow {
 

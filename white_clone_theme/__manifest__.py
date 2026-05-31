@@ -28,6 +28,7 @@
     'assets': {
         "web.assets_backend": [
             "/white_clone_theme/static/src/scss/backend_theme.scss",
+            # "/white_clone_theme/static/src/status_bar.xml",
         ],
         'web._assets_primary_variables': [
             '/white_clone_theme/static/src/scss/primary_variable_custom.scss',

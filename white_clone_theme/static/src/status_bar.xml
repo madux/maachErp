@@ -1,0 +1,14 @@
+<t t-name="white_clone_theme.StatusBarField"
+   t-inherit="web.StatusBarField"
+   t-inherit-mode="extension">
+
+    <xpath expr="//button[contains(@class, 'o_arrow_button')]"
+           position="inside">
+
+        <span class="step-circle">
+            <t t-esc="index + 1"/>
+        </span>
+
+    </xpath>
+
+</t>
