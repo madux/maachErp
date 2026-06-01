@@ -21,7 +21,6 @@
         <field name="arch" type="xml">
                 <xpath expr="//field[@name='email']" position="after">
                          <field name="branch_id" widget="selection"/>
-                         <field name="hp_number"/>
                          
                 </xpath>
         </field>
