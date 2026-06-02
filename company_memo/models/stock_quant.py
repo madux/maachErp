@@ -69,7 +69,7 @@ class StockPicking(models.Model):
                     quant._get_inventory_move_values(-quant.inventory_diff_quantity,
                                                      quant.location_id,
                                                      quant.product_id.with_company(quant.company_id).property_stock_inventory,
-                                                     out=True))
+                                                     ))
         moves = self.env['stock.move'].with_context(inventory_mode=False).create(move_vals)
         moves._action_done()
         self.location_id.write({'last_inventory_date': fields.Date.today()})
