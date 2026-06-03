@@ -23,9 +23,10 @@ class ResPartner(models.Model):
 
     # @api.constrains('hp_number')
     # def check_hp_number_constraint(self):
-    #     exist_hp_number = self.env['res.partner'].search([
-    #         ('hp_number', '=', self.hp_number)], limit=2)
-    #     if len(exist_hp_number) > 1:
+    #     exist_hp_number = self.env['res.partner'].search_count([
+    #         ('hp_number', '=', self.hp_number),('is_patient', '=', True)], limit=2)
+    #     #if len(exist_hp_number) > 1:
+    #     if exist_hp_number > 1:
     #         raise ValidationError("Sorry !!! you cannot create record with duplicate hp_number")
       
 
