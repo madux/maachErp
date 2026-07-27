@@ -66,9 +66,21 @@ def format_to_odoo_date(date_str: str) -> str:
         
 class Home(main.Home):
     
+    # def _login_redirect(self, uid, redirect=None):
+    #     '''we did this so that every user will be directed to portal page'''
+    #     return '/apps' # _get_login_redirect_url(uid, redirect)
     def _login_redirect(self, uid, redirect=None):
-        '''we did this so that every user will be directed to portal page'''
-        return '/apps' # _get_login_redirect_url(uid, redirect)
+        """
+        Redirect every fully authenticated user (including after TOTP)
+        to /apps unless an explicit redirect was requested.
+        """
+
+        # Respect an explicit redirect parameter (?redirect=/some/page)
+        if redirect:
+            return super()._login_redirect(uid, redirect=redirect)
+
+        # Default destination after successful login/TOTP
+        return '/apps'
     
     # @http.route('/', type='http', auth="none")
     # def index(self, s_action=None, db=None, **kw):
