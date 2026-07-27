@@ -70,16 +70,12 @@ class Home(main.Home):
     #     '''we did this so that every user will be directed to portal page'''
     #     return '/apps' # _get_login_redirect_url(uid, redirect)
     def _login_redirect(self, uid, redirect=None):
-        """
-        Redirect every fully authenticated user (including after TOTP)
-        to /apps unless an explicit redirect was requested.
-        """
+        result = super()._login_redirect(uid, redirect=redirect)
 
-        # Respect an explicit redirect parameter (?redirect=/some/page)
-        if redirect:
-            return super()._login_redirect(uid, redirect=redirect)
+        # Keep 2FA flow intact
+        if result and '/web/login/totp' in result:
+            return result
 
-        # Default destination after successful login/TOTP
         return '/apps'
     
     # @http.route('/', type='http', auth="none")
