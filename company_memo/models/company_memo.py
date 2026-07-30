@@ -2015,7 +2015,7 @@ class Memo_Model(models.Model):
             next_stage_id = self.get_threshold_stage_id(memo_settings)
             manager_can_approve = False
             last_stage = mstages[-1] if mstages else False 
-            if not next_stage_id:
+            if not next_stage_id or next_stage_id.id == self.stage_id.id:
                 if last_stage and last_stage.id != current_stage_id.id:
                     if current_stage_id.id in memo_setting_stages.ids:
                         current_stage_index = memo_setting_stages.ids.index(current_stage_id.id)
@@ -2041,7 +2041,6 @@ class Memo_Model(models.Model):
                         approver_ids.append(self.sudo().employee_id.parent_id.id)
                     elif self.sudo().employee_id.administrative_supervisor_id:
                         approver_ids.append(self.sudo().employee_id.administrative_supervisor_id.id)
-            
             return approver_ids, next_stage_record.id
         else:
             if not from_website:
