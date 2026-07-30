@@ -1994,9 +1994,7 @@ class Memo_Model(models.Model):
         generated from the website or from odoo internal use
         """
         approver_ids = [] 
-        
         memo_settings = self.memo_setting_id
-        
         if self.to_create_document and self.document_memo_config_id:
             memo_settings = self.document_memo_config_id
             
