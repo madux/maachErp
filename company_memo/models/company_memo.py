@@ -1978,13 +1978,24 @@ class Memo_Model(models.Model):
                 # threshold_within_range = memo_setting_id.mapped('threshold_ids').filtered(
                 #     lambda rec: rec.threshold_over_amount >= float(self.request_total_amount) and float(self.request_total_amount) < rec.threshold_under_amount
                 #     )
+                total_sum = self.request_total_amount
+                if self.memo_type_key in ['Payment', 'payment']:
+                    if self.invoice_ids:
+                        total_sum = sum([inv.amount_total for inv in self.invoice_ids])
+                    elif self.payment_ids:
+                        total_sum = sum([inv.amount_total for inv in self.payment_ids])
+                if self.memo_type_key in ['procurement_request'] and self.po_ids:
+                    total_sum = sum([inv.amount_total for inv in self.po_ids])
                 threshold_within_range = memo_setting_id.mapped('threshold_ids').filtered(
-                    lambda rec: rec.threshold_over_amount <= self.request_total_amount <= rec.threshold_under_amount
+                    lambda rec: rec.threshold_over_amount <= total_sum <= rec.threshold_under_amount \
+                    and rec.applicable_stage_id.id == self.stage_id.id
                 )
                 if threshold_within_range:
+                    # raise ValidationError(f"{threshold_within_range[0].threshold_over_amount} < {threshold_within_range[0].threshold_stage_id.name} > {threshold_within_range[0].threshold_under_amount} === {total_sum}")
                     '''becareful to ensure that the stage also exist in the settings'''
                     if threshold_within_range[0].threshold_stage_id.id in mstages: 
                         next_stage_id = threshold_within_range[0].threshold_stage_id.id
+
         return next_stage_id
 
     def get_next_stage_artifact(self, current_stage_id, from_website=False):
@@ -2013,7 +2024,7 @@ class Memo_Model(models.Model):
             next_stage_id = self.get_threshold_stage_id(memo_settings)
             manager_can_approve = False
             last_stage = mstages[-1] if mstages else False 
-            if not next_stage_id or next_stage_id == self.stage_id.id:
+            if not next_stage_id: #or next_stage_id == self.stage_id.id:
                 if last_stage and last_stage.id != current_stage_id.id:
                     if current_stage_id.id in memo_setting_stages.ids:
                         current_stage_index = memo_setting_stages.ids.index(current_stage_id.id)

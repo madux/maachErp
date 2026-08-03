@@ -19,7 +19,7 @@ class ResPartner(models.Model):
         return self.env.user.branch_id
 
     branch_id = fields.Many2one('multi.branch', string='Branch', default=_branch_default_get)
-    hp_number = fields.Char(string='HP nummber')
+    # hp_number = fields.Char(string='HP nummber')
 
     # @api.constrains('hp_number')
     # def check_hp_number_constraint(self):

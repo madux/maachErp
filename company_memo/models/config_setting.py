@@ -434,11 +434,23 @@ class MemoConfigThreshold(models.Model):
         )
     threshold_over_amount = fields.Float(string="Threshold", default=1, required=True)
     threshold_under_amount = fields.Float(string="Threshold", default=100000, required=True)
+    applicable_stage_id = fields.Many2one(
+            "memo.stage",
+            string="Applicable stage",
+            required=True,
+            help="Stage by which it is applicable"
+        )
     threshold_stage_id = fields.Many2one(
         "memo.stage",
         string="Threshold stage",
         required=True,
     )
+
+    @api.onchange('applicable_stage_id')
+    def _onchange_applicable_stage_id(self):
+        if self.applicable_stage_id:
+            if self.applicable_stage_id.id == self.threshold_stage_id.id:
+                raise ValidationError("You applicable stage and threshold stage cannot be same")
 
     @api.onchange('memo_config_id')
     def _onchange_memo_config_id(self):
@@ -460,26 +472,10 @@ class MemoConfigThreshold(models.Model):
                 continue
 
             first_stage = stages[0]
-            last_stage = stages[-1]
-            # stage_list = []
-            # for s in stages:
-            #     if s.id == first_stage.id:
-            #         continue 
-            #     elif s.id == last_stage.id:
-            #         continue 
-            #     elif s.is_approved_stage:
-            #         continue 
-            #     else:
-            #         stage_list.append(s.id)
-            #         # if s.no_conditional_stage_id or s.yes_conditional_stage_id:
-            #         #     stage_list += [s.no_conditional_stage_id, s.yes_conditional_stage_id]
-
-            # rec.allowed_stage_ids = [(6,0, stage_list)]
-
+            last_stage = stages[-1] 
             rec.allowed_stage_ids = stages.filtered(
                 lambda s: (
-                    s.id != first_stage.id and
-                    s.id != last_stage.id and
+                    s.id not in [first_stage.id, last_stage.id, self.applicable_stage_id.id] and
                     not s.is_approved_stage
                 )
             )

@@ -8,6 +8,7 @@
                 <form string="Request threshold">
                     <group>
                         <group>
+                            <field name="applicable_stage_id" required="1"/> 
                             <field name="threshold_over_amount" required="1"/> 
                             <field name="threshold_under_amount" required="1"/> 
                             <field name="threshold_stage_id" required="1" domain="[('id', 'in', allowed_stage_ids)]"/> 
