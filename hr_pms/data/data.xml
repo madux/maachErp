@@ -130,17 +130,23 @@
         </record>
 
         <record model="hr.level" id="hr_level_jm">
-            <field name="name">JM</field>
+            <field name="name">Entry-Level</field>
+        </record>
+        <record model="hr.level" id="hr_level_jm2">
+            <field name="name">Intermidate</field>
         </record>
         <record model="hr.level" id="hr_level_mm">
-            <field name="name">MM</field>
+            <field name="name">Advanced</field>
         </record>
         <record model="hr.level" id="hr_level_sm">
-            <field name="name">SM</field>
+            <field name="name">Expert</field>
         </record>
 
         <record model="hr.level.category" id="hr_level_jcategory_jm">
             <field name="category" eval="'Junior Management'"/>
+        </record>
+        <record model="hr.level.category" id="hr_level_jcategory_jm_two">
+            <field name="category" eval="'Junior_Management_two'"/>
         </record>
         <record model="hr.level.category" id="hr_level_jcategory_mm">
             <field name="category" eval="'Middle Management'"/>
@@ -266,7 +272,7 @@
         <!-- PMS YEAR ENDS  -->
         <!-- JOB CATEGORY -->
         <record model="pms.category" id="pms_snr_mgt">
-            <field name="name">SENIOR MANAGEMENT LEVEL</field>
+            <field name="name">EXPERT</field>
             <field name="sequence">SN000001</field>
             <field name="loaded_via_data">True</field>
             <field name="kra_weighted_score">35</field>
@@ -284,7 +290,7 @@
             ]"/>
         </record>
         <record model="pms.category" id="pms_middle_mgt">
-            <field name="name">MIDDLE MANAGEMENT LEVEL</field>
+            <field name="name">ADVANCED</field>
             <field name="sequence">MID000001</field>
             <field name="loaded_via_data">True</field>
             <field name="kra_weighted_score">50</field>
@@ -302,7 +308,7 @@
             ]"/>
         </record>
         <record model="pms.category" id="pms_jr_mgt">
-            <field name="name">JUNIOR MANAGEMENT LEVEL</field>
+            <field name="name">ENTRY-LEVEL / INTERMEDIATE</field>
             <field name="sequence">JR000001</field>
             <field name="loaded_via_data">True</field>
             <field name="kra_weighted_score">60</field>

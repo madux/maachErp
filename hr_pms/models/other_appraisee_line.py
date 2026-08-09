@@ -86,6 +86,7 @@ class currentAssessmentSectionLine(models.Model):
         )
     functional_supervisor_rating = fields.Integer(
         string='FA Rating', 
+        default=,
         )
     reviewer_rating = fields.Integer(
         string='Reviewer Ratings',

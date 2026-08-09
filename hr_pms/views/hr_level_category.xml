@@ -4,7 +4,7 @@
 			<field name="name">hr.level.category</field>
 			<field name="model">hr.level.category</field>
 			<field name="arch" type="xml">
-				<form string="Level Category" create="1">
+				<form string="PMS Category" create="1">
                     <header>
 						<button 
                             name="action_set_job_role" 
@@ -54,14 +54,14 @@
 			<field name="name">view.hr.level.category</field>
 			<field name="model">hr.level.category</field>
 			<field name="arch" type="xml">
-				<tree string="level category" create="1">
+				<tree string="PMS category" create="1">
                     <field name="category"/> 
                 </tree>
 			</field>
 		</record>
 
 		<record id="action_hr_level_category_id" model="ir.actions.act_window">
-			<field name="name">Level category</field>
+			<field name="name">PMS category</field>
 			<field name="res_model">hr.level.category</field>
 			<field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
@@ -72,6 +72,6 @@
 				</p>
 			</field>
 		</record>
-        <menuitem id="view_hr_level_category_id_menu" name="Level Category" sequence="24" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_hr_level_category_id"
+        <menuitem id="view_hr_level_category_id_menu" name="PMS Category" sequence="24" parent="hr_pms.view_hr_pms_config_menu" action="hr_pms.action_hr_level_category_id"
     groups="hr_pms.group_pms_officer_id,hr_pms.group_pms_manager_id,hr_pms.group_pms_supervisor"/>
 </odoo>

@@ -14,12 +14,13 @@ _logger = logging.getLogger(__name__)
 class HRLevelcategory(models.Model):
     _name = "hr.level.category"
     _rec_name = "category"
-    _description = "HR level category"
+    _description = "HR category"
 
     category = fields.Selection([
-        ('Junior Management', 'Junior Management'),
-        ('Middle Management', 'Middle Management'),
-        ('Senior Management', 'Senior Management'),
+        ('Junior Management', 'Entry-Level'),
+        ('Junior_Management_two', 'Intermediate'),
+        ('Middle Management', 'Advanced'),
+        ('Senior Management', 'Expert'),
         ], string="Category", default = "", required=True)
     
     job_role_ids = fields.Many2many(
@@ -36,12 +37,12 @@ class HRLevelcategory(models.Model):
         if self.category:
             Employee = self.env['hr.employee']
             domain = []
-            if self.category == "Junior Management":
-                domain = [('level_id.name', 'in', ['JM', 'Junior Management', 'Junior Mgt', 'Junior'])]
+            if self.category in ["Junior Management", "Junior_Management_two"]:
+                domain = [('level_id.name', 'in', ['JM', 'Junior Management','Entry-Level', 'Intermediate', 'Junior Mgt', 'Junior'])]
             elif self.category == "Middle Management":
-                domain = [('level_id.name', 'in', ['MM', 'Middle Management', 'Middle Mgt', 'Middle'])]
+                domain = [('level_id.name', 'in', ['MM', 'Advanced', 'Middle Management', 'Middle Mgt', 'Middle'])]
             elif self.category == "Senior Management":
-                domain = [('level_id.name', 'in', ['SM', 'Senior Management', 'Senior Mgt', 'Senior'])]
+                domain = [('level_id.name', 'in', ['SM','Expert', 'Senior Management', 'Senior Mgt', 'Senior'])]
             employees = Employee.search(domain)
             self.job_role_ids = False 
             if employees:
@@ -55,7 +56,7 @@ class HRLevelcategory(models.Model):
     def check_category(self):
         exists = self.env['hr.level.category'].search([('category', '=', self.category)])
         if len(exists) > 1:
-            raise ValidationError(f'You have already create level category using {self.category}')
+            raise ValidationError(f'You have already create PMS category using {self.category}')
 
 class HRUnit(models.Model):
     _name = "hr.region"
@@ -97,6 +98,19 @@ class HRDistrict(models.Model):
     #     required=False
     #     )
 
+class HRcadre(models.Model):
+    _name = "hr.cadre"
+    _description = "HR cadre"
+
+    name = fields.Char(
+        string="Name", 
+        required=True
+        )
+    code = fields.Char(
+        string="Code", 
+        )
+
+    
 class HRLevel(models.Model):
     _name = "hr.level"
     _description = "HR level"
@@ -220,11 +234,14 @@ class HrEmployee(models.Model):
         string="Employment date", groups="base.group_user"
     )
     level_id = fields.Many2one(
-        'hr.level', string="Level", groups="base.group_user"
+        'hr.level', string="PMS Category", groups="base.group_user"
     )
     grade_id = fields.Many2one(
         'hr.grade', string="Grade", groups="base.group_user"
     )
+    cadre_id = fields.Many2one(
+            'hr.cadre', string="Level", groups="base.group_user"
+        )
     work_unit_id = fields.Many2one(
         'hr.work.unit', string="Unit/SC/Workshop/Substation", groups="base.group_user"
     )
@@ -429,7 +446,7 @@ class HrEmployee(models.Model):
             email = record.work_email or record.private_email
             fullname = record.name
             user, password = False, False
-            login = email if email and email.endswith('@enugudisco.com') else record.employee_number
+            login = email if email and email.endswith('@layer3.com.ng') else record.employee_number
             if login:
                 password = ''.join(random.choice('EdcpasHwodfo!xyzus$rs1234567') for _ in range(10))
                 user_vals = {
@@ -517,6 +534,11 @@ class HrEmployeePublicInherit(models.Model):
         related='employee_id.level_id',
         readonly=True
     )
+    cadre_id = fields.Many2one(
+                'hr.cadre', string="Level",
+                related='employee_id.level_id',
+                readonly=True
+            )
 
     grade_id = fields.Many2one(
         'hr.grade',
@@ -806,7 +828,7 @@ class HrEmployeePublicInherit(models.Model):
 #             email = record.work_email or record.private_email
 #             fullname = record.name
 #             user, password = False, False
-#             login = email if email and email.endswith('@enugudisco.com') else record.employee_number
+#             login = email if email and email.endswith('@layer3.com.ng') else record.employee_number
 #             if login:
 #                 password = ''.join(random.choice('EdcpasHwodfo!xyzus$rs1234567') for _ in range(10))
 #                 user_vals = {
@@ -1067,7 +1089,7 @@ class HrEmployeePublicInherit(models.Model):
 #             email = record.work_email or record.private_email
 #             fullname = record.name
 #             user, password = False, False
-#             login = email if email and email.endswith('@enugudisco.com') else record.employee_number
+#             login = email if email and email.endswith('@layer3.com.ng') else record.employee_number
 #             if login:
 #                 password = ''.join(random.choice('EdcpasHwodfo!xyzus$rs1234567') for _ in range(10))
 #                 user_vals = {

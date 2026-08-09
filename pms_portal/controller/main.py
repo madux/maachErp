@@ -260,8 +260,8 @@ class PMSPortalController(http.Controller):
             if not line.exists():
                 continue
             rw = float(ld.get('revise_weightage', line.revise_weightage) or 0)
-            if rw > 20:
-                return {'error': f'Revised weightage for "{line.name}" cannot exceed 20.'}
+            if rw > 25:
+                return {'error': f'Revised weightage for "{line.name}" cannot exceed 25.'}
             vals = {
                 'revise_weightage': rw,
                 'fa_comment': ld.get('fa_comment', line.fa_comment or ''),

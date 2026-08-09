@@ -652,6 +652,7 @@ class PMS_Appraisee(models.Model):
     
     @api.depends(
             'current_assessment_section_line_ids.assessment_type',
+            'employee_id'
             )
     def compute_current_assessment_score(self):
         'get the lines for appraisers and compute'
@@ -682,6 +683,7 @@ class PMS_Appraisee(models.Model):
         ffr = fr_rating * 40 if self.employee_id.reviewer_id else 0
         weightage = (aar) + (faa) + (ffr)
         self.current_assessment_score = weightage / 4
+        _logger.info(f"Current assessment score is ==> {weightage / 4}")
 
     def get_fa_rating(self, manager_id, administrative_supervisor_id,reviewer_id):
         f_rating = 30
@@ -952,12 +954,11 @@ class PMS_Appraisee(models.Model):
     def action_notify(self, subject, msg, email_to, email_cc):
         sender_email_from = self.env.user.email
         email_from = sender_email_from or self.get_email_from()
-        # raise ValidationError(email_from)
         if email_to and email_from:
             email_ccs = list(filter(bool, email_cc))
             reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
             mail_data = { 
-                    'email_from': f'"Kachelan Pharma-Research Limited" <help@kachelan.com>',
+                    'email_from': f'"Layer3" <notifications@layer3.com.ng>',
                     # 'email_from': f'"Appraisal Notification" <{email_from}>',
                     'subject': subject,
                     'email_to': email_to,
@@ -985,7 +986,7 @@ class PMS_Appraisee(models.Model):
             Regards<br/>
             HR Administrator <br/><br/>
             Should you require any additional information, please contact ICT support for help.<br/>
-            <a href='https://kachelan.odoo.com' target="_blank">Click ICT Support link</a><br/>"""
+            <a href='https://odoo.layer3.ng' target="_blank">Click ICT Support link</a><br/>"""
         subject = "Appraisal Reminder"
         email_to = self.employee_id.work_email or self.administrative_supervisor_id.work_email or self.manager_id.work_email if self.state in ['draft', 'done', 'reviewer_rating'] else \
             self.administrative_supervisor_id.work_email if self.state == "admin_rating" else \
@@ -998,7 +999,7 @@ class PMS_Appraisee(models.Model):
         email_from = self.write_uid.company_id.email or self.env.user.email
         mail_data = {
                 # 'email_from': f'"Appraisal Notification" <{email_from}>',
-                'email_from': f'"Kachelan Pharma-Research Limited" <help@kachelan.com>',
+                'email_from': f'"LAYER3" <notifications@layer3.com.ng>',
                 'subject': subject,
                 'email_to': email_to,
                 'reply_to': False,
@@ -1021,7 +1022,7 @@ class PMS_Appraisee(models.Model):
                 Regards<br/> 
                 HR Administrator<br/>
                 Should you require any additional information, please contact ICT support for help.<br/>
-                <a href='https://kachelan.odoo.com' target="_blank">Click ICT Support link</a>"""
+                <a href='/apps' target="_blank">Click ICT Support link</a>"""
                 
             subject = "Appraisal Reminder"
             email_to = rec.employee_id.work_email or rec.administrative_supervisor_id.work_email or rec.manager_id.work_email if rec.state in ['draft', 'done', 'reviewer_rating'] else \
@@ -1776,7 +1777,7 @@ class PMS_Appraisee(models.Model):
         msg_body = "Dear Sir/Madam, </br> We wish to notify you that {} appraisal with reference <br/>{} has been returned with reason(s) below; \
              <br/>HR Administrator<br/>\
              Should you require any additional information, please contact ICT support for help.<br/>\
-             <a href='help@kachelan.com'>Click ICT Support link</a>".format(self.employee_id.name, self.name)
+             <a href='notifications@layer3.com.ng'>Click ICT Support link</a>".format(self.employee_id.name, self.name)
         self.mail_sending("Appraisal Rejection", msg_body, self.employee_id.work_email, [self.employee_id.parent_id.work_email, self.employee_id.administrative_supervisor_id.work_email])
     
     def button_goal_setting(self):

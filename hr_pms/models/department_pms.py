@@ -203,7 +203,7 @@ class PMSDepartment(models.Model):
         email_ccs = list(filter(bool, email_cc))
         reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
         mail_data = {
-                'email_from': f'"Kachelan Pharma-Research Limited" <help@kachelan.com>', 
+                'email_from': f'"LAYER3" <notifications@layer3.com.ng>', 
                 'subject': subject,
                 'email_to': email_to,
                 'reply_to': email_from,
@@ -235,7 +235,7 @@ class PMSDepartment(models.Model):
         email_ccs = list(filter(bool, email_cc))
         reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
         mail_data = {
-                'email_from': f'"Kachelan Pharma-Research Limited" <help@kachelan.com>', 
+                'email_from': f'"LAYER3" <notifications@layer3.com.ng>', 
                 'subject': subject,
                 'email_to': self.test_employee_id.work_email,
                 'reply_to': email_from,
@@ -261,7 +261,7 @@ class PMSDepartment(models.Model):
         appraises = []
         categ_name = self.hr_category_id.category.category
         # THIS IS TO PREVENT DUPLICATE APPRAISAL
-        level_type_name = 'JM' if categ_name == 'Junior Management' else 'MM' if categ_name == 'Middle Management' else 'SM' 
+        level_type_name = 'Entry-Level' if categ_name in ['Junior Management', 'Junior_Management_two'] else 'Intermidate' if categ_name in ['Junior_Management_two'] else 'MM' if categ_name == 'Advanced' else 'Expert' 
         for jb in job_position_ids:
             employees = Employee.search([
                 ('job_id', '=', jb.id),

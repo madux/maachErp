@@ -108,6 +108,7 @@ access_id_reviewer_qualitycheck_section_line,access_name_reviewer_qualitycheck_s
 access_id_assessment_description,access_name_assessment_description,model_assessment_description,base.group_user,1,1,1,1
 access_id_employees_import,access_name_employees_import,hr_pms.model_employees_import,base.group_user,1,1,1,1
 access_id_hr_level,access_name_hr_level,hr_pms.model_hr_level,base.group_user,1,1,1,1
+access_id_hr_cadre,access_name_hr_cadre,hr_pms.model_hr_cadre,base.group_user,1,1,1,1
 access_id_hr_unit,access_name_hr_unit,hr_pms.model_hr_unit,base.group_user,1,1,1,1
 access_id_hr_grade,access_name_hr_grade,hr_pms.model_hr_grade,base.group_user,1,1,1,1
 access_id_hr_region,access_name_hr_region,hr_pms.model_hr_region,base.group_user,1,1,1,1

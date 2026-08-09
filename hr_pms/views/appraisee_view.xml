@@ -264,7 +264,7 @@
                                         <field name="job_title" readonly="1" force_save="1" string="Designation" groups="base.group_user"/>
                                         <field name="work_unit_id" readonly="1" string="Unit/SC/Workshop/Substation" force_save="1" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
                                     </group>
-                                        <separator class="alert alert-info" role="alert" string="Current Functional Appraiser’s (should have supervised appraisee for minimum 4 months) Personal Information" colspan="4"/>
+                                        <separator class="alert alert-info" role="alert" string="Current Functional Appraiser's (should have supervised appraisee for minimum 4 months) Personal Information" colspan="4"/>
                                         <group>
                                             <field name="manager_id" readonly="1" string="Manager" options="{'no_create': True,'no_open': True}" groups="base.group_user"/> 
                                             <field name="manager_job_id" readonly="1" force_save="1" options="{'no_create': True,'no_open': True}" string="Function" groups="base.group_user"/> 
@@ -1015,7 +1015,7 @@
 			<field name="name">view.pms.appraisee.tree</field>
 			<field name="model">pms.appraisee</field>
 			<field name="arch" type="xml">
-				<tree string="appraisee" create="0" decoration-success="state in ('functional_rating', 'admin_rating', 'reviewer_rating','wating_approval','done')" decoration-muted="state == 'withdraw'" decoration-bf="state == 'done'">
+				<tree default_order="id desc" string="appraisee" create="0" decoration-success="state in ('functional_rating', 'admin_rating', 'reviewer_rating','wating_approval','done')" decoration-muted="state == 'withdraw'" decoration-bf="state == 'done'">
                     <field name="employee_id" readonly="1" string="Employee"/> 
                     <field name="department_id" readonly="0" string="Department"/>  
                     <field name="pms_year_id" readonly="1" string="Period"/>   
@@ -1026,6 +1026,7 @@
                     <field name="final_lc_score" readonly="1" string="LC Score"/>  -->
                     <field name="overall_score" readonly="1" string="Overall Score"/> 
                     <field name="state" readonly="1"/> 
+                    <field name="create_date" readonly="1"/> 
                 </tree>
 			</field>
 		</record>

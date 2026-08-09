@@ -6,7 +6,7 @@
             <field name="name">Login credential Notification  </field>
             <field name="name">Login credential Notification  </field>
             <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="email_from">help@kachelan.com</field>
+            <field name="email_from">notifications@layer3.com.ng</field>
             <field name="email_to">${object.work_email}</field>
             <field name="subject">Login credential Notification</field>
             <field name="reply_to">""</field>
@@ -27,13 +27,13 @@
                                             <ul>
                                                 <li>URL: <a href='/web'>Click the link</a> </li>
                                                 
-                                                <li>URL: <a>https://kachelan.odoo.com/odoo/login</a> </li>
+                                                <li>URL: <a>odoo.layer3.ng</a> </li>
                                                 <li>Username: <t t-out="object.user_id.login"/></li>
                                                 <li>Password: <t t-out="object.migrated_password or ''"/></li>
                                             </ul>
 
                                             Should you require any additional information, please contact ICT support for help.<br/>
-                                            <a href='https://kachelan.odoo.com'>Click ICT Support link</a>
+                                            <a href='/apps'>Click ICT Support link</a>
                                             <br /><br/>
                                             Regards,<br />
                                             --<br/>HR Administrator
@@ -57,7 +57,7 @@
         <record id="mail_template_non_email_subordinates_pms_notification" model="mail.template">
             <field name="name">Login credential Notification for Subordinates</field>
             <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="email_from">erpsupport@enugudisco.com</field>
+            <field name="email_from">notifications@layer3.com.ng</field>
             <field name="email_to">${object.parent_id.work_email}</field>
             <field name="subject">Login credential Notification for Subordinates</field>
             <field name="body_html" type="html">
@@ -76,12 +76,12 @@
                                             A User Account has been generated for your Subordinate because he/she has no organizational or private email for him/ her to access their Performance Appraisal System. <br/>
                                             Kindly pass the following credentials to him/her to access the system.
                                             <ul>
-                                                <li>URL: <a href='https://kachelan.odoo.com/odoo/login'>Click the link</a> or Copy the URL: <a>https://kachelan.odoo.com/odoo/login</a> </li>
+                                                <li>URL: <a href='/web/login'>Click the link</a> or Copy the URL: <a>https://odoo.layer3.ng</a> </li>
                                                 <li>Username: <t t-out="object.user_id.login"/></li>
                                                 <li>Password: <t t-out="object.migrated_password or ''"/></li>
                                             </ul>
                                             Should you require any additional information, please contact ICT support for help.<br/>
-                                            <a href='https://kachelan.odoo.com'>Click ICT Support link</a>
+                                            <a href='/apps'>Click ICT Support link</a>
                                             <br /><br/>
                                             Regards,<br />
                                             --<br/>HR Administrator
