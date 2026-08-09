@@ -652,13 +652,15 @@ class PMS_Appraisee(models.Model):
     
     @api.depends(
             'current_assessment_section_line_ids.assessment_type',
-            'employee_id'
             )
     def compute_current_assessment_score(self):
         'get the lines for appraisers and compute'
         ar_rating = 0
         fa_rating = 0
         fr_rating = 0
+        for rec in self.current_assessment_section_line_ids:
+            rec.generate_current_assessment_type()
+        
         ar = self.mapped('current_assessment_section_line_ids').filtered(
             lambda s: s.state == 'admin_rating'
         )
@@ -703,6 +705,8 @@ class PMS_Appraisee(models.Model):
         ar_rating = 0
         fa_rating = 0
         fr_rating = 0
+        for rec in self.current_assessment_section_line_ids:
+            rec.generate_potential_assessment_type()
         ar = self.mapped('potential_assessment_section_line_ids').filtered(
             lambda s: s.state == 'admin_rating'
         )
