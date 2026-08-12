@@ -475,8 +475,8 @@ class MemoConfigThreshold(models.Model):
             last_stage = stages[-1] 
             rec.allowed_stage_ids = stages.filtered(
                 lambda s: (
-                    s.id not in [first_stage.id, last_stage.id, self.applicable_stage_id.id] and
-                    not s.is_approved_stage
+                    s.id not in [first_stage.id, last_stage.id, rec.applicable_stage_id.id]
+                    #   and not s.is_approved_stage
                 )
             )
 
