@@ -8,10 +8,11 @@ class PMSJobCategory(models.Model):
     _name = "pms.category"
     _description= "PMS Template category based on job roles"
     _inherit = "mail.thread"
+    _rec_name = "category"
 
     name = fields.Char(
         string="Name", 
-        required=True)
+        required=True, )
     
     category = fields.Many2one('hr.level.category', string="Category")
     sequence = fields.Char(
@@ -117,6 +118,8 @@ class PMSJobCategory(models.Model):
         if self.category:
             job_role_ids = self.category.job_role_ids
             self.job_role_ids = job_role_ids
+            self.name = self.category
+    
 
     # @api.constrains('category')
     # def check_category(self):
@@ -172,8 +175,8 @@ class PMSJobCategory(models.Model):
     def get_url(self, id, name):
         base_url = http.request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         action_id = self.env.ref('hr_pms.action_pms_category_view')
-        base_url += f'/odoo/action-{action_id.id}/{id}'
-        # base_url += '/web#id=%d&view_type=form&model=%s' % (id, name)
+        # base_url += f'/odoo/action-{action_id.id}/{id}'
+        base_url += '/web#id=%d&view_type=form&model=%s' % (id, name)
         return "<a href={}> </b>Click<a/>. ".format(base_url)
 
     test_employee_id = fields.Many2one('hr.employee', string = "Test employee")

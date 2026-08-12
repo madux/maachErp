@@ -181,8 +181,8 @@ class PMSDepartment(models.Model):
     def get_url(self, id, name):
         base_url = http.request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         action_id = self.env.ref('hr_pms.action_pms_department_view_id')
-        base_url += f'/odoo/action-{action_id.id}/{id}'
-        # base_url += '/web#id=%d&view_type=form&model=%s' % (id, name)
+        # base_url += f'/odoo/action-{action_id.id}/{id}'
+        base_url += '/web#id=%d&view_type=form&model=%s' % (id, name)
         return "<a href={}> </b>Click<a/>. ".format(base_url) 
 
     def action_notify(self, employee, rec, email_to, email_cc):
