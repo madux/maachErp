@@ -20,7 +20,7 @@ class Send_PMS_back(models.TransientModel):
             msg_body = "Dear Sir/Madam, </br> We wish to notify you that {} appraisal with reference <br/>{} has been returned with reason(s) below; \
              <br/>{} <br/><br/>HR Administrator<br/>\
              Should you require any additional information, please contact ICT support for help.<br/>\
-             <a href='help@kachelan.com'>Click ICT Support link</a>".format(self.direct_employee_id.name, self.record_id.name, self.reason)
+             <a href='notifications@layer3.com.ng'>Click ICT Support link</a>".format(self.direct_employee_id.name, self.record_id.name, self.reason)
             record_id.sudo().write({'reason_back': "By {}: {}".format(self.env.user.name, self.reason)})
             self.mail_sending_reject(msg_body)
         else:
@@ -36,7 +36,7 @@ class Send_PMS_back(models.TransientModel):
         initiator = self.record_id.employee_id.parent_id.work_email
         # emails = (','.join(str(item2.work_email) for item2 in self.users_followers))
         mail_data = {
-                'email_from': f'"Kachelan Pharma-Research Limited" <help@kachelan.com>',
+                'email_from': f'"LAYER3" <notifications@layer3.com.ng>',
                 'subject': subject,
                 'email_to': mail_to,
                 'reply_to': email_from,

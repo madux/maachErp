@@ -1323,8 +1323,11 @@ $(document).ready(function () {
                     changeYear: true,
                     yearRange: '2022:2050',
                     maxDate: null,
-                    minDate: new Date()
+                    minDate: new Date(),
+                    defaultDate: new Date()
                 });
+                console.log("REQUEST DATE SETTING BY DEFAUL")
+                $('#request_date').datepicker('setDate', new Date()).trigger('change');
 
                 $('#request_end_date').datepicker('destroy').datepicker({
                     onSelect: function (ev) {
@@ -1761,7 +1764,7 @@ $(document).ready(function () {
                             $("#employed_id").val(employee_name);
                             $("#phone_number").val(phone)
                             $("#email_from").val(email)
-
+                            $('#request_date').datepicker('setDate', new Date()).trigger('change');
                             var curType = String($('#selectedRequestTypeId').val() || $('#selectRequestType').val() || '');
                             if (curType && typeof self.populateConfigOptionsForType === 'function') {
                                 var interState = $('#isInterDistrictProcess').is(':checked');

@@ -118,7 +118,22 @@ class currentAssessmentSectionLine(models.Model):
         ('Fantastic', 'Fantastic'),
         ('Superb', 'Superb'),
         ], string="Choose", default = "none", readonly=False)
-    
+
+    def generate_current_assessment_type(self):
+        if self.assessment_type == 'Ordinary':
+            rating = 1
+        elif self.assessment_type == 'Diligent':
+            rating = 2
+        elif self.assessment_type == 'Fantastic':
+            rating = 3
+        elif self.assessment_type == 'Superb':
+            rating = 4 
+        else:
+            rating = 0
+        self.administrative_supervisor_rating = rating
+        self.functional_supervisor_rating = rating
+        self.reviewer_rating = rating
+
     @api.onchange('assessment_type')
     def onchange_assessment_type(self):
         self.validate_rating()
@@ -218,7 +233,22 @@ class PotentialSectionLine(models.Model):
         ('High Potential', 'High Potential'),
         ('Ready to go', 'Ready to go'),
         ], string="Choose", default = "none", readonly=False)
-    
+
+    def generate_potential_assessment_type(self):
+        if self.assessment_type == 'Low Potential':
+            rating = 1
+        elif self.assessment_type == 'Medium Potential':
+            rating = 2
+        elif self.assessment_type == 'High Potential':
+            rating = 3
+        elif self.assessment_type == 'Ready to go':
+            rating = 4 
+        else:
+            rating = 0
+        self.administrative_supervisor_rating = rating
+        self.functional_supervisor_rating = rating
+        self.reviewer_rating = rating
+        
     @api.onchange('assessment_type')
     def onchange_assessment_type(self):
         self.validate_rating()

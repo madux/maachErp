@@ -1978,13 +1978,24 @@ class Memo_Model(models.Model):
                 # threshold_within_range = memo_setting_id.mapped('threshold_ids').filtered(
                 #     lambda rec: rec.threshold_over_amount >= float(self.request_total_amount) and float(self.request_total_amount) < rec.threshold_under_amount
                 #     )
+                total_sum = self.request_total_amount
+                if self.memo_type_key in ['Payment', 'payment']:
+                    if self.invoice_ids:
+                        total_sum = sum([inv.amount_total for inv in self.invoice_ids])
+                    if hasattr(self.env['memo.model'], 'payment_ids'):
+                        total_sum = sum([inv.amount_total for inv in self.payment_ids])
+                if self.memo_type_key in ['procurement_request'] and self.po_ids:
+                    total_sum = sum([inv.amount_total for inv in self.po_ids])
                 threshold_within_range = memo_setting_id.mapped('threshold_ids').filtered(
-                    lambda rec: rec.threshold_over_amount <= self.request_total_amount <= rec.threshold_under_amount
+                    lambda rec: rec.threshold_over_amount <= total_sum <= rec.threshold_under_amount \
+                    and rec.applicable_stage_id.id == self.stage_id.id
                 )
                 if threshold_within_range:
+                    # raise ValidationError(f"{threshold_within_range[0].threshold_over_amount} < {threshold_within_range[0].threshold_stage_id.name} > {threshold_within_range[0].threshold_under_amount} === {total_sum}")
                     '''becareful to ensure that the stage also exist in the settings'''
                     if threshold_within_range[0].threshold_stage_id.id in mstages: 
                         next_stage_id = threshold_within_range[0].threshold_stage_id.id
+
         return next_stage_id
 
     def get_next_stage_artifact(self, current_stage_id, from_website=False):
@@ -1994,9 +2005,7 @@ class Memo_Model(models.Model):
         generated from the website or from odoo internal use
         """
         approver_ids = [] 
-        
         memo_settings = self.memo_setting_id
-        
         if self.to_create_document and self.document_memo_config_id:
             memo_settings = self.document_memo_config_id
             
@@ -2015,7 +2024,7 @@ class Memo_Model(models.Model):
             next_stage_id = self.get_threshold_stage_id(memo_settings)
             manager_can_approve = False
             last_stage = mstages[-1] if mstages else False 
-            if not next_stage_id:
+            if not next_stage_id: #or next_stage_id == self.stage_id.id:
                 if last_stage and last_stage.id != current_stage_id.id:
                     if current_stage_id.id in memo_setting_stages.ids:
                         current_stage_index = memo_setting_stages.ids.index(current_stage_id.id)
@@ -2041,7 +2050,6 @@ class Memo_Model(models.Model):
                         approver_ids.append(self.sudo().employee_id.parent_id.id)
                     elif self.sudo().employee_id.administrative_supervisor_id:
                         approver_ids.append(self.sudo().employee_id.administrative_supervisor_id.id)
-            
             return approver_ids, next_stage_record.id
         else:
             if not from_website:
@@ -3427,8 +3435,9 @@ class Memo_Model(models.Model):
         payment_company = self.processing_company_id or self.company_id or self.env.user.company_id
         company_expense_account_id = payment_company.default_cash_advance_account_id
         # account_id = company_expense_account_id # or journal_id and journal_id.default_account_id
+        company_expense_account_id = company_expense_account_id or self.bank_journal_id.default_account_id
         if not company_expense_account_id:
-            raise ValidationError(f"No default cash advance account found for company {payment_company} at {pr.product_id.name or pr.description} line . System admin should go to the company configuration and set the cash advance account..")
+            raise ValidationError(f"No default cash advance account found for company {payment_company.name} at {pr.product_id.name or pr.description} line . System admin should go to the company configuration and set the cash advance account..")
         return company_expense_account_id.id if company_expense_account_id else None
     
     def get_cashadvance_credit_account(self, journal_id=False):
@@ -3566,7 +3575,7 @@ class Memo_Model(models.Model):
                 ('company_id', '=', payment_company.id),
                 # ('type', 'in', ['bank', 'general']),
                 ('type', 'in', ['purchase']),
-             ], limit=1) or self.journal_id
+             ], limit=1) or self.bank_journal_id
             if not journal_id:
                 raise UserError(f"No purchase journal configured for company: {payment_company.name} Contact admin to setup before proceeding")
             account_move = self.env['account.move'].sudo()

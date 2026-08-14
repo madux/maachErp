@@ -364,8 +364,8 @@ function validateGoalLines(lines){
 
   for(const l of lines){
     if(!l.name){ toast('KRA description is required for all rows.','error'); return false; }
-    if(l.weightage<=0){ toast('Weightage must be greater than 0.','error'); return false; }
-    if(l.weightage>20){ toast('Individual weightage cannot exceed 20.','error'); return false; }
+    if(l.weightage<=5){ toast('Weightage must be greater than 0.','error'); return false; }
+    if(l.weightage>25){ toast('Individual weightage cannot exceed 25.','error'); return false; }
   }
   const tot=lines.reduce((s,l)=>s+l.weightage,0);
   if(tot>100){ toast(`Total weightage (${tot}) cannot exceed 100.`,'error'); return false; }

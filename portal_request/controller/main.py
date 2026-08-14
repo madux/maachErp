@@ -66,9 +66,17 @@ def format_to_odoo_date(date_str: str) -> str:
         
 class Home(main.Home):
     
+    # def _login_redirect(self, uid, redirect=None):
+    #     '''we did this so that every user will be directed to portal page'''
+    #     return '/apps' # _get_login_redirect_url(uid, redirect)
     def _login_redirect(self, uid, redirect=None):
-        '''we did this so that every user will be directed to portal page'''
-        return '/apps' # _get_login_redirect_url(uid, redirect)
+        result = super()._login_redirect(uid, redirect=redirect)
+
+        # Keep 2FA flow intact
+        if result and '/web/login/totp' in result:
+            return result
+
+        return '/apps'
     
     # @http.route('/', type='http', auth="none")
     # def index(self, s_action=None, db=None, **kw):

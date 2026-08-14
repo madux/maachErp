@@ -33,6 +33,7 @@
                     <field name="job_id" string="Designation" required="0" options="{'no_create': True,'no_open': True}"/>
                     <field name="grade_id" required="0" options="{'no_create': True,'no_open': False}"/>
                     <field name="level_id" required="1" options="{'no_create': True,'no_open': True}"/>
+                    <field name="cadre_id" required="0" options="{'no_create': False,'no_open': False}"/>
                     <field name="unit_id" required="0" options="{'no_create': True,'no_open': False}"/>
                     <field name="employment_date" required="0"/>
                 </field>

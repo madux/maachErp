@@ -8,25 +8,26 @@ class PMSJobCategory(models.Model):
     _name = "pms.category"
     _description= "PMS Template category based on job roles"
     _inherit = "mail.thread"
+    _rec_name = "category"
 
     name = fields.Char(
         string="Name", 
-        required=True)
+        required=True, )
     
     category = fields.Many2one('hr.level.category', string="Category")
     sequence = fields.Char(
         string="Sequence")
         
     kra_weighted_score = fields.Integer(
-        string='KRA Section Weight', 
+        string='Key Result Area Section - Weight (%)', 
         required=True,
         )
     fc_weighted_score = fields.Integer(
-        string='FC Section Weight', 
+        string='Functional Competency Section Weight (%)', 
         required=True,
         )
     lc_weighted_score = fields.Integer(
-        string='LC Section Weight', 
+        string='Leadership Competency Section Weight (%)', 
         required=True,
         )
 
@@ -117,6 +118,8 @@ class PMSJobCategory(models.Model):
         if self.category:
             job_role_ids = self.category.job_role_ids
             self.job_role_ids = job_role_ids
+            self.name = self.category
+    
 
     # @api.constrains('category')
     # def check_category(self):
@@ -125,7 +128,7 @@ class PMSJobCategory(models.Model):
     #         ('pms_year_id', '=', self.pms_year_id.id)
     #         ])
     #     if len(exists) > 1:
-    #         raise ValidationError(f'You have already created a template with level category and same period using {self.category}')
+    #         raise ValidationError(f'You have already created a template with PMS category and same period using {self.category}')
 
     @api.constrains('job_role_ids')
     def _check_lines(self):
@@ -156,7 +159,7 @@ class PMSJobCategory(models.Model):
         email_ccs = list(filter(bool, email_cc))
         reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
         mail_data = {
-                'email_from': f'"Kachelan Pharma-Research Limited" <help@kachelan.com>',
+                'email_from': f'"LAYER3" <notifications@layer3.com.ng>',
                 'subject': subject,
                 'email_to': email_to,
                 'reply_to': email_from,
@@ -172,8 +175,8 @@ class PMSJobCategory(models.Model):
     def get_url(self, id, name):
         base_url = http.request.env['ir.config_parameter'].sudo().get_param('web.base.url')
         action_id = self.env.ref('hr_pms.action_pms_category_view')
-        base_url += f'/odoo/action-{action_id.id}/{id}'
-        # base_url += '/web#id=%d&view_type=form&model=%s' % (id, name)
+        # base_url += f'/odoo/action-{action_id.id}/{id}'
+        base_url += '/web#id=%d&view_type=form&model=%s' % (id, name)
         return "<a href={}> </b>Click<a/>. ".format(base_url)
 
     test_employee_id = fields.Many2one('hr.employee', string = "Test employee")
@@ -212,11 +215,11 @@ class PMSJobCategory(models.Model):
             email_to = department_manager.work_email
             email_cc = [] #[rec.work_email for rec in self.approver_ids]
             msg = """Dear {}, <br/>
-            I wish to notify you that an appraisal template with description, {} \
-            has been initialized. You may proceed with publishing it out \
-            to staff under your department (Unit).<br/>\
-            <br/>Kindly {} to review <br/>\
-            Yours Faithfully<br/>{}<br/>HR Department ({})""".format(
+                I wish to notify you that an appraisal template with description, {} \
+                has been initialized. You may proceed with publishing it out \
+                to staff under your department (Unit).<br/>\
+                <br/>Kindly {} to review <br/>\
+                Yours Faithfully<br/>{}<br/>HR Department ({})""".format(
                 department_manager.name,
                 self.name, 
                 self.get_url(pms_department_obj.id, pms_department_obj._name),
@@ -225,7 +228,6 @@ class PMSJobCategory(models.Model):
                 )
             self.action_notify(subject, msg, email_to, email_cc)
         else:
-
             # raise ValidationError(
             #     """
             #     There is no work email address found for the
@@ -238,24 +240,22 @@ class PMSJobCategory(models.Model):
         jr = self.mapped('job_role_ids').filtered(
             lambda jr: not jr.department_id)
         if jr:
-            raise ValidationError("""
-            Please ensure all the selected 
-            job roles has departments setup
-            """)
+            raise ValidationError(
+                """
+                    Please ensure all the selected job roles has departments setup
+                """
+                )
 
-    
     def button_send_missing_appraisal(self):
         PMS_Appraisee = self.env['pms.appraisee']
         if not self.missing_employee_ids:
             raise ValidationError("Please employee to send to")
-        
         # check if the employee record has been generated before 
-        
-        
         for emp in self.missing_employee_ids:
-            level_type_id = self.env.ref('hr_pms.hr_level_jcategory_jm') if emp.level_id.name == 'JM' else self.env.ref('hr_pms.hr_level_jcategory_mm') if emp.level_id.name == 'MM' else self.env.ref('hr_pms.hr_level_jcategory_sm') if emp.level_id.name == 'SM' else False
+            level_type_id = self.env.ref('hr_pms.hr_level_jcategory_jm') if emp.level_id.name == "Entry-Level" else self.env.ref('hr_pms.hr_level_jcategory_jm_two') if emp.level_id.name == 'Intermidate' else self.env.ref('hr_pms.hr_level_jcategory_mm') if emp.level_id.name == 'Advanced' else self.env.ref('hr_pms.hr_level_jcategory_sm') if emp.level_id.name == 'Expert' else False
+            level_type_id = level_type_id.id if level_type_id else False
             department_pms_ref = self.mapped('pms_department_ids').filtered(
-            lambda s: s.department_id.id == emp.department_id.id and s.hr_category_id.category.id == level_type_id.id)
+            lambda s: s.department_id.id == emp.department_id.id and s.hr_category_id.category.id == level_type_id)
 
             appraisal_existing = self.env['pms.appraisee'].search(
             [('employee_id', '=', emp.id),
@@ -267,10 +267,10 @@ class PMSJobCategory(models.Model):
                 raise ValidationError(f"""
                 System cannot find any match for {emp.name} department: {emp.department_id.name} {emp.department_id.id} linked to this template,
                  check if there has been template published for this department
-                  under department tab. {emp.name} has level as {level_type_id.category} {level_type_id.id}""")
+                  under department tab. {emp.name} has level as {level_type_id and level_type_id.category} {level_type_id}""")
             
             if not emp.job_id:
-                raise ValidationError(f""""
+                raise ValidationError(f"""
                  Employee : {emp.name} does not have designation or job id
                  """)
             appraises = []
