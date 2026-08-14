@@ -55,8 +55,9 @@ $(function(){
     {name:"Uchenna Anumba", role:"Head Business Intelligence", format: 'jpeg'},
     {name:"Olawale Babalola", role:"Technical Consultant", format: 'png'},
     {name:"Emeka Okoli", role:"Software Manager", format: 'png'},
-    {name:"Joy", role:"Head Legal", format: 'jpeg'},
-    {name:"Micheal Ndunwa", role:"Software Developer", format: 'jpeg'}
+    {name:"Joy Ezeurike", role:"Head Legal", format: 'png'},
+    {name:"Micheal Ndunwa", role:"Software Developer", format: 'jpeg'},
+    {name:"Kadiri Emmanuel", role:"Software Developer", format: 'png'}
   ];
   var $grid = $('#speakerGrid');
   speakers.forEach(function(sp){

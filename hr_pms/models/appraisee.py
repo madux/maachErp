@@ -962,7 +962,7 @@ class PMS_Appraisee(models.Model):
             email_ccs = list(filter(bool, email_cc))
             reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
             mail_data = { 
-                    'email_from': f'"Layer3" <notifications@layer3.com.ng>',
+                    'email_from': f'"{self.write_uid.company_id.name}" <{self.write_uid.company_id.email}>', 
                     # 'email_from': f'"Appraisal Notification" <{email_from}>',
                     'subject': subject,
                     'email_to': email_to,
@@ -1003,7 +1003,7 @@ class PMS_Appraisee(models.Model):
         email_from = self.write_uid.company_id.email or self.env.user.email
         mail_data = {
                 # 'email_from': f'"Appraisal Notification" <{email_from}>',
-                'email_from': f'"LAYER3" <notifications@layer3.com.ng>',
+                'email_from': f'"{self.write_uid.company_id.name}" <{self.write_uid.company_id.email}>',
                 'subject': subject,
                 'email_to': email_to,
                 'reply_to': False,
@@ -1781,7 +1781,7 @@ class PMS_Appraisee(models.Model):
         msg_body = "Dear Sir/Madam, </br> We wish to notify you that {} appraisal with reference <br/>{} has been returned with reason(s) below; \
              <br/>HR Administrator<br/>\
              Should you require any additional information, please contact ICT support for help.<br/>\
-             <a href='notifications@layer3.com.ng'>Click ICT Support link</a>".format(self.employee_id.name, self.name)
+             <a href='/'>Click ICT Support link</a>".format(self.employee_id.name, self.name)
         self.mail_sending("Appraisal Rejection", msg_body, self.employee_id.work_email, [self.employee_id.parent_id.work_email, self.employee_id.administrative_supervisor_id.work_email])
     
     def button_goal_setting(self):

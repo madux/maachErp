@@ -6,7 +6,8 @@
             <field name="name">Login credential Notification  </field>
             <field name="name">Login credential Notification  </field>
             <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="email_from">notifications@layer3.com.ng</field>
+            <field name="email_from">{{ object.write_uid.company_id.name }} &lt;{{ object.write_uid.company_id.email }}&gt;</field>
+            <!-- <field name="email_from">notifications@layer3.com.ng</field> -->
             <field name="email_to">${object.work_email}</field>
             <field name="subject">Login credential Notification</field>
             <field name="reply_to">""</field>
@@ -57,7 +58,8 @@
         <record id="mail_template_non_email_subordinates_pms_notification" model="mail.template">
             <field name="name">Login credential Notification for Subordinates</field>
             <field name="model_id" ref="hr.model_hr_employee"/>
-            <field name="email_from">notifications@layer3.com.ng</field>
+            <field name="email_from">{{ object.write_uid.company_id.name }} &lt;{{ object.write_uid.company_id.email }}&gt;</field>
+            <!-- <field name="email_from">notifications@layer3.com.ng</field> -->
             <field name="email_to">${object.parent_id.work_email}</field>
             <field name="subject">Login credential Notification for Subordinates</field>
             <field name="body_html" type="html">

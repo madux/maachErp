@@ -203,7 +203,7 @@ class PMSDepartment(models.Model):
         email_ccs = list(filter(bool, email_cc))
         reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
         mail_data = {
-                'email_from': f'"LAYER3" <notifications@layer3.com.ng>', 
+                'email_from': f'"{self.write_uid.company_id.name}" <{self.write_uid.company_id.email}>', 
                 'subject': subject,
                 'email_to': email_to,
                 'reply_to': email_from,
@@ -235,7 +235,7 @@ class PMSDepartment(models.Model):
         email_ccs = list(filter(bool, email_cc))
         reciepients = (','.join(items for items in email_ccs)) if email_ccs else False
         mail_data = {
-                'email_from': f'"LAYER3" <notifications@layer3.com.ng>', 
+                'email_from': f'"{self.write_uid.company_id.name}" <{self.write_uid.company_id.email}>', 
                 'subject': subject,
                 'email_to': self.test_employee_id.work_email,
                 'reply_to': email_from,
