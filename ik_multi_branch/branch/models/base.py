@@ -19,14 +19,14 @@ class ResPartner(models.Model):
         return self.env.user.branch_id
 
     branch_id = fields.Many2one('multi.branch', string='Branch', default=_branch_default_get)
-    hp_number = fields.Char(string='HP nummber')
+    # hp_number = fields.Char(string='HP nummber')
 
-    @api.constrains('hp_number')
-    def check_hp_number_constraint(self):
-        exist_hp_number = self.env['res.partner'].search_count([
-            ('hp_number', '=', self.hp_number),('is_patient', '=', True)], limit=2)
-        #if len(exist_hp_number) > 1:
-        if exist_hp_number > 1:
-            raise ValidationError("Sorry !!! you cannot create record with duplicate hp_number")
+    # @api.constrains('hp_number')
+    # def check_hp_number_constraint(self):
+    #     exist_hp_number = self.env['res.partner'].search_count([
+    #         ('hp_number', '=', self.hp_number),('is_patient', '=', True)], limit=2)
+    #     #if len(exist_hp_number) > 1:
+    #     if exist_hp_number > 1:
+    #         raise ValidationError("Sorry !!! you cannot create record with duplicate hp_number")
       
 
