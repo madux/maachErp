@@ -13,7 +13,7 @@ from odoo.modules.module import get_resource_path
 class OdooExperienceAfricaLanding(http.Controller):
     """Controller exposing the Odoo Experience Africa 2026 landing page."""
 
-    @http.route('/landing-page', type='http', auth='user')
+    @http.route('/landing-page', type='http', auth='none')
     def show_html_page(self, **kw):
         # Get actual file path inside the module
         file_path = get_resource_path(
