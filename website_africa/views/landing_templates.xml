@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="landing_page" name="MaachERP Website">
+        <t t-call="web.layout">
+            <t t-set="pageName">MaachERP Website 2026</t>
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+
+            <div id="oxp_africa" class="oxp-page">
+                <!-- ============ STARFIELD / DECORATIVE BACKGROUND ============ -->
+                <div class="oxp-stars" aria-hidden="true">
+                    <div class="oxp-star" t-foreach="range(40)" t-as="s"
+                         t-attf-style="left: #{ (s * 37) % 100 }%; top: #{ (s * 53) % 100 }%; animation-delay: #{ (s % 6) * 0.4 }s;"/>
+                </div>
+
+                <!-- ============ HEADER / NAVBAR ============ -->
+                <header class="oxp-navbar">
+                    <div class="oxp-container oxp-navbar-inner">
+                        <div class="oxp-brand">
+                            <span class="oxp-logo">MAACH</span>
+                            <span class="oxp-badge">ERP</span>
+                            <img class="oxp-flag-icon"
+                                 src="https://placehold.co/28x20/1a1a2e/ffffff?text=KE"
+                                 alt="Kenya flag"/>
+                        </div>
+                        <nav class="oxp-nav-links d-none d-lg-flex">
+                            <a href="#oxp-about">About</a>
+                            <a href="#oxp-speakers">Applications</a>
+                            <a href="#oxp-sessions">Clients</a>
+                            <a href="#oxp-practical">Services</a>
+                            <a href="#oxp-practical">Use ERP</a>
+                            <a href="#oxp-practical">Contact Us</a>
+                        </nav>
+                        <a href="#oxp-register" class="btn oxp-btn oxp-btn-primary oxp-register-top">Register</a>
+                        <button class="oxp-burger d-lg-none" type="button" aria-label="Open menu">
+                            <span/><span/><span/>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- ============ HERO ============ -->
+                <section class="oxp-hero" id="oxp-about">
+                    <div class="oxp-container oxp-hero-grid">
+
+                        <div class="oxp-hero-left">
+                            <p class="oxp-date">September 3 &gt; 4, 2026</p>
+                            <p class="oxp-location">
+                                    No 45 Enugu Agidi Road - Anambra State<br/>
+                                , Nigeria
+                            </p>
+
+                            <h1 class="oxp-hero-title">
+                                Africa's leading<br/>
+                                Tech &amp; ERP Develoment Company
+                            </h1>
+
+                            <div class="oxp-hero-ctas">
+                                <a href="#oxp-register" class="btn oxp-btn oxp-btn-primary">Register to Use</a>
+                                <a href="#oxp-exhibit" class="btn oxp-btn oxp-btn-outline">Subscribe</a>
+                            </div>
+
+                            <div class="oxp-free-entrance">
+                                <svg class="oxp-free-arrow" viewBox="0 0 60 40" aria-hidden="true">
+                                    <path d="M55 5 C 30 5, 15 20, 5 32" fill="none" stroke="#f6c343" stroke-width="2" stroke-dasharray="4 5" stroke-linecap="round"/>
+                                    <path d="M5 32 L5 20 M5 32 L17 32" fill="none" stroke="#f6c343" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span>Free<br/>usage!</span>
+                            </div>
+
+                            <div class="oxp-mascot">
+                                <img src="https://placehold.co/220x260/1a1a2e/ffffff?text=Astronaut+Mascot"
+                                     alt="Astronaut mascot flag"/>
+                            </div>
+                        </div>
+
+                        <div class="oxp-hero-right">
+                            <div class="oxp-stat-card">
+                                <span class="oxp-stat-number">70+</span>
+                                <span class="oxp-stat-label">Applications</span>
+                            </div>
+                            <div class="oxp-stat-card">
+                                <span class="oxp-stat-number">100k+</span>
+                                <span class="oxp-stat-label">Users</span>
+                            </div>
+
+                            <div class="oxp-photo-card oxp-photo-tall">
+                                <img src="https://placehold.co/400x420/2b2440/ffffff?text=Speaker+On+Stage"
+                                     alt="Managers"/>
+                            </div>
+                            <div class="oxp-stat-card">
+                                <span class="oxp-stat-number">7</span>
+                                <span class="oxp-stat-label">Team</span>
+                            </div>
+
+                            <div class="oxp-stat-card oxp-stat-card-tall">
+                                <span class="oxp-stat-number">100+</span>
+                                <span class="oxp-stat-label">talks</span>
+                            </div>
+
+                            <div class="oxp-stat-card">
+                                <span class="oxp-stat-number">2</span>
+                                <span class="oxp-stat-label">live artists</span>
+                            </div>
+                            <div class="oxp-photo-card">
+                                <img src="https://placehold.co/300x220/2b2440/ffffff?text=Live+Performance"
+                                     alt="Live artist performance"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ============ SESSIONS ============ -->
+                <section class="oxp-sessions" id="oxp-sessions">
+                    <div class="oxp-container oxp-sessions-grid">
+                        <div class="oxp-sessions-text">
+                            <p class="oxp-eyebrow">Sessions</p>
+                            <h2 class="oxp-section-title">
+                                Get 6-months' worth of<br/>
+                                knowledge in just <span class="oxp-highlight">2 days</span>
+                            </h2>
+                            <p class="oxp-body-text">
+                                Enter the world of entrepreneurship with over 100 insightful talks
+                                spread across two days.
+                            </p>
+                        </div>
+                        <div class="oxp-sessions-image">
+                            <img src="https://placehold.co/500x600/2b2440/ffffff?text=Networking+Photo"
+                                 alt="Attendees networking"/>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ SPEAKERS ============ -->
+                <section class="oxp-speakers" id="oxp-speakers">
+                    <div class="oxp-container">
+                        <p class="oxp-eyebrow oxp-text-center">Featured</p>
+                        <h2 class="oxp-section-title oxp-text-center oxp-speakers-title">Speakers</h2>
+
+                        <div class="oxp-speakers-grid">
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Vusi+Thembekwayo" alt="Vusi Thembekwayo"/>
+                                <h3>Maduka Sopulu</h3>
+                                <p>MD CEO | Investor | Tech Innovator</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Bitange+Ndemo" alt="Bitange Ndemo"/>
+                                <h3>Shola Olademi</h3>
+                                <p>Managing Director</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Tonee+Ndungu" alt="Tonee Ndungu"/>
+                                <h3>Olawale</h3>
+                                <p>Head Business Intelligence</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Hilda+Moraa" alt="Hilda Moraa"/>
+                                <h3>Maduka Kanayo</h3>
+                                <p>CTIO</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Ali+Hussein+Kasim" alt="Ali Hussein Kasim"/>
+                                <h3>Ali Hussein Kasim</h3>
+                                <p>CEO, AHK Growth Partners; Chairman, The...</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Nyawira+Maina" alt="Nyawira Maina"/>
+                                <h3>Nyawira Maina</h3>
+                                <p>Brand Storyteller</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Joan+Mbesya" alt="Joan Mbesya"/>
+                                <h3>Joan Mbesya</h3>
+                                <p>Founder, TechMindset Africa</p>
+                            </div>
+
+                            <div class="oxp-speaker-card">
+                                <img src="https://placehold.co/300x300/2b2440/ffffff?text=Lucy+Mbuthia" alt="Lucy Mbuthia"/>
+                                <h3>Lucy Mbuthia</h3>
+                                <p>Chief of Staff _able &amp; Country Director</p>
+                            </div>
+
+                        </div>
+
+                        <p class="oxp-text-center oxp-and-many-more">And many more!</p>
+                    </div>
+                </section>
+
+                <!-- ============ OPENING KEYNOTE ============ -->
+                <section class="oxp-keynote">
+                    <div class="oxp-container">
+                        <div class="oxp-keynote-card">
+                            <div class="oxp-keynote-text">
+                                <p class="oxp-eyebrow">September 3 - 9:00 AM</p>
+                                <h2 class="oxp-section-title oxp-keynote-title">Opening Keynote</h2>
+                                <p class="oxp-body-text">
+                                    <strong>by Patrick Lukusa</strong><br/>
+                                    Director, Odoo Africa
+                                </p>
+                            </div>
+                            <div class="oxp-keynote-image">
+                                <img src="https://placehold.co/700x420/2b2440/ffffff?text=Opening+Keynote+Photo"
+                                     alt="Patrick Lukusa delivering the opening keynote"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ ODOO 20 / APPS ============ -->
+                <section class="oxp-odoo20" id="oxp-practical">
+                    <div class="oxp-container oxp-text-center">
+                        <p class="oxp-boom">💥 Boom!</p>
+                        <h2 class="oxp-section-title">
+                            <span class="oxp-spark" aria-hidden="true">✳</span>
+                            Start your journey on Odoo 20
+                        </h2>
+                        <p class="oxp-body-text oxp-odoo20-sub">
+                            Discover Odoo's latest version and be among the first to learn about our new features.
+                        </p>
+
+                        <div class="oxp-apps-grid">
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/f4c542?text=%25" alt="Accounting"/>
+                                <span>Accounting</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/3ad0c4?text=W" alt="Website"/>
+                                <span>Website</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/e08a3e?text=I" alt="Inventory"/>
+                                <span>Inventory</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/6a4bd6?text=HR" alt="HR"/>
+                                <span>HR</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/e0783e?text=MRP" alt="MRP"/>
+                                <span>MRP</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/c0397a?text=E" alt="eCommerce"/>
+                                <span>eCommerce</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/3ad0c4?text=CRM" alt="CRM"/>
+                                <span>CRM</span>
+                            </div>
+                            <div class="oxp-app-card">
+                                <img src="https://placehold.co/64x64/2b2440/e0a13e?text=S" alt="Sales"/>
+                                <span>Sales</span>
+                            </div>
+                        </div>
+
+                        <p class="oxp-and-many-more">
+                            <svg class="oxp-free-arrow oxp-arrow-flip" viewBox="0 0 60 40" aria-hidden="true">
+                                <path d="M55 5 C 30 5, 15 20, 5 32" fill="none" stroke="#f6c343" stroke-width="2" stroke-dasharray="4 5" stroke-linecap="round"/>
+                                <path d="M5 32 L5 20 M5 32 L17 32" fill="none" stroke="#f6c343" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            And many more!
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ============ FOOTER / REGISTER CTA ============ -->
+                <footer class="oxp-footer" id="oxp-register">
+                    <div class="oxp-container oxp-footer-inner">
+                        <div>
+                            <span class="oxp-logo">odoo</span>
+                            <span class="oxp-badge">EXPERIENCE</span>
+                        </div>
+                        <a href="#" class="btn oxp-btn oxp-btn-primary">Register for free</a>
+                    </div>
+                </footer>
+
+                <!-- ============ CHAT BUBBLE ============ -->
+                <button type="button" class="oxp-chat-bubble" aria-label="Open chat">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                    </svg>
+                </button>
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

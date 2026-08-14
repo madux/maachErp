@@ -33,7 +33,7 @@
         <field name="arch" type="xml">
             <field name="lang" position="after" >
 	        	<field string="Branch" name="branch_id" />
-                <!-- <field name="hp_number"/> -->
+                <field name="hp_number"/>
             </field>
         </field>
     </record>
