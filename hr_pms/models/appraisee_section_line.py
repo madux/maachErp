@@ -33,9 +33,26 @@ class KRA_SectionLine(models.Model):
         string='KRA',
         size=300
         )
-    weightage = fields.Float(
+    weightage = fields.Integer(
         string='Weightage', 
+        required=False,
+        compute="compute_weightage_automatically",
+        readonly=True,
         )
+    
+    # new changes
+    @api.depends('kra_section_id')
+    def compute_weightage_automatically(self):
+        '''When weightage is controlled or changed globally, 
+        it should affect all LC, FC, KRA Section as applied'''
+        for rec in self:
+            category_section = rec.kra_section_id.pms_department_id.hr_category_id.mapped('section_ids').filtered(
+                lambda s: s.type_of_section == 'KRA')
+            if category_section:
+                category_section[0].compute_section_weight()
+                rec.weightage = category_section[0].input_weightage
+            else:
+                rec.weightage = 100
     
     appraisee_weightage = fields.Float(
         string='AA Weightage',
@@ -259,11 +276,26 @@ class LC_SectionLine(models.Model):
         string='Description',
         size=70
         )
-    weightage = fields.Float(
-        string='Weightage', 
-        default=20,
-        readonly=True
-        )
+    weightage = fields.Integer(
+            string='Weightage', 
+            required=False,
+            default=20,
+            compute="compute_weightage_automatically",
+            readonly=True,
+            )
+    # new changes
+    @api.depends('lc_section_id')
+    def compute_weightage_automatically(self):
+        '''When weightage is controlled or changed globally, 
+        it should affect all LC, FC, KRA Section as applied'''
+        for rec in self:
+            category_section = rec.lc_section_id.pms_department_id.hr_category_id.mapped('section_ids').filtered(
+                lambda s: s.type_of_section == 'LC')
+            if category_section:
+                category_section[0].compute_section_weight()
+                rec.weightage = category_section[0].input_weightage
+            else:
+                rec.weightage = 100
     
     administrative_supervisor_rating = fields.Integer(
         string='AA Rating', 
@@ -292,7 +324,10 @@ class LC_SectionLine(models.Model):
         )
     weighted_score = fields.Float(
         string='Weighted (%) Score of specific LC', 
-        compute="compute_weighted_score"
+        compute="compute_weighted_score",
+        help="""FA without AA Rating = 100. 
+        ie. 100 * 3 (Fa rating) --> 300 / fc_section_scale(eg 4 or 5)
+        --> 100 * 3 / 5 = 60"""
         )
     section_avg_scale = fields.Integer(
         string='Section Scale', 
@@ -434,9 +469,24 @@ class FC_SectionLine(models.Model):
     weightage = fields.Integer(
         string='Weightage', 
         required=False,
-        readonly=True
+        compute="compute_weightage_automatically",
+        readonly=True,
         )
     
+    # new changes
+    @api.depends('fc_section_id')
+    def compute_weightage_automatically(self):
+        '''When weightage is controlled or changed globally, 
+        it should affect all LC, FC, KRA Section as applied'''
+        for rec in self:
+            category_section = rec.fc_section_id.pms_department_id.hr_category_id.mapped('section_ids').filtered(
+                lambda s: s.type_of_section == 'FC')
+            if category_section:
+                category_section[0].compute_section_weight()
+                rec.weightage = category_section[0].input_weightage
+            else:
+                rec.weightage = 100
+                
     administrative_supervisor_rating = fields.Integer(
         string='AA Rating', 
         )
