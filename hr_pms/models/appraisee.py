@@ -705,7 +705,7 @@ class PMS_Appraisee(models.Model):
         ar_rating = 0
         fa_rating = 0
         fr_rating = 0
-        for rec in self.current_assessment_section_line_ids:
+        for rec in self.potential_assessment_section_line_ids:
             rec.generate_potential_assessment_type()
         ar = self.mapped('potential_assessment_section_line_ids').filtered(
             lambda s: s.state == 'admin_rating'
