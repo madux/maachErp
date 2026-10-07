@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_portal_user,crm_lead user access,crm.model_crm_team,base.group_portal,1,1,1,1
+access_product_template_portal_user,product_template user access,product.model_product_template,base.group_portal,1,0,0,0
+access_product_product_portal_user,product_product user access,product.model_product_product,base.group_portal,1,0,0,0
+access_crm_team_portal_user,crm.model_crm_team user access,crm.model_crm_team,base.group_portal,1,0,0,0
+access_crm_stage_portal_user,crm.model_crm_stage user access,crm.model_crm_stage,base.group_portal,1,0,0,0
+access_crm_stage_portal_user,crm.model_crm_stage user access,crm.model_crm_stage,base.group_portal,1,0,0,0
+access_sale_order_portal_user,crm.model_sale_order user access,sale.model_sale_order,base.group_portal,1,1,1,1
+access_sale_order_line_portal_user,crm.model_sale_order_line user access,sale.model_sale_order_line,base.group_portal,1,1,1,1
+access_uom_uom_portal_user,crm.model_uom_uom_line user access,uom.model_uom_uom,base.group_portal,1,0,0,0
+access_uom_uom_portal_user,crm.model_uom_uom_line user access,uom.model_uom_uom,base.group_portal,1,0,0,0

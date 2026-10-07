@@ -16,6 +16,8 @@
     'data': [
         'views/menu_views.xml',
         'data/data.xml',
+        'security/ir.model.access.csv',
+        'views/crm_view.xml',
     ],
     'assets': {},
     'installable': True,

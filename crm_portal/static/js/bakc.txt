@@ -11,11 +11,9 @@ const CRM = (() => {
         records:     [],
         salesOrders: [],
         saleOrderId: null,
-        saleOrderStatus: null,
         stages:      [],
         currentRecord: null,
         chartInstances: {},
-        leadType: null,
     };
 
     // ── Init ───────────────────────────────────────────────────
@@ -45,13 +43,6 @@ const CRM = (() => {
         });
 
         switchMenu(state.activeMenu);
-
-        // pointers
-        const button = document.querySelector('#leadmenu');
-        showPointer(
-            button,
-            'Start here'
-        );
     }
 
     // ── Menu Switching ─────────────────────────────────────────
@@ -61,8 +52,7 @@ const CRM = (() => {
             el.classList.toggle('active', el.dataset.menu === menu));
 
         const titles = {
-            dashboard: 'Dashboard', 
-            leads: 'Leads',
+            dashboard: 'Dashboard', leads: 'Leads',
             opportunities: 'Opportunities', sales: 'Sales', pipeline: 'Pipeline'
         };
         document.getElementById('page-title').textContent = titles[menu] || 'CRM Portal';
@@ -190,28 +180,9 @@ const CRM = (() => {
                 records = await rpc('/crm-portal/api/sales');
                 state.salesOrders = records;
             } else {
-                const typeMap = { 
-                    leads: 'lead',
-                    opportunities: 
-                    'opportunity' };
+                const typeMap = { leads: 'lead', opportunities: 'opportunity' };
                 records = await rpc('/crm-portal/api/records', { record_type: typeMap[menu] || 'all' });
                 state.records = records;
-                console.log('What is ', typeMap[menu])
-                if (typeMap[menu] === 'lead'){
-                    const element = document.querySelector('#openCreateFormBtn2')
-                    
-                    showPointer(
-                        element,
-                        'Click to create lead'
-                    );
-                
-                }else if (typeMap[menu] === 'opportunity'){
-                    const element = document.querySelector('#openCreateFormBtn3')
-                    showPointer(
-                        element,
-                        'Click to create lead'
-                    );
-                } 
             }
 
             renderList(records, isSales);
@@ -220,8 +191,6 @@ const CRM = (() => {
             tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fa fa-exclamation-circle"></i><p>${e.message}</p></td></tr>`;
         }
     }
-
-    
 
     function renderList(records, isSales) {
         const tbody = document.getElementById('list-tbody');
@@ -260,15 +229,10 @@ const CRM = (() => {
                         ${r.state === 'draft' ? `<button class="btn btn-success btn-sm confirm-so" data-id="${r.id}"><i class="fa fa-check"></i> Confirm</button>` : ''}
                         ${r.state === 'sale' ? `<button class="btn btn-info btn-sm gen-invoice" data-id="${r.id}"><i class="fa fa-file-text"></i> Invoice</button>` : ''}
                     </td>
-                    <td>
-                        <button class="btn btn-secondary btn-sm print-so" data-id="${r.id}">
-                            <i class="fa fa-print"></i>
-                        </button>
-                    </td>
                 </tr>`;
             } else {
                 return `
-                <tr data-crmid="${r.id}" class="crm-row">
+                <tr data-crm-id="${r.id}" class="crm-row">
                     <td><strong>${escHtml(r.name)}</strong></td>
                     <td>${typeBadge(r.type, r.is_won, r.active)}</td>
                     <td>${escHtml(r.partner_name)}</td>
@@ -288,7 +252,7 @@ const CRM = (() => {
         tbody.querySelectorAll('.crm-row').forEach(row => {
             row.addEventListener('click', e => {
                 if (e.target.closest('button')) return;
-                openCrmForm(row.dataset.crmid);
+                openCrmForm(row.dataset.crmId);
             });
         });
         tbody.querySelectorAll('.open-crm').forEach(btn =>
@@ -299,11 +263,6 @@ const CRM = (() => {
             btn.addEventListener('click', e => { e.stopPropagation(); confirmSO(btn.dataset.id); }));
         tbody.querySelectorAll('.gen-invoice').forEach(btn =>
             btn.addEventListener('click', e => { e.stopPropagation(); generateInvoice(btn.dataset.id); }));
-
-        document.getElementById('saleTbody')?.addEventListener('click', function (e) {
-            const btn = e.target.closest('.print-so');
-            if (btn) printSaleOrder(btn.dataset.id);
-        });
     }
 
     // ── Pipeline View ──────────────────────────────────────────
@@ -356,7 +315,6 @@ const CRM = (() => {
     }
     async function openCrmForm(id) {
         try {
-            state.leadId = id
             const data = await rpc(`/crm-portal/api/record/${id}`);
             if (data.error) { toast(data.error, 'error'); return; }
             state.currentRecord = data;
@@ -368,7 +326,11 @@ const CRM = (() => {
         }
     }
 
- 
+
+    // async function addALine(productId) {
+    //     currentRecord = data.id;
+    //     renderCrmForm(state.currentRecord);
+    // }
 
     async function getProductPrice(productId) {
         // const res = await fetch(`/api/product/${productId}`);
@@ -484,54 +446,6 @@ const CRM = (() => {
             </tr>
         `;
     } 
-    
-    function removePointer(){
-        document.getElementById('dynamicPointer')?.remove();
-    }
-
-    function showPointer(target, message = 'Click here') {
-        // Accept either an element or an element ID
-        const element = typeof target === 'string'
-            ? document.getElementById(target)
-            : target;
-        if (!element) {
-            console.warn('Pointer target not found:', target);
-            return;
-        }
-        // Remove existing pointer
-        document.getElementById('dynamicPointer')?.remove();
-
-        // Highlight target
-        element.classList.add('pointer-target-highlight');
-        // Create pointer
-        const pointer = document.createElement('div');
-        pointer.id = 'dynamicPointer';
-        pointer.innerHTML = `
-            <div class="pointer-hand">☝️</div>
-            <div class="pointer-message">${message}</div>
-        `;
-        document.body.appendChild(pointer);
-        // Scroll target into view
-        element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-
-        // Position pointer after scrolling
-        setTimeout(() => {
-            const rect = element.getBoundingClientRect();
-
-            pointer.style.top = `${rect.bottom + window.scrollY + 8}px`;
-            pointer.style.left = `${rect.left + window.scrollX + (rect.width / 2)}px`;
-            pointer.style.transform = 'translateX(-50%)';
-        }, 300);
-
-        // Remove after 8 seconds
-        setTimeout(() => {
-            pointer.remove();
-            element.classList.remove('pointer-target-highlight');
-        }, 8000);
-    }
 
     function validateSaleOrderLines() {
 
@@ -546,299 +460,45 @@ const CRM = (() => {
             const productId = product?.value;
             const quantity = parseFloat(qty?.value || 0);
             const price = parseFloat(amount?.value || 0);
-            if (!state.saleOrderId) {
-                // if user attempted to add line item but the sale order has not been created
-                console.log("Hi 1")
 
-                if (productId){ 
-                    console.log("Hi")
+            if (!productId) {
+                toast('Please select a product for all lines.', 'error');
+                product?.focus();
+                return false;
+            }
 
-                    product?.focus(); 
-                    toast(
-                            'You entered a product line but the Lead has no sale quotation. Click the Create Quotation button.',
-                            'error'
-                        );
-                    const button = document.querySelector('.createQuotationClass');
-                        showPointer(
-                            button,
-                            'Click here to create quotation'
-                        ); 
-                        return false;
-                }
-            }else{
-                 if (!productId) { 
-                    product?.focus();
-                    toast('You enter', 'error');
-                    return false;
-                 }
-             
-                if (quantity <= 0) {
-                    toast('Quantity must be greater than zero.', 'error');
-                    qty?.focus();
-                    return false;
-                }
+            if (quantity <= 0) {
+                toast('Quantity must be greater than zero.', 'error');
+                qty?.focus();
+                return false;
+            }
 
-                if (price <= 0) {
-                    toast('Amount must be greater than zero.', 'error');
-                    amount?.focus();
-                    return false;
-                }
+            if (price <= 0) {
+                toast('Amount must be greater than zero.', 'error');
+                amount?.focus();
+                return false;
             }
         }
 
         return true;
     }
-
-
-    async function printSaleOrder(orderId) {
-        orderId = orderId || state.saleOrderId;
-        if (!orderId) {
-            toast('No sale order to print. Save the lines first.', 'error');
-            return;
-        }
-
-        let so;
-        try {
-            so = await rpc(`/crm-portal/api/sale-order/${orderId}`, {});
-        } catch (e) {
-            toast(e.message, 'error');
-            return;
-        }
-        if (so.error) {
-            toast(so.error, 'error');
-            return;
-        }
-
-        const money = (n) => {
-            const v = Number(n || 0).toLocaleString(undefined, {
-                minimumFractionDigits: 2, maximumFractionDigits: 2,
-            });
-            return so.currency_position === 'after'
-                ? `${v} ${so.currency_symbol}`
-                : `${so.currency_symbol} ${v}`;
-        };
-        const nl2br = (t) => escHtml(t || '').replace(/\n/g, '<br>');
-
-        const rows = so.lines.map((l, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${escHtml(l.name)}</td>
-                <td class="r">${l.qty} ${escHtml(l.uom)}</td>
-                <td class="r">${money(l.price_unit)}</td>
-                <td class="r">${l.discount ? l.discount + '%' : ''}</td>
-                <td>${escHtml(l.taxes)}</td>
-                <td class="r">${money(l.subtotal)}</td>
-            </tr>`).join('');
-
-        const html = `<!DOCTYPE html>
-            <html>
-            <head>
-            <meta charset="utf-8">
-            <title>${escHtml(so.name)}</title>
-            <style>
-                @page { size: A4; margin: 15mm; }
-                * { box-sizing: border-box; }
-                body { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #222; }
-                h1 { font-size: 20px; margin: 0 0 4px; }
-                .top { display: flex; justify-content: space-between; margin-bottom: 20px; }
-                .box { width: 48%; line-height: 1.5; }
-                .meta { display: flex; gap: 30px; margin: 15px 0; padding: 10px 0;
-                        border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
-                .meta div span { display: block; color: #777; font-size: 10px; text-transform: uppercase; }
-                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                th { background: #f0f0f0; text-align: left; }
-                th, td { padding: 6px 8px; border-bottom: 1px solid #ddd; vertical-align: top; }
-                .r { text-align: right; }
-                .totals { width: 280px; margin: 15px 0 0 auto; }
-                .totals td { border: 0; padding: 4px 8px; }
-                .totals tr.grand td { border-top: 2px solid #222; font-weight: bold; font-size: 14px; }
-                .note { margin-top: 25px; color: #555; }
-                tr { page-break-inside: avoid; }
-            </style>
-            </head>
-            <body>
-                <div class="top">
-                    
-                    <div class="box">
-                        <h1>${escHtml(so.company)}</h1>
-                        ${nl2br(so.company_address)}
-                    </div>
-                    <div class="box" style="text-align:center">
-                        <a class=""><img alt="Odoo Community Association" height="80px" width="80px" src="${so.company_logo}" /></a>
-                    </div>
-
-                    <div class="box" style="text-align:right">
-                        <h1>${so.state === 'sale' ? 'Sales Order' : 'Quotation'} ${escHtml(so.name)}</h1>
-                    </div>
-                </div>
-
-                <div class="box">
-                    <strong>${escHtml(so.customer)}</strong><br>
-                    ${nl2br(so.customer_address)}<br>
-                    ${escHtml(so.customer_email)} ${escHtml(so.customer_phone)}
-                </div>
-
-                <div class="meta">
-                    <div><span>Date</span>${escHtml(so.date_order)}</div>
-                    ${so.validity_date ? `<div><span>Expiration</span>${escHtml(so.validity_date)}</div>` : ''}
-                    <div><span>Salesperson</span>${escHtml(so.salesperson)}</div>
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th><th>Description</th><th class="r">Qty</th>
-                            <th class="r">Unit Price</th><th class="r">Disc.</th>
-                            <th>Taxes</th><th class="r">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>${rows}</tbody>
-                </table>
-
-                <table class="totals">
-                    <tr><td>Subtotal</td><td class="r">${money(so.amount_untaxed)}</td></tr>
-                    <tr><td>Taxes</td><td class="r">${money(so.amount_tax)}</td></tr>
-                    <tr class="grand"><td>Total</td><td class="r">${money(so.amount_total)}</td></tr>
-                </table>
-
-                ${so.note ? `<div class="note">${nl2br(so.note)}</div>` : ''}
-            </body>
-        </html>`;
-
-        // Print through a hidden iframe (avoids popup blockers)
-        const iframe = document.createElement('iframe');
-        iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
-        document.body.appendChild(iframe);
-
-        iframe.onload = () => {
-            const win = iframe.contentWindow;
-            win.focus();
-            win.print();
-            // clean up after the print dialog closes
-            setTimeout(() => iframe.remove(), 1000);
-        };
-        iframe.srcdoc = html;
-    }
-    function generateSolineTable(r) {
-        const products = r.product_ids || r.so_artifacts?.[0]?.product_ids || [];
-
-        const rowHtml = (tempId) => `
-            <tr data-line="${tempId}" data-new="1">
-                <td>New</td>
-                <td>${soBadge('draft')}</td>
-                <td>
-                    <div class="form-group">
-                        <select class="so-product" data-line="${tempId}">
-                            <option value="">-- Select Product --</option>
-                            ${products.map(pro =>
-                                `<option value="${pro.id}">${escHtml(pro.name)}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="number" min="1" value="1"
-                            class="so-unit" data-line="${tempId}"/>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="number" min="0" value="0"
-                            class="so-amount" data-line="${tempId}"/>
-                    </div>
-                </td>
-                <td>
-                    <span class="so-total" data-line="${tempId}">
-                        ${formatMoney(0, r.company_currency)}
-                    </span>
-                </td>
-                <td></td>
-                <td>
-                    <button class="btn btn-warning btn-sm delete-so" data-id="${tempId}">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>`;
-
-        return `
-            <table class="so-table">
-                <thead>
-                    <tr>
-                        <th>Order</th>
-                        <th>Status</th>
-                        <th>Product</th>
-                        <th>Qty</th>
-                        <th>Unit Price</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody id="saleTbody">
-                    ${rowHtml('new_' + Date.now())}
-                </tbody>
-            </table>`;
-    }
-
-   function showLeadCompletionPointer() {
-        const convertOpportunity = document.querySelector('#convertToOpportunity');
-        const confirmQuotationClass = document.querySelector('.confirmQuotationClass');
-
-        if (convertOpportunity) {
-            showPointer(convertOpportunity, 'Click here');
-
-            convertOpportunity.addEventListener('click', () => {
-                removePointer();
-            });
-        }
-
-        if (state.saleOrderStatus === 'draft') {
-            showPointer(confirmQuotationClass, 'Click to confirm SO');
-
-            confirmQuotationClass.addEventListener('click', () => {
-                removePointer();
-            });
-        }
-    }
     
-    async function renderCrmForm(r) {
-        // /crm-portal/api/record/id
+    function renderCrmForm(r) {
         const isEditable = !r.is_won;
         const dis = isEditable ? '' : 'disabled';
 
-        document.getElementById("user-name").textContent = r.user_name
-        state.lenSaleLine = r.orderLinesLength
         // Stage options
         const stageOpts = r.stages.map(s =>
             `<option value="${s.id}" ${s.id === r.stage_id ? 'selected' : ''}>${escHtml(s.name)}</option>`
         ).join('');
 
-        //SET DEFAULT
-        state.leadType = r.type
-
         // Partner options
-        const customers = await rpc('/crm-portal/api/partners');
-        console.log('THHHHEEE ', customers)
-        const customerOpts = customers.map(s => `<option value="${s.id}" data-address="${s.address}">${escHtml(s.name)}</option>`).join('');
-        const assigns = await rpc('/crm-portal/api/users');
-        const assignOpt = assigns.map(s => `<option value="${s.id}">${escHtml(s.name)}</option>`).join('');
-        const currencies = await rpc('/crm-portal/api/currency');
-        const currenciesOpt = currencies.map(s => `<option value="${s.id}">${escHtml(s.name)}</option>`).join('');
-        
         const partnerOpts = `<option value="">-- Select Customer --</option>` +
-            (r.partner_id ? `<option value="${r.partner_id}" data-address="${r.street}" selected>${escHtml(r.partner_name)}</option> ${customerOpts}` : customerOpts);
-        
-        const assignOpts = `<option value="">-- Select --</option>` +
-            (r.assign_id ? `<option value="${r.assign_id}" selected>${escHtml(r.assign_name)}</option> ${assignOpt}` : assignOpt);
-        const currenciesOpts = `<option value="">-- Select --</option>` +
-            (r.currency_id ? `<option value="${r.currency_id}" selected>${escHtml(r.currency_name)}</option> ${currenciesOpt}` : currencies.map(s => s.name === 'NGN' ? `<option value="${s.id}" selected>${escHtml(s.name)}</option>`: `<option value="${s.id}">${escHtml(s.name)}</option>`).join(''));
-        
+            (r.partner_id ? `<option value="${r.partner_id}" selected>${escHtml(r.partner_name)}</option>` : '');
+
         // Sale orders table
         console.log('sooo', r.sale_orders);
-        state.saleOrderStatus = r.sale_order_status
-        console.log('State na ==> ', state,  r.sale_order_status);
-
+        
         const soHtml = r.sale_orders.length ? `
         <table class="so-table">
             <thead>
@@ -912,8 +572,7 @@ const CRM = (() => {
                     </tr>`).join('')
                 } 
             </tbody>
-        </table>` : r.type === 'opportunity' ? generateSolineTable(r) : '';
-        //  '<p style="color:#aaa;font-size:.83rem">No sales orders linked.</p>';
+        </table>` : '<p style="color:#aaa;font-size:.83rem">No sales orders linked.</p>';
 
         document.getElementById('modal-form-body').innerHTML = `
             <div class="form-grid">
@@ -940,185 +599,105 @@ const CRM = (() => {
                 <div class="form-group full" style="border-top:1px solid #eee;padding-top:10px;margin-top:4px">
                     <label>Customer</label>
                     <select id="f-partner" ${dis}>${partnerOpts}</select>
-                    <small style="color:#888">Can't find customer? Select empty and Fill fields below</small>
+                    <small style="color:#888">Can't find customer? Fill fields below</small>
                 </div>
-
-                <div class="new_customer_div ${r.partner_id ? 'd-none' : ''}">
-                    <div class="new-customer-header">
-                        <div>
-                            <div class="new-customer-title">
-                                <i class="fa fa-user-plus"></i>
-                                New Customer
-                            </div>
-                            <div class="new-customer-subtitle">
-                                Enter the customer details below
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="new-customer-fields">
-
-                        <!-- Customer Name -->
-                        <div class="form-group customer-name">
-                            <label for="f-partner-name">
-                                Customer Name <span>*</span>
-                            </label> 
-                            <input class="form-control" id="f-partner-name" value="${escHtml(r.partner_name_manual)}" ${dis} placeholder="If not in list"/>
-                        </div>
-
-                        <!-- Email -->
-                        <div class="form-group">
-                            <label for="f-email">
-                                Email
-                            </label>
-                             <input id="f-email" type="email" value="${escHtml(r.email_from)}" ${dis} placeholder="customer@gmail.com"/>
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="form-group">
-                            <label for="f-phone">
-                                Phone
-                            </label>
-                             <input type="tel" id="f-phone" value="${escHtml(r.phone)}" ${dis} placeholder="+234 801 234 5678"/>
-                            
-                        </div>
-
-                        <!-- Address -->
-                        <div class="form-group customer-address">
-                            <label for="f-street">Address</label>
-                            <input id="f-street" value="${escHtml(r.street)}" ${dis} placeholder="Enter street address"/>
-                        </div> 
-                    </div>
+                <div class="form-group">
+                    <label>Customer Name (manual)</label>
+                    <input id="f-partner-name" value="${escHtml(r.partner_name_manual)}" ${dis} placeholder="If not in list"/>
                 </div>
-                 
-                 
-                <div class="form-group full" style="border-top:1px solid #eee;padding-top:10px;margin-top:4px">
-                    <label>Assign</label>
-                    <select id="f-assign">${assignOpts}</select>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="f-email" type="email" value="${escHtml(r.email_from)}" ${dis}/>
                 </div>
-                <div class="form-group full" style="border-top:1px solid #eee;padding-top:10px;margin-top:4px">
-                    <label>Currency</label>
-                    <select id="f-currency">${currenciesOpts}</select>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input id="f-phone" value="${escHtml(r.phone)}" ${dis}/>
                 </div>
-                
+                <div class="form-group">
+                    <label>Address</label>
+                    <input id="f-street" value="${escHtml(r.street)}" ${dis}/>
+                </div>
                 <div class="form-group full">
                     <label>Additional Notes</label>
-                    <textarea id="f-desc" ${dis}>${stripHtml(r.description)}</textarea>
+                    <textarea id="f-desc" ${dis}>${escHtml(r.description)}</textarea>
                 </div>
             </div>
 
-            ${r.type === 'opportunity' ? `
-                <div style="margin-top:18px;border-top:1px solid #eee;padding-top:14px">
-                    <h4 style="font-size:.9rem;margin-bottom:8px;color:var(--primary)">
-                        <i class="fa fa-shopping-cart"></i> Sales Orders
-                    </h4> 
-                    ${soHtml} 
-                    <table>
-                        <thead>
-                            <tr class="total_line">
-                                <th class="dot-line-white">----------------------</th>
-                                <th class="dot-line-white">----------------------</th>
-                                <th class="dot-line-white">----------------------</th>
-                                <th class="dot-line-white">---------------</th>
-                                <th>Total</th>
-                                <th>
-                                    <span id="lineSumTotal">
-                                        ${formatMoney(r.amount_total, r.company_currency)}
-                                    </span>
-                                </th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                    ${r.sale_order_status === 'draft' ? `
-                        <button id="addSaleLine" class="btn btn-primary btn-sm">
-                            <i class="fa fa-plus"></i> Add Line
-                        </button>
-                    ` : ''}
-                </div>
-            ` : ''}
+            <div style="margin-top:18px;border-top:1px solid #eee;padding-top:14px">
+                <h4 style="font-size:.9rem;margin-bottom:8px;color:var(--primary)">
+                    <i class="fa fa-shopping-cart"></i> Sales Orders
+                </h4>
+                ${soHtml}
+                <table class="so-table">
+                    <thead>
+                        <tr style="color:#ffffff;">
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Unit</th>
+                            <th>Total</th>
+                            <th><span id="lineSumTotal">${formatMoney(r.amount_total, r.company_currency)}</span></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+                <button id="addSaleLine" class="btn btn-primary btn-sm">
+                    <i class="fa fa-plus"></i> Add Line
+                </button>
             </div>
         `;
-        
         
         // Modal footer buttons
         const footer = document.getElementById('modal-footer');
         footer.innerHTML = '';
 
-
         // Always show Close
+        addBtn(footer, '<i class="fa fa-arrow-down"></i> Cancel Opportunity', 'btn-danger', () => cancelOpportunity(r.id));
         addBtn(footer, 'Close', 'btn-secondary', () => closeModal());
 
         if (r.type === 'lead') {
-            addBtn(footer, '<i class="fa fa-arrow-up" id="convertToOpportunity"></i> Convert to Opportunity', 'btn-warning', () => convertOpportunity(r.id));
+            addBtn(footer, '<i class="fa fa-arrow-up"></i> Convert to Opportunity', 'btn-warning', () => convertOpportunity(r.id));
         } 
         if (r.sale_orders.length > 0){
             // used to update the saleorder to the state
             state.saleOrderId = r.sale_orderId;
-            // if (state.saleOrderId) {
-            addBtn(footer, '<i class="fa fa-print"></i> Print', 'btn-outline',
-                    () => printSaleOrder(state.saleOrderId));
-            // }
         }
-        if (!r.is_won && isEditable) {
-            if (r.sale_order_status === 'sale') {
-                console.log('Sale is confirmed')
-                addBtn(footer, '<i class="fa fa-trophy"></i> Mark Won', 'btn-success', () => markWon(r.id));
-            }
-            else{
-                addBtn(footer, '<i class="fa fa-times-circle"></i> Mark Lost', 'btn-danger', () => markLost(r.id));
-                addBtn(footer, '<i class="fa fa-save"></i> Save', 'btn-primary', () => saveRecord(r.id));
-            }
-            
-            if (r.type === 'opportunity') {
-                addBtn(footer, '<i class="fa fa-arrow-down"></i> Cancel Opportunity', 'btn-danger', () => cancelOpportunity(r.id));
-                console.log('Other status ', r.sale_order_status)
-                if (r.sale_orders.length === 0) {
-                    addBtn(
-                        footer,
-                        '<i class="fa fa-file-text"></i> Create Quotation',
-                        'btn-info createQuotationClass',
-                        () => createQuotation(r.id)
-                    );
-                
-                } else if (r.sale_order_status === 'draft' || r.sale_order_status === 'cancel' || r.sale_order_status === 'sent') {
-                    addBtn(
-                        footer,
-                        '<i class="fa fa-check"></i> Confirm',
-                        'btn-success confirmQuotationClass',
-                        () => confirmSO(r.sale_orderId)
-                    );
-                }
-                // () => confirmSO(state.saleOrderId)
-                if (r.sale_order_status !== 'cancel'){
-                    addBtn(
-                            footer,
-                            '<i class="fa fa-times"></i> Cancel SO',
-                            'btn-danger cancelQuotationClass',
-                            () => cancelSO(r.sale_orderId)
-                        );
-                    }
 
-                // else if (r.sale_order_status === 'sale'){
-                //     addBtn(footer, '<i class="fa fa-trophy"></i> Mark Won', 'btn-success', () => markWon(r.id));
-                //     addBtn(footer, '<i class="fa fa-times-circle"></i> Mark Lost', 'btn-danger', () => markLost(r.id));
-                // }
+        if (r.type === 'opportunity') {
+            if (r.sale_orders.length === 0) {
+                addBtn(
+                    footer,
+                    '<i class="fa fa-file-text"></i> Create Quotation',
+                    'btn-info createQuotationClass',
+                    () => createQuotation(r.id)
+                );
+            } else if (r.sale_order_status) {
+                addBtn(
+                    footer,
+                    '<i class="fa fa-check"></i> Confirm',
+                    'btn-success confirmQuotationClass',
+                    () => confirmSO(state.saleOrderId)
+                );
+
+                addBtn(
+                    footer,
+                    '<i class="fa fa-times"></i> Cancel',
+                    'btn-danger cancelQuotationClass',
+                    () => cancelSO(state.saleOrderId)
+                );
             }
         }
-        
-        showLeadCompletionPointer()
          
         addBtn(footer, '<i class="fa fa-phone"></i> Call', 'btn-outline', () => logCall(r.id));
         addBtn(footer, '<i class="fa fa-comment"></i> SMS', 'btn-outline', () => openSmsModal(r.id));
 
         // Bind SO actions within the modal
         footer.closest('.modal').querySelectorAll('.confirm-so').forEach(btn =>
-            btn.addEventListener('click', () => confirmSO(btn.dataset.id)));
+            btn.addEventListener('click', () => confirmSO(btn.dataset.id, r.id)));
 
         footer.closest('.modal').querySelectorAll('.cancel-so').forEach(btn =>
-            btn.addEventListener('click', () => cancelSO(btn.dataset.id)));
+            btn.addEventListener('click', () => cancelSO(btn.dataset.id, r.id)));
 
         footer.closest('.modal').querySelectorAll('.gen-invoice').forEach(btn =>
             btn.addEventListener('click', () => generateInvoice(btn.dataset.id)));
@@ -1173,7 +752,7 @@ const CRM = (() => {
         });
 
         document.getElementById('addSaleLine')?.addEventListener('click', function () {
-console.log('this is button to add line')
+
             const tbody = document.getElementById('saleTbody');
 
             const tempId = 'new_' + Date.now();
@@ -1200,52 +779,14 @@ console.log('this is button to add line')
                 row.remove();
             }
         });
-
-
-        document.getElementById('f-partner').addEventListener('change', function (e) {
-            document.getElementById('f-partner-name').value = this.options[this.selectedIndex].text;
-            document.getElementById('f-street').value = this.options[this.selectedIndex].dataset.address;
-            let fpartnername = document.querySelector('#f-partner-name');
-            let fpartnerphone = document.querySelector('#f-phone');
-            let fpartneremail = document.querySelector('#f-email');
-            let fpartnerstreet = document.querySelector('#f-street');
-            let newCustomerDiv = document.querySelector('.new_customer_div');
-
-            if (e.target.value) {
-                console.log("Partner selected to hide other fields")
-                
-                // Clear new customer fields
-                if (fpartnername) fpartnername.value = '';
-                if (fpartnerphone) fpartnerphone.value = '';
-                if (fpartneremail) fpartneremail.value = '';
-                if (fpartnerstreet) fpartnerstreet.value = '';
-                newCustomerDiv?.style.setProperty('display', 'none', 'important');
-
-            }
-            else{
-                newCustomerDiv?.style.setProperty('display', 'block', 'important');
-            }
-        });
-        
     
-    }
-
-    function stripHtml(html) {
-        const div = document.createElement('div');
-        div.innerHTML = html || '';
-        return div.textContent || div.innerText || '';
     }
 
     
     async function createQuotation(crmId) {
         try {
-            validateSaleOrderLines()
-            const sale_order_lines = getSaleOrderLines();
-            const res = await rpc(`/crm-portal/api/action/create_quotation/${crmId}`, {sale_order_lines});
-            if (res.error) { 
-                toast(res.error, 'error'); 
-                return; 
-            }
+            const res = await rpc(`/crm-portal/api/action/create_quotation/${crmId}`);
+            if (res.error) { toast(res.error, 'error'); return; }
             toast(`Quotation ${res.sale_order_name} created!`, 'info');
             // Reload form to show the new SO
             openCrmForm(crmId);
@@ -1317,7 +858,6 @@ console.log('this is button to add line')
             expected_revenue: parseFloat(document.getElementById('f-rev').value) || 0,
             date_deadline: document.getElementById('f-deadline').value || false,
             partner_id: parseInt(document.getElementById('f-partner').value) || false,
-            assigned_to: parseInt(document.getElementById('f-assign').value) || false,
             partner_name: document.getElementById('f-partner-name').value.trim(),
             email_from: document.getElementById('f-email').value.trim(),
             phone: document.getElementById('f-phone').value.trim(),
@@ -1330,8 +870,8 @@ console.log('this is button to add line')
         console.log('This are sale order lines', sale_order_lines)
         console.log('This are  states', state)
         console.log('This are  saleOrderId', saleOrderId)
-        // if (!saleOrderId){
-        //     toast("Sale order ID not found to update", 'error'); }
+        if (!saleOrderId){
+            toast("Sale order ID not found to update", 'error'); }
         try {
 
             const res = await rpc(
@@ -1350,8 +890,9 @@ console.log('this is button to add line')
             }
 
             toast('Record saved successfully');
-            closeModal();
-            reloadCurrentView();
+            // closeModal();
+            // reloadCurrentView();
+
         } catch (e) {
             toast(e.message, 'error');
         }
@@ -1392,8 +933,6 @@ console.log('this is button to add line')
         try {
             const res = await rpc(`/crm-portal/api/action/mark_won/${id}`);
             if (res.error) { toast(res.error, 'error'); return; }
-            if (state.saleOrderStatus !== 'sale') { toast('Ensure to confirm the sale order before marking as won ', 'error'); return; }
-
             toast('🏆 Marked as Won!', 'success');
             closeModal();
             reloadCurrentView();
@@ -1412,45 +951,26 @@ console.log('this is button to add line')
     }
  
 
-    async function confirmSO(soId) {
-        console.log('what is confirm so ', state.saleOrderId)
+    async function confirmSO(soId, crmId) {
         if (!confirm('Confirm this sale order?')) return;
         try {
-            if (document.querySelectorAll('#saleTbody tr').length > state.lenSaleLine){
-                toast('You need to save the newly added lines first', 'error')
-                return false;
-            }
-            // saveRecord(crmId)
             const res = await rpc(`/crm-portal/api/action/confirm_quotation/${soId}`);
             if (res.error) { toast(res.error, 'error'); return; }
             toast('Sale order confirmed!', 'success');
-            // if (crmId) openCrmForm(crmId);
-            // else reloadCurrentView(), closeModal();
-            const crmId = state.leadId
-            if (crmId) {
-                openCrmForm(crmId);
-            } else {
-                reloadCurrentView();
-                closeModal();
-            }
+            if (crmId) openCrmForm(crmId);
+            else reloadCurrentView();
         } catch(e) { toast(e.message, 'error'); }
     }
 
-    async function cancelSO(soId) {
-        // /crm-portal/api/action/cancel_quotation/<int:sale_order_id>
-        console.log('what is confirm so ', soId, state.saleOrderId)
-
-        // if (!confirm('Cancel this sale order?')) return;
-        // try {
-            const res = await rpc(`/crm-portal/api/action/cancel_quotation/${state.saleOrderId}`);
-            console.log('what is confirm so 3333', soId, state.saleOrderId)
-
-            const crmId = state.leadId
+    async function cancelSO(soId, crmId) {
+        if (!confirm('Cancel this sale order?')) return;
+        try {
+            const res = await rpc(`/crm-portal/api/action/cancel_quotation/${soId}`);
             if (res.error) { toast(res.error, 'error'); return; }
             toast('Sale order cancelled!', 'success');
             if (crmId) openCrmForm(crmId);
             else reloadCurrentView();
-        // } catch(e) { toast(e.message, 'error'); }
+        } catch(e) { toast(e.message, 'error'); }
     }
 
     async function generateInvoice(soId) {
@@ -1489,193 +1009,10 @@ console.log('this is button to add line')
         } catch(e) { toast(e.message, 'error'); }
     }
 
-    function HideCustomerInfo() {
-        const fpartnername = document.querySelector('#f-partner-name');
-        const fpartnerphone = document.querySelector('#f-phone');
-        const fpartneremail = document.querySelector('#f-email');
-        const fpartnerstreet = document.querySelector('#f-street');
-        const newCustomerDiv = document.querySelector('.new_customer_div');
-
-        // Clear new customer fields
-        if (fpartnername) fpartnername.value = '';
-        if (fpartnerphone) fpartnerphone.value = '';
-        if (fpartneremail) fpartneremail.value = '';
-        if (fpartnerstreet) fpartnerstreet.value = '';
-
-        // Hide new customer fields
-        newCustomerDiv?.style.setProperty('display', 'none', 'important');
-    }
-
-    function showLeadCreationPointer() {
-        const fname = document.querySelector('#f-name');
-        const fpartner = document.querySelector('#f-partner');
-        const fpartnername = document.querySelector('#f-partner-name');
-        const fpartnerphone = document.querySelector('#f-phone');
-        const fpartneremail = document.querySelector('#f-email');
-        const fpartnerstreet = document.querySelector('#f-street');
-        const fassign = document.querySelector('#f-assign');
-        const createLeadBtn = document.querySelector('#createLead');
-        const newCustomerDiv = document.querySelector('.new_customer_div');
-
-        // 1. Lead Name
-        if (!fname) return;
-
-        showPointer(fname, 'Enter lead name');
-
-        fname.addEventListener('input', (e) => {
-            if (e.target.value.trim().length > 1) {
-                removePointer();
-
-                // 2. Customer
-                showPointer(
-                    fpartner,
-                    'Select Customer or provide a new Customer'
-                );
-            }
-        });
-
-        // 3. Customer selected
-        if (fpartner) {
-            fpartner.addEventListener('change', (e) => {
-
-                // Existing customer selected
-                if (e.target.value) {
-
-                    // Clear new customer fields
-                    if (fpartnername) fpartnername.value = '';
-                    if (fpartnerphone) fpartnerphone.value = '';
-                    if (fpartneremail) fpartneremail.value = '';
-                    if (fpartnerstreet) fpartnerstreet.value = '';
-
-                    // Hide new customer fields
-                    newCustomerDiv?.style.setProperty('display', 'none', 'important');
-
-                    removePointer();
-
-                    // 4. Assign To
-                    showPointer(
-                        fassign,
-                        'Select who to assign this lead to'
-                    );
-
-                } else {
-
-                    // No existing customer selected
-                    // Show new customer fields
-                    newCustomerDiv?.style.setProperty('display', 'block', 'important');
-
-                    removePointer();
-
-                    // Point to new customer name
-                    showPointer(
-                        fpartnername,
-                        'Enter customer name'
-                    );
-                }
-            });
-        }
-
-        // 4a. New customer name
-        if (fpartnername) {
-            fpartnername.addEventListener('input', (e) => {
-
-                if (e.target.value.trim().length > 1) {
-                    removePointer();
-
-                    showPointer(
-                        fpartneremail,
-                        'Enter customer email'
-                    );
-                }
-            });
-        }
-
-        // 4b. New customer email
-        if (fpartneremail) {
-            fpartneremail.addEventListener('input', (e) => {
-
-                if (e.target.value.trim().length > 1) {
-                    removePointer();
-
-                    showPointer(
-                        fpartnerphone,
-                        'Enter customer phone'
-                    );
-                }
-            });
-        }
-
-        // 4c. New customer phone
-        if (fpartnerphone) {
-            fpartnerphone.addEventListener('input', (e) => {
-
-                if (e.target.value.trim().length > 1) {
-                    removePointer();
-
-                    showPointer(
-                        fpartnerstreet,
-                        'Enter customer address'
-                    );
-                }
-            });
-        }
-
-        // 4d. New customer address
-        if (fpartnerstreet) {
-            fpartnerstreet.addEventListener('input', (e) => {
-
-                if (e.target.value.trim().length > 1) {
-                    removePointer();
-
-                    showPointer(
-                        fassign,
-                        'Select who to assign this lead to'
-                    );
-                }
-            });
-        }
-
-        // 5. Assigned user selected
-        if (fassign) {
-            fassign.addEventListener('change', (e) => {
-
-                if (e.target.value) {
-                    removePointer();
-
-                    // 6. Create Lead
-                    showPointer(
-                        createLeadBtn,
-                        'Click here to create lead'
-                    );
-                }
-            });
-        }
-
-        // 7. Create Lead
-        if (createLeadBtn) {
-            createLeadBtn.addEventListener('click', () => {
-                removePointer();
-            });
-        }
-    }
-
     // ── Create New Record ──────────────────────────────────────
     async function openCreateForm() {
-        document.getElementById('dynamicPointer')?.remove();
-
         const stages = await rpc('/crm-portal/api/stages');
         const stageOpts = stages.map(s => `<option value="${s.id}">${escHtml(s.name)}</option>`).join('');
-        const customers = await rpc('/crm-portal/api/partners');
-        const customerOpts = `
-            <option value="">-- Select --</option>
-            ${customers.map(s => `
-                <option value="${s.id}">${escHtml(s.name)}</option>
-            `).join('')}
-        `;
-        const assigns = await rpc('/crm-portal/api/users');
-        const assignOpts = assigns.map(s => `<option value="${s.id}">${escHtml(s.name)}</option>`).join('');
-        const currencies = await rpc('/crm-portal/api/currency');
-        const currenciesOpts = currencies.map(s => `<option value="${s.id}">${escHtml(s.name)}</option>`).join('');
         const typeVal = state.activeMenu === 'leads' ? 'lead' : 'opportunity';
 
         document.getElementById('modal-title').textContent = 'New Record';
@@ -1709,88 +1046,20 @@ console.log('this is button to add line')
                     <input id="f-deadline" type="date"/>
                 </div>
                 <div class="form-group">
-                    <label>Select Customer </label>
-                    <select id="f-partner">${customerOpts}</select>
+                    <label>Customer Name</label>
+                    <input id="f-partner-name" placeholder="Customer name"/>
                 </div>
-                <div class="new_customer_div">
-                    <div class="new-customer-header">
-                        <div>
-                            <div class="new-customer-title">
-                                <i class="fa fa-user-plus"></i>
-                                New Customer
-                            </div>
-                            <div class="new-customer-subtitle">
-                                Enter the customer details below
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="new-customer-fields">
-
-                        <!-- Customer Name -->
-                        <div class="form-group customer-name">
-                            <label for="f-partner-name">
-                                Customer Name <span>*</span>
-                            </label>
-
-                            <input
-                                id="f-partner-name"
-                                type="text"
-                                class="form-control"
-                                placeholder="Enter customer name"
-                            />
-                        </div>
-
-                        <!-- Email -->
-                        <div class="form-group">
-                            <label for="f-email">
-                                Email
-                            </label>
-                            <input
-                                id="f-email"
-                                type="email"
-                                class="form-control"
-                                placeholder="customer@email.com"
-                            />
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="form-group">
-                            <label for="f-phone">
-                                Phone
-                            </label>
-
-                            <input
-                                id="f-phone"
-                                type="tel"
-                                class="form-control"
-                                placeholder="+234 801 234 5678"
-                            />
-                        </div>
-
-                        <!-- Address -->
-                        <div class="form-group customer-address">
-                            <label for="f-street">
-                                Address
-                            </label>
-
-                            <input
-                                id="f-street"
-                                type="text"
-                                class="form-control"
-                                placeholder="Enter street address"
-                            />
-                        </div> 
-                    </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="f-email" type="email" placeholder="customer@email.com"/>
                 </div>
-                <div class="form-group full" style="border-top:1px solid #eee;padding-top:10px;margin-top:4px">
-                    <label>Assign to</label>
-                    <select id="f-assign">${assignOpts}</select>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input id="f-phone" placeholder="+234..."/>
                 </div>
-
-                <div class="form-group full" style="border-top:1px solid #eee;padding-top:10px;margin-top:4px">
-                    <label>Currency</label>
-                    <select id="f-currency">${currenciesOpts}</select>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input id="f-street" placeholder="Street address"/>
                 </div>
                 <div class="form-group full">
                     <label>Additional Notes</label>
@@ -1801,13 +1070,9 @@ console.log('this is button to add line')
         const footer = document.getElementById('modal-footer');
         footer.innerHTML = '';
         addBtn(footer, 'Cancel', 'btn-secondary', closeModal);
-        addBtn(footer, '<i class="fa fa-save" id="createLead"></i> Create', 'btn-primary', createRecord);
+        addBtn(footer, '<i class="fa fa-save"></i> Create', 'btn-primary', createRecord);
 
         document.getElementById('crmModal').classList.add('open');
-
-        showLeadCreationPointer()
-
-        
     }
 
     async function createRecord() {
@@ -1817,9 +1082,6 @@ console.log('this is button to add line')
             name,
             type:             document.getElementById('f-type').value,
             stage_id:         parseInt(document.getElementById('f-stage').value) || false,
-            partner_id:         parseInt(document.getElementById('f-partner').value) || false,
-            assigned_to:         parseInt(document.getElementById('f-assign').value) || false,
-            currency_id:         parseInt(document.getElementById('f-currency').value) || false,
             probability:      parseFloat(document.getElementById('f-prob').value) || 0,
             expected_revenue: parseFloat(document.getElementById('f-rev').value) || 0,
             date_deadline:    document.getElementById('f-deadline').value || false,
@@ -1848,10 +1110,6 @@ console.log('this is button to add line')
     // }
 
     function formatMoney(amount, company_currency_symbol) {
-        if (!company_currency_symbol) {
-            company_currency_symbol = '₦ ';
-        }
-
         return `${company_currency_symbol}${Number(amount || 0).toLocaleString(
             'en-US',
             {
@@ -1860,6 +1118,7 @@ console.log('this is button to add line')
             }
         )}`;
     }
+
     function escHtml(str) {
         return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }

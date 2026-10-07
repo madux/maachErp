@@ -21,15 +21,16 @@
 ══════════════════════════════════════════════ -->
 <div id="sidebar">
     <div class="brand">
-        <i class="fa fa-bar-chart"></i>
-        <span>CRM Portal</span>
+        <a href="/web" class="mainMenu" style="color: white">
+            <i class="fa fa-bar-chart"></i>
+        <span>CRM Portal</span></a>
     </div>
     <nav>
         <a href="#" data-menu="dashboard">
             <i class="fa fa-home"></i>
             <span class="nav-label">Dashboard</span>
         </a>
-        <a href="#" data-menu="leads">
+        <a href="#" id="leadmenu" data-menu="leads">
             <i class="fa fa-user-plus"></i>
             <span class="nav-label">Leads</span>
         </a>
@@ -59,10 +60,20 @@
 
     <!-- Topbar -->
     <div id="topbar">
-        <h2 id="page-title">Dashboard</h2>
+        <h2 id="page-title"><a class="btn btn-primary" href="/apps">Dashboard</a></h2>
+        
+        <a class="btn btn-primary" href="/apps">
+            <i class="fa fa-plus"></i> Apps
+        </a>
+        
         <div class="user-info">
+            <a class="btn btn-primary" title="Logout" id="logout" href="/web/session/logout">
+                <i class="fa fa-sign-out"></i>
+                <span class="btn-label">Logout</span>
+            </a>
             <div class="avatar" id="user-avatar">U</div>
             <span id="user-name">User</span>
+            
         </div>
     </div>
 
@@ -116,7 +127,7 @@
                 <h3>Quick Actions</h3>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-                <button class="btn btn-primary" onclick="CRM.openCreateForm()">
+                <button class="btn btn-primary" id="openCreateFormBtn1" onclick="CRM.openCreateForm()">
                     <i class="fa fa-plus"></i> New Record
                 </button>
                 <button class="btn btn-info" onclick="CRM.init && CRM.init()">
@@ -131,7 +142,7 @@
         <div id="view-list" style="display:none">
             <div class="section-header">
                 <h3 id="list-title">Records</h3>
-                <button class="btn btn-primary" onclick="CRM.openCreateForm()">
+                <button class="btn btn-primary" onclick="CRM.openCreateForm()" id="openCreateFormBtn2">
                     <i class="fa fa-plus"></i> New Record
                 </button>
             </div>
@@ -176,7 +187,7 @@
         <div id="view-pipeline" style="display:none">
             <div class="section-header">
                 <h3>Pipeline — Kanban View</h3>
-                <button class="btn btn-primary" onclick="CRM.openCreateForm()">
+                <button class="btn btn-primary" onclick="CRM.openCreateForm()" id="openCreateFormBtn3">
                     <i class="fa fa-plus"></i> New Opportunity
                 </button>
             </div>

@@ -1,0 +1,40 @@
+const soHtml = r.sale_orders.length ? `
+            <table class="so-table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Status</th>
+                        <th>Product</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                        <th>Cancel</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                ${r.sale_orders.map(so => `
+                    <tr>
+                        <td>${so.name}</td>
+                        <td>${soBadge(so.state)}</td>
+                        <td>
+                             
+                            <select id="${so.product_id}" ${so.state != 'draft' ? 'disabled' : ''}>
+                                ${so.product_ids.map(pro => 
+                                    `<option value="${pro.id}" ${pro.id === so.product_id ? 'selected' : ''}>
+                                        ${escHtml(pro.name)}
+                                    </option>`).join('')
+                                }
+                            </select>
+                        </td>
+                        <td>${formatMoney(so.amount_total)}</td>
+                        <td>${so.date_order}</td>
+                        <td>
+                            ${so.state === 'draft' ? `<button class="btn btn-success btn-sm confirm-so" data-id="${so.id}"><i class="fa fa-check"></i> Confirm</button>` : ''}
+                            ${so.state === 'sale' ? `<button class="btn btn-info btn-sm gen-invoice" data-id="${so.id}"><i class="fa fa-file-invoice"></i> Invoice</button>` : ''}
+                        </td>
+                        <td>
+                            ${so.state === 'draft' ? `<button class="btn btn-warning btn-sm cancel-so" data-id="${so.id}"><i class="fa fa-check"></i> Cancel</button>` : ''}
+                        </td>
+                    </tr>`).join('')}
+                </tbody>
+            </table>` : '<p style="color:#aaa;font-size:.83rem">No sales orders linked.</p>';

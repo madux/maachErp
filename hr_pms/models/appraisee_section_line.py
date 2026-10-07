@@ -36,23 +36,23 @@ class KRA_SectionLine(models.Model):
     weightage = fields.Integer(
         string='Weightage', 
         required=False,
-        compute="compute_weightage_automatically",
+        # compute="compute_weightage_automatically",
         readonly=True,
         )
     
     # new changes
-    @api.depends('kra_section_id')
-    def compute_weightage_automatically(self):
-        '''When weightage is controlled or changed globally, 
-        it should affect all LC, FC, KRA Section as applied'''
-        for rec in self:
-            category_section = rec.kra_section_id.pms_department_id.hr_category_id.mapped('section_ids').filtered(
-                lambda s: s.type_of_section == 'KRA')
-            if category_section:
-                category_section[0].compute_section_weight()
-                rec.weightage = category_section[0].input_weightage
-            else:
-                rec.weightage = 100
+    # @api.depends('kra_section_id')
+    # def compute_weightage_automatically(self):
+    #     '''When weightage is controlled or changed globally, 
+    #     it should affect all LC, FC, KRA Section as applied'''
+    #     for rec in self:
+    #         category_section = rec.kra_section_id.pms_department_id.hr_category_id.mapped('section_ids').filtered(
+    #             lambda s: s.type_of_section == 'KRA')
+    #         if category_section:
+    #             category_section[0].compute_section_weight()
+    #             rec.weightage = category_section[0].input_weightage
+    #         else:
+    #             rec.weightage = 100
     
     appraisee_weightage = fields.Float(
         string='AA Weightage',
@@ -287,7 +287,7 @@ class LC_SectionLine(models.Model):
     @api.depends('lc_section_id')
     def compute_weightage_automatically(self):
         '''When weightage is controlled or changed globally, 
-        it should affect all LC, FC, KRA Section as applied'''
+        it should affect all LC, FC, Section as applied'''
         for rec in self:
             category_section = rec.lc_section_id.pms_department_id.hr_category_id.mapped('section_ids').filtered(
                 lambda s: s.type_of_section == 'LC')
